@@ -1,0 +1,136 @@
+{% render 'popdarts-assets' %}
+{%- comment -%}
+  Halloween hero: Prodigy hero bones (.hero) + a Halloween layer — the
+  haunted-table artwork with a flashlight that follows the pointer,
+  three dart cutouts floating with parallax, a live countdown pill,
+  real add-to-cart, and the sticky bar.
+{%- endcomment -%}
+{%- assign bg_srcset = '' -%}
+{%- if section.settings.image -%}
+  {%- assign bg_src = section.settings.image | image_url: width: 2000 -%}
+  {%- capture bg_srcset -%}{{ section.settings.image | image_url: width: 800 }} 800w, {{ section.settings.image | image_url: width: 1200 }} 1200w, {{ section.settings.image | image_url: width: 1600 }} 1600w, {{ section.settings.image | image_url: width: 2000 }} 2000w{%- endcapture -%}
+{%- elsif section.settings.image_url != blank -%}
+  {%- assign bg_src = section.settings.image_url -%}
+  {%- if bg_src contains 'cdn.shopify.com' -%}
+    {%- if bg_src contains '?' -%}{%- assign sep = '&' -%}{%- else -%}{%- assign sep = '?' -%}{%- endif -%}
+    {%- capture bg_srcset -%}{{ bg_src }}{{ sep }}width=800 800w, {{ bg_src }}{{ sep }}width=1200 1200w, {{ bg_src }}{{ sep }}width=1600 1600w, {{ bg_src }}{{ sep }}width=2000 2000w{%- endcapture -%}
+  {%- endif -%}
+{%- else -%}
+  {%- assign bg_src = 'pd-hw-table.jpg' | asset_url -%}
+{%- endif -%}
+{%- assign handle = section.settings.product_handle | default: 'pro-pack' -%}
+
+<section class="pd-page hero hwp-hero is-auto" id="hero-{{ section.id }}" aria-label="Introduction" data-hw-card data-hw-tilt="off">
+  <div class="hero__media" aria-hidden="true">
+    <img class="hero__bg hero__bg--single hwp-hero__bg" loading="eager" fetchpriority="high" decoding="async" alt=""
+      src="{{ bg_src }}"{% if bg_srcset != blank %} srcset="{{ bg_srcset }}" sizes="100vw"{% endif %}>
+    <div class="hwp-hero__scrim"></div>
+    <div class="hwp-hero__light"></div>
+    <div class="hwp-hero__flash"></div>
+  </div>
+
+  <div class="hwp-float hwp-float--1" aria-hidden="true"><img src="{{ 'pd-hw-dart-2.png' | asset_url }}" alt="" width="533" height="1000" loading="eager" decoding="async"></div>
+  <div class="hwp-float hwp-float--2" aria-hidden="true"><img src="{{ 'pd-hw-dart-5.png' | asset_url }}" alt="" width="521" height="1000" loading="eager" decoding="async"></div>
+  <div class="hwp-float hwp-float--3" aria-hidden="true"><img src="{{ 'pd-hw-dart-4.png' | asset_url }}" alt="" width="753" height="1000" loading="lazy" decoding="async"></div>
+
+  <div class="pd-wrap">
+    <div class="hero__inner hwp-hero__inner">
+      {%- if section.settings.deadline != blank -%}
+        <p class="hwp-pill" data-hw-countdown data-end="{{ section.settings.deadline }}" data-ended="{{ section.settings.ended_text | default: 'Gone for good' | escape }}">
+          <span class="hwp-pill__dot" aria-hidden="true"></span>
+          <span>{{ section.settings.pill_text | default: 'Vanishes in' }}</span>
+          <strong data-hw-countdown-value>—</strong>
+        </p>
+      {%- elsif section.settings.pill_text != blank -%}
+        <p class="hwp-pill"><span class="hwp-pill__dot" aria-hidden="true"></span><span>{{ section.settings.pill_text }}</span></p>
+      {%- endif -%}
+
+      <h1 class="hero__title" style="color: #fdfdfd;">
+        <span class="hero__title-lead" style="color: rgba(253,253,253,0.78);">{{ section.settings.heading_lead | default: 'The Halloween Pro Pack' }}</span>
+        <span class="hero__title-main">
+          <span style="color: #fdfdfd;">{{ section.settings.heading_word_1 | default: 'Back From' }}</span>
+          <span class="hwp-accent-green">{{ section.settings.heading_word_2 | default: 'The Dead.' }}</span>
+        </span>
+      </h1>
+
+      <p class="hero__sub">{{ section.settings.subheading | default: 'Six darts in two possessed colorways. One final run — when the last box ships, it stays gone.' }}</p>
+
+      <div class="hwp-price">
+        {%- render 'popdarts-hw-price', handle: handle, variant_id: section.settings.variant_id, price_text: section.settings.price_text, compare_text: section.settings.compare_text -%}
+        {%- if section.settings.price_tag != blank -%}<span class="hwp-price__tag">{{ section.settings.price_tag }}</span>{%- endif -%}
+      </div>
+
+      <div class="hero__actions">
+        {%- render 'popdarts-hw-atc', handle: handle, variant_id: section.settings.variant_id, label: section.settings.cta_text, classes: 'btn--lg', fallback: section.settings.cta_fallback -%}
+        {%- if section.settings.secondary_text != blank -%}
+          <a class="btn btn--ghost btn--lg hero__secondary" href="{{ section.settings.secondary_anchor | default: '#hw-box' }}">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 4v14m0 0-6-6m6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>{{ section.settings.secondary_text }}</span>
+          </a>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.trust_1 != blank or section.settings.trust_2 != blank or section.settings.trust_3 != blank -%}
+        <ul class="hwp-trust" aria-label="Why buy">
+          {%- if section.settings.trust_1 != blank -%}<li><span class="hwp-stars" aria-hidden="true">★★★★★</span>{{ section.settings.trust_1 }}</li>{%- endif -%}
+          {%- if section.settings.trust_2 != blank -%}<li>{{ section.settings.trust_2 }}</li>{%- endif -%}
+          {%- if section.settings.trust_3 != blank -%}<li>{{ section.settings.trust_3 }}</li>{%- endif -%}
+        </ul>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- if section.settings.show_sticky -%}
+    <div class="pd-sticky-cta hwp-sticky" data-sticky-cta>
+      <div class="pd-sticky-cta__text">
+        <span class="pd-sticky-cta__label">{{ section.settings.sticky_label | default: 'Halloween Pro Pack' }}</span>
+        <span class="pd-sticky-cta__sub hwp-price hwp-price--sm">
+          {%- render 'popdarts-hw-price', handle: handle, variant_id: section.settings.variant_id, price_text: section.settings.price_text, compare_text: section.settings.compare_text -%}
+        </span>
+      </div>
+      {%- render 'popdarts-hw-atc', handle: handle, variant_id: section.settings.variant_id, label: section.settings.sticky_cta_text, classes: '', fallback: section.settings.cta_fallback -%}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "HW · Hero",
+  "tag": "section",
+  "class": "pd-section-hw-hero",
+  "settings": [
+    { "type": "header", "content": "Background" },
+    { "type": "image_picker", "id": "image", "label": "Background image" },
+    { "type": "url", "id": "image_url", "label": "Background image URL", "info": "Used if the image above is empty." },
+    { "type": "header", "content": "Countdown pill" },
+    { "type": "text", "id": "pill_text", "label": "Pill text", "default": "Vanishes in" },
+    { "type": "text", "id": "deadline", "label": "Deadline (date/time)", "info": "e.g. 2026-10-31T23:59:00-04:00. Leave empty for a static pill.", "default": "2026-10-31T23:59:00-04:00" },
+    { "type": "text", "id": "ended_text", "label": "Text once the deadline passes", "default": "Gone for good" },
+    { "type": "header", "content": "Headline" },
+    { "type": "text", "id": "heading_lead", "label": "Lead-in", "default": "The Halloween Pro Pack" },
+    { "type": "text", "id": "heading_word_1", "label": "Headline (white)", "default": "Back From" },
+    { "type": "text", "id": "heading_word_2", "label": "Headline (toxic green)", "default": "The Dead." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Six darts in two possessed colorways. One final run — when the last box ships, it stays gone." },
+    { "type": "header", "content": "Product" },
+    { "type": "text", "id": "product_handle", "label": "Product handle", "default": "pro-pack" },
+    { "type": "text", "id": "variant_id", "label": "Variant ID (optional)", "info": "Numeric ID of the Halloween variant. Empty = first available variant." },
+    { "type": "text", "id": "price_text", "label": "Fallback price text", "default": "$39.99" },
+    { "type": "text", "id": "compare_text", "label": "Fallback compare-at text" },
+    { "type": "text", "id": "price_tag", "label": "Price tag", "default": "Final run" },
+    { "type": "header", "content": "Buttons" },
+    { "type": "text", "id": "cta_text", "label": "Add-to-cart label", "default": "Claim Your Pack" },
+    { "type": "url", "id": "cta_fallback", "label": "Fallback link if the product can't be found" },
+    { "type": "text", "id": "secondary_text", "label": "Secondary button", "default": "See what's inside" },
+    { "type": "text", "id": "secondary_anchor", "label": "Secondary anchor", "default": "#hw-box" },
+    { "type": "header", "content": "Trust line" },
+    { "type": "text", "id": "trust_1", "label": "After the stars", "default": "250+ verified reviews" },
+    { "type": "text", "id": "trust_2", "label": "Item 2", "default": "In stock now" },
+    { "type": "text", "id": "trust_3", "label": "Item 3", "default": "No restocks after Halloween" },
+    { "type": "header", "content": "Sticky bar" },
+    { "type": "checkbox", "id": "show_sticky", "label": "Show sticky add-to-cart bar", "default": true },
+    { "type": "text", "id": "sticky_label", "label": "Sticky label", "default": "Halloween Pro Pack" },
+    { "type": "text", "id": "sticky_cta_text", "label": "Sticky button", "default": "Add to cart" }
+  ],
+  "presets": [{ "name": "HW · Hero" }]
+}
+{% endschema %}

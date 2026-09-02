@@ -158,6 +158,7 @@
       if (card.__pdHwInit) return;
       card.__pdHwInit = true;
       const canHover = window.matchMedia("(hover: hover)").matches;
+      const tilt = card.dataset.hwTilt !== "off"; // hero: flashlight + parallax, no tilt
       let raf = null;
       let last = null;
 
@@ -170,10 +171,12 @@
         card.style.setProperty("--hw-mx", (x * 100).toFixed(2) + "%");
         card.style.setProperty("--hw-my", (y * 100).toFixed(2) + "%");
         if (canHover && !prefersReducedMotion) {
-          card.style.setProperty("--hw-rx", ((x - 0.5) * 6).toFixed(2) + "deg");
-          card.style.setProperty("--hw-ry", ((0.5 - y) * 5).toFixed(2) + "deg");
           card.style.setProperty("--hw-px", ((x - 0.5) * -16).toFixed(1) + "px");
           card.style.setProperty("--hw-py", ((y - 0.5) * -10).toFixed(1) + "px");
+          if (tilt) {
+            card.style.setProperty("--hw-rx", ((x - 0.5) * 6).toFixed(2) + "deg");
+            card.style.setProperty("--hw-ry", ((0.5 - y) * 5).toFixed(2) + "deg");
+          }
         }
       };
       const onMove = (e) => {
@@ -216,6 +219,57 @@
         setTimeout(tick, 30000);
       };
       tick();
+    });
+  }
+
+  /* ============================================================
+     ADD TO CART — [data-pd-atc][data-variant-id]: adds one unit via
+     /cart/add.js, tells the theme's cart drawer, and shows "Added".
+     Anything without a variant id is a plain link to the product.
+     ============================================================ */
+  function initAtc() {
+    if (document.__pdAtcInit) return;
+    document.__pdAtcInit = true;
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-pd-atc]");
+      if (!btn) return;
+      const id = parseInt(btn.dataset.variantId, 10);
+      if (!id) return;
+      e.preventDefault();
+      if (btn.classList.contains("is-busy")) return;
+      const label = btn.querySelector("[data-pd-atc-label]") || btn;
+      const original = label.textContent;
+      btn.classList.add("is-busy");
+      label.textContent = "Adding…";
+      fetch("/cart/add.js", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ items: [{ id, quantity: 1 }] }),
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error("add failed");
+          return fetch("/cart.js").then((r) => r.json());
+        })
+        .then((cart) => {
+          btn.classList.remove("is-busy");
+          btn.classList.add("is-done");
+          label.textContent = "Added to cart ✓";
+          document.querySelectorAll("[data-cart-count], .cart-count, .cart-count-bubble, [data-header-cart-count]").forEach((el) => {
+            el.textContent = cart.item_count;
+          });
+          ["cart:refresh", "cart:change", "cart:build", "cart-drawer:refresh"].forEach((name) => {
+            document.documentElement.dispatchEvent(new CustomEvent(name, { bubbles: true, detail: { cart } }));
+          });
+          setTimeout(() => {
+            btn.classList.remove("is-done");
+            label.textContent = original;
+          }, 2600);
+        })
+        .catch(() => {
+          btn.classList.remove("is-busy");
+          label.textContent = original;
+          if (btn.getAttribute("href")) window.location.href = btn.getAttribute("href");
+        });
     });
   }
 
@@ -333,7 +387,7 @@
   function initAll() {
     // Reveal goes first and every init is isolated: a throw in one
     // feature must never leave the page's sections sitting at opacity 0.
-    [initReveal, initSliders, initVideoSlides, fitLines, initStickyCta, initHalloween].forEach((fn) => {
+    [initReveal, initSliders, initVideoSlides, fitLines, initStickyCta, initHalloween, initAtc].forEach((fn) => {
       try {
         fn();
       } catch (err) {

@@ -1,4 +1,4 @@
-<section class="pd-page home-ticker" id="home-ticker-{{ section.id }}">
+<section class="pd-page home-ticker{% if section.settings.scheme != blank and section.settings.scheme != 'blue' %} home-ticker--{{ section.settings.scheme }}{% endif %}" id="home-ticker-{{ section.id }}">
   <p class="pd-sr-only">{%- for block in section.blocks -%}{{ block.settings.text | default: 'Three Darts' }}{%- unless forloop.last -%}, {%- endunless -%}{%- endfor -%}</p>
   <div class="home-ticker__track" aria-hidden="true">
     {%- for i in (1..2) -%}
@@ -14,7 +14,19 @@
   "name": "Home Ticker",
   "tag": "section",
   "class": "pd-section-home-ticker",
-  "settings": [],
+  "settings": [
+    {
+      "type": "select",
+      "id": "scheme",
+      "label": "Color",
+      "options": [
+        { "value": "blue", "label": "Blue" },
+        { "value": "orange", "label": "Orange (Halloween)" },
+        { "value": "green", "label": "Toxic green (Halloween)" }
+      ],
+      "default": "blue"
+    }
+  ],
   "blocks": [
     {
       "type": "phrase",

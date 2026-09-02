@@ -1,0 +1,35 @@
+{%- comment -%}
+  Add-to-cart button for the Halloween page.
+  Resolves the product by handle and the variant by numeric id (or the
+  first available variant), then renders a button the shared script
+  ([data-pd-atc]) adds to the cart via /cart/add.js. With no resolvable
+  variant it degrades to a link to the product page.
+
+  {% render 'popdarts-hw-atc', handle: 'pro-pack', variant_id: '', label: 'Add to cart', classes: 'btn--lg', fallback: '/products/pro-pack' %}
+{%- endcomment -%}
+{%- liquid
+  assign hw_p = all_products[handle]
+  assign hw_v = nil
+  if hw_p
+    if variant_id != blank
+      assign want = variant_id | plus: 0
+      for var in hw_p.variants
+        if var.id == want
+          assign hw_v = var
+        endif
+      endfor
+    endif
+    unless hw_v
+      assign hw_v = hw_p.selected_or_first_available_variant
+    endunless
+  endif
+  assign href = fallback | default: '/products/pro-pack'
+  if hw_p
+    assign href = hw_p.url
+  endif
+  assign btn_label = label | default: 'Add to cart'
+-%}
+<a class="btn hwp-btn {{ classes }}" href="{{ href }}"
+  {%- if hw_v and hw_v.available %} data-pd-atc data-variant-id="{{ hw_v.id }}"{% endif -%}>
+  <span data-pd-atc-label>{{ btn_label }}</span>
+</a>

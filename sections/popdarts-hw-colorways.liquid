@@ -1,0 +1,61 @@
+<section class="pd-page hwp hwp-cw" id="hw-colorways" aria-labelledby="hw-cw-title-{{ section.id }}">
+  <div class="pd-wrap">
+    <div class="hwp__head">
+      <p class="hwp__eyebrow">{{ section.settings.eyebrow | default: 'The colorways' }}</p>
+      <h2 id="hw-cw-title-{{ section.id }}" style="color: #fdfdfd !important;">{{ section.settings.heading | default: 'Two possessed colorways.' }} <span class="hwp-accent-orange">{{ section.settings.heading_accent | default: 'One box.' }}</span></h2>
+      <p>{{ section.settings.subheading | default: 'Every Halloween Pro Pack includes both — three darts for each player. Pick a side.' }}</p>
+    </div>
+
+    <div class="hwp-cw__grid hwp-grid">
+      <article class="hwp-cw__card hwp-cw__card--green" data-hw-card>
+        <div class="hwp-cw__glow" aria-hidden="true"></div>
+        <img class="hwp-cw__dart" src="{{ 'pd-hw-dart-6.png' | asset_url }}" alt="{{ section.settings.team1_name | escape }} Popdart" width="935" height="1000" loading="lazy" decoding="async">
+        <div class="hwp-cw__body">
+          <span class="hwp-cw__swatches" aria-hidden="true"><i style="background:#a8f321"></i><i style="background:#6a30d8"></i></span>
+          <p class="hwp-cw__label">{{ section.settings.team1_label | default: 'Player one throws' }}</p>
+          <h3 style="color: #fdfdfd !important;">{{ section.settings.team1_name | default: 'Toxic Slime' }}</h3>
+          <p class="hwp-cw__desc">{{ section.settings.team1_desc | default: 'Bright toxic green swirled with deep witch purple.' }}</p>
+        </div>
+      </article>
+
+      <span class="hwp-cw__vs" aria-hidden="true">VS</span>
+
+      <article class="hwp-cw__card hwp-cw__card--orange" data-hw-card>
+        <div class="hwp-cw__glow" aria-hidden="true"></div>
+        <img class="hwp-cw__dart" src="{{ 'pd-hw-dart-1.png' | asset_url }}" alt="{{ section.settings.team2_name | escape }} Popdart" width="901" height="1000" loading="lazy" decoding="async">
+        <div class="hwp-cw__body">
+          <span class="hwp-cw__swatches" aria-hidden="true"><i style="background:#ff8a1e"></i><i style="background:#4c1e9e"></i></span>
+          <p class="hwp-cw__label">{{ section.settings.team2_label | default: 'Player two throws' }}</p>
+          <h3 style="color: #fdfdfd !important;">{{ section.settings.team2_name | default: 'Pumpkin Fright' }}</h3>
+          <p class="hwp-cw__desc">{{ section.settings.team2_desc | default: 'Burnt pumpkin orange swirled with deep midnight purple.' }}</p>
+        </div>
+      </article>
+    </div>
+
+    {%- if section.settings.note != blank -%}
+      <p class="hwp-cw__note">{{ section.settings.note }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HW · Colorways",
+  "tag": "section",
+  "class": "pd-section-hw-colorways",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The colorways" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Two possessed colorways." },
+    { "type": "text", "id": "heading_accent", "label": "Heading, orange part", "default": "One box." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Every Halloween Pro Pack includes both — three darts for each player. Pick a side." },
+    { "type": "text", "id": "team1_label", "label": "Card 1 label", "default": "Player one throws" },
+    { "type": "text", "id": "team1_name", "label": "Card 1 name", "default": "Toxic Slime" },
+    { "type": "text", "id": "team1_desc", "label": "Card 1 description", "default": "Bright toxic green swirled with deep witch purple." },
+    { "type": "text", "id": "team2_label", "label": "Card 2 label", "default": "Player two throws" },
+    { "type": "text", "id": "team2_name", "label": "Card 2 name", "default": "Pumpkin Fright" },
+    { "type": "text", "id": "team2_desc", "label": "Card 2 description", "default": "Burnt pumpkin orange swirled with deep midnight purple." },
+    { "type": "text", "id": "note", "label": "Note under the cards", "default": "3 darts each. Settle who owns Halloween." }
+  ],
+  "presets": [{ "name": "HW · Colorways" }]
+}
+{% endschema %}

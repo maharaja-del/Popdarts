@@ -1,0 +1,61 @@
+{%- if section.settings.image -%}
+  {%- assign lineup = section.settings.image | image_url: width: 1600 -%}
+{%- else -%}
+  {%- assign lineup = 'pd-hw-lineup.png' | asset_url -%}
+{%- endif -%}
+
+<section class="pd-page hwp hwp-box" id="hw-box" aria-labelledby="hw-box-title-{{ section.id }}">
+  <div class="pd-wrap hwp-box__grid">
+    <div class="hwp-box__stage">
+      <img src="{{ lineup }}" alt="{{ section.settings.image_alt | escape }}" width="1600" height="1038" loading="lazy" decoding="async">
+    </div>
+    <div class="hwp-box__content">
+      <div class="hwp__head">
+        <p class="hwp__eyebrow">{{ section.settings.eyebrow | default: 'What’s in the box' }}</p>
+        <h2 id="hw-box-title-{{ section.id }}" style="color: #fdfdfd !important;">{{ section.settings.heading | default: 'Everything for a' }} <span class="hwp-accent-orange">{{ section.settings.heading_accent | default: 'two-player showdown.' }}</span></h2>
+      </div>
+      <ol class="hwp-list hwp-grid">
+        {%- for block in section.blocks -%}
+          <li {{ block.shopify_attributes }}>
+            <span class="hwp-list__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+            <div>
+              <h3 style="color: #fdfdfd !important;">{{ block.settings.title }}</h3>
+              <p>{{ block.settings.text }}</p>
+            </div>
+          </li>
+        {%- endfor -%}
+      </ol>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HW · In The Box",
+  "tag": "section",
+  "class": "pd-section-hw-box",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Lineup image", "info": "Empty = the built-in lineup render" },
+    { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "The full Halloween Pro Pack lineup — Toxic Slime and Pumpkin Fright Popdarts" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "What’s in the box" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Everything for a" },
+    { "type": "text", "id": "heading_accent", "label": "Heading, orange part", "default": "two-player showdown." }
+  ],
+  "blocks": [
+    { "type": "item", "name": "Item", "settings": [
+      { "type": "text", "id": "title", "label": "Title", "default": "6 Popdarts®" },
+      { "type": "textarea", "id": "text", "label": "Text", "default": "3 Toxic Slime + 3 Pumpkin Fright." }
+    ] }
+  ],
+  "max_blocks": 6,
+  "presets": [{
+    "name": "HW · In The Box",
+    "blocks": [
+      { "type": "item", "settings": { "title": "6 Popdarts®", "text": "3 Toxic Slime + 3 Pumpkin Fright — a full two-player showdown." } },
+      { "type": "item", "settings": { "title": "1 PRO Target Marker™", "text": "Land on top of it for 10 bonus points." } },
+      { "type": "item", "settings": { "title": "1 Carrying bag", "text": "Rules printed on it, built-in ruler for close calls." } },
+      { "type": "item", "settings": { "title": "2 Popdarts stickers", "text": "So everyone knows you're part of the club." } }
+    ]
+  }]
+}
+{% endschema %}

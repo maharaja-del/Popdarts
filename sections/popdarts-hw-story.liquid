@@ -1,0 +1,65 @@
+<section class="pd-page hwp hwp-story" id="hw-story" aria-labelledby="hw-story-title-{{ section.id }}">
+  <div class="pd-wrap">
+    <div class="hwp__head">
+      <p class="hwp__eyebrow">{{ section.settings.eyebrow | default: 'Why now' }}</p>
+      <h2 id="hw-story-title-{{ section.id }}" style="color: #fdfdfd !important;">{{ section.settings.heading | default: 'One final run.' }} <span class="hwp-accent-green">{{ section.settings.heading_accent | default: 'Then it stays buried.' }}</span></h2>
+      <p>{{ section.settings.subheading | default: 'Sold out last October. Back for the last time.' }}</p>
+    </div>
+
+    <div class="hwp-story__grid hwp-grid">
+      {%- for block in section.blocks -%}
+        {%- if block.settings.image -%}
+          {%- assign art = block.settings.image | image_url: width: 900 -%}
+        {%- elsif block.settings.asset_filename != blank -%}
+          {%- assign art = block.settings.asset_filename | asset_url -%}
+        {%- else -%}
+          {%- assign art = 'pd-hw-graves.jpg' | asset_url -%}
+        {%- endif -%}
+        <article class="hwp-pcard" {{ block.shopify_attributes }}>
+          <img src="{{ art }}" alt="" loading="lazy" decoding="async">
+          <div class="hwp-pcard__body">
+            {%- if block.settings.icon != blank -%}<span class="hwp-pcard__icon" aria-hidden="true">{{ block.settings.icon }}</span>{%- endif -%}
+            <h3 style="color: #fdfdfd !important;">{{ block.settings.title }}</h3>
+            <p>{{ block.settings.text }}</p>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HW · Final Run",
+  "tag": "section",
+  "class": "pd-section-hw-story",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Why now" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "One final run." },
+    { "type": "text", "id": "heading_accent", "label": "Heading, green part", "default": "Then it stays buried." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Sold out last October. Back for the last time." }
+  ],
+  "blocks": [
+    {
+      "type": "fact",
+      "name": "Card",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Emoji / icon", "default": "⚰️" },
+        { "type": "text", "id": "title", "label": "Title", "default": "One final run" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "This is the last batch of the Halloween colorway we will make." },
+        { "type": "image_picker", "id": "image", "label": "Backdrop" },
+        { "type": "text", "id": "asset_filename", "label": "Bundled asset filename", "info": "pd-hw-graves.jpg, pd-hw-reaper.jpg or pd-hw-tower.jpg", "default": "pd-hw-graves.jpg" }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [{
+    "name": "HW · Final Run",
+    "blocks": [
+      { "type": "fact", "settings": { "icon": "⚰️", "title": "One final run", "text": "This is the last batch of the Halloween colorway we will make.", "asset_filename": "pd-hw-graves.jpg" } },
+      { "type": "fact", "settings": { "icon": "🎃", "title": "Two exclusive colorways", "text": "Toxic Slime and Pumpkin Fright only come in this pack.", "asset_filename": "pd-hw-reaper.jpg" } },
+      { "type": "fact", "settings": { "icon": "🪦", "title": "No restocks", "text": "When it sells out, it stays sold out.", "asset_filename": "pd-hw-tower.jpg" } }
+    ]
+  }]
+}
+{% endschema %}

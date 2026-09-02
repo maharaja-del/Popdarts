@@ -1,0 +1,48 @@
+<section class="pd-page hwp hwp-reviews" id="hw-reviews" aria-labelledby="hw-reviews-title-{{ section.id }}">
+  <div class="pd-wrap">
+    <div class="hwp__head hwp__head--row">
+      <div>
+        <p class="hwp__eyebrow">{{ section.settings.eyebrow | default: 'From the crypt' }}</p>
+        <h2 id="hw-reviews-title-{{ section.id }}" style="color: #fdfdfd !important;">{{ section.settings.heading | default: 'What the living say.' }}</h2>
+      </div>
+      {%- if section.settings.score != blank -%}<p class="hwp-reviews__score"><span class="hwp-stars" aria-hidden="true">★★★★★</span> {{ section.settings.score }}</p>{%- endif -%}
+    </div>
+    <div class="hwp-reviews__grid hwp-grid">
+      {%- for block in section.blocks -%}
+        <blockquote class="hwp-review" {{ block.shopify_attributes }}>
+          <span class="hwp-stars" aria-hidden="true">★★★★★</span>
+          <p>“{{ block.settings.quote }}”</p>
+          <footer>{{ block.settings.author }}<span>Verified buyer</span></footer>
+        </blockquote>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HW · Reviews",
+  "tag": "section",
+  "class": "pd-section-hw-reviews",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "From the crypt" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What the living say." },
+    { "type": "text", "id": "score", "label": "Score line", "default": "4.9 · 250+ verified reviews" }
+  ],
+  "blocks": [
+    { "type": "review", "name": "Review", "settings": [
+      { "type": "textarea", "id": "quote", "label": "Quote", "default": "Bought it for a Halloween party and it never left the kitchen counter." },
+      { "type": "text", "id": "author", "label": "Author", "default": "Sarah M." }
+    ] }
+  ],
+  "max_blocks": 6,
+  "presets": [{
+    "name": "HW · Reviews",
+    "blocks": [
+      { "type": "review", "settings": { "quote": "Bought it for a Halloween party and it never left the kitchen counter. Ten adults fighting over suction darts at 1am.", "author": "Sarah M." } },
+      { "type": "review", "settings": { "quote": "Easy to learn, weirdly competitive. My kids play it, my in-laws play it, and everyone talks trash.", "author": "Devin R." } },
+      { "type": "review", "settings": { "quote": "The quality surprised me — a satisfying pop on every throw. The limited colors are the ones we show off.", "author": "Coach T." } }
+    ]
+  }]
+}
+{% endschema %}

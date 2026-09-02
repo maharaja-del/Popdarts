@@ -1,0 +1,47 @@
+{%- assign handle = section.settings.product_handle | default: 'pro-pack' -%}
+{%- if section.settings.image -%}
+  {%- assign art = section.settings.image | image_url: width: 1800 -%}
+{%- elsif section.settings.asset_filename != blank -%}
+  {%- assign art = section.settings.asset_filename | asset_url -%}
+{%- else -%}
+  {%- assign art = 'pd-hw-reaper.jpg' | asset_url -%}
+{%- endif -%}
+
+<section class="pd-page hwp hwp-final" id="hw-final" aria-labelledby="hw-final-title-{{ section.id }}">
+  <div class="hwp-final__media" aria-hidden="true">
+    <img src="{{ art }}" alt="" loading="lazy" decoding="async">
+    <div class="hwp-final__scrim"></div>
+  </div>
+  <div class="pd-wrap hwp-final__inner">
+    <p class="hwp__eyebrow hwp__eyebrow--center">{{ section.settings.eyebrow | default: 'Last call' }}</p>
+    <h2 id="hw-final-title-{{ section.id }}" style="color: #fdfdfd !important;">{{ section.settings.heading | default: 'Claim yours' }} <span class="hwp-accent-orange">{{ section.settings.heading_accent | default: 'before it’s gone.' }}</span></h2>
+    {%- if section.settings.body != blank -%}<p class="hwp-final__body">{{ section.settings.body }}</p>{%- endif -%}
+    <div class="hwp-final__actions">
+      {%- render 'popdarts-hw-atc', handle: handle, variant_id: section.settings.variant_id, label: section.settings.cta_text, classes: 'btn--lg', fallback: section.settings.cta_fallback -%}
+    </div>
+    {%- if section.settings.note != blank -%}<p class="hwp-micro">{{ section.settings.note }}</p>{%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HW · Final CTA",
+  "tag": "section",
+  "class": "pd-section-hw-final",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Backdrop" },
+    { "type": "text", "id": "asset_filename", "label": "Bundled asset filename", "default": "pd-hw-reaper.jpg" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Last call" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Claim yours" },
+    { "type": "text", "id": "heading_accent", "label": "Heading, orange part", "default": "before it’s gone." },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "One run. Two colorways. No restocks." },
+    { "type": "header", "content": "Product" },
+    { "type": "text", "id": "product_handle", "label": "Product handle", "default": "pro-pack" },
+    { "type": "text", "id": "variant_id", "label": "Variant ID (optional)" },
+    { "type": "text", "id": "cta_text", "label": "Button label", "default": "Add to cart" },
+    { "type": "url", "id": "cta_fallback", "label": "Fallback link" },
+    { "type": "text", "id": "note", "label": "Note under the button", "default": "Ships fast · Free over $50 · 30-day returns" }
+  ],
+  "presets": [{ "name": "HW · Final CTA" }]
+}
+{% endschema %}

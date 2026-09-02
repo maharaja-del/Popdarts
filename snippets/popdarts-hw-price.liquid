@@ -1,0 +1,34 @@
+{%- comment -%}
+  Live price for the Halloween page: product/variant price when it
+  resolves, otherwise the text settings passed in.
+
+  {% render 'popdarts-hw-price', handle: 'pro-pack', variant_id: '', price_text: '$39.99', compare_text: '' %}
+{%- endcomment -%}
+{%- liquid
+  assign hw_p = all_products[handle]
+  assign hw_v = nil
+  if hw_p
+    if variant_id != blank
+      assign want = variant_id | plus: 0
+      for var in hw_p.variants
+        if var.id == want
+          assign hw_v = var
+        endif
+      endfor
+    endif
+    unless hw_v
+      assign hw_v = hw_p.selected_or_first_available_variant
+    endunless
+  endif
+-%}
+{%- if hw_v -%}
+  <span class="hwp-price__now">{{ hw_v.price | money }}</span>
+  {%- if hw_v.compare_at_price > hw_v.price -%}
+    <span class="hwp-price__was">{{ hw_v.compare_at_price | money }}</span>
+  {%- endif -%}
+{%- else -%}
+  <span class="hwp-price__now">{{ price_text | default: '$39.99' }}</span>
+  {%- if compare_text != blank -%}
+    <span class="hwp-price__was">{{ compare_text }}</span>
+  {%- endif -%}
+{%- endif -%}

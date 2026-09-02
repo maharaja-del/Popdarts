@@ -1,126 +1,388 @@
 {
   "sections": {
-    "main": {
-      "type": "main-page",
-      "disabled": true,
-      "settings": { "padding_top": 28, "padding_bottom": 28 }
-    },
-    "hw_bar": {
-      "type": "halloween-countdown-bar",
+    "hero": {
+      "type": "popdarts-hw-hero",
       "settings": {
-        "message": "🎃 The Halloween Pro Pack is back — limited run",
-        "count_label": "Vanishes in",
-        "deadline": "2026-10-31T23:59:00-04:00"
+        "image_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/halloween.png?v=1788488443",
+        "pill_text": "Vanishes in",
+        "deadline": "2026-10-31T23:59:00-04:00",
+        "ended_text": "Gone for good",
+        "heading_lead": "The Halloween Pro Pack",
+        "heading_word_1": "Back From",
+        "heading_word_2": "The Dead.",
+        "subheading": "Six darts in two possessed colorways. One final run — when the last box ships, it stays gone.",
+        "product_handle": "pro-pack",
+        "variant_id": "",
+        "price_text": "$39.99",
+        "compare_text": "",
+        "price_tag": "Final run",
+        "cta_text": "Claim Your Pack",
+        "secondary_text": "See what's inside",
+        "secondary_anchor": "#hw-box",
+        "trust_1": "250+ verified reviews",
+        "trust_2": "In stock now",
+        "trust_3": "No restocks after Halloween",
+        "show_sticky": true,
+        "sticky_label": "Halloween Pro Pack",
+        "sticky_cta_text": "Add to cart"
       }
     },
-    "hw_hero": {
-      "type": "halloween-hero",
-      "settings": {}
-    },
-    "hw_buy": {
-      "type": "halloween-buy",
+    "ticker": {
+      "type": "popdarts-home-ticker",
       "blocks": {
-        "item_1": { "type": "item", "settings": { "text": "6 Popdarts in two Halloween colorways" } },
-        "item_2": { "type": "item", "settings": { "text": "1 PRO Target Marker™ (worth 10 points)" } },
-        "item_3": { "type": "item", "settings": { "text": "1 carrying bag with printed rules and ruler" } },
-        "item_4": { "type": "item", "settings": { "text": "2 Popdarts stickers" } }
+        "p1": {
+          "type": "phrase",
+          "settings": {
+            "text": "Final Run"
+          }
+        },
+        "p2": {
+          "type": "phrase",
+          "settings": {
+            "text": "No Restocks"
+          }
+        },
+        "p3": {
+          "type": "phrase",
+          "settings": {
+            "text": "Two Possessed Colorways"
+          }
+        },
+        "p4": {
+          "type": "phrase",
+          "settings": {
+            "text": "Sold Out Last October"
+          }
+        },
+        "p5": {
+          "type": "phrase",
+          "settings": {
+            "text": "Ships Fast"
+          }
+        },
+        "p6": {
+          "type": "phrase",
+          "settings": {
+            "text": "Ages 5 to 95"
+          }
+        }
       },
-      "block_order": ["item_1", "item_2", "item_3", "item_4"],
-      "settings": {}
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6"
+      ],
+      "settings": {
+        "scheme": "orange"
+      }
     },
-    "hw_story": {
-      "type": "halloween-story",
+    "buy": {
+      "type": "popdarts-hw-buy",
       "blocks": {
-        "fact_1": { "type": "fact", "settings": { "icon": "⚰️", "title": "One final run", "text": "This is the last batch of the Halloween colorway we will make." } },
-        "fact_2": { "type": "fact", "settings": { "icon": "🎃", "title": "Two exclusive colorways", "text": "Toxic Slime and Pumpkin Fright only come in this pack." } },
-        "fact_3": { "type": "fact", "settings": { "icon": "🪦", "title": "No restocks", "text": "When it sells out, it stays sold out." } }
+        "i1": {
+          "type": "item",
+          "settings": {
+            "text": "6 Popdarts in two Halloween colorways"
+          }
+        },
+        "i2": {
+          "type": "item",
+          "settings": {
+            "text": "1 PRO Target Marker™ (worth 10 points)"
+          }
+        },
+        "i3": {
+          "type": "item",
+          "settings": {
+            "text": "1 carrying bag with printed rules and ruler"
+          }
+        },
+        "i4": {
+          "type": "item",
+          "settings": {
+            "text": "2 Popdarts stickers"
+          }
+        }
       },
-      "block_order": ["fact_1", "fact_2", "fact_3"],
-      "settings": {}
+      "block_order": [
+        "i1",
+        "i2",
+        "i3",
+        "i4"
+      ],
+      "settings": {
+        "image_alt": "Popdarts PRO Pack Halloween edition retail box",
+        "eyebrow": "Limited Halloween colorway",
+        "title": "Halloween Pro Pack",
+        "rating_text": "4.9 · 250+ verified reviews",
+        "product_handle": "pro-pack",
+        "variant_id": "",
+        "price_text": "$39.99",
+        "compare_text": "",
+        "flag_text": "Final run",
+        "cw1_name": "Toxic Slime",
+        "cw2_name": "Pumpkin Fright",
+        "cw_note": "3 darts",
+        "cta_label": "Add to cart",
+        "micro": "In stock now. No restocks after Halloween."
+      }
     },
-    "hw_colorways": {
-      "type": "halloween-colorways",
-      "settings": {}
+    "colorways": {
+      "type": "popdarts-hw-colorways",
+      "settings": {
+        "eyebrow": "The colorways",
+        "heading": "Two possessed colorways.",
+        "heading_accent": "One box.",
+        "subheading": "Every Halloween Pro Pack includes both — three darts for each player. Pick a side.",
+        "team1_label": "Player one throws",
+        "team1_name": "Toxic Slime",
+        "team1_desc": "Bright toxic green swirled with deep witch purple.",
+        "team2_label": "Player two throws",
+        "team2_name": "Pumpkin Fright",
+        "team2_desc": "Burnt pumpkin orange swirled with deep midnight purple.",
+        "note": "3 darts each. Settle who owns Halloween."
+      }
     },
-    "hw_scenes": {
-      "type": "halloween-scenes",
+    "story": {
+      "type": "popdarts-hw-story",
       "blocks": {
-        "scene_1": { "type": "scene", "settings": { "title": "Sticks to any smooth surface", "caption": "Play on tables, countertops, windows, and floors, indoors or out." } },
-        "scene_2": { "type": "scene", "settings": { "title": "No screens, no batteries", "caption": "It runs on suction and skill." } }
+        "f1": {
+          "type": "fact",
+          "settings": {
+            "icon": "⚰️",
+            "title": "One final run",
+            "text": "This is the last batch of the Halloween colorway we will make.",
+            "asset_filename": "pd-hw-graves.jpg"
+          }
+        },
+        "f2": {
+          "type": "fact",
+          "settings": {
+            "icon": "🎃",
+            "title": "Two exclusive colorways",
+            "text": "Toxic Slime and Pumpkin Fright only come in this pack.",
+            "asset_filename": "pd-hw-reaper.jpg"
+          }
+        },
+        "f3": {
+          "type": "fact",
+          "settings": {
+            "icon": "🪦",
+            "title": "No restocks",
+            "text": "When it sells out, it stays sold out.",
+            "asset_filename": "pd-hw-tower.jpg"
+          }
+        }
       },
-      "block_order": ["scene_1", "scene_2"],
-      "settings": {}
+      "block_order": [
+        "f1",
+        "f2",
+        "f3"
+      ],
+      "settings": {
+        "eyebrow": "Why now",
+        "heading": "One final run.",
+        "heading_accent": "Then it stays buried.",
+        "subheading": "Sold out last October. Back for the last time."
+      }
     },
-    "hw_transition": {
-      "type": "halloween-transition",
-      "settings": {}
-    },
-    "hw_box": {
-      "type": "halloween-box",
+    "box": {
+      "type": "popdarts-hw-box",
       "blocks": {
-        "item_1": { "type": "item", "settings": { "title": "6 Popdarts®", "text": "3 Toxic Slime + 3 Pumpkin Fright — a full two-player showdown." } },
-        "item_2": { "type": "item", "settings": { "title": "1 PRO Target Marker™", "text": "Land on top of it for 10 bonus points." } },
-        "item_3": { "type": "item", "settings": { "title": "1 Carrying bag", "text": "The rules are printed on it, and it has a built-in ruler for close calls." } },
-        "item_4": { "type": "item", "settings": { "title": "2 Popdarts stickers", "text": "So everyone knows you're part of the club." } }
+        "b1": {
+          "type": "item",
+          "settings": {
+            "title": "6 Popdarts®",
+            "text": "3 Toxic Slime + 3 Pumpkin Fright — a full two-player showdown."
+          }
+        },
+        "b2": {
+          "type": "item",
+          "settings": {
+            "title": "1 PRO Target Marker™",
+            "text": "Land on top of it for 10 bonus points."
+          }
+        },
+        "b3": {
+          "type": "item",
+          "settings": {
+            "title": "1 Carrying bag",
+            "text": "Rules printed on it, built-in ruler for close calls."
+          }
+        },
+        "b4": {
+          "type": "item",
+          "settings": {
+            "title": "2 Popdarts stickers",
+            "text": "So everyone knows you're part of the club."
+          }
+        }
       },
-      "block_order": ["item_1", "item_2", "item_3", "item_4"],
-      "settings": {}
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ],
+      "settings": {
+        "image_alt": "The full Halloween Pro Pack lineup — Toxic Slime and Pumpkin Fright Popdarts",
+        "eyebrow": "What’s in the box",
+        "heading": "Everything for a",
+        "heading_accent": "two-player showdown."
+      }
     },
-    "hw_steps": {
-      "type": "halloween-how-to-play",
+    "steps": {
+      "type": "popdarts-hw-steps",
       "blocks": {
-        "step_1": { "type": "step", "settings": { "title": "Set", "text": "Pick any smooth surface — table, window, floor — and drop the PRO Target Marker™." } },
-        "step_2": { "type": "step", "settings": { "title": "Throw", "text": "Take turns throwing your darts at the marker. Each one sticks with a pop." } },
-        "step_3": { "type": "step", "settings": { "title": "Score", "text": "Count the points after each round with cancellation scoring, just like cornhole." } }
+        "s1": {
+          "type": "step",
+          "settings": {
+            "title": "Set",
+            "text": "Pick any smooth surface — table, window, floor — and drop the PRO Target Marker™."
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "title": "Throw",
+            "text": "Take turns throwing your darts at the marker. Each one sticks with a pop."
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "title": "Score",
+            "text": "Closest scores 3, every other stuck dart adds 1, on top of the marker is 10. First to 21."
+          }
+        }
       },
-      "block_order": ["step_1", "step_2", "step_3"],
-      "settings": {}
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "settings": {
+        "eyebrow": "How to play",
+        "heading": "Thirty seconds to learn.",
+        "heading_accent": "All night to master."
+      }
     },
-    "hw_reviews": {
-      "type": "halloween-reviews",
+    "reviews": {
+      "type": "popdarts-hw-reviews",
       "blocks": {
-        "review_1": { "type": "review", "settings": { "quote": "Bought it for a Halloween party and it never left the kitchen counter. Ten adults fighting over suction darts at 1am.", "author": "Sarah M." } },
-        "review_2": { "type": "review", "settings": { "quote": "Easy to learn, weirdly competitive. My kids play it, my in-laws play it, and everyone talks trash.", "author": "Devin R." } },
-        "review_3": { "type": "review", "settings": { "quote": "The quality surprised me — a satisfying pop on every throw. The limited colors are the ones we show off.", "author": "Coach T." } }
+        "r1": {
+          "type": "review",
+          "settings": {
+            "quote": "Bought it for a Halloween party and it never left the kitchen counter. Ten adults fighting over suction darts at 1am.",
+            "author": "Sarah M."
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "quote": "Easy to learn, weirdly competitive. My kids play it, my in-laws play it, and everyone talks trash.",
+            "author": "Devin R."
+          }
+        },
+        "r3": {
+          "type": "review",
+          "settings": {
+            "quote": "The quality surprised me — a satisfying pop on every throw. The limited colors are the ones we show off.",
+            "author": "Coach T."
+          }
+        }
       },
-      "block_order": ["review_1", "review_2", "review_3"],
-      "settings": {}
+      "block_order": [
+        "r1",
+        "r2",
+        "r3"
+      ],
+      "settings": {
+        "eyebrow": "From the crypt",
+        "heading": "What the living say.",
+        "score": "4.9 · 250+ verified reviews"
+      }
     },
-    "hw_faq": {
-      "type": "halloween-faq",
+    "faq": {
+      "type": "popdarts-hw-faq",
       "blocks": {
-        "faq_1": { "type": "faq", "settings": { "question": "When will it sell out?", "answer": "Honestly, we don't know. Last year's Halloween run sold out before Halloween itself. When the last box ships it's gone for good, with no restocks and no re-runs." } },
-        "faq_2": { "type": "faq", "settings": { "question": "What exactly comes in the pack?", "answer": "6 Popdarts (3 Toxic Slime and 3 Pumpkin Fright), 1 PRO Target Marker™, a carrying bag with the rules and a built-in ruler, and 2 stickers. Everything you need for a two-player game." } },
-        "faq_3": { "type": "faq", "settings": { "question": "Where can I play it?", "answer": "Any smooth, flat surface works: kitchen counters, tables, glass, windows, hardwood, and tile, indoors or outdoors." } },
-        "faq_4": { "type": "faq", "settings": { "question": "Is it beginner friendly?", "answer": "Yes. The rules take about 30 seconds to learn: throw, stick, score, first to 21. Ages 5 and up can play, and landing on the target marker for 10 points takes real practice." } },
-        "faq_5": { "type": "faq", "settings": { "question": "Will it arrive before Halloween?", "answer": "We ship every order fast. The earlier you order, the safer you are, because the only real deadline is inventory." } }
+        "q1": {
+          "type": "faq",
+          "settings": {
+            "question": "When will it sell out?",
+            "answer": "Honestly, we don't know. Last year's Halloween run sold out before Halloween itself. When the last box ships it's gone for good, with no restocks and no re-runs."
+          }
+        },
+        "q2": {
+          "type": "faq",
+          "settings": {
+            "question": "What exactly comes in the pack?",
+            "answer": "6 Popdarts (3 Toxic Slime and 3 Pumpkin Fright), 1 PRO Target Marker™, a carrying bag with the rules and a built-in ruler, and 2 stickers. Everything you need for a two-player game."
+          }
+        },
+        "q3": {
+          "type": "faq",
+          "settings": {
+            "question": "Where can I play it?",
+            "answer": "Any smooth, flat surface works: kitchen counters, tables, glass, windows, hardwood, and tile, indoors or outdoors."
+          }
+        },
+        "q4": {
+          "type": "faq",
+          "settings": {
+            "question": "Is it beginner friendly?",
+            "answer": "Yes. The rules take about 30 seconds to learn: throw, stick, score, first to 21. Ages 5 and up can play, and landing on the target marker for 10 points takes real practice."
+          }
+        },
+        "q5": {
+          "type": "faq",
+          "settings": {
+            "question": "Will it arrive before Halloween?",
+            "answer": "We ship every order fast. The earlier you order, the safer you are, because the only real deadline is inventory."
+          }
+        }
       },
-      "block_order": ["faq_1", "faq_2", "faq_3", "faq_4", "faq_5"],
-      "settings": {}
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5"
+      ],
+      "settings": {
+        "eyebrow": "Questions",
+        "heading": "Before you claim yours.",
+        "subheading": "Everything you need to know before your first throw."
+      }
     },
-    "hw_final": {
-      "type": "halloween-final-cta",
-      "settings": {}
-    },
-    "hw_sticky": {
-      "type": "halloween-sticky-atc",
-      "settings": {}
+    "final": {
+      "type": "popdarts-hw-final",
+      "settings": {
+        "asset_filename": "pd-hw-reaper.jpg",
+        "eyebrow": "Last call",
+        "heading": "Claim yours",
+        "heading_accent": "before it’s gone.",
+        "body": "One run. Two colorways. No restocks.",
+        "product_handle": "pro-pack",
+        "variant_id": "",
+        "cta_text": "Add to cart",
+        "note": "Ships fast · Free over $50 · 30-day returns"
+      }
     }
   },
   "order": [
-    "main",
-    "hw_bar",
-    "hw_hero",
-    "hw_buy",
-    "hw_story",
-    "hw_colorways",
-    "hw_scenes",
-    "hw_transition",
-    "hw_box",
-    "hw_steps",
-    "hw_reviews",
-    "hw_faq",
-    "hw_final",
-    "hw_sticky"
+    "hero",
+    "ticker",
+    "buy",
+    "colorways",
+    "story",
+    "box",
+    "steps",
+    "reviews",
+    "faq",
+    "final"
   ]
 }

@@ -1,0 +1,45 @@
+<section class="pd-page hwp hwp-steps" id="hw-steps" aria-labelledby="hw-steps-title-{{ section.id }}">
+  <div class="pd-wrap">
+    <div class="hwp__head">
+      <p class="hwp__eyebrow">{{ section.settings.eyebrow | default: 'How to play' }}</p>
+      <h2 id="hw-steps-title-{{ section.id }}" style="color: #fdfdfd !important;">{{ section.settings.heading | default: 'Thirty seconds to learn.' }} <span class="hwp-accent-green">{{ section.settings.heading_accent | default: 'All night to master.' }}</span></h2>
+    </div>
+    <ol class="hwp-steps__grid hwp-grid">
+      {%- for block in section.blocks -%}
+        <li class="hwp-step" {{ block.shopify_attributes }}>
+          <span class="hwp-step__num" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+          <h3 style="color: #fdfdfd !important;">{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </li>
+      {%- endfor -%}
+    </ol>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HW · How To Play",
+  "tag": "section",
+  "class": "pd-section-hw-steps",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "How to play" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Thirty seconds to learn." },
+    { "type": "text", "id": "heading_accent", "label": "Heading, green part", "default": "All night to master." }
+  ],
+  "blocks": [
+    { "type": "step", "name": "Step", "settings": [
+      { "type": "text", "id": "title", "label": "Title", "default": "Set" },
+      { "type": "textarea", "id": "text", "label": "Text", "default": "Pick any smooth surface and drop the PRO Target Marker™." }
+    ] }
+  ],
+  "max_blocks": 4,
+  "presets": [{
+    "name": "HW · How To Play",
+    "blocks": [
+      { "type": "step", "settings": { "title": "Set", "text": "Pick any smooth surface — table, window, floor — and drop the PRO Target Marker™." } },
+      { "type": "step", "settings": { "title": "Throw", "text": "Take turns throwing your darts at the marker. Each one sticks with a pop." } },
+      { "type": "step", "settings": { "title": "Score", "text": "Closest scores 3, every other stuck dart adds 1, on top of the marker is 10. First to 21." } }
+    ]
+  }]
+}
+{% endschema %}
