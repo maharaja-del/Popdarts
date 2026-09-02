@@ -1746,163 +1746,125 @@
 }
 
 /* ============================================================
-   HALLOWEEN PROMO — full-bleed seasonal banner. The copy is anchored
-   to the LEFT EDGE of the viewport (not the centred page column) over
-   a near-solid dark panel that fades into the scene, so it always
-   reads on dark and never lands on the darts, which own the right
-   two-thirds. Candle-flicker glow, orange tag, poster headline.
+   HALLOWEEN PROMO — seasonal campaign card in the page column. The
+   artwork sits at its full cinematic width with nothing drawn over it;
+   a slim dark bar underneath carries the label, headline and button.
+   The only orange on the page, and only for this season's beat.
    ============================================================ */
 
 .hw-promo {
   --hw-orange: #ff8a1f;
-  --hw-purple: #7c3aed;
-  --hw-ink: #07060a;
-  position: relative;
-  min-height: clamp(560px, 80vh, 860px);
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  background: var(--hw-ink);
-  color: var(--white);
+  padding-block: clamp(40px, 7vh, 88px);
+  background: var(--white);
 }
-/* left-anchored: the wrap loses its max-width so the copy hugs the
-   viewport edge instead of floating into the middle of the picture */
-.hw-promo > .pd-wrap { max-width: none; width: 100%; padding-inline: clamp(24px, 6vw, 110px); }
 
-.hw-promo__media { position: absolute; inset: 0; z-index: 0; }
-.hw-promo__media img {
+.hw-card {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #0b0a0f;
+  color: var(--white);
+  box-shadow: var(--shadow-lift);
+  isolation: isolate;
+}
+/* hairline orange edge that only shows against the dark card */
+.hw-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 138, 31, 0.28);
+  pointer-events: none;
+}
+
+.hw-card__media {
+  display: block;
+  aspect-ratio: 2.4 / 1;
+  overflow: hidden;
+  background: #0b0a0f;
+}
+.hw-card__media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 72% 56%;
-  transform: scale(1.03);
-  transition: transform 1.6s var(--ease-out);
+  object-position: 50% 55%;
+  transition: transform 1.4s var(--ease-out);
 }
-.hw-promo:hover .hw-promo__media img { transform: scale(1.07); }
-/* near-solid on the left ~30%, fully clear by ~60% */
-.hw-promo__scrim {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(90deg, rgba(7,6,10,0.96) 0%, rgba(7,6,10,0.93) 24%, rgba(7,6,10,0.72) 38%, rgba(7,6,10,0.25) 52%, rgba(7,6,10,0) 64%),
-    linear-gradient(0deg, rgba(7,6,10,0.6) 0%, rgba(7,6,10,0) 28%, rgba(7,6,10,0) 76%, rgba(7,6,10,0.5) 100%);
-}
-/* candlelight behind the copy (flickers), cold purple in the far corner */
-.hw-promo__glow {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(38% 55% at 14% 62%, rgba(255, 138, 31, 0.28), transparent 70%),
-    radial-gradient(30% 45% at 92% 12%, rgba(124, 58, 237, 0.26), transparent 70%);
-  pointer-events: none;
-  mix-blend-mode: screen;
-  animation: hw-flicker 5s ease-in-out infinite;
-}
-@keyframes hw-flicker {
-  0%, 100% { opacity: 0.85; }
-  18% { opacity: 1; }
-  31% { opacity: 0.8; }
-  47% { opacity: 0.97; }
-  63% { opacity: 0.86; }
-  80% { opacity: 1; }
-}
+.hw-card:hover .hw-card__media img { transform: scale(1.03); }
 
-.hw-promo__inner {
-  position: relative;
-  z-index: 1;
-  max-width: 600px;
-  padding-block: clamp(64px, 10vh, 120px);
+.hw-card__bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 24px 40px;
+  padding: clamp(20px, 2.4vw, 30px) clamp(20px, 2.6vw, 36px);
+  border-top: 1px solid rgba(255, 138, 31, 0.22);
+  background: linear-gradient(90deg, rgba(255, 138, 31, 0.1), rgba(255, 138, 31, 0) 55%);
 }
-/* orange tag */
-.hw-promo .hw-promo__eyebrow {
+.hw-card__text { min-width: 0; }
+.hw-card .hw-card__eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 14px 8px 12px;
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(255, 138, 31, 0.55);
-  background: rgba(255, 138, 31, 0.12);
+  gap: 8px;
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #ffb877;
-  margin: 0 0 22px;
+  color: var(--hw-orange);
+  margin: 0 0 8px;
 }
-.hw-promo__dot {
-  width: 8px; height: 8px;
+.hw-card .hw-card__eyebrow::before {
+  content: "";
+  width: 7px; height: 7px;
   border-radius: 50%;
   background: var(--hw-orange);
-  box-shadow: 0 0 0 0 rgba(255, 138, 31, 0.6);
-  animation: hw-pulse 2.2s ease-out infinite;
 }
-@keyframes hw-pulse {
-  0% { box-shadow: 0 0 0 0 rgba(255, 138, 31, 0.6); }
-  70% { box-shadow: 0 0 0 10px rgba(255, 138, 31, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(255, 138, 31, 0); }
+.hw-card .hw-card__text h2 {
+  font-size: clamp(22px, 2.4vw, 34px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-wrap: balance;
 }
-/* poster headline: tight, stacked, white then orange */
-.hw-promo .hw-promo__inner h2 {
-  font-size: clamp(44px, 6.6vw, 104px);
-  line-height: 0.9;
-  letter-spacing: -0.035em;
-  margin: 0 0 26px;
-  text-shadow: 0 8px 50px rgba(0, 0, 0, 0.6);
-  text-wrap: initial;
+.hw-card__accent { color: var(--hw-orange); }
+.hw-card .hw-card__body {
+  font-size: 15px;
+  color: rgba(253, 253, 253, 0.7);
+  max-width: 52ch;
+  margin: 8px 0 0;
 }
-.hw-promo__line { display: block; }
-.hw-promo__accent {
-  color: var(--hw-orange);
-  text-shadow: 0 0 40px rgba(255, 138, 31, 0.35), 0 8px 50px rgba(0, 0, 0, 0.6);
-}
-.hw-promo .hw-promo__body {
-  font-size: clamp(15px, 1.6vw, 19px);
-  color: rgba(253, 253, 253, 0.82);
-  max-width: 42ch;
-  margin: 0 0 26px;
-}
-.hw-promo__actions { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
-.pd-page .hw-promo__btn,
-.pd-page .hw-promo__btn:hover,
-.pd-page .hw-promo__btn:focus-visible { border: 0 !important; color: #14090a !important; }
-.pd-page .hw-promo__btn { background: var(--hw-orange) !important; box-shadow: 0 18px 40px -14px rgba(255, 138, 31, 0.85); }
-.pd-page .hw-promo__btn:hover { background: #ffa04d !important; }
-.hw-promo__note {
+
+.hw-card__cta { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.pd-page .hw-card__btn,
+.pd-page .hw-card__btn:hover,
+.pd-page .hw-card__btn:focus-visible { border: 0 !important; color: #14090a !important; }
+.pd-page .hw-card__btn { background: var(--hw-orange) !important; box-shadow: 0 16px 34px -14px rgba(255, 138, 31, 0.75); }
+.pd-page .hw-card__btn:hover { background: #ffa04d !important; }
+.hw-card__note {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: rgba(253, 253, 253, 0.6);
+  color: rgba(253, 253, 253, 0.5);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hw-promo__dot, .hw-promo__glow { animation: none; }
-  .hw-promo__media img, .hw-promo:hover .hw-promo__media img { transform: none; }
+  .hw-card__media img, .hw-card:hover .hw-card__media img { transform: none; }
 }
-/* tablets: image gets busier behind the copy, so lean harder on the panel */
-@media (max-width: 1100px) {
-  .hw-promo__media img { object-position: 78% 56%; }
-  .hw-promo__scrim {
-    background:
-      linear-gradient(90deg, rgba(7,6,10,0.97) 0%, rgba(7,6,10,0.94) 34%, rgba(7,6,10,0.7) 50%, rgba(7,6,10,0.2) 68%, rgba(7,6,10,0) 82%),
-      linear-gradient(0deg, rgba(7,6,10,0.6) 0%, rgba(7,6,10,0) 28%, rgba(7,6,10,0) 76%, rgba(7,6,10,0.5) 100%);
-  }
+@media (max-width: 900px) {
+  .hw-card__media { aspect-ratio: 16 / 9; }
 }
-/* phones: darts on top, copy anchored to a solid bottom panel */
-@media (max-width: 760px) {
-  .hw-promo { min-height: clamp(560px, 88svh, 720px); align-items: flex-end; }
-  .hw-promo > .pd-wrap { padding-inline: var(--gutter); }
-  .hw-promo__media img { object-position: 50% 30%; }
-  .hw-promo__scrim {
-    background: linear-gradient(0deg, rgba(7,6,10,0.97) 0%, rgba(7,6,10,0.9) 38%, rgba(7,6,10,0.35) 62%, rgba(7,6,10,0.1) 80%, rgba(7,6,10,0.45) 100%);
-  }
-  .hw-promo__inner { padding-block: 40px 44px; max-width: none; }
-  .hw-promo .hw-promo__inner h2 { font-size: clamp(40px, 12vw, 60px); }
-  .hw-promo__actions { flex-direction: column; align-items: stretch; gap: 12px; }
-  .hw-promo__actions .btn { width: 100%; }
-  .hw-promo__note { text-align: center; }
+@media (max-width: 640px) {
+  .hw-promo > .pd-wrap { padding-inline: 12px; }
+  .hw-card { border-radius: 18px; }
+  .hw-card__media { aspect-ratio: 4 / 3; }
+  .hw-card__media img { object-position: 50% 50%; }
+  .hw-card__bar { grid-template-columns: 1fr; gap: 18px; padding: 20px 18px 22px; }
+  .hw-card__cta { align-items: stretch; }
+  .hw-card__cta .btn { width: 100%; }
+  .hw-card__note { text-align: center; }
 }
 
 /* ============================================================

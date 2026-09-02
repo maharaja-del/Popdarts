@@ -1,7 +1,8 @@
 {%- comment -%}
-  Seasonal promo banner: one full-bleed image, a two-line headline, one
-  button. Image: picker → URL (Shopify-CDN URLs get a responsive srcset)
-  → bundled asset fallback.
+  Seasonal campaign card: the artwork at full width, unobstructed, with a
+  slim dark bar under it (label, one-line headline, button). No text is
+  ever drawn over the picture. Image: picker → URL (Shopify-CDN URLs get
+  a responsive srcset) → bundled asset fallback.
 {%- endcomment -%}
 {%- assign hw_srcset = '' -%}
 {%- if section.settings.image -%}
@@ -18,32 +19,32 @@
 {%- endif -%}
 
 <section class="pd-page hw-promo" id="hw-promo-{{ section.id }}" aria-labelledby="hw-promo-title-{{ section.id }}">
-  <div class="hw-promo__media" aria-hidden="true">
-    <img src="{{ hw_src }}" alt="" loading="lazy" decoding="async"
-      {%- if hw_srcset != blank %} srcset="{{ hw_srcset }}" sizes="100vw"{% endif %}>
-    <div class="hw-promo__scrim"></div>
-    <div class="hw-promo__glow"></div>
-  </div>
-
   <div class="pd-wrap">
-    <div class="hw-promo__inner">
-      {%- if section.settings.eyebrow != blank -%}
-        <p class="hw-promo__eyebrow"><span class="hw-promo__dot" aria-hidden="true"></span>{{ section.settings.eyebrow }}</p>
-      {%- endif -%}
-      <h2 id="hw-promo-title-{{ section.id }}" style="color: #fdfdfd !important;">
-        <span class="hw-promo__line">{{ section.settings.heading | default: 'Something Wicked' }}</span>
-        {%- if section.settings.heading_accent != blank -%}
-          <br><span class="hw-promo__line hw-promo__accent">{{ section.settings.heading_accent }}</span>
-        {%- endif -%}
-      </h2>
-      {%- if section.settings.body != blank -%}
-        <p class="hw-promo__body">{{ section.settings.body }}</p>
-      {%- endif -%}
-      <div class="hw-promo__actions">
-        <a class="btn btn--lg hw-promo__btn" href="{{ section.settings.cta_link | default: '/pages/pro-pack-halloween' }}">{{ section.settings.cta_text | default: 'Shop the Halloween Sale' }}</a>
-        {%- if section.settings.note != blank -%}
-          <span class="hw-promo__note">{{ section.settings.note }}</span>
-        {%- endif -%}
+    <div class="hw-card">
+      <a class="hw-card__media" href="{{ section.settings.cta_link | default: '/pages/pro-pack-halloween' }}" aria-hidden="true" tabindex="-1">
+        <img src="{{ hw_src }}" alt="" loading="lazy" decoding="async"
+          {%- if hw_srcset != blank %} srcset="{{ hw_srcset }}" sizes="(max-width: 1440px) 100vw, 1400px"{% endif %}>
+      </a>
+
+      <div class="hw-card__bar">
+        <div class="hw-card__text">
+          {%- if section.settings.eyebrow != blank -%}
+            <p class="hw-card__eyebrow">{{ section.settings.eyebrow }}</p>
+          {%- endif -%}
+          <h2 id="hw-promo-title-{{ section.id }}" style="color: #fdfdfd !important;">
+            {{ section.settings.heading | default: 'Something Wicked' }}
+            {%- if section.settings.heading_accent != blank %} <span class="hw-card__accent">{{ section.settings.heading_accent }}</span>{% endif -%}
+          </h2>
+          {%- if section.settings.body != blank -%}
+            <p class="hw-card__body">{{ section.settings.body }}</p>
+          {%- endif -%}
+        </div>
+        <div class="hw-card__cta">
+          <a class="btn btn--lg hw-card__btn" href="{{ section.settings.cta_link | default: '/pages/pro-pack-halloween' }}">{{ section.settings.cta_text | default: 'Shop the Halloween Sale' }}</a>
+          {%- if section.settings.note != blank -%}
+            <span class="hw-card__note">{{ section.settings.note }}</span>
+          {%- endif -%}
+        </div>
       </div>
     </div>
   </div>
@@ -77,26 +78,26 @@
     {
       "type": "text",
       "id": "eyebrow",
-      "label": "Eyebrow",
+      "label": "Label",
       "default": "Limited Edition · Halloween"
     },
     {
       "type": "text",
       "id": "heading",
-      "label": "Headline line 1",
+      "label": "Headline",
       "default": "Something Wicked"
     },
     {
       "type": "text",
       "id": "heading_accent",
-      "label": "Headline line 2 (orange)",
+      "label": "Headline, orange part",
       "default": "This Way Throws."
     },
     {
       "type": "textarea",
       "id": "body",
       "label": "One line (optional)",
-      "info": "Leave empty to keep the banner to a headline and button."
+      "info": "Leave empty to keep it to a headline and button."
     },
     {
       "type": "header",
@@ -117,7 +118,7 @@
     {
       "type": "text",
       "id": "note",
-      "label": "Small note beside the button (optional)",
+      "label": "Small note under the button (optional)",
       "default": "While supplies last"
     }
   ],
