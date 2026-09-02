@@ -1,0 +1,130 @@
+{%- comment -%}
+  Seasonal promo banner: one full-bleed image, a two-line headline, one
+  button. Image: picker → URL (Shopify-CDN URLs get a responsive srcset)
+  → bundled asset fallback.
+{%- endcomment -%}
+{%- assign hw_srcset = '' -%}
+{%- if section.settings.image -%}
+  {%- assign hw_src = section.settings.image | image_url: width: 2000 -%}
+  {%- capture hw_srcset -%}{{ section.settings.image | image_url: width: 800 }} 800w, {{ section.settings.image | image_url: width: 1200 }} 1200w, {{ section.settings.image | image_url: width: 1600 }} 1600w, {{ section.settings.image | image_url: width: 2000 }} 2000w{%- endcapture -%}
+{%- elsif section.settings.image_url != blank -%}
+  {%- assign hw_src = section.settings.image_url -%}
+  {%- if hw_src contains 'cdn.shopify.com' -%}
+    {%- if hw_src contains '?' -%}{%- assign sep = '&' -%}{%- else -%}{%- assign sep = '?' -%}{%- endif -%}
+    {%- capture hw_srcset -%}{{ hw_src }}{{ sep }}width=800 800w, {{ hw_src }}{{ sep }}width=1200 1200w, {{ hw_src }}{{ sep }}width=1600 1600w, {{ hw_src }}{{ sep }}width=2000 2000w{%- endcapture -%}
+  {%- endif -%}
+{%- else -%}
+  {%- assign hw_src = 'pd-hw-table.jpg' | asset_url -%}
+{%- endif -%}
+
+<section class="pd-page hw-promo" id="hw-promo-{{ section.id }}" aria-labelledby="hw-promo-title-{{ section.id }}">
+  <div class="hw-promo__media" aria-hidden="true">
+    <img src="{{ hw_src }}" alt="" loading="lazy" decoding="async"
+      {%- if hw_srcset != blank %} srcset="{{ hw_srcset }}" sizes="100vw"{% endif %}>
+    <div class="hw-promo__scrim"></div>
+    <div class="hw-promo__glow"></div>
+  </div>
+
+  <div class="pd-wrap">
+    <div class="hw-promo__inner">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="hw-promo__eyebrow"><span class="hw-promo__dot" aria-hidden="true"></span>{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h2 id="hw-promo-title-{{ section.id }}" style="color: #fdfdfd !important;">
+        <span class="hw-promo__line">{{ section.settings.heading | default: 'Something Wicked' }}</span>
+        {%- if section.settings.heading_accent != blank -%}
+          <br><span class="hw-promo__line hw-promo__accent">{{ section.settings.heading_accent }}</span>
+        {%- endif -%}
+      </h2>
+      {%- if section.settings.body != blank -%}
+        <p class="hw-promo__body">{{ section.settings.body }}</p>
+      {%- endif -%}
+      <div class="hw-promo__actions">
+        <a class="btn btn--lg hw-promo__btn" href="{{ section.settings.cta_link | default: '/pages/pro-pack-halloween' }}">{{ section.settings.cta_text | default: 'Shop the Halloween Sale' }}</a>
+        {%- if section.settings.note != blank -%}
+          <span class="hw-promo__note">{{ section.settings.note }}</span>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Halloween Promo",
+  "tag": "section",
+  "class": "pd-section-hw-promo",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "image_url",
+      "label": "Image URL",
+      "info": "Used if Image is empty."
+    },
+    {
+      "type": "header",
+      "content": "Copy"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Limited Edition · Halloween"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Headline line 1",
+      "default": "Something Wicked"
+    },
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "Headline line 2 (orange)",
+      "default": "This Way Throws."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "One line (optional)",
+      "info": "Leave empty to keep the banner to a headline and button."
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Shop the Halloween Sale"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link",
+      "info": "Defaults to /pages/pro-pack-halloween"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Small note beside the button (optional)",
+      "default": "While supplies last"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Halloween Promo"
+    }
+  ]
+}
+{% endschema %}

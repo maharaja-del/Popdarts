@@ -753,6 +753,19 @@
         "cta_text": "Get Your Pro Pack",
         "cta_link": ""
       }
+    },
+    "halloween": {
+      "type": "popdarts-halloween-promo",
+      "settings": {
+        "image_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/halloween.png?v=1788488443",
+        "eyebrow": "Limited Edition · Halloween",
+        "heading": "Something Wicked",
+        "heading_accent": "This Way Throws.",
+        "body": "",
+        "cta_text": "Shop the Halloween Sale",
+        "cta_link": "/pages/pro-pack-halloween",
+        "note": "While supplies last"
+      }
     }
   },
   "order": [
@@ -761,6 +774,7 @@
     "avatars",
     "products",
     "trust",
+    "halloween",
     "experience",
     "competition",
     "championship",
