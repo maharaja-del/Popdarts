@@ -1746,38 +1746,78 @@
 }
 
 /* ============================================================
-   HALLOWEEN PROMO — seasonal campaign card in the page column. The
-   artwork sits at its full cinematic width with nothing drawn over it;
-   a slim dark bar underneath carries the label, headline and button.
-   The only orange on the page, and only for this season's beat.
+   HALLOWEEN PROMO — seasonal campaign card on a dark, hazy band right
+   under the hero. The artwork sits at full cinematic width with nothing
+   drawn over it (only an edge vignette); a slim bar underneath carries
+   the label, headline and button. Fog drifts behind the card, the
+   orange edge flickers like candlelight. Reduced-motion: all still.
    ============================================================ */
 
 .hw-promo {
   --hw-orange: #ff8a1f;
-  padding-block: clamp(40px, 7vh, 88px);
-  background: var(--white);
+  --hw-purple: #7c3aed;
+  position: relative;
+  padding-block: clamp(48px, 8vh, 100px);
+  background:
+    radial-gradient(70% 90% at 50% 0%, rgba(124, 58, 237, 0.22), transparent 62%),
+    radial-gradient(60% 50% at 50% 100%, rgba(255, 138, 31, 0.08), transparent 70%),
+    #06050a;
+  overflow: hidden;
+  isolation: isolate;
 }
+/* two banks of fog drifting in opposite directions behind the card */
+.hw-promo::before,
+.hw-promo::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  width: 70vw;
+  height: 40vh;
+  min-height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0));
+  filter: blur(40px);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+.hw-promo::before { left: -20vw; bottom: -10vh; animation: hw-fog-a 26s ease-in-out infinite alternate; }
+.hw-promo::after { right: -25vw; top: -8vh; opacity: 0.7; animation: hw-fog-b 32s ease-in-out infinite alternate; }
+@keyframes hw-fog-a { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(28vw, -6vh, 0); } }
+@keyframes hw-fog-b { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-30vw, 8vh, 0); } }
 
 .hw-card {
   position: relative;
+  z-index: 1;
   border-radius: 24px;
   overflow: hidden;
   background: #0b0a0f;
   color: var(--white);
-  box-shadow: var(--shadow-lift);
+  box-shadow:
+    0 50px 120px -40px rgba(255, 138, 31, 0.28),
+    0 30px 60px -30px rgba(0, 0, 0, 0.9);
   isolation: isolate;
 }
-/* hairline orange edge that only shows against the dark card */
+/* candlelit edge — the flicker is on the border alpha only */
 .hw-card::after {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  border: 1px solid rgba(255, 138, 31, 0.28);
+  border: 1px solid rgba(255, 138, 31, 0.45);
   pointer-events: none;
+  animation: hw-flicker 4.5s ease-in-out infinite;
+}
+@keyframes hw-flicker {
+  0%, 100% { opacity: 0.55; }
+  17% { opacity: 1; }
+  29% { opacity: 0.5; }
+  46% { opacity: 0.9; }
+  62% { opacity: 0.6; }
+  81% { opacity: 1; }
 }
 
 .hw-card__media {
+  position: relative;
   display: block;
   aspect-ratio: 2.4 / 1;
   overflow: hidden;
@@ -1788,18 +1828,32 @@
   height: 100%;
   object-fit: cover;
   object-position: 50% 55%;
-  transition: transform 1.4s var(--ease-out);
+  transition: transform 1.6s var(--ease-out);
 }
-.hw-card:hover .hw-card__media img { transform: scale(1.03); }
+.hw-card:hover .hw-card__media img { transform: scale(1.04); }
+/* edge vignette: the corners of the room fall away, the table and darts
+   stay exactly as bright as the artwork */
+.hw-card__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(85% 75% at 50% 55%, transparent 55%, rgba(4, 3, 8, 0.7) 100%),
+    linear-gradient(0deg, rgba(11, 10, 15, 0.85) 0%, rgba(11, 10, 15, 0) 14%);
+  pointer-events: none;
+}
 
 .hw-card__bar {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 24px 40px;
   padding: clamp(20px, 2.4vw, 30px) clamp(20px, 2.6vw, 36px);
-  border-top: 1px solid rgba(255, 138, 31, 0.22);
-  background: linear-gradient(90deg, rgba(255, 138, 31, 0.1), rgba(255, 138, 31, 0) 55%);
+  border-top: 1px solid rgba(255, 138, 31, 0.25);
+  background:
+    radial-gradient(40% 120% at 0% 50%, rgba(255, 138, 31, 0.16), transparent 70%),
+    #0b0a0f;
 }
 .hw-card__text { min-width: 0; }
 .hw-card .hw-card__eyebrow {
@@ -1819,6 +1873,7 @@
   width: 7px; height: 7px;
   border-radius: 50%;
   background: var(--hw-orange);
+  box-shadow: 0 0 10px rgba(255, 138, 31, 0.9);
 }
 .hw-card .hw-card__text h2 {
   font-size: clamp(22px, 2.4vw, 34px);
@@ -1827,7 +1882,7 @@
   margin: 0;
   text-wrap: balance;
 }
-.hw-card__accent { color: var(--hw-orange); }
+.hw-card__accent { color: var(--hw-orange); text-shadow: 0 0 24px rgba(255, 138, 31, 0.35); }
 .hw-card .hw-card__body {
   font-size: 15px;
   color: rgba(253, 253, 253, 0.7);
@@ -1839,7 +1894,7 @@
 .pd-page .hw-card__btn,
 .pd-page .hw-card__btn:hover,
 .pd-page .hw-card__btn:focus-visible { border: 0 !important; color: #14090a !important; }
-.pd-page .hw-card__btn { background: var(--hw-orange) !important; box-shadow: 0 16px 34px -14px rgba(255, 138, 31, 0.75); }
+.pd-page .hw-card__btn { background: var(--hw-orange) !important; box-shadow: 0 16px 34px -14px rgba(255, 138, 31, 0.85); }
 .pd-page .hw-card__btn:hover { background: #ffa04d !important; }
 .hw-card__note {
   font-family: var(--font-mono);
@@ -1851,10 +1906,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hw-promo::before, .hw-promo::after, .hw-card::after { animation: none; }
   .hw-card__media img, .hw-card:hover .hw-card__media img { transform: none; }
 }
 @media (max-width: 900px) {
   .hw-card__media { aspect-ratio: 16 / 9; }
+  .hw-promo::before, .hw-promo::after { filter: blur(28px); }
 }
 @media (max-width: 640px) {
   .hw-promo > .pd-wrap { padding-inline: 12px; }
@@ -1865,6 +1922,9 @@
   .hw-card__cta { align-items: stretch; }
   .hw-card__cta .btn { width: 100%; }
   .hw-card__note { text-align: center; }
+  /* fog is GPU-costly on phones; keep one bank, no drift */
+  .hw-promo::after { display: none; }
+  .hw-promo::before { animation: none; }
 }
 
 /* ============================================================
