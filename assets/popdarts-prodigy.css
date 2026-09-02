@@ -1746,70 +1746,92 @@
 }
 
 /* ============================================================
-   HALLOWEEN PROMO — full-bleed seasonal banner. Copy sits on the left
-   where the room is darkest; the darts stay visible centre/right. The
-   only place the page uses orange, and only for this season's beat.
+   HALLOWEEN PROMO — full-bleed seasonal banner. The copy is anchored
+   to the LEFT EDGE of the viewport (not the centred page column) over
+   a near-solid dark panel that fades into the scene, so it always
+   reads on dark and never lands on the darts, which own the right
+   two-thirds. Candle-flicker glow, orange tag, poster headline.
    ============================================================ */
 
 .hw-promo {
   --hw-orange: #ff8a1f;
   --hw-purple: #7c3aed;
+  --hw-ink: #07060a;
   position: relative;
-  min-height: clamp(520px, 72vh, 760px);
+  min-height: clamp(560px, 80vh, 860px);
   display: flex;
   align-items: center;
   overflow: hidden;
-  background: #07060a;
+  background: var(--hw-ink);
   color: var(--white);
 }
+/* left-anchored: the wrap loses its max-width so the copy hugs the
+   viewport edge instead of floating into the middle of the picture */
+.hw-promo > .pd-wrap { max-width: none; width: 100%; padding-inline: clamp(24px, 6vw, 110px); }
+
 .hw-promo__media { position: absolute; inset: 0; z-index: 0; }
 .hw-promo__media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 55% 55%;
+  object-position: 72% 56%;
   transform: scale(1.03);
   transition: transform 1.6s var(--ease-out);
 }
 .hw-promo:hover .hw-promo__media img { transform: scale(1.07); }
+/* near-solid on the left ~30%, fully clear by ~60% */
 .hw-promo__scrim {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(7,6,10,0.9) 0%, rgba(7,6,10,0.72) 32%, rgba(7,6,10,0.18) 58%, rgba(7,6,10,0) 80%),
-    linear-gradient(0deg, rgba(7,6,10,0.7) 0%, rgba(7,6,10,0) 35%, rgba(7,6,10,0) 75%, rgba(7,6,10,0.5) 100%);
+    linear-gradient(90deg, rgba(7,6,10,0.96) 0%, rgba(7,6,10,0.93) 24%, rgba(7,6,10,0.72) 38%, rgba(7,6,10,0.25) 52%, rgba(7,6,10,0) 64%),
+    linear-gradient(0deg, rgba(7,6,10,0.6) 0%, rgba(7,6,10,0) 28%, rgba(7,6,10,0) 76%, rgba(7,6,10,0.5) 100%);
 }
-/* warm candle-glow behind the copy, cool purple in the far corner */
+/* candlelight behind the copy (flickers), cold purple in the far corner */
 .hw-promo__glow {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(45% 60% at 12% 70%, rgba(255, 138, 31, 0.22), transparent 70%),
-    radial-gradient(35% 50% at 92% 15%, rgba(124, 58, 237, 0.22), transparent 70%);
+    radial-gradient(38% 55% at 14% 62%, rgba(255, 138, 31, 0.28), transparent 70%),
+    radial-gradient(30% 45% at 92% 12%, rgba(124, 58, 237, 0.26), transparent 70%);
   pointer-events: none;
   mix-blend-mode: screen;
+  animation: hw-flicker 5s ease-in-out infinite;
+}
+@keyframes hw-flicker {
+  0%, 100% { opacity: 0.85; }
+  18% { opacity: 1; }
+  31% { opacity: 0.8; }
+  47% { opacity: 0.97; }
+  63% { opacity: 0.86; }
+  80% { opacity: 1; }
 }
 
 .hw-promo__inner {
   position: relative;
   z-index: 1;
-  max-width: 640px;
-  padding-block: clamp(64px, 10vh, 110px);
+  max-width: 600px;
+  padding-block: clamp(64px, 10vh, 120px);
 }
+/* orange tag */
 .hw-promo .hw-promo__eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 10px;
+  padding: 8px 14px 8px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 138, 31, 0.55);
+  background: rgba(255, 138, 31, 0.12);
   font-family: var(--font-mono);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(253, 253, 253, 0.85);
-  margin: 0 0 18px;
+  color: #ffb877;
+  margin: 0 0 22px;
 }
 .hw-promo__dot {
-  width: 9px; height: 9px;
+  width: 8px; height: 8px;
   border-radius: 50%;
   background: var(--hw-orange);
   box-shadow: 0 0 0 0 rgba(255, 138, 31, 0.6);
@@ -1820,26 +1842,31 @@
   70% { box-shadow: 0 0 0 10px rgba(255, 138, 31, 0); }
   100% { box-shadow: 0 0 0 0 rgba(255, 138, 31, 0); }
 }
+/* poster headline: tight, stacked, white then orange */
 .hw-promo .hw-promo__inner h2 {
-  font-size: clamp(38px, 6vw, 84px);
-  line-height: 0.95;
-  margin: 0 0 22px;
-  text-shadow: 0 6px 40px rgba(0, 0, 0, 0.5);
+  font-size: clamp(44px, 6.6vw, 104px);
+  line-height: 0.9;
+  letter-spacing: -0.035em;
+  margin: 0 0 26px;
+  text-shadow: 0 8px 50px rgba(0, 0, 0, 0.6);
   text-wrap: initial;
 }
-.hw-promo__line { display: inline-block; }
-.hw-promo__accent { color: var(--hw-orange); }
+.hw-promo__line { display: block; }
+.hw-promo__accent {
+  color: var(--hw-orange);
+  text-shadow: 0 0 40px rgba(255, 138, 31, 0.35), 0 8px 50px rgba(0, 0, 0, 0.6);
+}
 .hw-promo .hw-promo__body {
   font-size: clamp(15px, 1.6vw, 19px);
   color: rgba(253, 253, 253, 0.82);
-  max-width: 44ch;
+  max-width: 42ch;
   margin: 0 0 26px;
 }
-.hw-promo__actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.hw-promo__actions { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
 .pd-page .hw-promo__btn,
 .pd-page .hw-promo__btn:hover,
 .pd-page .hw-promo__btn:focus-visible { border: 0 !important; color: #14090a !important; }
-.pd-page .hw-promo__btn { background: var(--hw-orange) !important; box-shadow: 0 16px 36px -14px rgba(255, 138, 31, 0.8); }
+.pd-page .hw-promo__btn { background: var(--hw-orange) !important; box-shadow: 0 18px 40px -14px rgba(255, 138, 31, 0.85); }
 .pd-page .hw-promo__btn:hover { background: #ffa04d !important; }
 .hw-promo__note {
   font-family: var(--font-mono);
@@ -1851,17 +1878,28 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hw-promo__dot { animation: none; }
+  .hw-promo__dot, .hw-promo__glow { animation: none; }
   .hw-promo__media img, .hw-promo:hover .hw-promo__media img { transform: none; }
 }
+/* tablets: image gets busier behind the copy, so lean harder on the panel */
+@media (max-width: 1100px) {
+  .hw-promo__media img { object-position: 78% 56%; }
+  .hw-promo__scrim {
+    background:
+      linear-gradient(90deg, rgba(7,6,10,0.97) 0%, rgba(7,6,10,0.94) 34%, rgba(7,6,10,0.7) 50%, rgba(7,6,10,0.2) 68%, rgba(7,6,10,0) 82%),
+      linear-gradient(0deg, rgba(7,6,10,0.6) 0%, rgba(7,6,10,0) 28%, rgba(7,6,10,0) 76%, rgba(7,6,10,0.5) 100%);
+  }
+}
+/* phones: darts on top, copy anchored to a solid bottom panel */
 @media (max-width: 760px) {
   .hw-promo { min-height: clamp(560px, 88svh, 720px); align-items: flex-end; }
-  .hw-promo__media img { object-position: 50% 45%; }
+  .hw-promo > .pd-wrap { padding-inline: var(--gutter); }
+  .hw-promo__media img { object-position: 50% 30%; }
   .hw-promo__scrim {
-    background: linear-gradient(0deg, rgba(7,6,10,0.96) 0%, rgba(7,6,10,0.82) 32%, rgba(7,6,10,0.25) 60%, rgba(7,6,10,0.45) 100%);
+    background: linear-gradient(0deg, rgba(7,6,10,0.97) 0%, rgba(7,6,10,0.9) 38%, rgba(7,6,10,0.35) 62%, rgba(7,6,10,0.1) 80%, rgba(7,6,10,0.45) 100%);
   }
-  .hw-promo__inner { padding-block: 40px 44px; }
-  .hw-promo .hw-promo__inner h2 { font-size: clamp(36px, 11vw, 52px); }
+  .hw-promo__inner { padding-block: 40px 44px; max-width: none; }
+  .hw-promo .hw-promo__inner h2 { font-size: clamp(40px, 12vw, 60px); }
   .hw-promo__actions { flex-direction: column; align-items: stretch; gap: 12px; }
   .hw-promo__actions .btn { width: 100%; }
   .hw-promo__note { text-align: center; }
