@@ -1748,10 +1748,16 @@
 /* ============================================================
    HALLOWEEN PROMO — seasonal campaign card on a dark, hazy band right
    under the hero. The artwork sits at full cinematic width with nothing
-   drawn over it (only an edge vignette); a slim bar underneath carries
-   the label, headline and button. Fog drifts behind the card, the
-   orange edge flickers like candlelight. Reduced-motion: all still.
+   drawn over it but light: a flashlight that follows the cursor (and
+   drifts on its own otherwise), a rare lightning flash, an edge
+   vignette. The card tilts toward the pointer with a touch of parallax.
+   Fog drifts behind it; the orange edge flickers like candlelight.
+   Reduced-motion: everything still, flashlight parked centre-right.
    ============================================================ */
+
+/* registered so the flashlight position can transition + animate */
+@property --hw-mx { syntax: "<percentage>"; inherits: true; initial-value: 62%; }
+@property --hw-my { syntax: "<percentage>"; inherits: true; initial-value: 58%; }
 
 .hw-promo {
   --hw-orange: #ff8a1f;
@@ -1785,7 +1791,14 @@
 @keyframes hw-fog-a { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(28vw, -6vh, 0); } }
 @keyframes hw-fog-b { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-30vw, 8vh, 0); } }
 
+/* perspective lives on the wrapper so the card's own transform is the tilt */
+.hw-promo > .pd-wrap { perspective: 1400px; }
+
 .hw-card {
+  --hw-rx: 0deg;
+  --hw-ry: 0deg;
+  --hw-px: 0px;
+  --hw-py: 0px;
   position: relative;
   z-index: 1;
   border-radius: 24px;
@@ -1796,12 +1809,19 @@
     0 50px 120px -40px rgba(255, 138, 31, 0.28),
     0 30px 60px -30px rgba(0, 0, 0, 0.9);
   isolation: isolate;
+  touch-action: pan-y;
+  transform: rotateX(var(--hw-ry)) rotateY(var(--hw-rx));
+  transform-style: preserve-3d;
+  transition: transform 0.55s var(--ease-out), box-shadow 0.55s var(--ease-out);
+  will-change: transform;
 }
+.hw-card.is-hover { transition-duration: 0.12s; }
 /* candlelit edge — the flicker is on the border alpha only */
 .hw-card::after {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 3;
   border-radius: inherit;
   border: 1px solid rgba(255, 138, 31, 0.45);
   pointer-events: none;
@@ -1822,29 +1842,80 @@
   aspect-ratio: 2.4 / 1;
   overflow: hidden;
   background: #0b0a0f;
+  cursor: none;
 }
 .hw-card__media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: 50% 55%;
-  transition: transform 1.6s var(--ease-out);
+  transform: translate3d(var(--hw-px), var(--hw-py), 0) scale(1.07);
+  transition: transform 0.55s var(--ease-out);
 }
-.hw-card:hover .hw-card__media img { transform: scale(1.04); }
-/* edge vignette: the corners of the room fall away, the table and darts
-   stay exactly as bright as the artwork */
-.hw-card__media::after {
+.hw-card.is-hover .hw-card__media img { transition-duration: 0.12s; }
+
+/* THE FLASHLIGHT — the whole scene is dimmed except a soft circle at
+   (--hw-mx, --hw-my). Script moves the vars with the pointer; without
+   a pointer the .is-auto sweep drifts them around the table. */
+.hw-card__light {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(circle 230px at var(--hw-mx) var(--hw-my),
+      rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.08) 45%, rgba(4, 3, 8, 0.6) 100%);
+  transition: --hw-mx 0.5s var(--ease-out), --hw-my 0.5s var(--ease-out);
+}
+.hw-card.is-auto .hw-card__light { animation: hw-sweep 16s ease-in-out infinite alternate; }
+@keyframes hw-sweep {
+  0% { --hw-mx: 30%; --hw-my: 62%; }
+  30% { --hw-mx: 55%; --hw-my: 48%; }
+  55% { --hw-mx: 74%; --hw-my: 60%; }
+  80% { --hw-mx: 50%; --hw-my: 30%; }
+  100% { --hw-mx: 36%; --hw-my: 56%; }
+}
+/* warm rim inside the beam so it reads as candle/torchlight, not a mask */
+.hw-card__light::after {
   content: "";
   position: absolute;
   inset: 0;
+  background: radial-gradient(circle 260px at var(--hw-mx) var(--hw-my), rgba(255, 170, 80, 0.14), transparent 70%);
+  mix-blend-mode: screen;
+}
+/* edge vignette: corners of the room fall away, table stays bright */
+.hw-card__vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
   background:
     radial-gradient(85% 75% at 50% 55%, transparent 55%, rgba(4, 3, 8, 0.7) 100%),
     linear-gradient(0deg, rgba(11, 10, 15, 0.85) 0%, rgba(11, 10, 15, 0) 14%);
+}
+/* LIGHTNING — a storm outside the window: a rare quick double flash */
+.hw-card__flash {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
   pointer-events: none;
+  background: radial-gradient(60% 80% at 20% 30%, rgba(210, 225, 255, 0.9), rgba(210, 225, 255, 0.35) 60%, transparent 100%);
+  mix-blend-mode: screen;
+  opacity: 0;
+  animation: hw-lightning 13s linear infinite;
+}
+@keyframes hw-lightning {
+  0%, 91% { opacity: 0; }
+  91.6% { opacity: 0.55; }
+  92.1% { opacity: 0.08; }
+  92.8% { opacity: 0.42; }
+  93.6% { opacity: 0; }
+  100% { opacity: 0; }
 }
 
 .hw-card__bar {
   position: relative;
+  z-index: 2;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
@@ -1890,13 +1961,17 @@
   margin: 8px 0 0;
 }
 
-.hw-card__cta { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.hw-card__cta { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
 .pd-page .hw-card__btn,
 .pd-page .hw-card__btn:hover,
 .pd-page .hw-card__btn:focus-visible { border: 0 !important; color: #14090a !important; }
 .pd-page .hw-card__btn { background: var(--hw-orange) !important; box-shadow: 0 16px 34px -14px rgba(255, 138, 31, 0.85); }
-.pd-page .hw-card__btn:hover { background: #ffa04d !important; }
+.pd-page .hw-card__btn:hover { background: #ffa04d !important; box-shadow: 0 18px 40px -12px rgba(255, 138, 31, 1); }
+/* countdown / note */
 .hw-card__note {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 700;
@@ -1904,24 +1979,33 @@
   text-transform: uppercase;
   color: rgba(253, 253, 253, 0.5);
 }
+.hw-card__note strong { font-size: 13px; color: #ffb877; letter-spacing: 0.04em; font-variant-numeric: tabular-nums; }
 
 @media (prefers-reduced-motion: reduce) {
-  .hw-promo::before, .hw-promo::after, .hw-card::after { animation: none; }
-  .hw-card__media img, .hw-card:hover .hw-card__media img { transform: none; }
+  .hw-promo::before, .hw-promo::after, .hw-card::after, .hw-card__flash,
+  .hw-card.is-auto .hw-card__light { animation: none; }
+  .hw-card, .hw-card__media img { transform: none; transition: none; }
+  .hw-card__light { transition: none; }
+  .hw-card__media { cursor: auto; }
+}
+@media (hover: none) {
+  .hw-card__media { cursor: auto; }
+  .hw-card { transform: none; }
 }
 @media (max-width: 900px) {
   .hw-card__media { aspect-ratio: 16 / 9; }
   .hw-promo::before, .hw-promo::after { filter: blur(28px); }
+  .hw-card__light { background: radial-gradient(circle 170px at var(--hw-mx) var(--hw-my), rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.08) 45%, rgba(4, 3, 8, 0.55) 100%); }
 }
 @media (max-width: 640px) {
-  .hw-promo > .pd-wrap { padding-inline: 12px; }
+  .hw-promo > .pd-wrap { padding-inline: 12px; perspective: none; }
   .hw-card { border-radius: 18px; }
   .hw-card__media { aspect-ratio: 4 / 3; }
   .hw-card__media img { object-position: 50% 50%; }
   .hw-card__bar { grid-template-columns: 1fr; gap: 18px; padding: 20px 18px 22px; }
   .hw-card__cta { align-items: stretch; }
   .hw-card__cta .btn { width: 100%; }
-  .hw-card__note { text-align: center; }
+  .hw-card__note { justify-content: center; }
   /* fog is GPU-costly on phones; keep one bank, no drift */
   .hw-promo::after { display: none; }
   .hw-promo::before { animation: none; }

@@ -20,10 +20,13 @@
 
 <section class="pd-page hw-promo" id="hw-promo-{{ section.id }}" aria-labelledby="hw-promo-title-{{ section.id }}">
   <div class="pd-wrap">
-    <div class="hw-card">
+    <div class="hw-card is-auto" data-hw-card>
       <a class="hw-card__media" href="{{ section.settings.cta_link | default: '/pages/pro-pack-halloween' }}" aria-hidden="true" tabindex="-1">
         <img src="{{ hw_src }}" alt="" loading="lazy" decoding="async"
           {%- if hw_srcset != blank %} srcset="{{ hw_srcset }}" sizes="(max-width: 1440px) 100vw, 1400px"{% endif %}>
+        <span class="hw-card__vignette"></span>
+        <span class="hw-card__light"></span>
+        <span class="hw-card__flash"></span>
       </a>
 
       <div class="hw-card__bar">
@@ -41,7 +44,11 @@
         </div>
         <div class="hw-card__cta">
           <a class="btn btn--lg hw-card__btn" href="{{ section.settings.cta_link | default: '/pages/pro-pack-halloween' }}">{{ section.settings.cta_text | default: 'Shop the Halloween Sale' }}</a>
-          {%- if section.settings.note != blank -%}
+          {%- if section.settings.end_date != blank -%}
+            <span class="hw-card__note" data-hw-countdown data-end="{{ section.settings.end_date }}" data-ended="{{ section.settings.note | default: 'While supplies last' | escape }}">
+              <span>Sale ends in</span> <strong data-hw-countdown-value>—</strong>
+            </span>
+          {%- elsif section.settings.note != blank -%}
             <span class="hw-card__note">{{ section.settings.note }}</span>
           {%- endif -%}
         </div>
@@ -117,8 +124,16 @@
     },
     {
       "type": "text",
+      "id": "end_date",
+      "label": "Countdown end (date/time)",
+      "info": "e.g. 2026-11-01T00:00 — shows a live \"Sale ends in\" countdown under the button. Leave empty to show the note instead.",
+      "default": "2026-11-01T00:00"
+    },
+    {
+      "type": "text",
       "id": "note",
-      "label": "Small note under the button (optional)",
+      "label": "Note under the button",
+      "info": "Shown when there's no countdown, or once the countdown has ended.",
       "default": "While supplies last"
     }
   ],

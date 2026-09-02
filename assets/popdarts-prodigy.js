@@ -147,6 +147,79 @@
   }
 
   /* ============================================================
+     HALLOWEEN CARD — flashlight follows the pointer (CSS vars --hw-mx/
+     --hw-my), the card tilts toward it and the artwork shifts for a
+     little parallax. With no pointer the card keeps .is-auto and CSS
+     drifts the light on its own. Touch devices: no tilt, light follows
+     a finger drag. Plus a live "Sale ends in" countdown.
+     ============================================================ */
+  function initHalloween() {
+    document.querySelectorAll("[data-hw-card]").forEach((card) => {
+      if (card.__pdHwInit) return;
+      card.__pdHwInit = true;
+      const canHover = window.matchMedia("(hover: hover)").matches;
+      let raf = null;
+      let last = null;
+
+      const apply = () => {
+        raf = null;
+        if (!last) return;
+        const r = card.getBoundingClientRect();
+        const x = Math.min(Math.max((last.x - r.left) / r.width, 0), 1);
+        const y = Math.min(Math.max((last.y - r.top) / r.height, 0), 1);
+        card.style.setProperty("--hw-mx", (x * 100).toFixed(2) + "%");
+        card.style.setProperty("--hw-my", (y * 100).toFixed(2) + "%");
+        if (canHover && !prefersReducedMotion) {
+          card.style.setProperty("--hw-rx", ((x - 0.5) * 6).toFixed(2) + "deg");
+          card.style.setProperty("--hw-ry", ((0.5 - y) * 5).toFixed(2) + "deg");
+          card.style.setProperty("--hw-px", ((x - 0.5) * -16).toFixed(1) + "px");
+          card.style.setProperty("--hw-py", ((y - 0.5) * -10).toFixed(1) + "px");
+        }
+      };
+      const onMove = (e) => {
+        last = { x: e.clientX, y: e.clientY };
+        card.classList.remove("is-auto");
+        card.classList.add("is-hover");
+        if (!raf) raf = requestAnimationFrame(apply);
+      };
+      const onLeave = () => {
+        last = null;
+        card.classList.remove("is-hover");
+        ["--hw-mx", "--hw-my", "--hw-rx", "--hw-ry", "--hw-px", "--hw-py"].forEach((v) => card.style.removeProperty(v));
+        card.classList.add("is-auto");
+      };
+      card.addEventListener("pointermove", onMove);
+      card.addEventListener("pointerleave", onLeave);
+      card.addEventListener("pointercancel", onLeave);
+      card.addEventListener("pointerup", (e) => {
+        if (e.pointerType !== "mouse") setTimeout(onLeave, 900);
+      });
+    });
+
+    document.querySelectorAll("[data-hw-countdown]").forEach((el) => {
+      if (el.__pdHwCd) return;
+      el.__pdHwCd = true;
+      const end = new Date(el.dataset.end).getTime();
+      const out = el.querySelector("[data-hw-countdown-value]");
+      if (isNaN(end) || !out) return;
+      const pad = (n) => String(n).padStart(2, "0");
+      const tick = () => {
+        const left = end - Date.now();
+        if (left <= 0) {
+          el.textContent = el.dataset.ended || "";
+          return;
+        }
+        const d = Math.floor(left / 864e5);
+        const h = Math.floor((left % 864e5) / 36e5);
+        const m = Math.floor((left % 36e5) / 6e4);
+        out.textContent = (d > 0 ? d + "d " : "") + pad(h) + "h " + pad(m) + "m";
+        setTimeout(tick, 30000);
+      };
+      tick();
+    });
+  }
+
+  /* ============================================================
      STICKY MOBILE CTA — shows once the hero has left the viewport,
      hides while the final CTA or footer is in view. CSS limits it to
      small screens; this only toggles the class.
@@ -260,7 +333,7 @@
   function initAll() {
     // Reveal goes first and every init is isolated: a throw in one
     // feature must never leave the page's sections sitting at opacity 0.
-    [initReveal, initSliders, initVideoSlides, fitLines, initStickyCta].forEach((fn) => {
+    [initReveal, initSliders, initVideoSlides, fitLines, initStickyCta, initHalloween].forEach((fn) => {
       try {
         fn();
       } catch (err) {

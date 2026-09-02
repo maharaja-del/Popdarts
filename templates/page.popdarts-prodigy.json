@@ -764,7 +764,8 @@
         "body": "",
         "cta_text": "Shop the Halloween Sale",
         "cta_link": "/pages/pro-pack-halloween",
-        "note": "While supplies last"
+        "note": "While supplies last",
+        "end_date": "2026-11-01T00:00"
       }
     }
   },
