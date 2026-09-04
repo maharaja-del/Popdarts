@@ -147,6 +147,38 @@
   }
 
   /* ============================================================
+     FIT LINES — any [data-fit-line] is a single no-wrap line; if it's
+     wider than its container, step its font-size down (to a floor)
+     until it fits. Re-run on resize. Keeps headlines at exactly the
+     number of lines the markup says, whatever the copy length.
+     ============================================================ */
+  function fitLines() {
+    document.querySelectorAll("[data-fit-line]").forEach((el) => {
+      el.style.fontSize = "";
+      const parent = el.parentElement;
+      if (!parent) return;
+      const max = parent.clientWidth;
+      if (!max) return;
+      let size = parseFloat(getComputedStyle(el).fontSize);
+      const floor = 16;
+      let guard = 40;
+      while (el.scrollWidth > max && size > floor && guard--) {
+        size -= 1;
+        el.style.fontSize = size + "px";
+      }
+    });
+  }
+  let fitRaf = null;
+  window.addEventListener("resize", () => {
+    if (fitRaf) return;
+    fitRaf = requestAnimationFrame(() => {
+      fitRaf = null;
+      fitLines();
+    });
+  });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitLines);
+
+  /* ============================================================
      SCROLL REVEAL — fade/rise sections in as they enter view.
      Belt-and-suspenders against ever getting stuck invisible:
      a 2.5s timeout force-reveals anything the observer hasn't
@@ -193,7 +225,7 @@
   function initAll() {
     // Reveal goes first and every init is isolated: a throw in one
     // feature must never leave the page's sections sitting at opacity 0.
-    [initReveal, initSliders, initVideoSlides].forEach((fn) => {
+    [initReveal, initSliders, initVideoSlides, fitLines].forEach((fn) => {
       try {
         fn();
       } catch (err) {
