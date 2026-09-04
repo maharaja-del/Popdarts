@@ -517,6 +517,8 @@
   background: var(--paper);
   overflow: hidden;
 }
+/* breaks out of the page's 1400px column, same as the pack picker */
+.avatars > .pd-wrap { max-width: 1760px; }
 
 .avatars__head { max-width: 760px; margin-bottom: clamp(28px, 4vh, 48px); }
 .avatars__eyebrow {
@@ -531,10 +533,12 @@
 .avatars__head h2 { font-size: clamp(30px, 4.8vw, 58px); margin-bottom: 14px; }
 .avatars__head p { font-size: clamp(15px, 1.6vw, 19px); color: rgba(10, 12, 16, 0.62); max-width: 52ch; }
 
+/* 2×2 — two wide cards per row so headlines sit on one or two lines
+   and the photos get real estate; single column on phones */
 .avatars__grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(12px, 1.6vw, 20px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 2vw, 28px);
 }
 
 /* ---- Card ---- */
@@ -545,9 +549,9 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: clamp(540px, 62vh, 660px);
+  min-height: clamp(520px, 64vh, 680px);
   padding: 0;
-  border-radius: 20px;
+  border-radius: 24px;
   overflow: hidden;
   background: var(--ink);
   color: var(--white);
@@ -620,7 +624,7 @@
 .avatar-card__num {
   font-family: var(--font-display);
   font-weight: 900;
-  font-size: clamp(52px, 5.4vw, 80px);
+  font-size: clamp(64px, 7vw, 120px);
   line-height: 0.85;
   letter-spacing: -0.05em;
   color: transparent;
@@ -658,9 +662,10 @@
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: -0.02em;
-  line-height: 1;
-  font-size: clamp(22px, 2vw, 28px);
-  margin-bottom: 16px;
+  line-height: 0.98;
+  font-size: clamp(28px, 3.2vw, 48px);
+  max-width: 14ch;
+  margin-bottom: 20px;
 }
 .avatar-card__accent { color: var(--accent); }
 
@@ -671,6 +676,12 @@
   gap: 12px;
   padding-top: 14px;
   border-top: 1px solid var(--line-on-dark);
+}
+/* wide cards: product + price on the left, button on the right */
+@media (min-width: 601px) {
+  .avatar-card__foot { flex-direction: row; align-items: center; justify-content: space-between; gap: 18px; padding-top: 18px; }
+  .pd-page .avatar-card__foot .btn { width: auto; height: 54px !important; font-size: 15px !important; padding: 0 28px !important; flex: 0 0 auto; }
+  .avatar-card__thumb { width: 60px; height: 60px; }
 }
 .avatar-card__product { display: flex; align-items: center; gap: 10px; min-width: 0; }
 .avatar-card__thumb {
@@ -690,10 +701,10 @@
 
 /* ---- Responsive ---- */
 @media (max-width: 1100px) {
-  .avatars__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-  .avatar-card { min-height: clamp(500px, 58vh, 600px); }
-  .avatar-card h3 { font-size: clamp(24px, 3.2vw, 32px); }
-  .avatar-card__num { font-size: clamp(64px, 9vw, 96px); }
+  .avatars__grid { gap: 16px; }
+  .avatar-card { min-height: clamp(480px, 58vh, 600px); }
+  .avatar-card h3 { font-size: clamp(24px, 3.6vw, 36px); }
+  .avatar-card__num { font-size: clamp(56px, 8vw, 84px); }
 }
 @media (max-width: 600px) {
   .avatars__grid { grid-template-columns: 1fr; gap: 14px; }
