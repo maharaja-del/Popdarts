@@ -8,9 +8,13 @@
 {%- else -%}
   {%- assign img_a = 'pd-marquee-court-cheer.jpg' | asset_url -%}
 {%- endif -%}
-{%- comment -%} Photo 2 (small, square) — same chain {%- endcomment -%}
+{%- comment -%} Photo 2 (small, square): picker → product's featured image → URL → asset → default {%- endcomment -%}
+{%- assign img_b_handle = section.settings.image_2_product_handle -%}
+{%- assign img_b_product = all_products[img_b_handle] -%}
 {%- if section.settings.image_2 -%}
   {%- assign img_b = section.settings.image_2 | image_url: width: 800 -%}
+{%- elsif img_b_product and img_b_product.featured_image -%}
+  {%- assign img_b = img_b_product.featured_image | image_url: width: 800 -%}
 {%- elsif section.settings.image_2_url != blank -%}
   {%- assign img_b = section.settings.image_2_url -%}
 {%- elsif section.settings.image_2_asset != blank -%}
@@ -114,10 +118,17 @@
       "label": "Photo 2 (small, square)"
     },
     {
+      "type": "text",
+      "id": "image_2_product_handle",
+      "label": "Photo 2 from product",
+      "info": "Product handle whose featured image is used if Photo 2 is empty, e.g. swaptop-kit",
+      "default": "swaptop-kit"
+    },
+    {
       "type": "url",
       "id": "image_2_url",
       "label": "Photo 2 URL",
-      "info": "Used if Photo 2 is empty."
+      "info": "Used if Photo 2 and the product above are both empty."
     },
     {
       "type": "text",
