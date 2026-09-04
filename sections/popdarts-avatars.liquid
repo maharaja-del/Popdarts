@@ -66,20 +66,15 @@
           </div>
 
           <div class="avatar-card__inner">
-            <p class="avatar-card__name">{{ block.settings.name | default: 'The Contender' }}{% if block.settings.tagline != blank %} <span>· {{ block.settings.tagline }}</span>{% endif %}</p>
+            <p class="avatar-card__name">{{ block.settings.name | default: 'The Contender' }}</p>
             <h3 style="color: #fdfdfd !important;">
               {{ block.settings.headline | default: 'Easy to Learn.' }}
               {%- if block.settings.headline_accent != blank %} <span class="avatar-card__accent">{{ block.settings.headline_accent }}</span>{% endif -%}
             </h3>
-            <p class="avatar-card__copy">{{ block.settings.copy | default: 'The rules are simple. The pressure is not.' }}</p>
 
-            {%- if block.settings.point_1 != blank or block.settings.point_2 != blank or block.settings.point_3 != blank -%}
+            {%- if block.settings.copy != blank -%}
               <div class="avatar-card__more">
-                <ul class="avatar-card__points">
-                  {%- if block.settings.point_1 != blank %}<li>{{ block.settings.point_1 }}</li>{% endif -%}
-                  {%- if block.settings.point_2 != blank %}<li>{{ block.settings.point_2 }}</li>{% endif -%}
-                  {%- if block.settings.point_3 != blank %}<li>{{ block.settings.point_3 }}</li>{% endif -%}
-                </ul>
+                <p class="avatar-card__copy">{{ block.settings.copy }}</p>
               </div>
             {%- endif -%}
 
@@ -168,20 +163,26 @@
           "default": "The Contender"
         },
         {
-          "type": "text",
-          "id": "tagline",
-          "label": "Tagline",
-          "default": "Ready to own the pressure"
-        },
-        {
           "type": "select",
           "id": "style",
           "label": "Accent",
           "options": [
-            { "value": "rookie", "label": "Light blue (Rookie)" },
-            { "value": "pro", "label": "Blue (Pro)" },
-            { "value": "elite", "label": "Ink (Elite)" },
-            { "value": "swaptop", "label": "Green (Swaptop)" }
+            {
+              "value": "rookie",
+              "label": "Light blue (Rookie)"
+            },
+            {
+              "value": "pro",
+              "label": "Blue (Pro)"
+            },
+            {
+              "value": "elite",
+              "label": "Ink (Elite)"
+            },
+            {
+              "value": "swaptop",
+              "label": "Green (Swaptop)"
+            }
           ],
           "default": "pro"
         },
@@ -194,11 +195,6 @@
           "id": "badge",
           "label": "Badge",
           "default": "Pro Pack"
-        },
-        {
-          "type": "text",
-          "id": "eyebrow",
-          "label": "Eyebrow line (unused in lineup layout)"
         },
         {
           "type": "text",
@@ -215,23 +211,9 @@
         {
           "type": "textarea",
           "id": "copy",
-          "label": "Hero copy",
-          "default": "The rules are simple. The pressure is not. Call the shot. Play the angle. Chase the 10-pointer. First to 21 gets the last word."
-        },
-        {
-          "type": "text",
-          "id": "point_1",
-          "label": "Point 1"
-        },
-        {
-          "type": "text",
-          "id": "point_2",
-          "label": "Point 2"
-        },
-        {
-          "type": "text",
-          "id": "point_3",
-          "label": "Point 3"
+          "label": "Hover copy",
+          "info": "One or two short sentences. Slides in on hover for mouse users; hidden on touch screens to keep the card clean.",
+          "default": "The rules are simple. The pressure is not. Call the shot. Chase the 10-pointer. First to 21 wins."
         },
         {
           "type": "header",
@@ -328,15 +310,11 @@
           "type": "avatar",
           "settings": {
             "name": "The Rookie",
-            "tagline": "The future champion",
             "style": "rookie",
             "badge": "Rookie Pack",
             "headline": "Small Players.",
             "headline_accent": "Big-Time Moments.",
-            "copy": "The coffee table becomes center court. The kitchen becomes a stadium. And the next throw could be the shot everyone talks about all day.",
-            "point_1": "Exciting from the first stick",
-            "point_2": "Call creative shots, try again",
-            "point_3": "Parents and kids play together",
+            "copy": "The coffee table becomes center court. The next throw is the one everyone talks about all day.",
             "product_handle": "rookie-pack",
             "product_title": "Rookie Pack",
             "fallback_price": "$24.99",
@@ -348,15 +326,11 @@
           "type": "avatar",
           "settings": {
             "name": "The Contender",
-            "tagline": "Ready to own the pressure",
             "style": "pro",
             "badge": "Pro Pack",
             "headline": "Easy to Learn.",
             "headline_accent": "Built to Compete.",
-            "copy": "The rules are simple. The pressure is not. Call the shot. Play the angle. Chase the 10-pointer. First to 21 gets the last word.",
-            "point_1": "Real gameplay, real rivalries",
-            "point_2": "The 10-point shot changes everything",
-            "point_3": "First to 21 wins",
+            "copy": "The rules are simple. The pressure is not. Chase the 10-pointer. First to 21 wins.",
             "product_handle": "pro-pack",
             "product_title": "Pro Pack",
             "fallback_price": "$31.99",
@@ -369,15 +343,11 @@
           "type": "avatar",
           "settings": {
             "name": "The Comeback King",
-            "tagline": "Dad bod? No prob.",
             "style": "elite",
             "badge": "Elite Pack",
             "headline": "The Glory Days",
             "headline_accent": "Aren't Over.",
-            "copy": "No tryouts. No cardio. No problem. Popdarts rewards touch, nerve and the ability to deliver when the whole family is watching.",
-            "point_1": "Skill and composure beat athleticism",
-            "point_2": "Every match, a chance to be underestimated",
-            "point_3": "Every clutch shot becomes family history",
+            "copy": "No tryouts. No cardio. No problem. One clutch throw turns the cookout into a comeback season.",
             "product_handle": "elite-full-pack",
             "product_title": "Elite Pack",
             "fallback_price": "$44.99",
@@ -389,15 +359,11 @@
           "type": "avatar",
           "settings": {
             "name": "The Host",
-            "tagline": "Makes the weekend happen",
             "style": "swaptop",
             "badge": "Swaptop™ Kit",
             "headline": "The Game Plan",
             "headline_accent": "For People Who Make the Plans.",
-            "copy": "They booked the house. Started the group chat. Collected the Venmos. Stocked the cooler. And brought the game everyone ends up playing.",
-            "point_1": "A playing surface wherever the group goes",
-            "point_2": "Swap game boards with one clip-in frame",
-            "point_3": "Packs alongside the weekend gear",
+            "copy": "Booked the house. Started the group chat. Brought the game everyone ends up playing.",
             "product_handle": "swaptop-kit",
             "product_title": "Swaptop Kit",
             "fallback_price": "$159.99",

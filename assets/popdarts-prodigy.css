@@ -433,7 +433,7 @@
 .avatar-card__scrim {
   position: absolute;
   inset: 0;
-  background: linear-gradient(0deg, rgba(10,12,16,0.97) 0%, rgba(10,12,16,0.84) 32%, rgba(10,12,16,0.28) 60%, rgba(10,12,16,0.12) 80%, rgba(10,12,16,0.4) 100%);
+  background: linear-gradient(0deg, rgba(10,12,16,0.98) 0%, rgba(10,12,16,0.94) 30%, rgba(10,12,16,0.7) 48%, rgba(10,12,16,0.25) 66%, rgba(10,12,16,0.08) 82%, rgba(10,12,16,0.45) 100%);
 }
 /* accent light leaking up from the bottom-left corner — each pack's color */
 .avatar-card__glow {
@@ -503,50 +503,38 @@
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: -0.02em;
-  line-height: 0.98;
-  font-size: clamp(24px, 2.25vw, 32px);
-  margin-bottom: 12px;
+  line-height: 1;
+  font-size: clamp(22px, 2vw, 28px);
+  margin-bottom: 16px;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
 }
 .avatar-card__accent { color: var(--accent); }
-.avatar-card__copy {
-  font-size: 14px;
-  line-height: 1.5;
-  color: rgba(253, 253, 253, 0.84);
-  margin-bottom: 14px;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
 
-/* supporting points — slide open on hover for mouse users, always
-   open on touch (there's no hover to discover them with) */
-.avatar-card__more { display: grid; grid-template-rows: 1fr; }
-.avatar-card__points { min-height: 0; overflow: hidden; margin-bottom: 14px; }
-.avatar-card__points li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12.5px;
-  font-weight: 600;
-  color: rgba(253, 253, 253, 0.85);
-  padding: 3px 0;
-}
-.avatar-card__points li::before {
-  content: "";
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  flex: 0 0 auto;
+/* hover copy — the card reads as badge / name / headline / product by
+   default; one short paragraph slides in on hover for mouse users.
+   Touch screens never show it (no hover to reach it, and the card is
+   cleaner without). */
+.avatar-card__more { display: none; }
+.avatar-card__copy {
+  min-height: 0;
+  overflow: hidden;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: rgba(253, 253, 253, 0.8);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
 }
 @media (hover: hover) and (min-width: 601px) {
   .avatar-card__more {
+    display: grid;
     grid-template-rows: 0fr;
     opacity: 0;
     transition: grid-template-rows var(--dur-med) var(--ease-out), opacity var(--dur-med) var(--ease-out);
   }
+  .avatar-card__copy { padding-bottom: 0; transition: padding-bottom var(--dur-med) var(--ease-out); }
   .avatar-card:hover .avatar-card__more,
   .avatar-card:focus-within .avatar-card__more { grid-template-rows: 1fr; opacity: 1; }
+  .avatar-card:hover .avatar-card__copy,
+  .avatar-card:focus-within .avatar-card__copy { padding-bottom: 16px; }
 }
 
 /* product strip + CTA */
@@ -588,14 +576,13 @@
 @media (max-width: 1100px) {
   .avatars__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
   .avatar-card { min-height: clamp(500px, 58vh, 600px); padding: 22px; }
-  .avatar-card h3 { font-size: clamp(26px, 3.4vw, 34px); }
+  .avatar-card h3 { font-size: clamp(24px, 3.2vw, 32px); }
   .avatar-card__num { font-size: clamp(64px, 9vw, 96px); }
 }
 @media (max-width: 600px) {
   .avatars__grid { grid-template-columns: 1fr; gap: 14px; }
-  .avatar-card { min-height: clamp(460px, 68vh, 560px); padding: 20px; }
-  .avatar-card h3 { font-size: clamp(26px, 7.5vw, 34px); }
-  .avatar-card__copy { -webkit-line-clamp: 4; }
+  .avatar-card { min-height: clamp(440px, 64vh, 540px); padding: 20px; }
+  .avatar-card h3 { font-size: clamp(26px, 7vw, 32px); }
   .avatar-card__num { font-size: 64px; }
 }
 
