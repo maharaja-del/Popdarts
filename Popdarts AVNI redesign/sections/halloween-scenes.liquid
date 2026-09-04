@@ -1,0 +1,63 @@
+{% render 'halloween-lp-head' %}
+<section class="hw hw--night hw-section hw-scenes" id="hw-scenes">
+  <div class="hw-container">
+    <div class="hw-sechead">
+      <span class="hw-eyebrow hw-eyebrow--center hw-eyebrow--orange" data-hw-reveal>{{ section.settings.eyebrow }}</span>
+      <h2 class="hw-h2" data-hw-reveal="2">{{ section.settings.heading }}</h2>
+      <p class="hw-sub" data-hw-reveal="3">{{ section.settings.subtext }}</p>
+    </div>
+    <div class="hw-scenes__grid">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          if block.settings.image
+            assign scene_url = block.settings.image | image_url: width: 1200
+          elsif forloop.index == 1
+            assign scene_url = 'pd-hw-table.jpg' | asset_url
+          else
+            assign scene_url = 'pd-hw-reaper.jpg' | asset_url
+          endif
+        -%}
+        <figure class="hw-scene" data-hw-reveal{% if forloop.index > 1 %}="2"{% endif %} style="margin:0" {{ block.shopify_attributes }}>
+          <img src="{{ scene_url }}" alt="{{ block.settings.title | escape }}" width="941" height="1672" loading="lazy">
+          <figcaption class="hw-scene__caption">
+            <b>{{ block.settings.title }}</b>
+            <small>{{ block.settings.caption }}</small>
+          </figcaption>
+        </figure>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HW Scenes",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The claim" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "The best Halloween party game. We're biased. We're also right." },
+    { "type": "textarea", "id": "subtext", "label": "Subtext", "default": "It's rude, it's loud, and unlike your best friend's costume, everyone actually likes it. Set it on the table and let it do the haunting." }
+  ],
+  "blocks": [
+    {
+      "type": "scene",
+      "name": "Scene",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "Leave empty to use a built-in render" },
+        { "type": "text", "id": "title", "label": "Caption title", "default": "Sticks to any smooth surface" },
+        { "type": "text", "id": "caption", "label": "Caption text", "default": "Play on tables, countertops, windows, and floors, indoors or out." }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "HW Scenes",
+      "blocks": [
+        { "type": "scene", "settings": { "title": "Sticks to any smooth surface", "caption": "Play on tables, countertops, windows, and floors, indoors or out." } },
+        { "type": "scene", "settings": { "title": "No screens, no batteries", "caption": "It runs on suction and skill." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

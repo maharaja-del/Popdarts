@@ -1,0 +1,51 @@
+{% render 'halloween-lp-head' %}
+<section class="hw hw--day hw-section hw-reviews" id="hw-reviews">
+  <div class="hw-container">
+    <div class="hw-sechead">
+      <div class="hw-reviews__stars" data-hw-reveal>★★★★★</div>
+      <div class="hw-reviews__meta" data-hw-reveal>{{ section.settings.meta }}</div>
+      <h2 class="hw-h2" data-hw-reveal="2">{{ section.settings.heading }}</h2>
+    </div>
+    <div class="hw-reviews__grid">
+      {%- for block in section.blocks -%}
+        <div class="hw-review" data-hw-reveal{% if forloop.index > 1 %}="{{ forloop.index }}"{% endif %} {{ block.shopify_attributes }}>
+          <div class="hw-review__stars">★★★★★</div>
+          <p class="hw-review__quote">"{{ block.settings.quote }}"</p>
+          <div class="hw-review__author">{{ block.settings.author }} <span class="hw-review__verified">✓ Verified buyer</span></div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HW Reviews",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "meta", "label": "Meta line", "default": "4.9 · 250+ verified Pro Pack reviews" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Players keep coming back. Now the colorway does too." }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote (without quotation marks)", "default": "Easy to learn, weirdly competitive. My kids play it, my in-laws play it, and everyone talks trash." },
+        { "type": "text", "id": "author", "label": "Author", "default": "Devin R." }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "HW Reviews",
+      "blocks": [
+        { "type": "review", "settings": { "quote": "Bought it for a Halloween party and it never left the kitchen counter. Ten adults fighting over suction darts at 1am.", "author": "Sarah M." } },
+        { "type": "review", "settings": { "quote": "Easy to learn, weirdly competitive. My kids play it, my in-laws play it, and everyone talks trash.", "author": "Devin R." } },
+        { "type": "review", "settings": { "quote": "The quality surprised me — a satisfying pop on every throw. The limited colors are the ones we show off.", "author": "Coach T." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,161 @@
+{% render 'popdarts-assets' %}
+
+<section class="pd-page hero" id="hero-{{ section.id }}" aria-label="Introduction">
+  <div class="hero__media" aria-hidden="true">
+    {%- if section.settings.background_mode == 'single' -%}
+      <img class="hero__bg hero__bg--single" loading="eager" alt="A Popdarts referee and two competitors on the APL national championship court."
+        src="{% if section.settings.single_image %}{{ section.settings.single_image | image_url: width: 1920 }}{% else %}{{ 'pd-hero-dart-strike.jpg' | asset_url }}{% endif %}">
+      <div class="hero__overlay" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 2; background-color: #000000; opacity: {{ section.settings.overlay_opacity | default: 55 }}%; pointer-events: none;"></div>
+    {%- else -%}
+      <img class="hero__bg hero__bg--1" loading="eager" alt="A Popdarts referee and two competitors on the APL national championship court."
+        src="{% if section.settings.bg_image_1 %}{{ section.settings.bg_image_1 | image_url: width: 1920 }}{% else %}{{ 'pd-hero-dart-strike.jpg' | asset_url }}{% endif %}">
+      <img class="hero__bg hero__bg--2" loading="lazy" alt="A player celebrating with a Popdart raised over a cheering APL Championship crowd."
+        src="{% if section.settings.bg_image_2 %}{{ section.settings.bg_image_2 | image_url: width: 1920 }}{% else %}{{ 'pd-hero-arena-wide.jpg' | asset_url }}{% endif %}">
+      <img class="hero__bg hero__bg--3" loading="lazy" alt="A champion lifted on shoulders holding the Popdarts National Championship trophy."
+        src="{% if section.settings.bg_image_3 %}{{ section.settings.bg_image_3 | image_url: width: 1920 }}{% else %}{{ 'pd-hero-trophy-lift.jpg' | asset_url }}{% endif %}">
+      <div class="hero__scrim"></div>
+    {%- endif -%}
+  </div>
+
+  <div class="pd-wrap">
+   <div class="hero__inner">
+    <h1 class="hero__title" style="color: #fdfdfd;">
+      <span class="hero__title-lead" style="color: rgba(253,253,253,0.78);">{{ section.settings.heading_lead | default: 'I am the' }}</span>
+      <span class="hero__title-main">
+        <span style="color: #fdfdfd;">{{ section.settings.heading_word_1 | default: 'Popdarts' }}</span>
+        <span class="c-blue" style="color: #2b99ff;">{{ section.settings.heading_word_2 | default: 'Champion.' }}</span>
+      </span>
+    </h1>
+
+    <p class="hero__sub">
+      {{ section.settings.subheading | default: "Every backyard has one. Three darts, one target — the closest stick wins, and the bragging rights are yours." }}
+    </p>
+
+    <div class="hero__actions">
+      <a class="btn btn--primary btn--lg" href="{{ section.settings.cta_link | default: '/products/pro-pack' }}">{{ section.settings.cta_text | default: 'Get Your Pro Pack' }}</a>
+      <a class="hero__more" href="{{ section.settings.secondary_anchor | default: '#experience' }}">
+        <span>{{ section.settings.secondary_text | default: "See how it's played" }}</span>
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 4v14m0 0-6-6m6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+   </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Prodigy Hero",
+  "tag": "section",
+  "class": "pd-section-hero",
+  "settings": [
+    {
+      "type": "select",
+      "id": "background_mode",
+      "label": "Background style",
+      "options": [
+        { "value": "crossfade", "label": "Crossfade (3 images)" },
+        { "value": "single", "label": "Single image with overlay" }
+      ],
+      "default": "crossfade"
+    },
+    {
+      "type": "header",
+      "content": "Crossfade images (3)"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image_1",
+      "label": "Background image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image_2",
+      "label": "Background image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image_3",
+      "label": "Background image 3"
+    },
+    {
+      "type": "header",
+      "content": "Single image"
+    },
+    {
+      "type": "image_picker",
+      "id": "single_image",
+      "label": "Background image"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Black overlay opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 55
+    },
+    {
+      "type": "header",
+      "content": "Headline"
+    },
+    {
+      "type": "text",
+      "id": "heading_lead",
+      "label": "Small lead-in text",
+      "default": "I am the"
+    },
+    {
+      "type": "text",
+      "id": "heading_word_1",
+      "label": "Headline word 1 (white)",
+      "default": "Popdarts"
+    },
+    {
+      "type": "text",
+      "id": "heading_word_2",
+      "label": "Headline word 2 (blue)",
+      "default": "Champion."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Every backyard has one. Three darts, one target — the closest stick wins, and the bragging rights are yours."
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Primary button text",
+      "default": "Get Your Pro Pack"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_text",
+      "label": "Secondary link text",
+      "default": "See how it's played"
+    },
+    {
+      "type": "text",
+      "id": "secondary_anchor",
+      "label": "Secondary link anchor",
+      "default": "#experience"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Prodigy Hero"
+    }
+  ]
+}
+{% endschema %}

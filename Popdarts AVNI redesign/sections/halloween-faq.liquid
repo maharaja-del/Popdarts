@@ -1,0 +1,51 @@
+{% render 'halloween-lp-head' %}
+<section class="hw hw--day hw-section hw-faq" id="hw-faq" style="padding-top:40px">
+  <div class="hw-container">
+    <div class="hw-sechead">
+      <span class="hw-eyebrow hw-eyebrow--center hw-eyebrow--blue" data-hw-reveal>{{ section.settings.eyebrow }}</span>
+      <h2 class="hw-h2" data-hw-reveal="2">{{ section.settings.heading }}</h2>
+    </div>
+    <div class="hw-faq__list" data-hw-reveal>
+      {%- for block in section.blocks -%}
+        <details class="hw-faq__item" {{ block.shopify_attributes }}>
+          <summary>{{ block.settings.question }} <span class="hw-faq__icon">+</span></summary>
+          <div class="hw-faq__body">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HW FAQ",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "FAQ" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Last questions before it vanishes." }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "When will it sell out?" },
+        { "type": "textarea", "id": "answer", "label": "Answer", "default": "Honestly, we don't know. Last year's Halloween run sold out before Halloween itself. When the last box ships it's gone for good, with no restocks and no re-runs." }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "HW FAQ",
+      "blocks": [
+        { "type": "faq", "settings": { "question": "When will it sell out?", "answer": "Honestly, we don't know. Last year's Halloween run sold out before Halloween itself. When the last box ships it's gone for good, with no restocks and no re-runs." } },
+        { "type": "faq", "settings": { "question": "What exactly comes in the pack?", "answer": "6 Popdarts (3 Toxic Slime and 3 Pumpkin Fright), 1 PRO Target Marker™, a carrying bag with the rules and a built-in ruler, and 2 stickers. Everything you need for a two-player game." } },
+        { "type": "faq", "settings": { "question": "Where can I play it?", "answer": "Any smooth, flat surface works: kitchen counters, tables, glass, windows, hardwood, and tile, indoors or outdoors." } },
+        { "type": "faq", "settings": { "question": "Is it beginner friendly?", "answer": "Yes. The rules take about 30 seconds to learn: throw, stick, score, first to 21. Ages 5 and up can play, and landing on the target marker for 10 points takes real practice." } },
+        { "type": "faq", "settings": { "question": "Will it arrive before Halloween?", "answer": "We ship every order fast. The earlier you order, the safer you are, because the only real deadline is inventory." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

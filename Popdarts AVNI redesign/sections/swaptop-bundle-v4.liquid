@@ -1,0 +1,2121 @@
+{% comment %}
+  Swaptop Bundle v4 — Collector's Edition Configurator
+  Drop into: sections/swaptop-bundle-v4.liquid
+{% endcomment %}
+
+{% assign main_product   = all_products['swaptop-kit'] %}
+{% assign addon_football = all_products['swaptop-football'] %}
+{% assign addon_og       = all_products['swaptop-og'] %}
+{% assign addon_popgolf  = all_products['swaptop-popgolf'] %}
+
+{% assign sid = section.id | replace: '-', '_' | replace: '.', '_' %}
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Russo+One&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap');
+
+  /* SHELL + HALFTONE BG */
+  .sw4-section-{{ sid }} {
+    --sw4-bg: #050505;
+    --sw4-bg-2: #0a0a0a;
+    --sw4-bg-card: #0c0c0c;
+    --sw4-accent: #23ff53;
+    --sw4-accent-2: #1be047;
+    --sw4-fg: #ffffff;
+    --sw4-fg-mute: rgba(255,255,255,0.62);
+    --sw4-fg-low: rgba(255,255,255,0.35);
+    --sw4-border: rgba(255,255,255,0.08);
+    --sw4-border-2: rgba(255,255,255,0.16);
+    --sw4-common-a: #23ff53;
+    --sw4-common-b: #00d4ff;
+    --sw4-rare-a: #c0c0c0;
+    --sw4-rare-b: #ffffff;
+    --sw4-rare-c: #8a9aa5;
+    --sw4-legend-a: #ffd700;
+    --sw4-legend-b: #ffed4e;
+    --sw4-legend-c: #ff8c00;
+    --sw4-display: 'Russo One', 'Impact', sans-serif;
+    --sw4-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --sw4-mono: 'JetBrains Mono', 'SF Mono', 'Roboto Mono', monospace;
+    position: relative;
+    background: var(--sw4-bg);
+    color: var(--sw4-fg);
+    overflow-x: clip;
+    isolation: isolate;
+    font-family: var(--sw4-body);
+  }
+  .sw4-section-{{ sid }} *,
+  .sw4-section-{{ sid }} *::before,
+  .sw4-section-{{ sid }} *::after { box-sizing: border-box; }
+  .sw4-section-{{ sid }}::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1.4px);
+    background-size: 16px 16px;
+    pointer-events: none;
+    z-index: 0;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
+  }
+  .sw4-section-{{ sid }}::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(800px 500px at 15% -5%,  rgba(35,255,83,0.10), transparent 60%),
+      radial-gradient(700px 500px at 92% 35%,  rgba(35,255,83,0.06), transparent 60%),
+      radial-gradient(600px 400px at 50% 110%, rgba(255,215,0,0.04), transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .sw4-section-{{ sid }}-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1380px;
+    margin: 0 auto;
+    padding: 28px 18px 52px;
+  }
+  .sw4-section-{{ sid }} button,
+  body > .sw4-modal-{{ sid }} button {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    border: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    line-height: 1 !important;
+    font: inherit !important;
+    color: inherit !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    cursor: pointer;
+    box-sizing: border-box !important;
+    box-shadow: none;
+    background: transparent;
+  }
+  .sw4-section-{{ sid }} button::before,
+  .sw4-section-{{ sid }} button::after,
+  body > .sw4-modal-{{ sid }} button::before,
+  body > .sw4-modal-{{ sid }} button::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  /* COLLECTOR HEADER */
+  .sw4-header-{{ sid }} { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 28px; position: relative; }
+  .sw4-header-top-{{ sid }} { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .sw4-eyebrow-{{ sid }} {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 6px 12px; border-radius: 4px;
+    background: linear-gradient(135deg, rgba(255,215,0,0.14), rgba(35,255,83,0.10));
+    border: 1px solid rgba(255,215,0,0.35);
+    font-family: var(--sw4-mono); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase; color: #ffd700;
+  }
+  .sw4-eyebrow-{{ sid }} .sw4-spark {
+    display: inline-block; width: 6px; height: 6px;
+    background: #ffd700; transform: rotate(45deg);
+    box-shadow: 0 0 8px #ffd700;
+  }
+  .sw4-edition-{{ sid }} {
+    font-family: var(--sw4-mono); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--sw4-fg-low);
+  }
+  .sw4-edition-{{ sid }} b { color: var(--sw4-fg); font-weight: 700; }
+  .sw4-headline-{{ sid }} {
+    margin: 0; font-family: var(--sw4-display); font-weight: 400;
+    font-size: clamp(56px, 12vw, 132px); line-height: 0.92;
+    letter-spacing: 0.01em; color: var(--sw4-fg); text-transform: uppercase;
+  }
+  .sw4-headline-{{ sid }} em {
+    font-style: normal;
+    background: linear-gradient(135deg, #23ff53 0%, #00d4ff 45%, #ffd700 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+    position: relative;
+  }
+  .sw4-sub-{{ sid }} {
+    margin: 0; font-size: 14px; line-height: 1.55;
+    color: var(--sw4-fg-mute); max-width: 560px; font-weight: 500;
+  }
+  .sw4-progress-{{ sid }} {
+    margin-top: 4px; padding: 14px 16px;
+    border: 1px solid var(--sw4-border-2); border-radius: 14px;
+    background: linear-gradient(180deg, rgba(35,255,83,0.04) 0%, rgba(255,255,255,0.01) 100%), rgba(0,0,0,0.3);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .sw4-progress-row-{{ sid }} { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .sw4-progress-label-{{ sid }} {
+    font-family: var(--sw4-mono); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--sw4-fg-mute);
+  }
+  .sw4-progress-count-{{ sid }} {
+    font-family: var(--sw4-display); font-size: 20px;
+    color: var(--sw4-fg); letter-spacing: 0.04em;
+  }
+  .sw4-progress-count-{{ sid }} b {
+    background: linear-gradient(135deg, #23ff53, #ffd700);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .sw4-progress-track-{{ sid }} {
+    height: 6px; border-radius: 100px;
+    background: rgba(255,255,255,0.08);
+    overflow: hidden; position: relative;
+  }
+  .sw4-progress-fill-{{ sid }} {
+    height: 100%; width: 25%; border-radius: 100px;
+    background: linear-gradient(90deg, #23ff53, #00d4ff, #ffd700);
+    box-shadow: 0 0 12px rgba(35,255,83,0.4);
+    transition: width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .sw4-progress-stamps-{{ sid }} { display: flex; gap: 6px; align-items: center; }
+  .sw4-stamp-{{ sid }} {
+    width: 22px; height: 22px; border-radius: 5px;
+    border: 1.5px dashed rgba(255,255,255,0.18);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--sw4-mono); font-size: 9px; font-weight: 700;
+    color: var(--sw4-fg-low);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .sw4-stamp-{{ sid }}.lit {
+    border-style: solid; border-color: var(--sw4-accent);
+    background: rgba(35,255,83,0.18); color: var(--sw4-accent);
+    box-shadow: 0 0 12px rgba(35,255,83,0.4);
+    transform: rotate(-3deg) scale(1.04);
+  }
+  .sw4-stamp-{{ sid }}.legendary.lit {
+    border-color: #ffd700; background: rgba(255,215,0,0.18);
+    color: #ffd700; box-shadow: 0 0 14px rgba(255,215,0,0.45);
+  }
+  .sw4-stars-{{ sid }} {
+    display: inline-flex !important; align-items: center !important;
+    gap: 8px !important; background: transparent !important; padding: 0 !important;
+  }
+  .sw4-stars-icons-{{ sid }} { display: flex; gap: 1px; }
+  .sw4-stars-icons-{{ sid }} span { color: #f59e0b; font-size: 14px; line-height: 1; }
+  .sw4-stars-label-{{ sid }} {
+    font-family: var(--sw4-mono); font-size: 10px; font-weight: 700;
+    color: var(--sw4-fg-mute); letter-spacing: 0.12em;
+    transition: color 0.2s ease;
+  }
+  .sw4-stars-{{ sid }}:hover .sw4-stars-label-{{ sid }} { color: var(--sw4-accent); }
+
+  /* BUILDER + HERO */
+  .sw4-builder-{{ sid }} { display: grid; grid-template-columns: 1fr; gap: 18px; align-items: start; }
+  .sw4-hero-col-{{ sid }} { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+  .sw4-featured-{{ sid }} {
+    position: relative; padding: 2px; border-radius: 22px;
+    background: linear-gradient(135deg, rgba(35,255,83,0.5) 0%, rgba(0,212,255,0.5) 30%, rgba(255,215,0,0.5) 60%, rgba(35,255,83,0.5) 100%);
+    background-size: 300% 300%;
+    animation: sw4foilSlow-{{ sid }} 8s linear infinite;
+  }
+  @keyframes sw4foilSlow-{{ sid }} { from { background-position: 0% 0%; } to { background-position: 300% 300%; } }
+  .sw4-featured-inner-{{ sid }} {
+    position: relative; border-radius: 20px; overflow: hidden;
+    background: linear-gradient(160deg, #111 0%, #050505 100%);
+    aspect-ratio: 1 / 1;
+  }
+  .sw4-featured-stage-{{ sid }} { position: absolute; inset: 0; cursor: pointer; }
+  .sw4-featured-stage-{{ sid }}::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 25% 25%, rgba(35,255,83,0.16), transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(255,215,0,0.06), transparent 60%);
+    pointer-events: none; z-index: 0;
+  }
+  .sw4-featured-stage-{{ sid }}::after {
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1.2px);
+    background-size: 18px 18px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
+    pointer-events: none; z-index: 0;
+  }
+  .sw4-featured-rarity-{{ sid }} {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 5;
+    padding: 9px 14px;
+    background: linear-gradient(90deg, rgba(35,255,83,0.18) 0%, rgba(0,212,255,0.14) 50%, rgba(255,215,0,0.18) 100%);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    font-family: var(--sw4-mono); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--sw4-fg);
+    display: flex; align-items: center; justify-content: space-between;
+    pointer-events: none;
+  }
+  .sw4-featured-rarity-{{ sid }} .sw4-r-stars { color: #ffd700; letter-spacing: 0.06em; }
+  .sw4-featured-rarity-{{ sid }} .sw4-r-label {
+    background: linear-gradient(135deg, #23ff53, #ffd700);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .sw4-featured-num-{{ sid }} {
+    position: absolute; left: 16px; bottom: -34px; z-index: 0;
+    font-family: var(--sw4-display);
+    font-size: clamp(180px, 32vw, 320px);
+    line-height: 0.78; color: rgba(255,255,255,0.035);
+    letter-spacing: -0.02em; pointer-events: none; user-select: none;
+  }
+  .sw4-featured-img-{{ sid }} {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: contain; padding: 64px 38px 80px;
+    display: block; z-index: 2;
+    transition: opacity 0.25s ease;
+    animation: sw4float-{{ sid }} 7s ease-in-out infinite;
+  }
+  @keyframes sw4float-{{ sid }} { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  .sw4-featured-stamp-{{ sid }} {
+    position: absolute; bottom: 14px; right: 14px; z-index: 4;
+    width: 76px; height: 76px; border-radius: 50%;
+    border: 2px dashed rgba(35,255,83,0.55);
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: var(--sw4-mono); font-size: 8px; font-weight: 700;
+    letter-spacing: 0.14em; color: var(--sw4-accent);
+    text-align: center; line-height: 1.3;
+    transform: rotate(-8deg);
+  }
+  .sw4-featured-stamp-{{ sid }} b {
+    font-family: var(--sw4-display); font-size: 14px;
+    letter-spacing: 0.04em; color: var(--sw4-accent);
+  }
+  .sw4-featured-thumbs-{{ sid }} {
+    position: absolute; bottom: 14px; left: 14px; z-index: 4;
+    display: flex; gap: 6px;
+  }
+  .sw4-featured-thumb-{{ sid }} {
+    width: 42px !important; height: 42px !important;
+    border-radius: 7px !important; overflow: hidden !important;
+    border: 1.5px solid rgba(255,255,255,0.18) !important;
+    background: rgba(0,0,0,0.55) !important;
+    backdrop-filter: blur(10px) !important; -webkit-backdrop-filter: blur(10px) !important;
+    cursor: pointer; transition: border-color 0.2s, transform 0.2s !important;
+    padding: 0 !important;
+  }
+  .sw4-featured-thumb-{{ sid }}.active,
+  .sw4-featured-thumb-{{ sid }}:hover {
+    border-color: var(--sw4-accent) !important;
+    transform: scale(1.06) !important;
+  }
+  .sw4-featured-thumb-{{ sid }} img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .sw4-featured-info-{{ sid }} {
+    padding: 14px 16px; border: 1px solid var(--sw4-border);
+    border-radius: 14px; background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center;
+  }
+  .sw4-featured-info-title-{{ sid }} {
+    margin: 0; font-family: var(--sw4-display); font-size: 18px;
+    line-height: 1; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--sw4-fg);
+  }
+  .sw4-featured-info-meta-{{ sid }} {
+    margin: 6px 0 0; font-family: var(--sw4-mono); font-size: 9px;
+    font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--sw4-fg-low);
+  }
+  .sw4-featured-info-meta-{{ sid }} b { color: var(--sw4-accent); }
+  .sw4-featured-info-price-{{ sid }} {
+    font-family: var(--sw4-display); font-size: 22px;
+    color: var(--sw4-accent); letter-spacing: 0.02em; line-height: 1;
+  }
+
+  /* TOPS COLUMN */
+  .sw4-tops-col-{{ sid }} { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+  .sw4-tops-head-{{ sid }} {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 12px; flex-wrap: wrap; padding: 0 2px;
+  }
+  .sw4-tops-title-{{ sid }} {
+    margin: 0; font-family: var(--sw4-display); font-size: 28px;
+    line-height: 1; letter-spacing: 0.03em; color: var(--sw4-fg);
+    text-transform: uppercase;
+  }
+  .sw4-tops-title-{{ sid }} em {
+    font-style: normal;
+    background: linear-gradient(135deg, #23ff53, #ffd700);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .sw4-tops-meta-{{ sid }} {
+    font-family: var(--sw4-mono); font-size: 9px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--sw4-fg-low);
+  }
+  .sw4-cards-grid-{{ sid }} { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  .sw4-card-{{ sid }} {
+    position: relative; border-radius: 16px; background: var(--sw4-bg-card);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-style: preserve-3d; will-change: transform;
+    cursor: pointer; isolation: isolate;
+  }
+  .sw4-card-{{ sid }}::before {
+    content: ''; position: absolute; inset: -2px; border-radius: 18px;
+    background: linear-gradient(135deg, var(--sw4-common-a), var(--sw4-common-b), var(--sw4-common-a));
+    background-size: 200% 200%; z-index: -1; opacity: 0.4;
+    transition: opacity 0.3s ease;
+  }
+  .sw4-card-{{ sid }}[data-rarity="rare"]::before {
+    background: linear-gradient(135deg, var(--sw4-rare-a), var(--sw4-rare-b), var(--sw4-rare-c), var(--sw4-rare-b), var(--sw4-rare-a));
+    background-size: 200% 200%;
+  }
+  .sw4-card-{{ sid }}[data-rarity="legendary"]::before {
+    background: linear-gradient(135deg, var(--sw4-legend-a), var(--sw4-legend-b), var(--sw4-legend-c), var(--sw4-legend-b), var(--sw4-legend-a));
+    background-size: 200% 200%; opacity: 0.55;
+  }
+  .sw4-card-{{ sid }}:hover::before { opacity: 0.85; animation: sw4foil-{{ sid }} 3s linear infinite; }
+  .sw4-card-{{ sid }}.selected::before { opacity: 1; animation: sw4foil-{{ sid }} 3s linear infinite; }
+  @keyframes sw4foil-{{ sid }} { from { background-position: 0% 0%; } to { background-position: 200% 200%; } }
+  .sw4-card-{{ sid }}.selected {
+    box-shadow: 0 0 0 1px rgba(35,255,83,0.2), 0 16px 40px rgba(0,0,0,0.5), 0 0 24px rgba(35,255,83,0.18);
+  }
+  .sw4-card-{{ sid }}[data-rarity="legendary"].selected {
+    box-shadow: 0 0 0 1px rgba(255,215,0,0.25), 0 16px 40px rgba(0,0,0,0.5), 0 0 28px rgba(255,215,0,0.28);
+  }
+  .sw4-card-rarity-{{ sid }} {
+    position: relative; padding: 8px 12px; border-radius: 16px 16px 0 0;
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    font-family: var(--sw4-mono); font-size: 9px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    background: linear-gradient(90deg, rgba(35,255,83,0.18), rgba(0,212,255,0.06));
+    border-bottom: 1px solid rgba(35,255,83,0.25); color: var(--sw4-common-a);
+  }
+  .sw4-card-{{ sid }}[data-rarity="rare"] .sw4-card-rarity-{{ sid }} {
+    background: linear-gradient(90deg, rgba(192,192,192,0.18), rgba(192,192,192,0.04));
+    border-bottom-color: rgba(192,192,192,0.3); color: var(--sw4-rare-b);
+  }
+  .sw4-card-{{ sid }}[data-rarity="legendary"] .sw4-card-rarity-{{ sid }} {
+    background: linear-gradient(90deg, rgba(255,215,0,0.22), rgba(255,140,0,0.08));
+    border-bottom-color: rgba(255,215,0,0.4); color: var(--sw4-legend-b);
+  }
+  .sw4-card-rarity-{{ sid }} .sw4-r-stars { letter-spacing: 0.04em; font-size: 10px; }
+  .sw4-card-rarity-{{ sid }} .sw4-r-num {
+    font-family: var(--sw4-display); font-size: 11px;
+    letter-spacing: 0.05em; color: var(--sw4-fg); opacity: 0.7;
+  }
+  .sw4-card-stamp-{{ sid }} {
+    position: absolute; top: 50px; right: 12px; z-index: 6;
+    width: 70px; height: 70px; border-radius: 50%;
+    border: 2.5px dashed var(--sw4-accent);
+    background: rgba(35,255,83,0.15);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: var(--sw4-mono); font-size: 7px; font-weight: 700;
+    letter-spacing: 0.16em; color: var(--sw4-accent);
+    text-align: center; line-height: 1.3;
+    transform: rotate(-12deg) scale(0); opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.34, 1.7, 0.64, 1), opacity 0.3s;
+    pointer-events: none;
+  }
+  .sw4-card-stamp-{{ sid }} b { font-family: var(--sw4-display); font-size: 12px; letter-spacing: 0.04em; }
+  .sw4-card-{{ sid }}.selected .sw4-card-stamp-{{ sid }} { transform: rotate(-12deg) scale(1); opacity: 1; }
+  .sw4-card-{{ sid }}[data-rarity="legendary"].selected .sw4-card-stamp-{{ sid }} {
+    border-color: #ffd700; background: rgba(255,215,0,0.18); color: #ffd700;
+  }
+  .sw4-card-{{ sid }}[data-rarity="legendary"].selected .sw4-card-stamp-{{ sid }} b { color: #ffd700; }
+  .sw4-card-art-{{ sid }} {
+    position: relative; aspect-ratio: 16 / 11; overflow: hidden;
+    background: linear-gradient(160deg, #181818, #0a0a0a);
+  }
+  .sw4-card-art-{{ sid }}::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at center, rgba(35,255,83,0.1), transparent 60%);
+    z-index: 0;
+  }
+  .sw4-card-{{ sid }}[data-rarity="legendary"] .sw4-card-art-{{ sid }}::before {
+    background: radial-gradient(circle at center, rgba(255,215,0,0.1), transparent 60%);
+  }
+  .sw4-card-art-{{ sid }} img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; z-index: 1;
+    transition: transform 0.4s ease;
+  }
+  .sw4-card-{{ sid }}:hover .sw4-card-art-{{ sid }} img { transform: scale(1.05); }
+  .sw4-card-art-shine-{{ sid }} {
+    position: absolute; inset: 0; z-index: 2;
+    background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%);
+    pointer-events: none; opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .sw4-card-{{ sid }}:hover .sw4-card-art-shine-{{ sid }} { opacity: 1; }
+  .sw4-card-info-{{ sid }} { padding: 12px 14px 8px; position: relative; z-index: 1; }
+  .sw4-card-name-{{ sid }} {
+    margin: 0 0 4px; font-family: var(--sw4-display); font-size: 20px;
+    line-height: 1; letter-spacing: 0.03em; color: var(--sw4-fg);
+    text-transform: uppercase;
+  }
+  .sw4-card-{{ sid }}[data-rarity="rare"] .sw4-card-name-{{ sid }} {
+    background: linear-gradient(135deg, #ffffff, #c0c0c0);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .sw4-card-{{ sid }}[data-rarity="legendary"] .sw4-card-name-{{ sid }} {
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .sw4-card-tag-{{ sid }} {
+    margin: 0 0 10px; font-family: var(--sw4-mono); font-size: 8px;
+    font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--sw4-fg-low);
+  }
+  .sw4-card-stats-{{ sid }} { display: grid; gap: 4px; margin-bottom: 4px; }
+  .sw4-stat-{{ sid }} {
+    display: grid; grid-template-columns: 54px 1fr 24px; gap: 8px;
+    align-items: center; font-family: var(--sw4-mono); font-size: 8px;
+    font-weight: 700; letter-spacing: 0.1em;
+  }
+  .sw4-stat-label-{{ sid }} { color: var(--sw4-fg-mute); text-transform: uppercase; }
+  .sw4-stat-bar-{{ sid }} {
+    height: 4px; border-radius: 2px;
+    background: rgba(255,255,255,0.08); overflow: hidden;
+  }
+  .sw4-stat-bar-{{ sid }} > span {
+    display: block; height: 100%; border-radius: 2px;
+    background: linear-gradient(90deg, var(--sw4-common-a), var(--sw4-common-b));
+    box-shadow: 0 0 8px rgba(35,255,83,0.4);
+  }
+  .sw4-card-{{ sid }}[data-rarity="rare"] .sw4-stat-bar-{{ sid }} > span {
+    background: linear-gradient(90deg, var(--sw4-rare-a), var(--sw4-rare-b));
+    box-shadow: 0 0 8px rgba(192,192,192,0.4);
+  }
+  .sw4-card-{{ sid }}[data-rarity="legendary"] .sw4-stat-bar-{{ sid }} > span {
+    background: linear-gradient(90deg, var(--sw4-legend-a), var(--sw4-legend-b));
+    box-shadow: 0 0 10px rgba(255,215,0,0.5);
+  }
+  .sw4-stat-value-{{ sid }} { color: var(--sw4-fg); text-align: right; }
+  .sw4-card-foot-{{ sid }} {
+    padding: 10px 14px 14px; display: flex; align-items: center;
+    justify-content: space-between; gap: 10px;
+    border-top: 1px dashed rgba(255,255,255,0.08); margin-top: 6px;
+  }
+  .sw4-card-cost-{{ sid }} { display: flex; flex-direction: column; gap: 2px; }
+  .sw4-card-cost-label-{{ sid }} {
+    font-family: var(--sw4-mono); font-size: 8px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--sw4-fg-low);
+  }
+  .sw4-card-cost-amount-{{ sid }} {
+    font-family: var(--sw4-display); font-size: 18px;
+    color: var(--sw4-fg); letter-spacing: 0.02em; line-height: 1;
+  }
+  .sw4-card-{{ sid }}.selected .sw4-card-cost-amount-{{ sid }} { color: var(--sw4-accent); }
+  .sw4-card-{{ sid }}[data-rarity="legendary"].selected .sw4-card-cost-amount-{{ sid }} { color: #ffd700; }
+  .sw4-card-claim-{{ sid }} {
+    padding: 11px 18px !important; border-radius: 8px !important;
+    background: rgba(255,255,255,0.06) !important;
+    border: 1px solid var(--sw4-border-2) !important;
+    font-family: var(--sw4-display) !important; font-size: 13px !important;
+    letter-spacing: 0.1em !important; text-transform: uppercase !important;
+    color: var(--sw4-fg) !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    gap: 8px !important; min-height: 38px !important;
+    transition: all 0.2s ease !important;
+  }
+  .sw4-card-claim-{{ sid }}:hover {
+    background: var(--sw4-accent) !important;
+    border-color: var(--sw4-accent) !important;
+    color: #000 !important; transform: translateY(-1px);
+  }
+  .sw4-card-claim-{{ sid }} svg { width: 13px; height: 13px; stroke: currentColor; flex-shrink: 0; }
+  .sw4-card-{{ sid }}.selected .sw4-card-claim-{{ sid }} {
+    background: var(--sw4-accent) !important;
+    border-color: var(--sw4-accent) !important;
+    color: #000 !important;
+    box-shadow: 0 0 14px rgba(35,255,83,0.4) !important;
+  }
+  .sw4-card-{{ sid }}[data-rarity="legendary"].selected .sw4-card-claim-{{ sid }} {
+    background: #ffd700 !important; border-color: #ffd700 !important;
+    color: #000 !important;
+    box-shadow: 0 0 16px rgba(255,215,0,0.5) !important;
+  }
+  .sw4-card-claim-{{ sid }} .sw4-claim-add { display: inline; }
+  .sw4-card-claim-{{ sid }} .sw4-claim-done { display: none; }
+  .sw4-card-{{ sid }}.selected .sw4-card-claim-{{ sid }} .sw4-claim-add  { display: none; }
+  .sw4-card-{{ sid }}.selected .sw4-card-claim-{{ sid }} .sw4-claim-done { display: inline; }
+  .sw4-card-detail-{{ sid }} {
+    position: absolute; bottom: 12px; left: 12px; z-index: 4;
+    padding: 7px 14px !important; background: rgba(0,0,0,0.6) !important;
+    backdrop-filter: blur(10px) !important; -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid var(--sw4-border-2) !important; border-radius: 6px !important;
+    font-family: var(--sw4-mono) !important; font-size: 9px !important; font-weight: 700 !important;
+    letter-spacing: 0.18em !important; text-transform: uppercase !important;
+    color: var(--sw4-fg-mute) !important; transition: all 0.2s ease !important;
+  }
+  .sw4-card-detail-{{ sid }}:hover { color: var(--sw4-fg) !important; border-color: var(--sw4-accent) !important; }
+
+  /* RECEIPT */
+  .sw4-receipt-{{ sid }} {
+    position: relative; padding: 22px 22px 18px; border-radius: 16px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%), rgba(0,0,0,0.45);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border: 1px dashed var(--sw4-border-2); overflow: hidden;
+  }
+  .sw4-receipt-{{ sid }}::before,
+  .sw4-receipt-{{ sid }}::after {
+    content: ''; position: absolute; left: 0; right: 0; height: 12px;
+    background-image: radial-gradient(circle at 6px center, var(--sw4-bg) 5px, transparent 5.5px);
+    background-size: 12px 12px; background-repeat: repeat-x; pointer-events: none;
+  }
+  .sw4-receipt-{{ sid }}::before { top: -6px; }
+  .sw4-receipt-{{ sid }}::after  { bottom: -6px; }
+  .sw4-receipt-head-{{ sid }} {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; margin-bottom: 8px; flex-wrap: wrap;
+  }
+  .sw4-receipt-eyebrow-{{ sid }} {
+    font-family: var(--sw4-display); font-size: 16px;
+    letter-spacing: 0.06em; text-transform: uppercase; color: var(--sw4-fg);
+  }
+  .sw4-receipt-serial-{{ sid }} {
+    font-family: var(--sw4-mono); font-size: 9px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--sw4-fg-low);
+  }
+  .sw4-receipt-serial-{{ sid }} b { color: var(--sw4-fg-mute); }
+  .sw4-receipt-divider-{{ sid }} { border-top: 1px dashed rgba(255,255,255,0.16); margin: 8px 0; }
+  .sw4-receipt-lines-{{ sid }} { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+  .sw4-receipt-line-{{ sid }} {
+    display: grid; grid-template-columns: auto 1fr auto;
+    gap: 6px; align-items: baseline;
+    font-family: var(--sw4-mono); font-size: 11px; font-weight: 600; color: var(--sw4-fg);
+  }
+  .sw4-receipt-line-{{ sid }}.is-empty { color: var(--sw4-fg-low); font-style: italic; }
+  .sw4-receipt-line-name-{{ sid }} { text-transform: uppercase; letter-spacing: 0.06em; }
+  .sw4-receipt-line-dots-{{ sid }} {
+    border-bottom: 1px dotted rgba(255,255,255,0.18);
+    transform: translateY(-3px); min-width: 20px;
+  }
+  .sw4-receipt-line-amount-{{ sid }} { color: var(--sw4-fg); letter-spacing: 0.04em; }
+  .sw4-receipt-total-{{ sid }} {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 12px; margin: 4px 0 4px;
+  }
+  .sw4-receipt-total-eyebrow-{{ sid }} {
+    font-family: var(--sw4-mono); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--sw4-fg-mute);
+  }
+  .sw4-receipt-total-amount-{{ sid }} {
+    font-family: var(--sw4-display);
+    font-size: clamp(36px, 6.5vw, 52px); line-height: 0.9;
+    letter-spacing: 0.005em; color: var(--sw4-fg);
+    transition: transform 0.25s ease, color 0.25s ease;
+  }
+  .sw4-receipt-total-amount-{{ sid }}.bump { transform: scale(1.06); color: var(--sw4-accent); }
+  .sw4-receipt-savings-{{ sid }} {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 10px; border-radius: 5px;
+    background: rgba(255,215,0,0.14); border: 1px dashed rgba(255,215,0,0.4);
+    font-family: var(--sw4-mono); font-size: 9px; font-weight: 700;
+    letter-spacing: 0.16em; text-transform: uppercase; color: #ffd700;
+  }
+  .sw4-cta-{{ sid }} {
+    width: 100% !important;
+    background: linear-gradient(135deg, var(--sw4-accent) 0%, var(--sw4-accent-2) 100%) !important;
+    color: #000 !important; padding: 18px 24px !important;
+    margin-top: 12px !important; font-family: var(--sw4-display) !important;
+    font-size: 20px !important; letter-spacing: 0.08em !important;
+    text-transform: uppercase !important; border-radius: 12px !important;
+    text-align: center !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    gap: 12px !important; box-shadow: 0 8px 28px rgba(35,255,83,0.32) !important;
+    transition: transform 0.2s ease, box-shadow 0.25s ease !important;
+    white-space: nowrap !important; overflow: hidden !important; position: relative !important;
+  }
+  .sw4-cta-{{ sid }}::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transform: translateX(-100%); transition: transform 0.6s ease;
+  }
+  .sw4-cta-{{ sid }}:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 40px rgba(35,255,83,0.45) !important;
+  }
+  .sw4-cta-{{ sid }}:hover::before { transform: translateX(100%); }
+  .sw4-cta-{{ sid }}:active { transform: translateY(0); }
+  .sw4-cta-{{ sid }}.loading { opacity: 0.7; pointer-events: none; }
+  .sw4-cta-{{ sid }} svg { width: 18px; height: 18px; transition: transform 0.25s ease; }
+  .sw4-cta-{{ sid }}:hover svg { transform: translateX(6px); }
+  .sw4-receipt-foot-{{ sid }} {
+    margin-top: 14px; padding-top: 12px;
+    border-top: 1px dashed rgba(255,255,255,0.12);
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .sw4-trust-row-{{ sid }} {
+    display: flex; flex-wrap: wrap; align-items: center;
+    justify-content: center; gap: 6px 14px;
+  }
+  .sw4-trust-item-{{ sid }} {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-family: var(--sw4-mono); font-size: 9px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--sw4-fg-mute);
+  }
+  .sw4-trust-item-{{ sid }} .sw4-dot {
+    width: 4px; height: 4px; background: var(--sw4-accent); flex-shrink: 0;
+  }
+  .sw4-barcode-{{ sid }} {
+    display: flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 6px;
+  }
+  .sw4-barcode-bars-{{ sid }} {
+    height: 36px; width: 100%; max-width: 220px;
+    background: repeating-linear-gradient(to right,
+      var(--sw4-fg) 0, var(--sw4-fg) 1px, transparent 1px, transparent 3px,
+      var(--sw4-fg) 3px, var(--sw4-fg) 5px, transparent 5px, transparent 6px,
+      var(--sw4-fg) 6px, var(--sw4-fg) 9px, transparent 9px, transparent 11px,
+      var(--sw4-fg) 11px, var(--sw4-fg) 12px, transparent 12px, transparent 14px,
+      var(--sw4-fg) 14px, var(--sw4-fg) 16px, transparent 16px, transparent 18px);
+    opacity: 0.45;
+  }
+  .sw4-barcode-num-{{ sid }} {
+    font-family: var(--sw4-mono); font-size: 9px; font-weight: 700;
+    letter-spacing: 0.3em; color: var(--sw4-fg-low);
+  }
+
+  /* STATS STRIP */
+  .sw4-stats-{{ sid }} {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    border-top: 1px dashed var(--sw4-border-2);
+    border-bottom: 1px dashed var(--sw4-border-2);
+    margin: 36px 0 32px;
+  }
+  .sw4-stat-cell-{{ sid }} { padding: 16px 10px; text-align: center; }
+  .sw4-stat-cell-{{ sid }} + .sw4-stat-cell-{{ sid }} { border-left: 1px dashed var(--sw4-border); }
+  .sw4-stat-num-{{ sid }} {
+    display: block; font-family: var(--sw4-display);
+    font-size: clamp(34px, 6vw, 52px); line-height: 0.9;
+    color: var(--sw4-fg); letter-spacing: 0.02em;
+  }
+  .sw4-stat-num-{{ sid }}.is-accent {
+    background: linear-gradient(135deg, #23ff53, #ffd700);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .sw4-stat-num-{{ sid }} .sw4-star { color: #f59e0b; font-size: 0.7em; }
+  .sw4-stat-label-cell-{{ sid }} {
+    display: block; margin-top: 8px;
+    font-family: var(--sw4-mono); font-size: 9px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--sw4-fg-low);
+  }
+
+  /* ACCORDION */
+  .sw4-acc-{{ sid }} {
+    margin-top: 8px; padding-top: 22px;
+    border-top: 1px dashed var(--sw4-border-2);
+  }
+  .sw4-acc-head-{{ sid }} {
+    font-family: var(--sw4-display); font-size: 26px;
+    letter-spacing: 0.03em; line-height: 1;
+    color: var(--sw4-fg); margin: 0 0 10px;
+    text-transform: uppercase;
+  }
+  .sw4-acc-head-{{ sid }} em {
+    font-style: normal;
+    background: linear-gradient(135deg, #23ff53, #ffd700);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .sw4-acc-item-{{ sid }} { border-bottom: 1px dashed var(--sw4-border); }
+  .sw4-acc-trigger-{{ sid }} {
+    width: 100% !important;
+    display: flex !important; align-items: center !important;
+    justify-content: space-between !important;
+    padding: 16px 0 !important; background: transparent !important;
+    text-align: left !important; gap: 12px !important;
+  }
+  .sw4-acc-title-{{ sid }} {
+    font-family: var(--sw4-display); font-size: 16px;
+    color: var(--sw4-fg); letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .sw4-acc-icon-{{ sid }} {
+    flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s ease;
+  }
+  .sw4-acc-icon-{{ sid }} svg { width: 11px; height: 11px; transition: transform 0.3s ease; fill: var(--sw4-fg); }
+  .sw4-acc-item-{{ sid }}.open .sw4-acc-icon-{{ sid }} { border-color: var(--sw4-accent); background: var(--sw4-accent); }
+  .sw4-acc-item-{{ sid }}.open .sw4-acc-icon-{{ sid }} svg { transform: rotate(45deg); fill: #000; }
+  .sw4-acc-body-{{ sid }} {
+    overflow: hidden; max-height: 0;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+    padding-bottom: 0;
+  }
+  .sw4-acc-item-{{ sid }}.open .sw4-acc-body-{{ sid }} { max-height: 600px; padding-bottom: 18px; }
+  .sw4-acc-content-{{ sid }} {
+    font-size: 13px; color: var(--sw4-fg-mute);
+    line-height: 1.7; font-weight: 500;
+  }
+  .sw4-acc-content-{{ sid }} p { margin: 0 0 8px; }
+  .sw4-acc-content-{{ sid }} p:last-child { margin: 0; }
+  .sw4-acc-content-{{ sid }} ul { margin: 0 0 8px; padding-left: 18px; }
+  .sw4-acc-content-{{ sid }} li { margin-bottom: 4px; }
+  .sw4-acc-content-{{ sid }} a { color: var(--sw4-accent); text-decoration: underline; }
+
+  /* LIGHTBOX */
+  .sw4-lightbox-{{ sid }} {
+    display: none; position: fixed; inset: 0; z-index: 999999;
+    background: rgba(0,0,0,0.96);
+    align-items: center; justify-content: center; padding: 20px;
+  }
+  .sw4-lightbox-{{ sid }}.active { display: flex; }
+  .sw4-lightbox-img-{{ sid }} {
+    max-width: 92vw; max-height: 88vh; object-fit: contain;
+    border-radius: 12px; display: block;
+    box-shadow: 0 30px 90px rgba(0,0,0,0.6);
+  }
+  button.sw4-lb-close-{{ sid }},
+  button.sw4-lb-prev-{{ sid }},
+  button.sw4-lb-next-{{ sid }} {
+    position: fixed !important;
+    width: 48px !important; height: 48px !important; aspect-ratio: 1 !important;
+    border-radius: 50% !important; background: #fff !important;
+    border: 0 !important; padding: 0 !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    cursor: pointer !important; z-index: 10000001 !important;
+    transition: background-color 0.25s ease, transform 0.25s ease !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5) !important;
+  }
+  button.sw4-lb-close-{{ sid }} { top: 20px !important; right: 20px !important; }
+  button.sw4-lb-close-{{ sid }}:hover { background: var(--sw4-accent) !important; transform: rotate(90deg) scale(1.05) !important; }
+  button.sw4-lb-prev-{{ sid }} { left: 20px !important; top: 50% !important; transform: translateY(-50%) !important; }
+  button.sw4-lb-next-{{ sid }} { right: 20px !important; top: 50% !important; transform: translateY(-50%) !important; }
+  button.sw4-lb-prev-{{ sid }}:hover:not(:disabled),
+  button.sw4-lb-next-{{ sid }}:hover:not(:disabled) {
+    background: var(--sw4-accent) !important;
+    transform: translateY(-50%) scale(1.08) !important;
+  }
+  button.sw4-lb-prev-{{ sid }}:disabled,
+  button.sw4-lb-next-{{ sid }}:disabled { opacity: 0.3 !important; cursor: not-allowed !important; }
+  button.sw4-lb-close-{{ sid }} svg,
+  button.sw4-lb-prev-{{ sid }} svg,
+  button.sw4-lb-next-{{ sid }} svg { width: 20px !important; height: 20px !important; display: block !important; }
+  .sw4-lb-counter-{{ sid }} {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    font-family: var(--sw4-mono); font-size: 11px; font-weight: 700;
+    color: var(--sw4-fg); opacity: 0.7;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    background: rgba(0,0,0,0.4); padding: 6px 14px; border-radius: 50px;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--sw4-border-2);
+  }
+
+  /* QUICK VIEW */
+  .sw4-qv-overlay-{{ sid }} {
+    display: none; position: fixed; inset: 0; z-index: 9999999;
+    background: rgba(0,0,0,0.78);
+    align-items: center; justify-content: center; padding: 20px;
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  }
+  .sw4-qv-panel-{{ sid }} {
+    background: #0a0a0a; border: 1px solid var(--sw4-border);
+    border-radius: 16px; width: 100%; max-width: 940px; max-height: 92vh;
+    overflow: hidden; display: flex; flex-direction: column;
+    position: relative; box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+    animation: sw4qvin-{{ sid }} 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+  @keyframes sw4qvin-{{ sid }} {
+    from { opacity: 0; transform: scale(0.94) translateY(12px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  button.sw4-qv-close-{{ sid }} {
+    position: absolute !important; top: 14px !important; right: 14px !important;
+    width: 36px !important; height: 36px !important; aspect-ratio: 1 !important;
+    border-radius: 50% !important; background: rgba(255,255,255,0.08) !important;
+    border: 1px solid var(--sw4-border-2) !important;
+    cursor: pointer !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    z-index: 10 !important;
+    transition: background-color 0.25s ease, transform 0.25s ease !important;
+    padding: 0 !important;
+  }
+  button.sw4-qv-close-{{ sid }}:hover { background: var(--sw4-accent) !important; transform: rotate(90deg) !important; }
+  button.sw4-qv-close-{{ sid }}:hover svg { stroke: #000 !important; }
+  button.sw4-qv-close-{{ sid }} svg {
+    width: 16px !important; height: 16px !important;
+    stroke: var(--sw4-fg) !important; display: block !important;
+    transition: stroke 0.25s;
+  }
+  .sw4-qv-body-{{ sid }} { display: grid; grid-template-columns: 54% 1fr; flex: 1; overflow: hidden; }
+  .sw4-qv-gallery-{{ sid }} {
+    background: linear-gradient(160deg, #0f0f0f, #050505);
+    display: flex; flex-direction: column;
+    overflow: hidden; position: relative;
+  }
+  .sw4-qv-img-wrap-{{ sid }} {
+    position: relative; flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; min-height: 320px; padding: 24px;
+  }
+  .sw4-qv-img-wrap-{{ sid }}::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at center, rgba(35,255,83,0.06), transparent 60%);
+    pointer-events: none;
+  }
+  .sw4-qv-main-img-{{ sid }} {
+    max-width: 100%; max-height: 420px; object-fit: contain;
+    display: block; transition: opacity 0.2s ease;
+    position: relative; z-index: 1;
+  }
+  button.sw4-qv-nav-{{ sid }} {
+    position: absolute !important; top: 50% !important; transform: translateY(-50%) !important;
+    width: 38px !important; height: 38px !important; aspect-ratio: 1 !important;
+    border-radius: 50% !important; background: rgba(255,255,255,0.95) !important;
+    border: 0 !important; cursor: pointer !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3) !important;
+    transition: background-color 0.25s ease, opacity 0.25s ease !important;
+    padding: 0 !important; z-index: 4 !important;
+  }
+  button.sw4-qv-nav-{{ sid }}:hover { background: var(--sw4-accent) !important; }
+  button.sw4-qv-nav-{{ sid }}.off { opacity: 0 !important; pointer-events: none !important; }
+  button.sw4-qv-nav-{{ sid }} svg { width: 18px !important; height: 18px !important; stroke: #000 !important; display: block !important; }
+  button.sw4-qv-nav-{{ sid }}.prev { left: 12px !important; }
+  button.sw4-qv-nav-{{ sid }}.next { right: 12px !important; }
+  .sw4-qv-count-{{ sid }} {
+    position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+    font-family: var(--sw4-mono); font-size: 10px; font-weight: 700;
+    color: var(--sw4-fg); background: rgba(0,0,0,0.5);
+    padding: 4px 11px; border-radius: 50px;
+    letter-spacing: 0.14em;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--sw4-border-2); z-index: 3;
+  }
+  .sw4-qv-thumbs-{{ sid }} {
+    display: flex; gap: 6px; padding: 12px 14px;
+    overflow-x: auto; background: rgba(0,0,0,0.4);
+    border-top: 1px dashed var(--sw4-border);
+    scrollbar-width: none; justify-content: center; flex-wrap: wrap;
+  }
+  .sw4-qv-thumbs-{{ sid }}::-webkit-scrollbar { display: none; }
+  .sw4-qv-thumb-{{ sid }} {
+    width: 56px; height: 56px; border-radius: 8px;
+    overflow: hidden; flex-shrink: 0; cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: border-color 0.2s; background: #1a1a1a;
+  }
+  .sw4-qv-thumb-{{ sid }}.active { border-color: var(--sw4-accent); }
+  .sw4-qv-thumb-{{ sid }}:hover  { border-color: rgba(35,255,83,0.5); }
+  .sw4-qv-thumb-{{ sid }} img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .sw4-qv-info-{{ sid }} {
+    padding: 26px 28px 18px; display: flex; flex-direction: column;
+    gap: 14px; overflow-y: auto; color: var(--sw4-fg);
+  }
+  .sw4-qv-info-{{ sid }}::-webkit-scrollbar { width: 6px; }
+  .sw4-qv-info-{{ sid }}::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
+  .sw4-qv-title-{{ sid }} {
+    font-family: var(--sw4-display); font-size: 26px;
+    color: var(--sw4-fg); line-height: 1; letter-spacing: 0.03em;
+    margin: 0; text-transform: uppercase;
+  }
+  .sw4-qv-price-row-{{ sid }} { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .sw4-qv-price-sale-{{ sid }} {
+    font-family: var(--sw4-display); font-size: 28px;
+    color: var(--sw4-fg); letter-spacing: 0.02em;
+  }
+  .sw4-qv-price-compare-{{ sid }} {
+    font-family: var(--sw4-display); font-size: 16px;
+    color: var(--sw4-fg-low); text-decoration: line-through;
+  }
+  .sw4-qv-price-badge-{{ sid }} {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-family: var(--sw4-mono); font-size: 9px; font-weight: 700;
+    color: #ffd700; background: rgba(255,215,0,0.16);
+    border: 1px dashed rgba(255,215,0,0.5);
+    padding: 4px 10px; border-radius: 4px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .sw4-qv-divider-{{ sid }} { height: 1px; border-top: 1px dashed var(--sw4-border-2); }
+  .sw4-qv-acc-{{ sid }} {
+    border: 1px solid var(--sw4-border-2); border-radius: 10px;
+    overflow: hidden; flex-shrink: 0;
+  }
+  button.sw4-qv-acc-trigger-{{ sid }} {
+    width: 100% !important;
+    display: flex !important; align-items: center !important; justify-content: space-between !important;
+    padding: 13px 14px !important; background: rgba(255,255,255,0.04) !important;
+    border: 0 !important; cursor: pointer !important;
+    text-align: left !important; gap: 10px !important;
+  }
+  button.sw4-qv-acc-trigger-{{ sid }}:hover { background: rgba(255,255,255,0.08) !important; }
+  .sw4-qv-acc-label-{{ sid }} {
+    font-family: var(--sw4-display); font-size: 13px;
+    color: var(--sw4-fg); letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .sw4-qv-acc-iconwrap-{{ sid }} {
+    flex-shrink: 0; width: 20px; height: 20px;
+    border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.3);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .sw4-qv-acc-iconwrap-{{ sid }} svg { width: 11px; height: 11px; fill: var(--sw4-fg); transition: transform 0.3s ease; }
+  .sw4-qv-acc-{{ sid }}.open .sw4-qv-acc-iconwrap-{{ sid }} { border-color: var(--sw4-accent); background: var(--sw4-accent); }
+  .sw4-qv-acc-{{ sid }}.open .sw4-qv-acc-iconwrap-{{ sid }} svg { transform: rotate(45deg); fill: #000; }
+  .sw4-qv-acc-body-{{ sid }} {
+    overflow: hidden; max-height: 0;
+    transition: max-height 0.32s ease;
+    background: rgba(0,0,0,0.3);
+  }
+  .sw4-qv-acc-{{ sid }}.open .sw4-qv-acc-body-{{ sid }} { max-height: 280px; }
+  .sw4-qv-desc-{{ sid }} {
+    font-size: 13px; color: var(--sw4-fg-mute); line-height: 1.7;
+    padding: 12px 14px; overflow-y: auto; max-height: 240px;
+    scrollbar-width: thin;
+  }
+  .sw4-qv-desc-{{ sid }} p { margin: 0 0 8px; }
+  .sw4-qv-desc-{{ sid }} p:last-child { margin: 0; }
+  .sw4-qv-desc-{{ sid }} ul { margin: 0 0 8px; padding-left: 18px; }
+  .sw4-qv-desc-{{ sid }} li { margin-bottom: 4px; }
+  .sw4-qv-desc-{{ sid }} a { color: var(--sw4-accent); text-decoration: underline; }
+  .sw4-qv-cta-{{ sid }} {
+    flex-shrink: 0; padding: 14px 28px 22px;
+    background: rgba(255,255,255,0.02);
+    border-top: 1px dashed var(--sw4-border);
+    margin-left: 54%;
+  }
+  button.sw4-qv-add-{{ sid }} {
+    width: 100% !important; padding: 16px !important;
+    border-radius: 10px !important; background: var(--sw4-accent) !important;
+    color: #000 !important; font-family: var(--sw4-display) !important;
+    font-size: 16px !important; letter-spacing: 0.08em !important;
+    text-transform: uppercase !important; border: 0 !important;
+    cursor: pointer !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    gap: 10px !important;
+    transition: background 0.2s, transform 0.15s !important;
+  }
+  button.sw4-qv-add-{{ sid }}:hover  { background: var(--sw4-accent-2) !important; transform: translateY(-1px) !important; }
+  button.sw4-qv-add-{{ sid }}:active { transform: translateY(0) !important; }
+  button.sw4-qv-add-{{ sid }}.in-bundle {
+    background: rgba(35,255,83,0.18) !important;
+    color: var(--sw4-accent) !important;
+    pointer-events: none !important; cursor: default !important;
+  }
+  button.sw4-qv-add-{{ sid }} svg {
+    width: 16px !important; height: 16px !important;
+    stroke: currentColor !important; flex-shrink: 0 !important; display: block !important;
+  }
+
+  /* RESPONSIVE */
+  @media (min-width: 480px) {
+    .sw4-section-{{ sid }}-inner { padding: 36px 22px 60px; }
+    .sw4-card-name-{{ sid }} { font-size: 22px; }
+  }
+  @media (min-width: 768px) {
+    .sw4-section-{{ sid }}-inner { padding: 48px 32px 72px; }
+    .sw4-cards-grid-{{ sid }} { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 900px) {
+    .sw4-builder-{{ sid }} { grid-template-columns: 1.05fr 1fr; gap: 22px; }
+    .sw4-hero-col-{{ sid }} { position: sticky; top: 20px; }
+    .sw4-cards-grid-{{ sid }} { grid-template-columns: 1fr; }
+  }
+  @media (min-width: 1100px) {
+    .sw4-section-{{ sid }}-inner { padding: 60px 48px 88px; }
+    .sw4-cards-grid-{{ sid }} { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .sw4-qv-overlay-{{ sid }} { padding: 0; align-items: stretch; }
+    .sw4-qv-panel-{{ sid }} { border-radius: 0; max-height: 100%; height: 100%; width: 100%; display: flex; flex-direction: column; }
+    .sw4-qv-body-{{ sid }} { grid-template-columns: 1fr; display: flex; flex-direction: column; overflow: hidden; flex: 1; min-height: 0; }
+    .sw4-qv-gallery-{{ sid }} { flex-shrink: 0; height: 280px; min-height: 280px; }
+    .sw4-qv-img-wrap-{{ sid }} { min-height: 0; flex: 1; padding: 16px; }
+    .sw4-qv-main-img-{{ sid }} { max-height: 200px; max-width: 100%; }
+    button.sw4-qv-nav-{{ sid }} { width: 32px !important; height: 32px !important; }
+    button.sw4-qv-nav-{{ sid }} svg { width: 14px !important; height: 14px !important; }
+    .sw4-qv-thumbs-{{ sid }} { padding: 8px 14px; }
+    .sw4-qv-thumb-{{ sid }} { width: 44px; height: 44px; }
+    .sw4-qv-info-{{ sid }} { padding: 18px 20px 8px; gap: 12px; flex: 1; min-height: 0; -webkit-overflow-scrolling: touch; }
+    .sw4-qv-title-{{ sid }} { font-size: 22px; }
+    .sw4-qv-price-sale-{{ sid }} { font-size: 24px; }
+    .sw4-qv-cta-{{ sid }} { margin-left: 0; padding: 12px 20px 28px; width: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sw4-section-{{ sid }} *,
+    .sw4-section-{{ sid }} *::before,
+    .sw4-section-{{ sid }} *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+
+<section class="sw4-section-{{ sid }}">
+  <div class="sw4-section-{{ sid }}-inner">
+
+    <!-- COLLECTOR HEADER -->
+    <div class="sw4-header-{{ sid }}">
+      <div class="sw4-header-top-{{ sid }}">
+        <span class="sw4-eyebrow-{{ sid }}"><span class="sw4-spark"></span>Collector's Edition</span>
+        <span class="sw4-edition-{{ sid }}">EST · 2024 — <b>Volume 01 / 01</b></span>
+      </div>
+      <h2 class="sw4-headline-{{ sid }}">Assemble<br>Your <em>Collection</em>.</h2>
+      <p class="sw4-sub-{{ sid }}">Every Swaptop top is a collectible. Three rarities. Endless games. Stack them, swap them, play them all.</p>
+
+      <div class="sw4-progress-{{ sid }}">
+        <div class="sw4-progress-row-{{ sid }}">
+          <span class="sw4-progress-label-{{ sid }}">★ Your Collection</span>
+          <span class="sw4-progress-count-{{ sid }}"><b id="sw4-progress-count-{{ sid }}">01</b> / 04</span>
+        </div>
+        <div class="sw4-progress-track-{{ sid }}">
+          <div class="sw4-progress-fill-{{ sid }}" id="sw4-progress-fill-{{ sid }}" style="width:25%"></div>
+        </div>
+        <div class="sw4-progress-row-{{ sid }}">
+          <div class="sw4-progress-stamps-{{ sid }}" id="sw4-progress-stamps-{{ sid }}">
+            <span class="sw4-stamp-{{ sid }} lit" data-stamp="frame">01</span>
+            <span class="sw4-stamp-{{ sid }}" data-stamp="football">02</span>
+            <span class="sw4-stamp-{{ sid }}" data-stamp="og">03</span>
+            <span class="sw4-stamp-{{ sid }} legendary" data-stamp="popgolf">04</span>
+          </div>
+          <button type="button" class="sw4-stars-{{ sid }}" onclick="sw4ScrollToReviews_{{ sid }}()" aria-label="Read 17 reviews">
+            <span class="sw4-stars-icons-{{ sid }}"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></span>
+            <span class="sw4-stars-label-{{ sid }}">4.9 · 17 REVIEWS</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUILDER -->
+    <div class="sw4-builder-{{ sid }}">
+
+      <!-- HERO COLUMN -->
+      <div class="sw4-hero-col-{{ sid }}">
+        <div class="sw4-featured-{{ sid }}">
+          <div class="sw4-featured-inner-{{ sid }}">
+            <div class="sw4-featured-stage-{{ sid }}" onclick="sw4OpenLightbox_{{ sid }}()">
+              <div class="sw4-featured-rarity-{{ sid }}">
+                <span class="sw4-r-stars">★ ★ ★ ★</span>
+                <span class="sw4-r-label">FOUNDATION · INCLUDED</span>
+                <span class="sw4-r-stars">★ ★ ★ ★</span>
+              </div>
+              <span class="sw4-featured-num-{{ sid }}" id="sw4-featured-num-{{ sid }}">01</span>
+              <img id="sw4-featured-img-{{ sid }}" class="sw4-featured-img-{{ sid }}"
+                src="{{ main_product.featured_image | image_url: width: 1200 }}"
+                alt="{{ main_product.title }}" loading="eager" fetchpriority="high" decoding="async">
+              <div class="sw4-featured-stamp-{{ sid }}">
+                <b>★</b><span>ALWAYS<br>INCLUDED</span>
+              </div>
+              <div class="sw4-featured-thumbs-{{ sid }}" id="sw4-featured-thumbs-{{ sid }}">
+                {% assign first_img = main_product.images | first %}
+                <button type="button" class="sw4-featured-thumb-{{ sid }} active" data-src="{{ first_img | image_url: width: 1600 }}" data-idx="0" aria-label="Image 1">
+                  <img src="{{ first_img | image_url: width: 200 }}" alt="" loading="eager">
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sw4-featured-info-{{ sid }}">
+          <div>
+            <h3 class="sw4-featured-info-title-{{ sid }}">{{ main_product.title }}</h3>
+            <p class="sw4-featured-info-meta-{{ sid }}">SERIAL · <b>PD-2025-SWAPTOP</b></p>
+          </div>
+          <span class="sw4-featured-info-price-{{ sid }}">{{ main_product.price | money_without_trailing_zeros }}</span>
+        </div>
+      </div>
+
+      <!-- CARDS + RECEIPT COLUMN -->
+      <div class="sw4-tops-col-{{ sid }}">
+        <div class="sw4-tops-head-{{ sid }}">
+          <h3 class="sw4-tops-title-{{ sid }}">Claim Your <em>Tops</em></h3>
+          <span class="sw4-tops-meta-{{ sid }}">3 cards · Tap to collect</span>
+        </div>
+
+        <div class="sw4-cards-grid-{{ sid }}">
+
+          <!-- COMMON: Football -->
+          <div class="sw4-card-{{ sid }}" data-rarity="common" data-num="02" data-stat-id="football"
+            id="sw4-card-football-{{ sid }}"
+            data-variant="{{ addon_football.first_available_variant.id }}"
+            data-price="{{ addon_football.price }}"
+            data-compare="{{ addon_football.compare_at_price | default: addon_football.price }}">
+            <div class="sw4-card-rarity-{{ sid }}">
+              <span class="sw4-r-stars">★ COMMON</span>
+              <span class="sw4-r-label">FAN FAVE</span>
+              <span class="sw4-r-num">02 / 04</span>
+            </div>
+            <div class="sw4-card-art-{{ sid }}" onclick="sw4CardImgClick_{{ sid }}(event, this)">
+              <img src="{{ addon_football.featured_image | image_url: width: 800 }}" alt="{{ addon_football.title }}" loading="eager">
+              <span class="sw4-card-art-shine-{{ sid }}"></span>
+              <button type="button" class="sw4-card-detail-{{ sid }}" onclick="event.stopPropagation(); sw4QvOpen_{{ sid }}('sw4-card-football-{{ sid }}')">Inspect</button>
+            </div>
+            <div class="sw4-card-stamp-{{ sid }}"><b>★</b><span>COLLECTED</span></div>
+            <div class="sw4-card-info-{{ sid }}" onclick="sw4ToggleAddon_{{ sid }}(this.closest('.sw4-card-{{ sid }}'))">
+              <h4 class="sw4-card-name-{{ sid }}">{{ addon_football.title }}</h4>
+              <p class="sw4-card-tag-{{ sid }}">Most Popular Top</p>
+              <div class="sw4-card-stats-{{ sid }}">
+                <div class="sw4-stat-{{ sid }}"><span class="sw4-stat-label-{{ sid }}">MAYHEM</span><span class="sw4-stat-bar-{{ sid }}"><span style="width:80%"></span></span><span class="sw4-stat-value-{{ sid }}">80</span></div>
+                <div class="sw4-stat-{{ sid }}"><span class="sw4-stat-label-{{ sid }}">SKILL</span><span class="sw4-stat-bar-{{ sid }}"><span style="width:60%"></span></span><span class="sw4-stat-value-{{ sid }}">60</span></div>
+                <div class="sw4-stat-{{ sid }}"><span class="sw4-stat-label-{{ sid }}">PARTY</span><span class="sw4-stat-bar-{{ sid }}"><span style="width:95%"></span></span><span class="sw4-stat-value-{{ sid }}">95</span></div>
+                <div class="sw4-stat-{{ sid }}"><span class="sw4-stat-label-{{ sid }}">FUN</span><span class="sw4-stat-bar-{{ sid }}"><span style="width:100%"></span></span><span class="sw4-stat-value-{{ sid }}">100</span></div>
+              </div>
+            </div>
+            <div class="sw4-card-foot-{{ sid }}">
+              <div class="sw4-card-cost-{{ sid }}">
+                <span class="sw4-card-cost-label-{{ sid }}">COST</span>
+                <span class="sw4-card-cost-amount-{{ sid }}">+{{ addon_football.price | money_without_trailing_zeros }}</span>
+              </div>
+              <button type="button" class="sw4-card-claim-{{ sid }}" onclick="event.stopPropagation(); sw4ToggleAddon_{{ sid }}(this.closest('.sw4-card-{{ sid }}'))">
+                <svg viewBox="0 0 16 16" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="3" x2="8" y2="13"/><line x1="3" y1="8" x2="13" y2="8"/></svg>
+                <span class="sw4-claim-add">CLAIM</span>
+                <span class="sw4-claim-done">CLAIMED</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- RARE: OG -->
+          <div class="sw4-card-{{ sid }}" data-rarity="rare" data-num="03" data-stat-id="og"
+            id="sw4-card-og-{{ sid }}"
+            data-variant="{{ addon_og.first_available_variant.id }}"
+            data-price="{{ addon_og.price }}"
+            data-compare="{{ addon_og.compare_at_price | default: addon_og.price }}">
+            <div class="sw4-card-rarity-{{ sid }}">
+              <span class="sw4-r-stars">★★ RARE</span>
+              <span class="sw4-r-label">CLASSIC</span>
+              <span class="sw4-r-num">03 / 04</span>
+            </div>
+            <div class="sw4-card-art-{{ sid }}" onclick="sw4CardImgClick_{{ sid }}(event, this)">
+              <img src="{{ addon_og.featured_image | image_url: width: 800 }}" alt="{{ addon_og.title }}" loading="eager">
+              <span class="sw4-card-art-shine-{{ sid }}"></span>
+              <button type="button" class="sw4-card-detail-{{ sid }}" onclick="event.stopPropagation(); sw4QvOpen_{{ sid }}('sw4-card-og-{{ sid }}')">Inspect</button>
+            </div>
+            <div class="sw4-card-stamp-{{ sid }}"><b>★★</b><span>COLLECTED</span></div>
+            <div class="sw4-card-info-{{ sid }}" onclick="sw4ToggleAddon_{{ sid }}(this.closest('.sw4-card-{{ sid }}'))">
+              <h4 class="sw4-card-name-{{ sid }}">{{ addon_og.title }}</h4>
+              <p class="sw4-card-tag-{{ sid }}">The Original · Heritage Top</p>
+              <div class="sw4-card-stats-{{ sid }}">
+                <div class="sw4-stat-{{ sid }}"><span class="sw4-stat-label-{{ sid }}">MAYHEM</span><span class="sw4-stat-bar-{{ sid }}"><span style="width:100%"></span></span><span class="sw4-stat-value-{{ sid }}">100</span></div>
+                <div class="sw4-stat-{{ sid }}"><span class="sw4-stat-label-{{ sid }}">SKILL</span><span class="sw4-stat-bar-{{ sid }}"><span style="width:75%"></span></span><span class="sw4-stat-value-{{ sid }}">75</span></div>
+                <div class="sw4-stat-{{ sid }}"><span class="sw4-stat-label-{{ sid }}">PARTY</span><span class="sw4-stat-bar-{{ sid }}"><span style="width:85%"></span></span><span class="sw4-stat-value-{{ sid }}">85</span></div>
+                <div class="sw4-stat-{{ sid }}"><span class="sw4-stat-label-{{ sid }}">FUN</span><span class="sw4-stat-bar-{{ sid }}"><span style="width:95%"></span></span><span class="sw4-stat-value-{{ sid }}">95</span></div>
+              </div>
+            </div>
+            <div class="sw4-card-foot-{{ sid }}">
+              <div class="sw4-card-cost-{{ sid }}">
+                <span class="sw4-card-cost-label-{{ sid }}">COST</span>
+                <span class="sw4-card-cost-amount-{{ sid }}">+{{ addon_og.price | money_without_trailing_zeros }}</span>
+              </div>
+              <button type="button" class="sw4-card-claim-{{ sid }}" onclick="event.stopPropagation(); sw4ToggleAddon_{{ sid }}(this.closest('.sw4-card-{{ sid }}'))">
+                <svg viewBox="0 0 16 16" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="3" x2="8" y2="13"/><line x1="3" y1="8" x2="13" y2="8"/></svg>
+                <span class="sw4-claim-add">CLAIM</span>
+                <span class="sw4-claim-done">CLAIMED</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- LEGENDARY: Pop Golf -->
+          <div class="sw4-card-{{ sid }}" data-rarity="legendary" data-num="04" data-stat-id="popgolf"
+            id="sw4-card-popgolf-{{ sid }}"
+            data-variant="{{ addon_popgolf.first_available_variant.id }}"
+            data-price="{{ addon_popgolf.price }}"
+            data-compare="{{ addon_popgolf.compare_at_price | default: addon_popgolf.price }}">
+            <div class="sw4-card-rarity-{{ sid }}">
+              <span class="sw4-r-stars">★★★ LEGENDARY</span>
+              <span class="sw4-r-label">PRO PICK</span>
+              <span class="sw4-r-num">04 / 04</span>
+            </div>
+            <div class="sw4-card-art-{{ sid }}" onclick="sw4CardImgClick_{{ sid }}(event, this)">
+              <img src="{{ addon_popgolf.featured_image | image_url: width: 800 }}" alt="{{ addon_popgolf.title }}" loading="eager">
+              <span class="sw4-card-art-shine-{{ sid }}"></span>
+              <button type="button" class="sw4-card-detail-{{ sid }}" onclick="event.stopPropagation(); sw4QvOpen_{{ sid }}('sw4-card-popgolf-{{ sid }}')">Inspect</button>
+            </div>
+            <div class="sw4-card-stamp-{{ sid }}"><b>★★★</b><span>COLLECTED</span></div>
+            <div class="sw4-card-info-{{ sid }}" onclick="sw4ToggleAddon_{{ sid }}(this.closest('.sw4-card-{{ sid }}'))">
+              <h4 class="sw4-card-name-{{ sid }}">{{ addon_popgolf.title }}</h4>
+              <p class="sw4-card-tag-{{ sid }}">Pro Tier · Precision Top</p>
+              <div class="sw4-card-stats-{{ sid }}">
+                <div class="sw4-stat-{{ sid }}"><span class="sw4-stat-label-{{ sid }}">MAYHEM</span><span class="sw4-stat-bar-{{ sid }}"><span style="width:50%"></span></span><span class="sw4-stat-value-{{ sid }}">50</span></div>
+                <div class="sw4-stat-{{ sid }}"><span class="sw4-stat-label-{{ sid }}">SKILL</span><span class="sw4-stat-bar-{{ sid }}"><span style="width:100%"></span></span><span class="sw4-stat-value-{{ sid }}">100</span></div>
+                <div class="sw4-stat-{{ sid }}"><span class="sw4-stat-label-{{ sid }}">PARTY</span><span class="sw4-stat-bar-{{ sid }}"><span style="width:70%"></span></span><span class="sw4-stat-value-{{ sid }}">70</span></div>
+                <div class="sw4-stat-{{ sid }}"><span class="sw4-stat-label-{{ sid }}">FUN</span><span class="sw4-stat-bar-{{ sid }}"><span style="width:90%"></span></span><span class="sw4-stat-value-{{ sid }}">90</span></div>
+              </div>
+            </div>
+            <div class="sw4-card-foot-{{ sid }}">
+              <div class="sw4-card-cost-{{ sid }}">
+                <span class="sw4-card-cost-label-{{ sid }}">COST</span>
+                <span class="sw4-card-cost-amount-{{ sid }}">+{{ addon_popgolf.price | money_without_trailing_zeros }}</span>
+              </div>
+              <button type="button" class="sw4-card-claim-{{ sid }}" onclick="event.stopPropagation(); sw4ToggleAddon_{{ sid }}(this.closest('.sw4-card-{{ sid }}'))">
+                <svg viewBox="0 0 16 16" fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="3" x2="8" y2="13"/><line x1="3" y1="8" x2="13" y2="8"/></svg>
+                <span class="sw4-claim-add">CLAIM</span>
+                <span class="sw4-claim-done">CLAIMED</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- RECEIPT -->
+        <div class="sw4-receipt-{{ sid }}">
+          <div class="sw4-receipt-head-{{ sid }}">
+            <span class="sw4-receipt-eyebrow-{{ sid }}">Build Order</span>
+            <span class="sw4-receipt-serial-{{ sid }}">NO. <b>PD-2025-{{ sid | slice: 0, 4 | upcase }}</b></span>
+          </div>
+          <div class="sw4-receipt-divider-{{ sid }}"></div>
+          <div class="sw4-receipt-lines-{{ sid }}" id="sw4-receipt-lines-{{ sid }}"></div>
+          <div class="sw4-receipt-divider-{{ sid }}"></div>
+
+          <div class="sw4-receipt-total-{{ sid }}">
+            <div>
+              <span class="sw4-receipt-total-eyebrow-{{ sid }}">SUBTOTAL DUE</span>
+              <div class="sw4-receipt-total-amount-{{ sid }}" id="sw4-total-{{ sid }}">{{ main_product.price | money }}</div>
+            </div>
+            <span class="sw4-receipt-savings-{{ sid }}" id="sw4-savings-{{ sid }}" style="display:none"></span>
+          </div>
+
+          <button type="button" class="sw4-cta-{{ sid }}" id="sw4-cta-{{ sid }}" onclick="sw4AddToCart_{{ sid }}()">
+            <span id="sw4-cta-text-{{ sid }}">Claim Your Collection</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="20" y2="12"/><polyline points="14 6 20 12 14 18"/></svg>
+          </button>
+
+          <div class="sw4-receipt-foot-{{ sid }}">
+            <div class="sw4-trust-row-{{ sid }}">
+              <span class="sw4-trust-item-{{ sid }}"><span class="sw4-dot"></span>Free Shipping</span>
+              <span class="sw4-trust-item-{{ sid }}"><span class="sw4-dot"></span>30-Day Returns</span>
+              <span class="sw4-trust-item-{{ sid }}"><span class="sw4-dot"></span>Ships in 24h</span>
+            </div>
+            <div class="sw4-barcode-{{ sid }}">
+              <div class="sw4-barcode-bars-{{ sid }}"></div>
+              <span class="sw4-barcode-num-{{ sid }}">PD · 2025 · SWAPTOP</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="sw4-stats-{{ sid }}">
+      <div class="sw4-stat-cell-{{ sid }}"><span class="sw4-stat-num-{{ sid }} is-accent">5K+</span><span class="sw4-stat-label-cell-{{ sid }}">Collections Sold</span></div>
+      <div class="sw4-stat-cell-{{ sid }}"><span class="sw4-stat-num-{{ sid }}">4.9<span class="sw4-star">★</span></span><span class="sw4-stat-label-cell-{{ sid }}">17 Reviews</span></div>
+      <div class="sw4-stat-cell-{{ sid }}"><span class="sw4-stat-num-{{ sid }} is-accent">10s</span><span class="sw4-stat-label-cell-{{ sid }}">Swap Time</span></div>
+    </div>
+
+    <!-- ACCORDION -->
+    <div class="sw4-acc-{{ sid }}">
+      <h3 class="sw4-acc-head-{{ sid }}">The <em>Details</em></h3>
+      <div class="sw4-acc-item-{{ sid }}">
+        <button type="button" class="sw4-acc-trigger-{{ sid }}" aria-expanded="false">
+          <span class="sw4-acc-title-{{ sid }}">Detailed Description</span>
+          <span class="sw4-acc-icon-{{ sid }}"><svg viewBox="0 0 16 16"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/></svg></span>
+        </button>
+        <div class="sw4-acc-body-{{ sid }}"><div class="sw4-acc-content-{{ sid }}">One Frame, Endless Games&trade;. Get everything you need for the best new game from Popdarts! Swaptop&trade; is an innovative portable playing surface system that allows you to easily swap different tops (games), using just one frame.</div></div>
+      </div>
+      <div class="sw4-acc-item-{{ sid }}">
+        <button type="button" class="sw4-acc-trigger-{{ sid }}" aria-expanded="false">
+          <span class="sw4-acc-title-{{ sid }}">What's Included</span>
+          <span class="sw4-acc-icon-{{ sid }}"><svg viewBox="0 0 16 16"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/></svg></span>
+        </button>
+        <div class="sw4-acc-body-{{ sid }}"><div class="sw4-acc-content-{{ sid }}"><ul><li>1 Swaptop&trade; Frame</li><li>1 Double-Sided Swaptop&trade; (Darts &amp; Circle Shot)</li><li>1 Durable Carrying Case</li><li>6 Swaptop&trade; Rookie Darts</li><li>BONUS: Pro Popdart When You Want To Level Up!</li></ul></div></div>
+      </div>
+      <div class="sw4-acc-item-{{ sid }}">
+        <button type="button" class="sw4-acc-trigger-{{ sid }}" aria-expanded="false">
+          <span class="sw4-acc-title-{{ sid }}">Shipping &amp; Returns</span>
+          <span class="sw4-acc-icon-{{ sid }}"><svg viewBox="0 0 16 16"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/></svg></span>
+        </button>
+        <div class="sw4-acc-body-{{ sid }}"><div class="sw4-acc-content-{{ sid }}"><ul><li>All Popdarts&reg; orders ship next business day.</li><li>Standard shipping in the USA takes 3&ndash;5 business days.</li><li>Returns are easy. Simply contact us at <a href="mailto:support@popdartsgame.com">support@popdartsgame.com</a>.</li></ul></div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="sw4-lightbox-{{ sid }} sw4-modal-{{ sid }}" id="sw4-lightbox-{{ sid }}">
+  <button type="button" class="sw4-lb-close-{{ sid }}" onclick="sw4CloseLightbox_{{ sid }}()" aria-label="Close">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <button type="button" class="sw4-lb-prev-{{ sid }}" id="sw4-lb-prev-{{ sid }}" onclick="sw4LightboxNav_{{ sid }}(-1)" aria-label="Previous">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <img class="sw4-lightbox-img-{{ sid }}" id="sw4-lb-img-{{ sid }}" src="" alt="">
+  <button type="button" class="sw4-lb-next-{{ sid }}" id="sw4-lb-next-{{ sid }}" onclick="sw4LightboxNav_{{ sid }}(1)" aria-label="Next">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+  <span class="sw4-lb-counter-{{ sid }}" id="sw4-lb-counter-{{ sid }}"></span>
+</div>
+
+<!-- QUICK VIEW -->
+<div class="sw4-qv-overlay-{{ sid }} sw4-modal-{{ sid }}" id="sw4-qv-overlay-{{ sid }}" role="dialog" aria-modal="true">
+  <div class="sw4-qv-panel-{{ sid }}" id="sw4-qv-panel-{{ sid }}">
+    <button type="button" class="sw4-qv-close-{{ sid }}" onclick="sw4QvClose_{{ sid }}()" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="sw4-qv-body-{{ sid }}">
+      <div class="sw4-qv-gallery-{{ sid }}">
+        <div class="sw4-qv-img-wrap-{{ sid }}">
+          <button type="button" class="sw4-qv-nav-{{ sid }} prev off" id="sw4-qv-prev-{{ sid }}" onclick="sw4QvNav_{{ sid }}(-1)" aria-label="Previous">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <img class="sw4-qv-main-img-{{ sid }}" id="sw4-qv-main-img-{{ sid }}" src="" alt="">
+          <button type="button" class="sw4-qv-nav-{{ sid }} next off" id="sw4-qv-next-{{ sid }}" onclick="sw4QvNav_{{ sid }}(1)" aria-label="Next">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+          <span class="sw4-qv-count-{{ sid }}" id="sw4-qv-count-{{ sid }}"></span>
+        </div>
+        <div class="sw4-qv-thumbs-{{ sid }}" id="sw4-qv-thumbs-{{ sid }}"></div>
+      </div>
+      <div class="sw4-qv-info-{{ sid }}">
+        <h2 class="sw4-qv-title-{{ sid }}" id="sw4-qv-title-{{ sid }}"></h2>
+        <div class="sw4-qv-price-row-{{ sid }}">
+          <span class="sw4-qv-price-compare-{{ sid }}" id="sw4-qv-price-compare-{{ sid }}" style="display:none"></span>
+          <span class="sw4-qv-price-sale-{{ sid }}" id="sw4-qv-price-sale-{{ sid }}"></span>
+          <span class="sw4-qv-price-badge-{{ sid }}" id="sw4-qv-price-badge-{{ sid }}" style="display:none"></span>
+        </div>
+        <div class="sw4-qv-divider-{{ sid }}"></div>
+        <div class="sw4-qv-acc-{{ sid }}">
+          <button type="button" class="sw4-qv-acc-trigger-{{ sid }}" onclick="sw4QvAccToggle_{{ sid }}(this)" aria-expanded="false">
+            <span class="sw4-qv-acc-label-{{ sid }}">Detailed Description</span>
+            <span class="sw4-qv-acc-iconwrap-{{ sid }}"><svg viewBox="0 0 16 16"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/></svg></span>
+          </button>
+          <div class="sw4-qv-acc-body-{{ sid }}"><div class="sw4-qv-desc-{{ sid }}" id="sw4-qv-desc-{{ sid }}"></div></div>
+        </div>
+        <div class="sw4-qv-acc-{{ sid }}">
+          <button type="button" class="sw4-qv-acc-trigger-{{ sid }}" onclick="sw4QvAccToggle_{{ sid }}(this)" aria-expanded="false">
+            <span class="sw4-qv-acc-label-{{ sid }}">What's Included</span>
+            <span class="sw4-qv-acc-iconwrap-{{ sid }}"><svg viewBox="0 0 16 16"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/></svg></span>
+          </button>
+          <div class="sw4-qv-acc-body-{{ sid }}"><div class="sw4-qv-desc-{{ sid }}"><ul><li>1 Swaptop&trade; Frame</li><li>1 Double-Sided Swaptop&trade; (Darts &amp; Circle Shot)</li><li>1 Durable Carrying Case</li><li>6 Swaptop&trade; Rookie Darts</li><li>BONUS: Pro Popdart When You Want To Level Up!</li></ul></div></div>
+        </div>
+        <div class="sw4-qv-acc-{{ sid }}">
+          <button type="button" class="sw4-qv-acc-trigger-{{ sid }}" onclick="sw4QvAccToggle_{{ sid }}(this)" aria-expanded="false">
+            <span class="sw4-qv-acc-label-{{ sid }}">Shipping &amp; Returns</span>
+            <span class="sw4-qv-acc-iconwrap-{{ sid }}"><svg viewBox="0 0 16 16"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/></svg></span>
+          </button>
+          <div class="sw4-qv-acc-body-{{ sid }}"><div class="sw4-qv-desc-{{ sid }}"><ul><li>All Popdarts&reg; orders ship next business day.</li><li>Standard shipping in the USA takes 3&ndash;5 business days.</li><li>Returns are easy. Simply contact us at <a href="mailto:support@popdartsgame.com">support@popdartsgame.com</a>.</li></ul></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="sw4-qv-cta-{{ sid }}">
+      <button type="button" class="sw4-qv-add-{{ sid }}" id="sw4-qv-add-{{ sid }}" onclick="sw4QvCtaClick_{{ sid }}()">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <span id="sw4-qv-add-label-{{ sid }}">Claim Card</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var SW4_BASE_PRICE   = {{ main_product.price }};
+  var SW4_BASE_COMPARE = {{ main_product.compare_at_price | default: main_product.price }};
+  var SW4_MAIN_VARIANT = {{ main_product.first_available_variant.id }};
+  var SW4_MAIN_TITLE   = '{{ main_product.title | escape }}';
+
+  var sectionEl = document.querySelector('.sw4-section-{{ sid }}');
+  if (!sectionEl) return;
+
+  var featuredImg     = document.getElementById('sw4-featured-img-{{ sid }}');
+  var featuredNum     = document.getElementById('sw4-featured-num-{{ sid }}');
+  var featuredThumbsWrap = document.getElementById('sw4-featured-thumbs-{{ sid }}');
+  var featuredThumbs  = featuredThumbsWrap ? featuredThumbsWrap.querySelectorAll('.sw4-featured-thumb-{{ sid }}') : [];
+  var totalEl         = document.getElementById('sw4-total-{{ sid }}');
+  var savingsEl       = document.getElementById('sw4-savings-{{ sid }}');
+  var receiptLinesEl  = document.getElementById('sw4-receipt-lines-{{ sid }}');
+  var progressCountEl = document.getElementById('sw4-progress-count-{{ sid }}');
+  var progressFillEl  = document.getElementById('sw4-progress-fill-{{ sid }}');
+  var progressStamps  = document.querySelectorAll('.sw4-stamp-{{ sid }}');
+  var ctaBtn          = document.getElementById('sw4-cta-{{ sid }}');
+  var ctaText         = document.getElementById('sw4-cta-text-{{ sid }}');
+
+  var SW4_CARD_INFO = {
+    'sw4-card-football-{{ sid }}': { name: '{{ addon_football.title | escape }}', stamp: 'football' },
+    'sw4-card-og-{{ sid }}':       { name: '{{ addon_og.title | escape }}',       stamp: 'og' },
+    'sw4-card-popgolf-{{ sid }}':  { name: '{{ addon_popgolf.title | escape }}',  stamp: 'popgolf' }
+  };
+
+  function sw4PadTwo(n) { return n < 10 ? '0' + n : String(n); }
+  function sw4Money(c)  { return '$' + (c / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+  featuredThumbs.forEach(function (t, i) {
+    t.addEventListener('click', function () {
+      featuredThumbs.forEach(function (x) { x.classList.remove('active'); });
+      t.classList.add('active');
+      if (!featuredImg) return;
+      featuredImg.style.opacity = '0';
+      setTimeout(function () {
+        featuredImg.src = t.dataset.src;
+        featuredImg.style.opacity = '1';
+      }, 180);
+    });
+  });
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canHover = window.matchMedia('(hover: hover)').matches;
+  if (canHover && !reduceMotion) {
+    document.querySelectorAll('.sw4-card-{{ sid }}').forEach(function (card) {
+      var rafId = null;
+      card.addEventListener('mousemove', function (e) {
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(function () {
+          var rect = card.getBoundingClientRect();
+          var cx = e.clientX - rect.left;
+          var cy = e.clientY - rect.top;
+          var px = (cx / rect.width)  - 0.5;
+          var py = (cy / rect.height) - 0.5;
+          var rotateY = px *  8;
+          var rotateX = py * -8;
+          card.style.transform = 'perspective(900px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) translateZ(0)';
+        });
+      });
+      card.addEventListener('mouseleave', function () {
+        if (rafId) cancelAnimationFrame(rafId);
+        card.style.transform = '';
+      });
+    });
+  }
+
+  function sw4OpenCartDrawer() {
+    var btn = document.querySelector('[data-cart-toggle],.cart-toggle,#cart-toggle,.js-cart-open');
+    if (btn) { btn.click(); return; }
+    document.dispatchEvent(new CustomEvent('cart:open'));
+    document.dispatchEvent(new CustomEvent('theme:cart:open'));
+  }
+  function sw4RefreshCart() {
+    fetch('/cart.js').then(function(r){ return r.json(); }).then(function(cart){
+      var n = cart.item_count;
+      document.querySelectorAll('[data-cart-count],[data-cart-item-count],.cart-count,.cart__count,#CartCount,.header__cart-count,.cart-count-bubble [aria-hidden]')
+        .forEach(function(el){ el.textContent = n; });
+    }).catch(function(){});
+    fetch('/?sections=cart-drawer,cart-icon-bubble').then(function(r){ return r.json(); }).then(function(sections){
+      if (sections['cart-drawer']) {
+        var liveDrawer  = document.querySelector('cart-drawer');
+        var sectionWrap = liveDrawer && liveDrawer.closest('[id^="shopify-section-"]');
+        if (sectionWrap) {
+          sectionWrap.innerHTML = sections['cart-drawer'];
+        } else if (liveDrawer) {
+          var doc = new DOMParser().parseFromString(sections['cart-drawer'], 'text/html');
+          var fd  = doc.querySelector('cart-drawer');
+          if (fd) liveDrawer.outerHTML = fd.outerHTML;
+        }
+      }
+      if (sections['cart-icon-bubble']) {
+        var countEl  = document.querySelector('[data-cart-count],[data-cart-item-count],.cart-count,.cart__count,.cart-count-bubble');
+        var iconWrap = countEl && countEl.closest('[id^="shopify-section-"]');
+        if (iconWrap) iconWrap.innerHTML = sections['cart-icon-bubble'];
+      }
+    }).catch(function(){});
+  }
+  function sw4EnforceKitQty() {
+    fetch('/cart.js').then(function(r){ return r.json(); }).then(function(cart){
+      for (var i = 0; i < cart.items.length; i++) {
+        if (cart.items[i].variant_id === SW4_MAIN_VARIANT && cart.items[i].quantity > 1) {
+          fetch('/cart/change.js', {
+            method:'POST', headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest'},
+            body: JSON.stringify({ id: cart.items[i].key, quantity: 1 })
+          }).then(function(r){ return r.json(); }).then(sw4RefreshCart).catch(function(){});
+          break;
+        }
+      }
+    }).catch(function(){});
+  }
+
+  function sw4ApplySelected(card, selected) { card.classList.toggle('selected', selected); }
+
+  function sw4Render() {
+    var count = 1;
+    var selectedCards = [];
+    document.querySelectorAll('.sw4-card-{{ sid }}.selected:not(.locked)').forEach(function (card) {
+      selectedCards.push(card);
+      count++;
+    });
+
+    if (receiptLinesEl) {
+      var html = '';
+      html += '<div class="sw4-receipt-line-{{ sid }}">' +
+                '<span class="sw4-receipt-line-name-{{ sid }}">★ ' + SW4_MAIN_TITLE + '</span>' +
+                '<span class="sw4-receipt-line-dots-{{ sid }}"></span>' +
+                '<span class="sw4-receipt-line-amount-{{ sid }}">' + sw4Money(SW4_BASE_PRICE) + '</span>' +
+              '</div>';
+      selectedCards.forEach(function (card) {
+        var info = SW4_CARD_INFO[card.id];
+        var p = parseInt(card.dataset.price, 10) || 0;
+        var rarity = card.dataset.rarity;
+        var stars = rarity === 'legendary' ? '★★★' : rarity === 'rare' ? '★★' : '★';
+        html += '<div class="sw4-receipt-line-{{ sid }}">' +
+                  '<span class="sw4-receipt-line-name-{{ sid }}">' + stars + ' ' + (info ? info.name : '') + '</span>' +
+                  '<span class="sw4-receipt-line-dots-{{ sid }}"></span>' +
+                  '<span class="sw4-receipt-line-amount-{{ sid }}">+' + sw4Money(p) + '</span>' +
+                '</div>';
+      });
+      if (!selectedCards.length) {
+        html += '<div class="sw4-receipt-line-{{ sid }} is-empty">' +
+                  '<span class="sw4-receipt-line-name-{{ sid }}">No tops claimed yet</span>' +
+                  '<span class="sw4-receipt-line-dots-{{ sid }}"></span>' +
+                  '<span class="sw4-receipt-line-amount-{{ sid }}">$0.00</span>' +
+                '</div>';
+      }
+      receiptLinesEl.innerHTML = html;
+    }
+
+    var total   = SW4_BASE_PRICE;
+    var compare = SW4_BASE_COMPARE;
+    selectedCards.forEach(function (card) {
+      var p = parseInt(card.dataset.price,   10) || 0;
+      var c = parseInt(card.dataset.compare, 10) || 0;
+      total   += p;
+      compare += (c > 0 ? c : p);
+    });
+    if (totalEl) {
+      totalEl.textContent = sw4Money(total);
+      totalEl.classList.remove('bump');
+      void totalEl.offsetWidth;
+      totalEl.classList.add('bump');
+      setTimeout(function () { totalEl.classList.remove('bump'); }, 300);
+    }
+    var saved = compare - total;
+    if (savingsEl) {
+      if (saved > 0) {
+        savingsEl.textContent = '◆ SAVE ' + sw4Money(saved);
+        savingsEl.style.cssText = 'display:inline-flex;';
+      } else {
+        savingsEl.style.cssText = 'display:none;';
+      }
+    }
+
+    if (progressCountEl) progressCountEl.textContent = sw4PadTwo(count);
+    if (progressFillEl)  progressFillEl.style.width  = ((count / 4) * 100) + '%';
+    if (featuredNum)     featuredNum.textContent     = sw4PadTwo(count);
+
+    var stampsLit = { frame: true };
+    selectedCards.forEach(function (card) {
+      var info = SW4_CARD_INFO[card.id];
+      if (info) stampsLit[info.stamp] = true;
+    });
+    progressStamps.forEach(function (s) {
+      s.classList.toggle('lit', !!stampsLit[s.dataset.stamp]);
+    });
+  }
+
+  function sw4SyncFromCart() {
+    fetch('/cart.js').then(function(r){ return r.json(); }).then(function(cart){
+      var inCart = cart.items.map(function(i){ return i.variant_id; });
+      document.querySelectorAll('.sw4-card-{{ sid }}').forEach(function(card){
+        var v = parseInt(card.dataset.variant, 10);
+        if (v && inCart.indexOf(v) !== -1) sw4ApplySelected(card, true);
+      });
+      sw4Render();
+    }).catch(function(){});
+  }
+
+  window['sw4ToggleAddon_{{ sid }}'] = function (card) {
+    if (!card) return;
+    var selecting    = !card.classList.contains('selected');
+    var addonVariant = parseInt(card.dataset.variant, 10);
+
+    sw4ApplySelected(card, selecting);
+    sw4Render();
+
+    if (!addonVariant) return;
+
+    if (selecting) {
+      fetch('/cart.js').then(function(r){ return r.json(); }).then(function(cart){
+        var inCart = cart.items.map(function(i){ return i.variant_id; });
+        var items  = [];
+        if (SW4_MAIN_VARIANT && inCart.indexOf(SW4_MAIN_VARIANT) === -1)
+          items.push({ id: SW4_MAIN_VARIANT, quantity: 1 });
+        if (inCart.indexOf(addonVariant) === -1)
+          items.push({ id: addonVariant, quantity: 1 });
+        if (!items.length) { sw4OpenCartDrawer(); return null; }
+        return fetch('/cart/add.js', {
+          method:'POST', headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest'},
+          body: JSON.stringify({ items: items })
+        }).then(function(r){ return r.json(); });
+      }).then(function(result){
+        if (!result) return;
+        sw4EnforceKitQty();
+        sw4RefreshCart();
+        sw4OpenCartDrawer();
+      }).catch(function(){
+        sw4ApplySelected(card, false);
+        sw4Render();
+      });
+    } else {
+      fetch('/cart.js').then(function(r){ return r.json(); }).then(function(cart){
+        var addonKey = null;
+        var kitKeys  = [];
+        cart.items.forEach(function(item){
+          if (String(item.variant_id) === String(addonVariant)) addonKey = item.key;
+          if (item.variant_id === SW4_MAIN_VARIANT)             kitKeys.push(item.key);
+        });
+        var toRemove = kitKeys.slice();
+        if (addonKey) toRemove.push(addonKey);
+        if (!toRemove.length) return null;
+        return Promise.all(toRemove.map(function(key){
+          return fetch('/cart/change.js', {
+            method:'POST', headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest'},
+            body: JSON.stringify({ id: key, quantity: 0 })
+          }).then(function(r){ return r.json(); });
+        }));
+      }).then(function(result){
+        if (result === null) return null;
+        return fetch('/cart.js').then(function(r){ return r.json(); });
+      }).then(function(cart){
+        if (!cart) return null;
+        var remaining = cart.items.filter(function(i){ return i.variant_id === SW4_MAIN_VARIANT; });
+        if (!remaining.length) return true;
+        return Promise.all(remaining.map(function(item){
+          return fetch('/cart/change.js', {
+            method:'POST', headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest'},
+            body: JSON.stringify({ id: item.key, quantity: 0 })
+          }).then(function(r){ return r.json(); });
+        })).then(function(){ return true; });
+      }).then(function(ok){
+        if (!ok) return null;
+        return fetch('/cart/add.js', {
+          method:'POST', headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest'},
+          body: JSON.stringify({ items: [{ id: SW4_MAIN_VARIANT, quantity: 1 }] })
+        }).then(function(r){ return r.json(); });
+      }).then(function(result){
+        if (!result) return;
+        sw4RefreshCart();
+      }).catch(function(){
+        sw4ApplySelected(card, true);
+        sw4Render();
+      });
+    }
+  };
+
+  function sw4GetItems() {
+    var items = [{ id: SW4_MAIN_VARIANT, quantity: 1 }];
+    document.querySelectorAll('.sw4-card-{{ sid }}.selected').forEach(function (card) {
+      if (card.dataset.variant) items.push({ id: parseInt(card.dataset.variant, 10), quantity: 1 });
+    });
+    return items;
+  }
+
+  window['sw4AddToCart_{{ sid }}'] = function () {
+    if (!ctaBtn || ctaBtn.classList.contains('loading')) return;
+    ctaBtn.classList.add('loading');
+    if (ctaText) ctaText.textContent = 'Sealing...';
+    fetch('/cart.js').then(function(r){ return r.json(); }).then(function(cart){
+      var inCart   = cart.items.map(function(i){ return i.variant_id; });
+      var allItems = sw4GetItems();
+      var toAdd    = allItems.filter(function(item){ return inCart.indexOf(item.id) === -1; });
+      sw4OpenCartDrawer();
+      if (!toAdd.length) {
+        ctaBtn.classList.remove('loading');
+        if (ctaText) ctaText.textContent = 'Collection Sealed ✓';
+        setTimeout(function() { if (ctaText) ctaText.textContent = 'Claim Your Collection'; }, 2000);
+        return null;
+      }
+      return fetch('/cart/add.js', {
+        method:'POST', headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest'},
+        body: JSON.stringify({ items: toAdd })
+      }).then(function(r){ return r.json(); });
+    }).then(function(data){
+      if (!data) return;
+      if (data.status && data.status >= 400) throw new Error(data.description || 'Cart error');
+      sw4EnforceKitQty();
+      sw4RefreshCart();
+      ctaBtn.classList.remove('loading');
+      if (ctaText) ctaText.textContent = 'Collection Sealed ✓';
+      setTimeout(function() { if (ctaText) ctaText.textContent = 'Claim Your Collection'; }, 2000);
+    }).catch(function(){
+      ctaBtn.classList.remove('loading');
+      if (ctaText) ctaText.textContent = 'Try Again';
+      setTimeout(function() { if (ctaText) ctaText.textContent = 'Claim Your Collection'; }, 2500);
+    });
+  };
+
+  window['sw4ScrollToReviews_{{ sid }}'] = function () {
+    var target = document.querySelector('.jdgm-rev-widg__header');
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  document.querySelectorAll('.sw4-acc-{{ sid }} .sw4-acc-trigger-{{ sid }}').forEach(function (trigger) {
+    trigger.addEventListener('click', function () {
+      var item   = trigger.closest('.sw4-acc-item-{{ sid }}');
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.sw4-acc-{{ sid }} .sw4-acc-item-{{ sid }}').forEach(function (i) {
+        i.classList.remove('open');
+        var trg = i.querySelector('.sw4-acc-trigger-{{ sid }}');
+        if (trg) trg.setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        trigger.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  sw4Render();
+  sw4SyncFromCart();
+})();
+</script>
+
+<script>
+(function () {
+  var SW4_LB_DEFAULT = [
+    {% for image in main_product.images limit: 3 %}
+      '{{ image | image_url: width: 1600 }}'{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ];
+  var SW4_FOOTBALL_LB = [
+    {% for image in addon_football.images %}
+      '{{ image | image_url: width: 1600 }}'{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ];
+  var SW4_OG_LB = [
+    {% for image in addon_og.images %}
+      '{{ image | image_url: width: 1600 }}'{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ];
+  var SW4_POPGOLF_LB = [
+    {% for image in addon_popgolf.images %}
+      '{{ image | image_url: width: 1600 }}'{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ];
+  var SW4_CARD_LB_MAP = {
+    'sw4-card-football-{{ sid }}': SW4_FOOTBALL_LB,
+    'sw4-card-og-{{ sid }}':       SW4_OG_LB,
+    'sw4-card-popgolf-{{ sid }}':  SW4_POPGOLF_LB
+  };
+
+  var lightboxEl   = document.getElementById('sw4-lightbox-{{ sid }}');
+  var lbImg        = document.getElementById('sw4-lb-img-{{ sid }}');
+  var lbPrev       = document.getElementById('sw4-lb-prev-{{ sid }}');
+  var lbNext       = document.getElementById('sw4-lb-next-{{ sid }}');
+  var lbCounter    = document.getElementById('sw4-lb-counter-{{ sid }}');
+  var lbImages     = SW4_LB_DEFAULT;
+  var lbIndex      = 0;
+  var lbTouchStart = 0;
+
+  function sw4LbUpdate() {
+    if (!lbImg) return;
+    lbImg.style.opacity = '0';
+    setTimeout(function () {
+      lbImg.src = lbImages[lbIndex];
+      lbImg.style.opacity = '1';
+    }, 150);
+    if (lbCounter) lbCounter.textContent = (lbIndex + 1) + ' / ' + lbImages.length;
+    if (lbPrev) lbPrev.disabled = lbIndex === 0;
+    if (lbNext) lbNext.disabled = lbIndex === lbImages.length - 1;
+  }
+
+  window['sw4OpenLightbox_{{ sid }}'] = function (images, startIdx) {
+    lbImages = (images && images.length) ? images : SW4_LB_DEFAULT;
+    lbIndex  = startIdx || 0;
+    if (lbImg) lbImg.src = lbImages[lbIndex];
+    if (lbCounter) lbCounter.textContent = (lbIndex + 1) + ' / ' + lbImages.length;
+    if (lbPrev) lbPrev.disabled = lbIndex === 0;
+    if (lbNext) lbNext.disabled = lbIndex === lbImages.length - 1;
+    if (lightboxEl) lightboxEl.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+  window['sw4CloseLightbox_{{ sid }}'] = function () {
+    if (lightboxEl) lightboxEl.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+  window['sw4LightboxNav_{{ sid }}'] = function (dir) {
+    var newIdx = lbIndex + dir;
+    if (newIdx < 0 || newIdx >= lbImages.length) return;
+    lbIndex = newIdx;
+    sw4LbUpdate();
+  };
+  window['sw4CardImgClick_{{ sid }}'] = function (e, artEl) {
+    e.stopPropagation();
+    var card = artEl.closest('.sw4-card-{{ sid }}');
+    if (!card) return;
+    var imgs = SW4_CARD_LB_MAP[card.id];
+    window['sw4OpenLightbox_{{ sid }}'](imgs && imgs.length ? imgs : SW4_LB_DEFAULT, 0);
+  };
+
+  if (lightboxEl) {
+    lightboxEl.addEventListener('click', function (e) {
+      if (e.target === lightboxEl) window['sw4CloseLightbox_{{ sid }}']();
+    });
+    lightboxEl.addEventListener('touchstart', function (e) { lbTouchStart = e.touches[0].clientX; }, { passive: true });
+    lightboxEl.addEventListener('touchend', function (e) {
+      var diff = e.changedTouches[0].clientX - lbTouchStart;
+      if (Math.abs(diff) > 50) window['sw4LightboxNav_{{ sid }}'](diff > 0 ? -1 : 1);
+    }, { passive: true });
+  }
+  document.addEventListener('keydown', function (e) {
+    if (!lightboxEl || !lightboxEl.classList.contains('active')) return;
+    if (e.key === 'Escape')     window['sw4CloseLightbox_{{ sid }}']();
+    if (e.key === 'ArrowLeft')  window['sw4LightboxNav_{{ sid }}'](-1);
+    if (e.key === 'ArrowRight') window['sw4LightboxNav_{{ sid }}'](1);
+  });
+})();
+</script>
+
+<script>
+(function () {
+  var SW4_QV_DATA = {
+    'sw4-card-football-{{ sid }}': {
+      title:   '{{ addon_football.title | escape }}',
+      desc:    {{ addon_football.description | default: '<p>The fan-favorite top. Big fun, easy to play.</p>' | json | replace: '</script>', '<\/script>' }},
+      price:   {{ addon_football.price }},
+      compare: {{ addon_football.compare_at_price | default: addon_football.price }},
+      images: [
+        {% for image in addon_football.images %}'{{ image | image_url: width: 1600 }}'{% unless forloop.last %},{% endunless %}{% endfor %}
+      ],
+      thumbs: [
+        {% for image in addon_football.images %}'{{ image | image_url: width: 200 }}'{% unless forloop.last %},{% endunless %}{% endfor %}
+      ]
+    },
+    'sw4-card-og-{{ sid }}': {
+      title:   '{{ addon_og.title | escape }}',
+      desc:    {{ addon_og.description | default: '<p>The original heritage top. A classic for the collection.</p>' | json | replace: '</script>', '<\/script>' }},
+      price:   {{ addon_og.price }},
+      compare: {{ addon_og.compare_at_price | default: addon_og.price }},
+      images: [
+        {% for image in addon_og.images %}'{{ image | image_url: width: 1600 }}'{% unless forloop.last %},{% endunless %}{% endfor %}
+      ],
+      thumbs: [
+        {% for image in addon_og.images %}'{{ image | image_url: width: 200 }}'{% unless forloop.last %},{% endunless %}{% endfor %}
+      ]
+    },
+    'sw4-card-popgolf-{{ sid }}': {
+      title:   '{{ addon_popgolf.title | escape }}',
+      desc:    {{ addon_popgolf.description | default: '<p>Pro tier precision top. The legendary pick.</p>' | json | replace: '</script>', '<\/script>' }},
+      price:   {{ addon_popgolf.price }},
+      compare: {{ addon_popgolf.compare_at_price | default: addon_popgolf.price }},
+      images: [
+        {% for image in addon_popgolf.images %}'{{ image | image_url: width: 1600 }}'{% unless forloop.last %},{% endunless %}{% endfor %}
+      ],
+      thumbs: [
+        {% for image in addon_popgolf.images %}'{{ image | image_url: width: 200 }}'{% unless forloop.last %},{% endunless %}{% endfor %}
+      ]
+    }
+  };
+
+  var SW4_CARD_INFO_QV = {
+    'sw4-card-football-{{ sid }}': { rarity: 'common',    stars: '★ COMMON' },
+    'sw4-card-og-{{ sid }}':       { rarity: 'rare',      stars: '★★ RARE' },
+    'sw4-card-popgolf-{{ sid }}':  { rarity: 'legendary', stars: '★★★ LEGENDARY' }
+  };
+
+  var qvOverlay = document.getElementById('sw4-qv-overlay-{{ sid }}');
+  var qvPanel   = document.getElementById('sw4-qv-panel-{{ sid }}');
+  var qvTitle   = document.getElementById('sw4-qv-title-{{ sid }}');
+  var qvDesc    = document.getElementById('sw4-qv-desc-{{ sid }}');
+  var qvPriceSale    = document.getElementById('sw4-qv-price-sale-{{ sid }}');
+  var qvPriceCompare = document.getElementById('sw4-qv-price-compare-{{ sid }}');
+  var qvPriceBadge   = document.getElementById('sw4-qv-price-badge-{{ sid }}');
+  var qvMainImg = document.getElementById('sw4-qv-main-img-{{ sid }}');
+  var qvCount   = document.getElementById('sw4-qv-count-{{ sid }}');
+  var qvThumbs  = document.getElementById('sw4-qv-thumbs-{{ sid }}');
+  var qvAdd     = document.getElementById('sw4-qv-add-{{ sid }}');
+  var qvAddLabel = document.getElementById('sw4-qv-add-label-{{ sid }}');
+  var qvPrev    = document.getElementById('sw4-qv-prev-{{ sid }}');
+  var qvNext    = document.getElementById('sw4-qv-next-{{ sid }}');
+
+  var qvCurrentCardId = null;
+  var qvIndex = 0;
+  var qvImgs  = [];
+  var qvTouchStart = 0;
+
+  function sw4QvMoney(c) { return '$' + (c / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+  function sw4QvShowImg(i) {
+    if (!qvImgs.length || !qvMainImg) return;
+    qvIndex = i;
+    qvMainImg.style.opacity = '0';
+    setTimeout(function () {
+      qvMainImg.src = qvImgs[i];
+      qvMainImg.style.opacity = '1';
+    }, 150);
+    if (qvCount) qvCount.textContent = (i + 1) + ' / ' + qvImgs.length;
+    if (qvThumbs) qvThumbs.querySelectorAll('.sw4-qv-thumb-{{ sid }}').forEach(function(t, idx){
+      t.classList.toggle('active', idx === i);
+    });
+    if (qvPrev) qvPrev.classList.toggle('off', i === 0);
+    if (qvNext) qvNext.classList.toggle('off', i === qvImgs.length - 1);
+  }
+
+  window['sw4QvOpen_{{ sid }}'] = function (cardId) {
+    var data = SW4_QV_DATA[cardId];
+    var info = SW4_CARD_INFO_QV[cardId];
+    if (!data || !info) return;
+    qvCurrentCardId = cardId;
+    qvImgs = data.images;
+    qvIndex = 0;
+    if (qvTitle) qvTitle.textContent = data.title;
+    if (qvDesc)  qvDesc.innerHTML  = data.desc;
+    if (qvPriceSale) qvPriceSale.textContent = sw4QvMoney(data.price);
+    if (qvPriceCompare) {
+      if (data.compare > data.price) {
+        qvPriceCompare.textContent = sw4QvMoney(data.compare);
+        qvPriceCompare.style.display = '';
+      } else qvPriceCompare.style.display = 'none';
+    }
+    if (qvPriceBadge) {
+      if (data.compare > data.price) {
+        var pct = Math.round(((data.compare - data.price) / data.compare) * 100);
+        qvPriceBadge.textContent = '◆ SAVE ' + pct + '%';
+        qvPriceBadge.style.display = 'inline-flex';
+      } else qvPriceBadge.style.display = 'none';
+    }
+    if (qvThumbs) {
+      var html = '';
+      data.thumbs.forEach(function (src, i) {
+        html += '<div class="sw4-qv-thumb-{{ sid }}' + (i === 0 ? ' active' : '') + '" data-idx="' + i + '" onclick="sw4QvThumb_{{ sid }}(' + i + ')"><img src="' + src + '" alt=""></div>';
+      });
+      qvThumbs.innerHTML = html;
+    }
+    sw4QvShowImg(0);
+
+    var card = document.getElementById(cardId);
+    if (qvAdd) {
+      qvAdd.classList.remove('in-bundle');
+      qvAdd.style.display = '';
+      qvAdd.classList.remove('common', 'rare', 'legendary');
+      qvAdd.classList.add(info.rarity);
+      qvAdd.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span id="sw4-qv-add-label-{{ sid }}">Claim ' + info.stars + '</span>';
+      qvAddLabel = document.getElementById('sw4-qv-add-label-{{ sid }}');
+      if (card && card.classList.contains('selected')) {
+        qvAdd.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>Claimed ' + info.stars + '</span>';
+        qvAdd.classList.add('in-bundle');
+      }
+    }
+
+    if (qvOverlay) qvOverlay.classList.add('active');
+    qvOverlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  };
+
+  window['sw4QvClose_{{ sid }}'] = function () {
+    if (qvOverlay) qvOverlay.classList.remove('active');
+    qvOverlay.style.display = 'none';
+    document.body.style.overflow = '';
+    qvCurrentCardId = null;
+  };
+  window['sw4QvNav_{{ sid }}'] = function (dir) {
+    var n = qvIndex + dir;
+    if (n < 0 || n >= qvImgs.length) return;
+    sw4QvShowImg(n);
+  };
+  window['sw4QvThumb_{{ sid }}'] = function (i) { sw4QvShowImg(i); };
+
+  window['sw4QvAccToggle_{{ sid }}'] = function (trigger) {
+    var item = trigger.closest('.sw4-qv-acc-{{ sid }}');
+    if (!item) return;
+    var isOpen = item.classList.contains('open');
+    document.querySelectorAll('.sw4-qv-acc-{{ sid }}').forEach(function (i) {
+      i.classList.remove('open');
+      var trg = i.querySelector('.sw4-qv-acc-trigger-{{ sid }}');
+      if (trg) trg.setAttribute('aria-expanded', 'false');
+    });
+    if (!isOpen) {
+      item.classList.add('open');
+      trigger.setAttribute('aria-expanded', 'true');
+    }
+  };
+
+  window['sw4QvCtaClick_{{ sid }}'] = function () {
+    if (!qvCurrentCardId) return;
+    var card = document.getElementById(qvCurrentCardId);
+    if (!card) return;
+    if (card.classList.contains('selected')) {
+      window['sw4QvClose_{{ sid }}']();
+      return;
+    }
+    window['sw4ToggleAddon_{{ sid }}'](card);
+    window['sw4QvClose_{{ sid }}']();
+  };
+
+  if (qvOverlay) {
+    qvOverlay.addEventListener('click', function (e) {
+      if (e.target === qvOverlay) window['sw4QvClose_{{ sid }}']();
+    });
+    qvOverlay.addEventListener('touchstart', function (e) { qvTouchStart = e.touches[0].clientX; }, { passive: true });
+    qvOverlay.addEventListener('touchend', function (e) {
+      if (!qvOverlay.classList.contains('active')) return;
+      var diff = e.changedTouches[0].clientX - qvTouchStart;
+      if (Math.abs(diff) > 50) window['sw4QvNav_{{ sid }}'](diff > 0 ? -1 : 1);
+    }, { passive: true });
+  }
+  document.addEventListener('keydown', function (e) {
+    if (!qvOverlay || !qvOverlay.classList.contains('active')) return;
+    if (e.key === 'Escape')     window['sw4QvClose_{{ sid }}']();
+    if (e.key === 'ArrowLeft')  window['sw4QvNav_{{ sid }}'](-1);
+    if (e.key === 'ArrowRight') window['sw4QvNav_{{ sid }}'](1);
+  });
+})();
+</script>
+
+<script>
+(function () {
+  var SW4_MAIN_VARIANT = {{ main_product.first_available_variant.id }};
+  var SW4_CARD_INFO_P = {
+    'sw4-card-football-{{ sid }}': { variant: {{ addon_football.first_available_variant.id }} },
+    'sw4-card-og-{{ sid }}':       { variant: {{ addon_og.first_available_variant.id }} },
+    'sw4-card-popgolf-{{ sid }}':  { variant: {{ addon_popgolf.first_available_variant.id }} }
+  };
+  var lastSig = '';
+  function sw4PollCart() {
+    fetch('/cart.js').then(function(r){ return r.json(); }).then(function(cart){
+      var sig = cart.items.map(function(i){ return i.variant_id + 'x' + i.quantity; }).sort().join('|');
+      if (sig === lastSig) return;
+      lastSig = sig;
+      var inCart = cart.items.map(function(i){ return i.variant_id; });
+      document.querySelectorAll('.sw4-card-{{ sid }}').forEach(function(card){
+        var v = parseInt(card.dataset.variant, 10);
+        if (!v) return;
+        var present = inCart.indexOf(v) !== -1;
+        card.classList.toggle('selected', present);
+      });
+      if (typeof window['sw4Render_{{ sid }}'] === 'function') window['sw4Render_{{ sid }}']();
+      // re-trigger main render via existing closure handle
+      var totalEl = document.getElementById('sw4-total-{{ sid }}');
+      if (totalEl) {
+        var ev = new Event('sw4:refresh-{{ sid }}');
+        document.dispatchEvent(ev);
+      }
+    }).catch(function(){});
+  }
+  setInterval(sw4PollCart, 2500);
+  document.addEventListener('cart:refresh',  sw4PollCart);
+  document.addEventListener('cart:updated',  sw4PollCart);
+  document.addEventListener('cart:added',    sw4PollCart);
+  document.addEventListener('cart:changed',  sw4PollCart);
+})();
+</script>
+
+<script>
+(function () {
+  var injected = false;
+  function inject(target) {
+    if (injected) return;
+    var styleEl = document.createElement('style');
+    styleEl.setAttribute('data-sw4-upcart-{{ sid }}', '');
+    styleEl.textContent = "\
+      #CartPopup, .upcart-modal, .upcart-cart { background: #050505 !important; color: #fff !important; font-family: 'Inter', sans-serif !important; }\
+      #CartPopup *, .upcart-modal * { border-color: rgba(255,255,255,0.08) !important; }\
+      #CartPopup h1, #CartPopup h2, #CartPopup h3, .upcart-header, .upcart-cart-title { font-family: 'Russo One', sans-serif !important; letter-spacing: 0.04em !important; text-transform: uppercase !important; color: #fff !important; }\
+      #CartPopup .upcart-cart-subtotal-text, #CartPopup .upcart-checkout-text { color: #23ff53 !important; }\
+      #CartPopup .upcart-checkout-button, #CartPopup button[type='submit'] { background: linear-gradient(135deg, #23ff53, #1be047) !important; color: #000 !important; font-family: 'Russo One', sans-serif !important; letter-spacing: 0.08em !important; text-transform: uppercase !important; border-radius: 10px !important; }\
+      #CartPopup .upcart-line-item, .upcart-product { border-bottom: 1px dashed rgba(255,255,255,0.12) !important; }\
+      #CartPopup a { color: #23ff53 !important; }\
+    ";
+    target.appendChild(styleEl);
+    injected = true;
+  }
+  function check() {
+    var popup = document.getElementById('CartPopup') || document.querySelector('.upcart-modal, .upcart-cart');
+    if (popup) inject(document.head);
+  }
+  check();
+  if ('MutationObserver' in window) {
+    var mo = new MutationObserver(check);
+    mo.observe(document.body, { childList: true, subtree: true });
+  } else {
+    document.addEventListener('cart:open', check);
+  }
+})();
+</script>
+
+{% comment %}
+  SCHEMA DISABLED FOR REPLO.
+  Replo supplies its own section schema, so an embedded schema tag here causes
+  "Duplicate entries for tag: schema" on save.
+
+  If this file is ever used as a NATIVE Shopify section
+  (sections/swaptop-bundle-v4.liquid), re-add a schema block at the very end:
+
+    name:    "Swaptop Bundle v4"
+    tag:     "section"
+    class:   "swaptop-bundle-v4-wrapper"
+    settings: []
+    presets: [ { name: "Swaptop Bundle v4" } ]
+{% endcomment %}

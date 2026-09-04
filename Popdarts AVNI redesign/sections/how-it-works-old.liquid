@@ -1,0 +1,200 @@
+{{ 'component-multicolumn-card.css' | asset_url | stylesheet_tag }}
+<style>
+  .section__header.text-left.md\:text-left.rich-text.spacing--large {
+    text-align: center;
+}
+</style>
+<div
+  class="section section--padding multicolumn color-"
+  style="--section-padding-top: 50px;--section-padding-bottom: 50px;"
+>
+  <div class="page-width">
+
+    <!-- Section Header -->
+    <div class="section__header text-left md:text-left rich-text spacing--large">
+      <motion-element class="block rich-text__subheading text-subheading" data-motion="fade-up" data-motion-delay="50">
+        The Swaptop™ System
+      </motion-element>
+      <h2 class="rich-text__heading inline-richtext overflow-hidden h1">
+        <motion-element data-motion="fade-up" data-motion-delay="100" class="block">
+          HOW IT WORKS
+        </motion-element>
+      </h2>
+      <motion-element class="block rich-text__text rte text-base" data-motion="fade-up" data-motion-delay="150">
+        <p>Flip your Swaptop™ Board around and clip into the Frame to play another awesome game!</p>
+      </motion-element>
+    </div>
+
+    <!-- Columns -->
+    <motion-element
+      class="section__content block f-grid--gap-large swipe-mobile swipe-mobile--1-cols"
+      data-motion="fade-up"
+      data-motion-delay="200"
+    >
+      <div class="multicolumn__items f-grid f-grid-1-cols md:f-grid-3-cols lg:f-grid-5-cols swipe-mobile__inner">
+
+        <!-- Step 1: Frame It -->
+        <div class="f-column">
+          <div class="multicolumn-card multicolumn-card-mobile-inherit multicolumn-card--image-full text-left">
+            <div class="multicolumn-card__image media-wrapper hover-wrapper blocks-radius">
+              <motion-element data-motion="zoom-out-sm" class="block w-full h-full">
+                <img
+                  src="//popdartsgame.com/cdn/shop/files/step_1.jpg"
+                  srcset="//popdartsgame.com/cdn/shop/files/step_1.jpg?width=165 165w,
+                          //popdartsgame.com/cdn/shop/files/step_1.jpg?width=360 360w,
+                          //popdartsgame.com/cdn/shop/files/step_1.jpg?width=535 535w,
+                          //popdartsgame.com/cdn/shop/files/step_1.jpg?width=750 750w,
+                          //popdartsgame.com/cdn/shop/files/step_1.jpg?width=940 940w,
+                          //popdartsgame.com/cdn/shop/files/step_1.jpg?width=1100 1100w"
+                  alt="Step 1 - Frame It"
+                  loading="lazy"
+                  class="motion-reduce hover-scale-up"
+                  is="image-lazy"
+                >
+              </motion-element>
+            </div>
+            <div class="multicolumn-card__info">
+              <h3 class="multicolumn-card__title h4">1. Frame It</h3>
+              <div class="multicolumn-card__text rich-text__text rte text-base">
+                <p>Set up your Swaptop™ frame.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Clip It -->
+        <div class="f-column">
+          <div class="multicolumn-card multicolumn-card-mobile-inherit multicolumn-card--image-full text-left">
+            <div class="multicolumn-card__image media-wrapper hover-wrapper blocks-radius">
+              <motion-element data-motion="zoom-out-sm" class="block w-full h-full">
+                <img
+                  src="//popdartsgame.com/cdn/shop/files/STEP_2.jpg"
+                  srcset="//popdartsgame.com/cdn/shop/files/STEP_2.jpg?width=165 165w,
+                          //popdartsgame.com/cdn/shop/files/STEP_2.jpg?width=360 360w,
+                          //popdartsgame.com/cdn/shop/files/STEP_2.jpg?width=535 535w,
+                          //popdartsgame.com/cdn/shop/files/STEP_2.jpg?width=750 750w,
+                          //popdartsgame.com/cdn/shop/files/STEP_2.jpg?width=940 940w,
+                          //popdartsgame.com/cdn/shop/files/STEP_2.jpg?width=1100 1100w"
+                  alt="Step 2 - Clip It"
+                  loading="lazy"
+                  class="motion-reduce hover-scale-up"
+                  is="image-lazy"
+                >
+              </motion-element>
+            </div>
+            <div class="multicolumn-card__info">
+              <h3 class="multicolumn-card__title h4">2. Clip It</h3>
+              <div class="multicolumn-card__text rich-text__text rte text-base">
+                <p>Center the board on the bottom frame, then clip into the top frame.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Play It -->
+        <div class="f-column">
+          <div class="multicolumn-card multicolumn-card-mobile-inherit multicolumn-card--image-full text-left">
+            <div class="multicolumn-card__image media-wrapper hover-wrapper blocks-radius">
+              <motion-element data-motion="zoom-out-sm" class="block w-full h-full">
+                <img
+                  src="//popdartsgame.com/cdn/shop/files/STEP_3.jpg"
+                  srcset="//popdartsgame.com/cdn/shop/files/STEP_3.jpg?width=165 165w,
+                          //popdartsgame.com/cdn/shop/files/STEP_3.jpg?width=360 360w,
+                          //popdartsgame.com/cdn/shop/files/STEP_3.jpg?width=535 535w,
+                          //popdartsgame.com/cdn/shop/files/STEP_3.jpg?width=750 750w,
+                          //popdartsgame.com/cdn/shop/files/STEP_3.jpg?width=940 940w,
+                          //popdartsgame.com/cdn/shop/files/STEP_3.jpg?width=1100 1100w"
+                  alt="Step 3 - Play It"
+                  loading="lazy"
+                  class="motion-reduce hover-scale-up"
+                  is="image-lazy"
+                >
+              </motion-element>
+            </div>
+            <div class="multicolumn-card__info">
+              <h3 class="multicolumn-card__title h4">3. Play It</h3>
+              <div class="multicolumn-card__text rich-text__text rte text-base">
+                <p>Play and keep score with the built-in scorekeepers.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Swap It -->
+        <div class="f-column">
+          <div class="multicolumn-card multicolumn-card-mobile-inherit multicolumn-card--image-full text-left">
+            <div class="multicolumn-card__image media-wrapper hover-wrapper blocks-radius">
+              <motion-element data-motion="zoom-out-sm" class="block w-full h-full">
+                <img
+                  src="//popdartsgame.com/cdn/shop/files/STEP_4.jpg"
+                  srcset="//popdartsgame.com/cdn/shop/files/STEP_4.jpg?width=165 165w,
+                          //popdartsgame.com/cdn/shop/files/STEP_4.jpg?width=360 360w,
+                          //popdartsgame.com/cdn/shop/files/STEP_4.jpg?width=535 535w,
+                          //popdartsgame.com/cdn/shop/files/STEP_4.jpg?width=750 750w,
+                          //popdartsgame.com/cdn/shop/files/STEP_4.jpg?width=940 940w,
+                          //popdartsgame.com/cdn/shop/files/STEP_4.jpg?width=1100 1100w"
+                  alt="Step 4 - Swap It"
+                  loading="lazy"
+                  class="motion-reduce hover-scale-up"
+                  is="image-lazy"
+                >
+              </motion-element>
+            </div>
+            <div class="multicolumn-card__info">
+              <h3 class="multicolumn-card__title h4">4. Swap IT</h3>
+              <div class="multicolumn-card__text rich-text__text rte text-base">
+                <p>Unclip the top frame and flip the board.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 5: Repeat It -->
+        <div class="f-column">
+          <div class="multicolumn-card multicolumn-card-mobile-inherit multicolumn-card--image-full text-left">
+            <div class="multicolumn-card__image media-wrapper hover-wrapper blocks-radius">
+              <motion-element data-motion="zoom-out-sm" class="block w-full h-full">
+                <img
+                  src="//popdartsgame.com/cdn/shop/files/STEP_5.jpg"
+                  srcset="//popdartsgame.com/cdn/shop/files/STEP_5.jpg?width=165 165w,
+                          //popdartsgame.com/cdn/shop/files/STEP_5.jpg?width=360 360w,
+                          //popdartsgame.com/cdn/shop/files/STEP_5.jpg?width=535 535w,
+                          //popdartsgame.com/cdn/shop/files/STEP_5.jpg?width=750 750w,
+                          //popdartsgame.com/cdn/shop/files/STEP_5.jpg?width=940 940w,
+                          //popdartsgame.com/cdn/shop/files/STEP_5.jpg?width=1100 1100w"
+                  alt="Step 5 - Repeat It"
+                  loading="lazy"
+                  class="motion-reduce hover-scale-up"
+                  is="image-lazy"
+                >
+              </motion-element>
+            </div>
+            <div class="multicolumn-card__info">
+              <h3 class="multicolumn-card__title h4">5. Repeat it</h3>
+              <div class="multicolumn-card__text rich-text__text rte text-base">
+                <p>Clip in the top frame and keep playing!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </motion-element>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "How It Works",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["footer", "header", "custom.overlay"]
+  },
+  "settings": [],
+  "blocks": [],
+  "presets": [
+    { "name": "How It Works" }
+  ]
+}
+{% endschema %}

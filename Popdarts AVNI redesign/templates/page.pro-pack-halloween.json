@@ -1,0 +1,126 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": { "padding_top": 28, "padding_bottom": 28 }
+    },
+    "hw_bar": {
+      "type": "halloween-countdown-bar",
+      "settings": {
+        "message": "🎃 The Halloween Pro Pack is back — limited run",
+        "count_label": "Vanishes in",
+        "deadline": "2026-10-31T23:59:00-04:00"
+      }
+    },
+    "hw_hero": {
+      "type": "halloween-hero",
+      "settings": {}
+    },
+    "hw_buy": {
+      "type": "halloween-buy",
+      "blocks": {
+        "item_1": { "type": "item", "settings": { "text": "6 Popdarts in two Halloween colorways" } },
+        "item_2": { "type": "item", "settings": { "text": "1 PRO Target Marker™ (worth 10 points)" } },
+        "item_3": { "type": "item", "settings": { "text": "1 carrying bag with printed rules and ruler" } },
+        "item_4": { "type": "item", "settings": { "text": "2 Popdarts stickers" } }
+      },
+      "block_order": ["item_1", "item_2", "item_3", "item_4"],
+      "settings": {}
+    },
+    "hw_story": {
+      "type": "halloween-story",
+      "blocks": {
+        "fact_1": { "type": "fact", "settings": { "icon": "⚰️", "title": "One final run", "text": "This is the last batch of the Halloween colorway we will make." } },
+        "fact_2": { "type": "fact", "settings": { "icon": "🎃", "title": "Two exclusive colorways", "text": "Toxic Slime and Pumpkin Fright only come in this pack." } },
+        "fact_3": { "type": "fact", "settings": { "icon": "🪦", "title": "No restocks", "text": "When it sells out, it stays sold out." } }
+      },
+      "block_order": ["fact_1", "fact_2", "fact_3"],
+      "settings": {}
+    },
+    "hw_colorways": {
+      "type": "halloween-colorways",
+      "settings": {}
+    },
+    "hw_scenes": {
+      "type": "halloween-scenes",
+      "blocks": {
+        "scene_1": { "type": "scene", "settings": { "title": "Sticks to any smooth surface", "caption": "Play on tables, countertops, windows, and floors, indoors or out." } },
+        "scene_2": { "type": "scene", "settings": { "title": "No screens, no batteries", "caption": "It runs on suction and skill." } }
+      },
+      "block_order": ["scene_1", "scene_2"],
+      "settings": {}
+    },
+    "hw_transition": {
+      "type": "halloween-transition",
+      "settings": {}
+    },
+    "hw_box": {
+      "type": "halloween-box",
+      "blocks": {
+        "item_1": { "type": "item", "settings": { "title": "6 Popdarts®", "text": "3 Toxic Slime + 3 Pumpkin Fright — a full two-player showdown." } },
+        "item_2": { "type": "item", "settings": { "title": "1 PRO Target Marker™", "text": "Land on top of it for 10 bonus points." } },
+        "item_3": { "type": "item", "settings": { "title": "1 Carrying bag", "text": "The rules are printed on it, and it has a built-in ruler for close calls." } },
+        "item_4": { "type": "item", "settings": { "title": "2 Popdarts stickers", "text": "So everyone knows you're part of the club." } }
+      },
+      "block_order": ["item_1", "item_2", "item_3", "item_4"],
+      "settings": {}
+    },
+    "hw_steps": {
+      "type": "halloween-how-to-play",
+      "blocks": {
+        "step_1": { "type": "step", "settings": { "title": "Set", "text": "Pick any smooth surface — table, window, floor — and drop the PRO Target Marker™." } },
+        "step_2": { "type": "step", "settings": { "title": "Throw", "text": "Take turns throwing your darts at the marker. Each one sticks with a pop." } },
+        "step_3": { "type": "step", "settings": { "title": "Score", "text": "Count the points after each round with cancellation scoring, just like cornhole." } }
+      },
+      "block_order": ["step_1", "step_2", "step_3"],
+      "settings": {}
+    },
+    "hw_reviews": {
+      "type": "halloween-reviews",
+      "blocks": {
+        "review_1": { "type": "review", "settings": { "quote": "Bought it for a Halloween party and it never left the kitchen counter. Ten adults fighting over suction darts at 1am.", "author": "Sarah M." } },
+        "review_2": { "type": "review", "settings": { "quote": "Easy to learn, weirdly competitive. My kids play it, my in-laws play it, and everyone talks trash.", "author": "Devin R." } },
+        "review_3": { "type": "review", "settings": { "quote": "The quality surprised me — a satisfying pop on every throw. The limited colors are the ones we show off.", "author": "Coach T." } }
+      },
+      "block_order": ["review_1", "review_2", "review_3"],
+      "settings": {}
+    },
+    "hw_faq": {
+      "type": "halloween-faq",
+      "blocks": {
+        "faq_1": { "type": "faq", "settings": { "question": "When will it sell out?", "answer": "Honestly, we don't know. Last year's Halloween run sold out before Halloween itself. When the last box ships it's gone for good, with no restocks and no re-runs." } },
+        "faq_2": { "type": "faq", "settings": { "question": "What exactly comes in the pack?", "answer": "6 Popdarts (3 Toxic Slime and 3 Pumpkin Fright), 1 PRO Target Marker™, a carrying bag with the rules and a built-in ruler, and 2 stickers. Everything you need for a two-player game." } },
+        "faq_3": { "type": "faq", "settings": { "question": "Where can I play it?", "answer": "Any smooth, flat surface works: kitchen counters, tables, glass, windows, hardwood, and tile, indoors or outdoors." } },
+        "faq_4": { "type": "faq", "settings": { "question": "Is it beginner friendly?", "answer": "Yes. The rules take about 30 seconds to learn: throw, stick, score, first to 21. Ages 5 and up can play, and landing on the target marker for 10 points takes real practice." } },
+        "faq_5": { "type": "faq", "settings": { "question": "Will it arrive before Halloween?", "answer": "We ship every order fast. The earlier you order, the safer you are, because the only real deadline is inventory." } }
+      },
+      "block_order": ["faq_1", "faq_2", "faq_3", "faq_4", "faq_5"],
+      "settings": {}
+    },
+    "hw_final": {
+      "type": "halloween-final-cta",
+      "settings": {}
+    },
+    "hw_sticky": {
+      "type": "halloween-sticky-atc",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "hw_bar",
+    "hw_hero",
+    "hw_buy",
+    "hw_story",
+    "hw_colorways",
+    "hw_scenes",
+    "hw_transition",
+    "hw_box",
+    "hw_steps",
+    "hw_reviews",
+    "hw_faq",
+    "hw_final",
+    "hw_sticky"
+  ]
+}

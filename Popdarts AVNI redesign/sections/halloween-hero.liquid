@@ -1,0 +1,65 @@
+{% render 'halloween-lp-head' %}
+{%- liquid
+  if section.settings.art_image
+    assign art_url = section.settings.art_image | image_url: width: 1800
+  else
+    assign art_url = 'pd-hw-tower.jpg' | asset_url
+  endif
+  assign fallback = section.settings.cta_fallback | default: '/products/pro-pack'
+-%}
+<section class="hw hw--night hw-hero" data-hw-hero-watch>
+  <div class="hw-hero__art" style="background-image:url('{{ art_url }}')"></div>
+  <div class="hw-hero__glow"></div>
+  <div class="hw-float hw-float--1"><img src="{{ 'pd-hw-dart-2.png' | asset_url }}" alt="" width="533" height="1000" loading="eager"></div>
+  <div class="hw-float hw-float--2"><img src="{{ 'pd-hw-dart-5.png' | asset_url }}" alt="" width="521" height="1000" loading="eager"></div>
+  <div class="hw-float hw-float--3"><img src="{{ 'pd-hw-dart-4.png' | asset_url }}" alt="" width="753" height="1000" loading="eager"></div>
+  <div class="hw-container">
+    <div class="hw-hero__content">
+      <span class="hw-hero__pill" data-hw-reveal>{{ section.settings.pill_text }}</span>
+      <h1 class="hw-h1" data-hw-reveal="2">
+        <span>{{ section.settings.heading_1 }}</span>
+        <span>{{ section.settings.heading_2 }}</span>
+        <span class="hw-accent-toxic">{{ section.settings.heading_accent }}</span>
+      </h1>
+      <p class="hw-sub" data-hw-reveal="3">{{ section.settings.subtext }}</p>
+      <div class="hw-hero__price" data-hw-reveal="3">
+        <span class="hw-hero__amount">{{ section.settings.price_text }}</span>
+        <span class="hw-hero__tag">{{ section.settings.price_tag }}</span>
+      </div>
+      <div class="hw-hero__ctas" data-hw-reveal="4">
+        <a class="hw-btn hw-btn--xl" href="{{ fallback }}" data-hw-atc data-variant-id="{{ section.settings.variant_id }}">{{ section.settings.cta_label }}</a>
+        <a class="hw-btn hw-btn--ghost" href="#hw-box">{{ section.settings.cta2_label }}</a>
+      </div>
+      <div class="hw-hero__trust" data-hw-reveal="4">
+        <span><span class="hw-stars">★★★★★</span>&nbsp;{{ section.settings.trust_1 }}</span>
+        <span>{{ section.settings.trust_2 }}</span>
+        <span>{{ section.settings.trust_3 }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HW Hero",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "art_image", "label": "Background art", "info": "Leave empty to use the built-in graveyard render" },
+    { "type": "text", "id": "pill_text", "label": "Pill text", "default": "Sold out last October, back for one final run" },
+    { "type": "text", "id": "heading_1", "label": "Heading line 1", "default": "Back from" },
+    { "type": "text", "id": "heading_2", "label": "Heading line 2", "default": "the dead." },
+    { "type": "text", "id": "heading_accent", "label": "Heading accent line", "default": "Briefly. 👻" },
+    { "type": "textarea", "id": "subtext", "label": "Subtext", "default": "The sold-out Halloween Pro Pack is back for one final run. You get six darts in two limited Halloween colorways, and when the last box ships it's gone for good." },
+    { "type": "text", "id": "price_text", "label": "Price", "default": "$39.99" },
+    { "type": "text", "id": "price_tag", "label": "Price tag", "default": "Limited Halloween colorway" },
+    { "type": "text", "id": "cta_label", "label": "Primary CTA label", "default": "🎯 Claim your pack" },
+    { "type": "text", "id": "variant_id", "label": "Halloween variant ID", "info": "Numeric variant ID for one-click add to cart. Leave empty to link to the product page instead." },
+    { "type": "text", "id": "cta_fallback", "label": "CTA fallback link", "default": "/products/pro-pack" },
+    { "type": "text", "id": "cta2_label", "label": "Secondary CTA label", "default": "See what's inside ↓" },
+    { "type": "text", "id": "trust_1", "label": "Trust item 1 (after stars)", "default": "250+ verified reviews" },
+    { "type": "text", "id": "trust_2", "label": "Trust item 2", "default": "In stock now" },
+    { "type": "text", "id": "trust_3", "label": "Trust item 3", "default": "No restocks after Halloween" }
+  ],
+  "presets": [{ "name": "HW Hero" }]
+}
+{% endschema %}

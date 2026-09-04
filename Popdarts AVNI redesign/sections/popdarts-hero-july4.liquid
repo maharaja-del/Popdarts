@@ -1,0 +1,503 @@
+{% comment %}
+  Popdarts® — July 4th Independence Day Hero
+  Drop into: sections/popdarts-hero-july4.liquid
+  No theme settings required.
+{% endcomment %}
+
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ── Scope everything ── */
+.pdj4 *,
+.pdj4 *::before,
+.pdj4 *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+.pdj4 {
+  font-family: 'Poppins', sans-serif;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ═══════════════════════════
+   ANNOUNCEMENT BAR
+═══════════════════════════ */
+.pdj4-ann {
+  background: linear-gradient(90deg, #6a0a18, #B22234 20%, #B22234 80%, #6a0a18);
+  color: #fff;
+  text-align: center;
+  padding: 9px 20px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  position: relative;
+  z-index: 20;
+}
+.pdj4-ann-star { color: #FFD60A; margin: 0 10px; }
+
+/* ═══════════════════════════
+   TWO-PANEL HERO
+═══════════════════════════ */
+.pdj4-panels {
+  display: flex;
+  flex: 1;
+  min-height: 560px;
+  height: calc(100svh - 38px);
+  max-height: 760px;
+  overflow: hidden;
+  background: #010A1E;
+}
+
+/* ══ LEFT: Content ── */
+.pdj4-left {
+  position: relative;
+  flex: 0 0 44%;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px 40px 48px 52px;
+  overflow: hidden;
+  z-index: 5;
+}
+
+/* Twinkling stars */
+.pdj4-stars { position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.pdj4-star {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff;
+  animation: pdj4Twk var(--d) var(--dl) ease-in-out infinite;
+}
+@keyframes pdj4Twk { 0%,100% { opacity: .04; } 50% { opacity: .85; } }
+
+/* Confetti */
+.pdj4-cf-wrap { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 1; }
+.pdj4-cf { position: absolute; top: -12px; animation: pdj4CfFall linear infinite; }
+@keyframes pdj4CfFall {
+  0%   { transform: translateY(0) rotate(0); opacity: .9; }
+  100% { transform: translateY(110vh) rotate(540deg); opacity: 0; }
+}
+
+/* Content stack */
+.pdj4-content { position: relative; z-index: 5; display: flex; flex-direction: column; }
+
+/* Event badge */
+.pdj4-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #8B0000, #C8102E 40%, #C8102E 60%, #8B0000);
+  border: none;
+  border-radius: 4px;
+  padding: 8px 20px;
+  margin-bottom: 14px;
+  align-self: flex-start;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .28em;
+  color: #fff;
+  text-transform: uppercase;
+  box-shadow: 0 4px 20px rgba(200,16,46,.45), inset 0 1px 0 rgba(255,255,255,.15);
+  opacity: 0;
+  animation: pdj4Up .7s .15s forwards;
+  position: relative;
+  overflow: hidden;
+}
+.pdj4-badge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
+  animation: pdj4Sheen 3s ease-in-out infinite;
+}
+@keyframes pdj4Sheen { 0%,100% { transform: translateX(-100%); } 50% { transform: translateX(100%); } }
+.pdj4-badge-star {
+  color: #FFD60A;
+  font-size: 13px;
+  filter: drop-shadow(0 0 4px rgba(255,215,0,.8));
+  animation: pdj4Star 4s ease-in-out infinite;
+}
+@keyframes pdj4Star { 0%,100% { transform: scale(1); } 50% { transform: scale(1.3); filter: drop-shadow(0 0 8px gold); } }
+
+/* Brand line */
+.pdj4-brand {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .32em;
+  color: #fff;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  opacity: 0;
+  animation: pdj4Up .7s .27s forwards;
+}
+
+/* Headline */
+.pdj4-hed {
+  line-height: .87;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: pdj4Up .85s .4s forwards;
+}
+.pdj4-h-sm {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(18px, 3vw, 36px);
+  color: #F1FAEE;
+  display: block;
+  letter-spacing: .05em;
+  text-shadow: 0 2px 10px rgba(0,0,0,.8);
+}
+.pdj4-h-red {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(46px, 8vw, 94px);
+  color: #B22234;
+  display: block;
+  letter-spacing: .02em;
+  text-shadow: 0 0 55px rgba(178,34,52,.6), 0 3px 0 rgba(0,0,0,.7);
+}
+.pdj4-h-wh {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(46px, 8vw, 94px);
+  color: #F1FAEE;
+  display: block;
+  letter-spacing: .02em;
+  text-shadow: 0 0 40px rgba(255,255,255,.1), 0 3px 0 rgba(0,0,0,.7);
+}
+
+/* Body copy */
+.pdj4-sub {
+  font-size: clamp(12px, 1.4vw, 15px);
+  color: rgba(255,255,255,0.85);
+  line-height: 1.75;
+  margin-bottom: 22px;
+  max-width: 420px;
+  opacity: 0;
+  animation: pdj4Up .8s .55s forwards;
+}
+
+/* Social proof */
+.pdj4-proof {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: pdj4Up .8s .7s forwards;
+}
+.pdj4-stars-row { color: #FFD60A; font-size: 14px; letter-spacing: 2px; }
+.pdj4-ptx { font-size: 11.5px; color: #fff; }
+.pdj4-ptx b { color: #fff; }
+.pdj4-pdiv { width: 1px; height: 12px; background: rgba(255,255,255,.4); }
+.pdj4-viral { font-size: 10.5px; font-weight: 700; color: #4CC9F0; letter-spacing: .06em; text-transform: uppercase; }
+
+/* CTAs */
+.pdj4-ctas {
+  display: flex;
+  gap: 11px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: pdj4Up .8s .88s forwards;
+}
+.pdj4-btn-main {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 800;
+  font-size: 12.5px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(160deg, #C8102E, #8B0000, #C8102E);
+  border: none;
+  border-radius: 6px;
+  padding: 12px 26px;
+  cursor: pointer;
+  box-shadow: 0 4px 22px rgba(200,16,46,.45);
+  transition: transform .18s, box-shadow .18s;
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-block;
+}
+.pdj4-btn-main:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 8px 36px rgba(200,16,46,.7); }
+.pdj4-btn-out {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 12.5px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #F1FAEE;
+  background: transparent;
+  border: 1.5px solid rgba(241,250,238,.22);
+  border-radius: 6px;
+  padding: 12px 26px;
+  cursor: pointer;
+  transition: transform .18s, background .18s, border-color .18s;
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-block;
+}
+.pdj4-btn-out:hover { background: rgba(241,250,238,.07); border-color: rgba(241,250,238,.6); transform: translateY(-2px); }
+
+/* Keyframe */
+@keyframes pdj4Up { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── RIGHT: Flag Video ── */
+.pdj4-right {
+  position: relative;
+  flex: 0 0 56%;
+  overflow: hidden;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*
+  Rotate the WRAPPER, not the video.
+  This way object-fit: contain works on the video correctly.
+  After rotating the wrapper -90deg:
+    wrapper CSS width  → becomes the visual HEIGHT on screen
+    wrapper CSS height → becomes the visual WIDTH on screen
+  Panel is 56vw wide × ~100vh tall, so:
+    wrapper width  = 100vh  (fills panel height visually)
+    wrapper height = 56vw   (fills panel width visually)
+*/
+.pdj4-video-rotator {
+  width: 100vh;
+  height: 56vw;
+  transform: rotate(-90deg) scale(1.08);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Video fills the rotated wrapper naturally — contain shows full flag */
+.pdj4-flag-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  display: block;
+}
+
+/* Subtle vignette on flag for depth */
+.pdj4-flag-vig {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: radial-gradient(ellipse 85% 85% at 65% 50%, transparent 50%, rgba(0,0,0,.2) 100%);
+}
+
+/* Confetti over the flag video */
+.pdj4-cf-right { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 5; }
+.pdj4-cf-r { position: absolute; top: -12px; animation: pdj4CfFall linear infinite; }
+
+/* Left-edge fade only — no top/bottom shadows */
+.pdj4-right::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 50px;
+  height: 100%;
+  background: linear-gradient(to right, #010A1E 0%, transparent 100%);
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════
+   MOBILE — stacked layout
+═══════════════════════════ */
+@media (max-width: 700px) {
+  .pdj4-panels {
+    flex-direction: column;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+  }
+
+  .pdj4-right {
+    flex: 0 0 240px;
+    order: -1;
+    width: 100%;
+  }
+
+  /* On mobile — same wrapper rotation, sized for 240px strip × 100vw wide */
+  .pdj4-video-rotator {
+    width: 240px;  /* becomes visual height (the 240px strip) after rotation */
+    height: 100vw; /* becomes visual width (full screen width) after rotation */
+  }
+
+  .pdj4-right::before { display: none; }
+  .pdj4-right::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, #010A1E);
+    z-index: 4;
+    pointer-events: none;
+  }
+
+  .pdj4-left {
+    flex: 1;
+    padding: 28px 24px 32px;
+    justify-content: flex-start;
+  }
+
+  .pdj4-content { align-items: center; text-align: center; }
+  .pdj4-badge   { align-self: center; font-size: 9px; padding: 6px 14px; letter-spacing: .18em; }
+  .pdj4-brand   { text-align: center; }
+  .pdj4-sub     { max-width: 100%; text-align: center; }
+  .pdj4-proof   { justify-content: center; }
+  .pdj4-ctas    { justify-content: center; }
+  .pdj4-h-red,
+  .pdj4-h-wh    { font-size: clamp(42px, 11vw, 72px); }
+}
+
+@media (max-width: 400px) {
+  .pdj4-badge { font-size: 8px; padding: 6px 10px; letter-spacing: .16em; }
+  .pdj4-btn-main, .pdj4-btn-out { padding: 11px 18px; font-size: 11px; }
+}
+</style>
+
+<div class="pdj4">
+
+  <!-- Announcement bar -->
+  <div class="pdj4-ann">
+    <span class="pdj4-ann-star">★</span>
+    Independence Day Sale — Free Shipping on All Orders · Limited Time
+    <span class="pdj4-ann-star">★</span>
+  </div>
+
+  <div class="pdj4-panels">
+
+    <!-- ════ LEFT: Content ════ -->
+    <div class="pdj4-left">
+
+      <!-- Stars background -->
+      <div class="pdj4-stars" id="pdj4Sb"></div>
+
+      <div class="pdj4-content">
+
+        <div class="pdj4-badge">
+          <span class="pdj4-badge-star">★</span>
+          July 4th &nbsp;·&nbsp; Independence Day Sale
+          <span class="pdj4-badge-star">★</span>
+        </div>
+
+        <div class="pdj4-brand">Popdarts® · Official Store</div>
+
+        <div class="pdj4-hed">
+          <span class="pdj4-h-sm">Celebrate</span>
+          <span class="pdj4-h-red">Independence</span>
+          <span class="pdj4-h-wh">Day</span>
+        </div>
+
+        <p class="pdj4-sub">
+          America's viral suction-cup dart game — no holes, no sharp tips,
+          just pure 4th of July fun for your BBQ, party, or backyard.
+        </p>
+
+        <div class="pdj4-proof">
+          <span class="pdj4-stars-row">★★★★★</span>
+          <span class="pdj4-ptx"><b>1M+</b> happy players</span>
+          <div class="pdj4-pdiv"></div>
+          <span class="pdj4-viral">🔥 Viral Game of Summer</span>
+        </div>
+
+        <div class="pdj4-ctas">
+          <a class="pdj4-btn-main" href="#goti">Shop the 4th Sale →</a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ════ RIGHT: Flag Video + Confetti ════ -->
+    <div class="pdj4-right">
+
+      <div class="pdj4-video-rotator">
+        <video
+          class="pdj4-flag-video"
+          src="https://cdn.shopify.com/videos/c/o/v/81e47ed731b048eaba991b21334a4c0d.mp4"
+          autoplay
+          loop
+          muted
+          playsinline
+          preload="auto"
+          aria-hidden="true"
+        ></video>
+      </div>
+
+      <div class="pdj4-flag-vig"></div>
+
+      <!-- Confetti over the flag -->
+      <div class="pdj4-cf-right" id="pdj4CfRight"></div>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function () {
+  /* ── Twinkling stars (left panel) ── */
+  var sb = document.getElementById('pdj4Sb');
+  if (sb) {
+    for (var i = 0; i < 100; i++) {
+      var s = document.createElement('div');
+      s.className = 'pdj4-star';
+      var sz = (Math.random() * 1.6 + 0.3) + 'px';
+      s.style.cssText = 'width:' + sz + ';height:' + sz +
+        ';left:' + (Math.random() * 100) + '%;top:' + (Math.random() * 100) + '%;' +
+        '--d:' + (2 + Math.random() * 3) + 's;' +
+        '--dl:' + (Math.random() * 6) + 's;';
+      sb.appendChild(s);
+    }
+  }
+
+  /* ── Confetti over flag video (right panel) ── */
+  var cfRight = document.getElementById('pdj4CfRight');
+  if (cfRight) {
+    var cols = ['#B22234', 'rgba(255,255,255,0.85)', '#002868', '#FFD60A'];
+    for (var j = 0; j < 40; j++) {
+      var c = document.createElement('div');
+      c.className = 'pdj4-cf-r';
+      var w = Math.random() * 8 + 2;
+      var h = Math.random() * 4 + 2;
+      c.style.cssText =
+        'left:' + (Math.random() * 100) + '%;' +
+        'width:' + w + 'px;height:' + h + 'px;' +
+        'background:' + cols[Math.floor(Math.random() * cols.length)] + ';' +
+        'animation-duration:' + (6 + Math.random() * 8) + 's;' +
+        'animation-delay:' + (Math.random() * 10) + 's;' +
+        'border-radius:' + (Math.random() > 0.5 ? '50%' : '2px') + ';' +
+        'opacity:0.85;z-index:5;position:absolute;top:-12px;animation:pdj4CfFall linear infinite;';
+      cfRight.appendChild(c);
+    }
+  }
+
+  /* ── iOS Safari autoplay nudge ── */
+  var vid = document.querySelector('.pdj4-flag-video');
+  if (vid) {
+    vid.play().catch(function () {});
+    document.addEventListener('touchstart', function () {
+      vid.play().catch(function () {});
+    }, { once: true });
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "July 4th Hero",
+  "tag": "section",
+  "class": "pdj4-wrapper",
+  "settings": [],
+  "presets": [
+    { "name": "July 4th Hero", "category": "Hero" }
+  ]
+}
+{% endschema %}

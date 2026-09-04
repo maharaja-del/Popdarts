@@ -1,0 +1,64 @@
+<section class="pd-page home-newsletter" id="home-newsletter-{{ section.id }}" aria-labelledby="home-newsletter-title-{{ section.id }}">
+  <div class="home-newsletter__inner">
+    <h2 id="home-newsletter-title-{{ section.id }}" style="color: #0a0c10 !important;">{{ section.settings.heading | default: 'Join In.' }}</h2>
+    <p>{{ section.settings.body | default: "Restocks, new drops, and first dibs on Championship tickets — straight to your inbox. No spam, just Popdarts." }}</p>
+
+    {%- assign home_newsletter_form_id = 'home-newsletter-form-' | append: section.id -%}
+    {%- form 'customer', id: home_newsletter_form_id, class: 'newsletter-form' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <label for="home-newsletter-email-{{ section.id }}" class="pd-sr-only">Email address</label>
+      <input type="email" name="contact[email]" id="home-newsletter-email-{{ section.id }}" placeholder="{{ section.settings.placeholder | default: 'Enter your email' }}" autocomplete="email" required>
+      <button type="submit">{{ section.settings.cta_text | default: 'Sign Up' }}</button>
+      {%- if form.posted_successfully? -%}
+        <p class="newsletter-form__message">{{ section.settings.success_message | default: "You're in. Welcome to Popdarts." }}</p>
+      {%- elsif form.errors -%}
+        <p class="newsletter-form__message">{{ form.errors.messages['form'] | default: 'Please enter a valid email address.' }}</p>
+      {%- endif -%}
+    {%- endform -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Home Newsletter",
+  "tag": "section",
+  "class": "pd-section-home-newsletter",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Join In."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "Restocks, new drops, and first dibs on Championship tickets — straight to your inbox. No spam, just Popdarts."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Email field placeholder",
+      "default": "Enter your email"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Sign Up"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "You're in. Welcome to Popdarts."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home Newsletter"
+    }
+  ]
+}
+{% endschema %}

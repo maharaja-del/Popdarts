@@ -1,0 +1,80 @@
+{% render 'halloween-lp-head' %}
+{%- liquid
+  if section.settings.image
+    assign img_url = section.settings.image | image_url: width: 1500
+  else
+    assign img_url = 'pd-hw-box.png' | asset_url
+  endif
+  assign fallback = section.settings.cta_fallback | default: '/products/pro-pack'
+-%}
+<section class="hw hw--day hw-section hw-box" id="hw-box">
+  <div class="hw-container">
+    <div class="hw-box__grid">
+      <div class="hw-box__art" data-hw-reveal>
+        <img src="{{ img_url }}" alt="{{ section.settings.image_alt | escape }}" width="1466" height="861" loading="lazy">
+      </div>
+      <div>
+        <span class="hw-eyebrow hw-eyebrow--blue" data-hw-reveal>{{ section.settings.eyebrow }}</span>
+        <h2 class="hw-h2" data-hw-reveal="2">{{ section.settings.heading }}</h2>
+        <div class="hw-box__list" data-hw-reveal="3">
+          {%- for block in section.blocks -%}
+            <div class="hw-box__item" {{ block.shopify_attributes }}>
+              <span class="hw-box__check">✓</span>
+              <span><b>{{ block.settings.title }}</b><small>{{ block.settings.text }}</small></span>
+            </div>
+          {%- endfor -%}
+        </div>
+        <div class="hw-chips" data-hw-reveal="4">
+          {%- assign chips = section.settings.chips | split: ',' -%}
+          {%- for chip in chips -%}
+            <span class="hw-chip">{{ chip | strip }}</span>
+          {%- endfor -%}
+        </div>
+        <div class="hw-box__cta" data-hw-reveal="4">
+          <a class="hw-btn" href="{{ fallback }}" data-hw-atc data-variant-id="{{ section.settings.variant_id }}">{{ section.settings.cta_label }}</a>
+          <small>{{ section.settings.cta_note }}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HW What's In The Box",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Box image", "info": "Leave empty to use the built-in box render" },
+    { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "Popdarts PRO Pack Halloween edition retail box" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "What's in the box" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Everything you need to haunt game night." },
+    { "type": "textarea", "id": "chips", "label": "Chips (comma separated)", "default": "⚡ Sets up in seconds,🏠 Plays anywhere,🧠 Skill required,👨‍👩‍👧 Ages 5+" },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Add to cart — $39.99" },
+    { "type": "text", "id": "cta_note", "label": "CTA side note", "default": "Limited run · Ships fast" },
+    { "type": "text", "id": "variant_id", "label": "Halloween variant ID", "info": "Leave empty to link to the product page instead." },
+    { "type": "text", "id": "cta_fallback", "label": "CTA fallback link", "default": "/products/pro-pack" }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Box item",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "6 Popdarts®" },
+        { "type": "text", "id": "text", "label": "Text", "default": "3 Toxic Slime + 3 Pumpkin Fright — a full two-player showdown." }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "HW What's In The Box",
+      "blocks": [
+        { "type": "item", "settings": { "title": "6 Popdarts®", "text": "3 Toxic Slime + 3 Pumpkin Fright — a full two-player showdown." } },
+        { "type": "item", "settings": { "title": "1 PRO Target Marker™", "text": "Land on top of it for 10 bonus points." } },
+        { "type": "item", "settings": { "title": "1 Carrying bag", "text": "The rules are printed on it, and it has a built-in ruler for close calls." } },
+        { "type": "item", "settings": { "title": "2 Popdarts stickers", "text": "So everyone knows you're part of the club." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

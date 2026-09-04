@@ -1,0 +1,234 @@
+{% comment %}
+  Popdarts — Father's Day Video Hero (split)
+  Left: family-connection copy + CTA.  Right: PORTRAIT video (autoplay/muted/loop + unmute).
+  Fresh warm Father's Day theme (cream + slate + amber). Scoped to section.id. Mobile-first responsive.
+{% endcomment %}
+
+<style>
+  .hf-{{ section.id }}{
+    --ink:#0a0a0a; --ink-soft:#5d6b82; --amber:#2b99ff; --amber-2:#5cb3ff;
+    --teal:#2b99ff; --cream:#f4f9fd; --line:#e0ebf5;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    position:relative;overflow:hidden;color:var(--ink);
+    background:
+      radial-gradient(50% 55% at 88% 8%, rgba(43,153,255,.20), transparent 60%),
+      radial-gradient(55% 60% at 4% 96%, rgba(43,153,255,.10), transparent 62%),
+      linear-gradient(165deg,#f4f9fd 0%,#e8f2fc 100%);
+  }
+
+  .hf-{{ section.id }} .hf-wrap{
+    position:relative;z-index:1;
+    max-width:1200px;margin:0 auto;padding:clamp(40px,6vw,72px) clamp(18px,4vw,40px);
+    display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,4vw,56px);align-items:center;
+  }
+
+  /* ── LEFT: copy ── */
+  .hf-{{ section.id }} .hf-eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    background:linear-gradient(135deg,var(--amber-2),var(--amber));
+    color:#fff;font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+    padding:7px 15px;border-radius:999px;margin-bottom:18px;
+    box-shadow:0 6px 16px rgba(43,153,255,.32);
+  }
+  .hf-{{ section.id }} .hf-title{
+    margin:0;font-weight:900;text-transform:uppercase;
+    font-size:clamp(32px,5vw,58px);line-height:.98;letter-spacing:-.03em;color:var(--ink);
+  }
+  .hf-{{ section.id }} .hf-title .gold{
+    background:linear-gradient(135deg,var(--amber),#1a7fe0);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  }
+  .hf-{{ section.id }} .hf-sub{
+    margin:18px 0 0;max-width:480px;
+    color:var(--ink-soft);font-size:clamp(15px,1.5vw,17px);line-height:1.6;
+  }
+  .hf-{{ section.id }} .hf-cta-row{
+    display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:28px;
+  }
+  .hf-{{ section.id }} .hf-btn{
+    display:inline-flex;align-items:center;gap:10px;text-decoration:none;
+    background:linear-gradient(135deg,var(--amber-2),var(--amber));color:#ffffff;
+    font-size:14px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;
+    padding:16px 32px;border-radius:11px;box-shadow:0 10px 26px rgba(43,153,255,.34);
+    transition:transform .2s,box-shadow .2s,filter .2s;
+  }
+  .hf-{{ section.id }} .hf-btn:hover{transform:translateY(-2px);filter:brightness(1.05);box-shadow:0 14px 32px rgba(43,153,255,.42)}
+  .hf-{{ section.id }} .hf-link{
+    color:var(--teal);font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    text-decoration:none;border-bottom:2px solid rgba(43,153,255,.3);padding-bottom:3px;transition:border-color .2s,color .2s;
+  }
+  .hf-{{ section.id }} .hf-link:hover{color:var(--amber);border-color:var(--amber)}
+
+  .hf-{{ section.id }} .hf-feats{
+    list-style:none;margin:30px 0 0;padding:24px 0 0;border-top:1px solid var(--line);
+    display:flex;flex-wrap:wrap;gap:12px 24px;
+  }
+  .hf-{{ section.id }} .hf-feats li{display:inline-flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;color:var(--ink)}
+  .hf-{{ section.id }} .hf-feats svg{width:16px;height:16px;stroke:var(--amber);fill:none;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+
+  /* ── RIGHT: portrait video ── */
+  .hf-{{ section.id }} .hf-stage{display:flex;justify-content:center;position:relative}
+  /* soft warm halo behind the phone */
+  .hf-{{ section.id }} .hf-stage::before{
+    content:'';position:absolute;z-index:0;width:78%;aspect-ratio:1;border-radius:50%;
+    top:6%;left:50%;transform:translateX(-50%);
+    background:radial-gradient(circle,rgba(43,153,255,.35),transparent 68%);
+    filter:blur(8px);
+  }
+  .hf-{{ section.id }} .hf-frame{
+    position:relative;z-index:1;
+    width:min(78vw,330px);aspect-ratio:9/16;
+    border-radius:26px;padding:8px;
+    background:linear-gradient(150deg,#ffffff,#e8f2fc);
+    box-shadow:0 26px 50px rgba(10,20,30,.22),0 4px 14px rgba(10,20,30,.12);
+  }
+  .hf-{{ section.id }} .hf-video-box{
+    position:relative;width:100%;height:100%;
+    border-radius:19px;overflow:hidden;background:#11161f;
+  }
+  .hf-{{ section.id }} .hf-video-box video,
+  .hf-{{ section.id }} .hf-video-box iframe{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;border:0;
+  }
+  .hf-{{ section.id }} .hf-badge{
+    position:absolute;z-index:3;top:-12px;left:-10px;
+    background:linear-gradient(135deg,var(--amber-2),var(--amber));color:#fff;
+    font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+    padding:7px 13px;border-radius:999px;box-shadow:0 6px 16px rgba(43,153,255,.4);
+    transform:rotate(-6deg);
+  }
+  /* unmute / sound toggle */
+  .hf-{{ section.id }} .hf-sound{
+    position:absolute;bottom:12px;right:12px;z-index:4;
+    -webkit-appearance:none;appearance:none;box-sizing:border-box;
+    width:44px;height:44px;min-width:44px;flex:0 0 44px;aspect-ratio:1/1;
+    padding:0;margin:0;line-height:0;border:none;border-radius:50%;cursor:pointer;
+    background:rgba(20,20,28,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 4px 14px rgba(0,0,0,.35);transition:background .2s,transform .2s;
+  }
+  .hf-{{ section.id }} .hf-sound:hover{background:var(--amber);transform:scale(1.07)}
+  .hf-{{ section.id }} .hf-sound svg{width:19px;height:19px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:block}
+  .hf-{{ section.id }} .hf-sound .hf-ic-off{display:none}
+  .hf-{{ section.id }} .hf-sound.is-muted .hf-ic-on{display:none}
+  .hf-{{ section.id }} .hf-sound.is-muted .hf-ic-off{display:block}
+  .hf-{{ section.id }} .hf-placeholder{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    color:rgba(255,255,255,.65);font-size:13px;text-align:center;padding:18px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width:880px){
+    .hf-{{ section.id }} .hf-wrap{grid-template-columns:1fr;gap:34px;text-align:center}
+    .hf-{{ section.id }} .hf-sub{margin-left:auto;margin-right:auto}
+    .hf-{{ section.id }} .hf-cta-row{justify-content:center}
+    .hf-{{ section.id }} .hf-feats{justify-content:center}
+    .hf-{{ section.id }} .hf-left{order:1}
+    .hf-{{ section.id }} .hf-stage{order:2}
+  }
+  @media (max-width:480px){
+    .hf-{{ section.id }} .hf-frame{width:min(86vw,290px)}
+    .hf-{{ section.id }} .hf-feats{gap:10px 18px}
+    .hf-{{ section.id }} .hf-feats li{font-size:12.5px}
+  }
+</style>
+
+<section class="hf-{{ section.id }}" aria-label="Father's Day">
+  <div class="hf-wrap">
+
+    <!-- LEFT: copy -->
+    <div class="hf-left">
+      <span class="hf-eyebrow">🎁 {{ section.settings.eyebrow | default: "Father's Day" }} 🏆</span>
+      <h1 class="hf-title">{{ section.settings.title | default: 'More Than A Game' }}</h1>
+      {%- if section.settings.subtext != blank -%}
+        <p class="hf-sub">{{ section.settings.subtext }}</p>
+      {%- endif -%}
+
+      <div class="hf-cta-row">
+        {%- if section.settings.button_label != blank -%}
+          <a class="hf-btn" href="{{ section.settings.button_link | default: '/products/rookie-pack' }}">
+            {{ section.settings.button_label }}
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        {%- endif -%}
+        {%- if section.settings.link_label != blank -%}
+          <a class="hf-link" href="{{ section.settings.link_url | default: '#' }}">{{ section.settings.link_label }}</a>
+        {%- endif -%}
+      </div>
+
+      <ul class="hf-feats">
+        <li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg> Simple to learn</li>
+        <li><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Screen-free fun</li>
+        <li><svg viewBox="0 0 24 24"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20a7 7 0 0 1 14 0"/><path d="M16.5 14a5.5 5.5 0 0 1 5.5 6"/></svg> Fun for all ages</li>
+      </ul>
+    </div>
+
+    <!-- RIGHT: portrait video -->
+    <div class="hf-stage">
+      <div class="hf-frame">
+        <span class="hf-badge">Press Play 🎬</span>
+        <div class="hf-video-box">
+          {%- if section.settings.video_url != blank -%}
+            <video id="hf-video-{{ section.id }}"
+              src="{{ section.settings.video_url }}"
+              autoplay muted loop playsinline preload="metadata"
+              {% if section.settings.poster != blank %}poster="{{ section.settings.poster | image_url: width: 900 }}"{% endif %}></video>
+            <button class="hf-sound is-muted" id="hf-sound-{{ section.id }}" aria-label="Toggle sound">
+              <svg class="hf-ic-on"  viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              <svg class="hf-ic-off" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+            </button>
+          {%- elsif section.settings.video != blank -%}
+            {{ section.settings.video | video_tag: image_size: '900x', autoplay: true, loop: true, muted: true, controls: true, preload: 'metadata' }}
+          {%- else -%}
+            <div class="hf-placeholder">Add your portrait video in the theme editor — paste an MP4/MOV URL or pick a Shopify-hosted video.</div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function(){
+  var v   = document.getElementById('hf-video-{{ section.id }}');
+  var btn = document.getElementById('hf-sound-{{ section.id }}');
+  if(v && btn){
+    btn.addEventListener('click', function(){
+      v.muted = !v.muted;
+      btn.classList.toggle('is-muted', v.muted);
+      if(!v.muted){ v.play().catch(function(){}); }
+    });
+  }
+  if(v && 'IntersectionObserver' in window){
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ e.isIntersecting ? v.play().catch(function(){}) : v.pause(); });
+    }, {threshold:0.25}).observe(v);
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Father's Day Video Hero",
+  "tag": "section",
+  "class": "hero-fathers-wrapper",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Father's Day" },
+    { "type": "text", "id": "title", "label": "Heading", "info": "HTML allowed: <br> for line break, <span class=\"gold\"> for amber text.", "default": "More Than A Game,<br>It's <span class=\"gold\">Family Time</span>" },
+    { "type": "textarea", "id": "subtext", "label": "Subtext", "default": "Popdarts is more than a game — it's how families reconnect. Trade screen time for real memories: land your suction-cup darts closest to the target and let the friendly trash talk begin." },
+    { "type": "header", "content": "Video (portrait works best)" },
+    { "type": "video", "id": "video", "label": "Video (Shopify-hosted)", "info": "Used if no Video URL is set below." },
+    { "type": "text", "id": "video_url", "label": "Video URL (MP4/MOV)", "info": "Paste a direct video link for autoplay/loop with an unmute button. Takes priority over the Shopify video.", "default": "https://cdn.shopify.com/videos/c/o/v/9d43a82e48e94106a7b5242e6a618218.mov" },
+    { "type": "image_picker", "id": "poster", "label": "Poster image" },
+    { "type": "header", "content": "Buttons" },
+    { "type": "text", "id": "button_label", "label": "Primary button label", "default": "Shop Popdarts" },
+    { "type": "url", "id": "button_link", "label": "Primary button link" },
+    { "type": "text", "id": "link_label", "label": "Secondary link label", "default": "See How To Play" },
+    { "type": "url", "id": "link_url", "label": "Secondary link URL" }
+  ],
+  "presets": [
+    { "name": "Father's Day Video Hero" }
+  ]
+}
+{% endschema %}

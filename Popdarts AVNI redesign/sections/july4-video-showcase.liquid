@@ -1,0 +1,797 @@
+{% comment %}
+  Popdarts® — July 4th Video Showcase
+  Drop into: sections/july4-video-showcase.liquid
+  No theme settings required.
+{% endcomment %}
+
+<style>
+  /* ──────────────────────────────────────────────────────────
+     SHELL — deep navy with subtle star grid
+  ────────────────────────────────────────────────────────── */
+  .j4vs-{{ section.id }} {
+    position: relative;
+    background: #010A1E;
+    color: #fff;
+    overflow: hidden;
+    isolation: isolate;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+
+  /* Red/White/Blue top stripe */
+  .j4vs-{{ section.id }}::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #B22234 33%, #fff 33%, #fff 66%, #002868 66%);
+    z-index: 2;
+  }
+
+  /* Subtle star-grid overlay */
+  .j4vs-{{ section.id }}::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse at center, black 25%, transparent 78%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 25%, transparent 78%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .j4vs-{{ section.id }}-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1380px;
+    margin: 0 auto;
+    padding: 48px 18px 52px;
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     BUTTON RESET
+  ────────────────────────────────────────────────────────── */
+  .j4vs-{{ section.id }} button {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    border: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    line-height: 1 !important;
+    font: inherit !important;
+    color: inherit !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    cursor: pointer;
+    box-sizing: border-box !important;
+    box-shadow: none;
+  }
+  .j4vs-{{ section.id }} button::before,
+  .j4vs-{{ section.id }} button::after { display: none !important; content: none !important; }
+
+  /* ──────────────────────────────────────────────────────────
+     HEADER
+  ────────────────────────────────────────────────────────── */
+  .j4vs-{{ section.id }}-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  /* July 4th eyebrow badge */
+  .j4vs-{{ section.id }}-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #8B0000, #B22234 50%, #8B0000);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    padding: 7px 18px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(178,34,52,0.4);
+  }
+  .j4vs-{{ section.id }}-eyebrow::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    animation: j4vs-sheen-{{ section.id }} 3s ease-in-out infinite;
+  }
+  @keyframes j4vs-sheen-{{ section.id }} {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  .j4vs-{{ section.id }}-eyebrow-star {
+    color: #FFD60A;
+    font-size: 12px;
+    filter: drop-shadow(0 0 4px rgba(255,215,0,0.8));
+  }
+
+  .j4vs-{{ section.id }}-headline {
+    margin: 0;
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: #fff;
+  }
+  /* Highlighted word in flag red */
+  .j4vs-{{ section.id }}-headline em {
+    font-style: normal;
+    color: #B22234;
+    text-shadow: 0 0 40px rgba(178,34,52,0.4);
+  }
+  .j4vs-{{ section.id }}-sub {
+    margin: 12px auto 0;
+    font-size: 13px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.6);
+    max-width: 520px;
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     STATS BAR — red/white/blue accented
+  ────────────────────────────────────────────────────────── */
+  .j4vs-{{ section.id }}-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 24px auto 26px;
+    max-width: 720px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .j4vs-{{ section.id }}-stat {
+    text-align: center;
+    padding: 16px 8px;
+    position: relative;
+  }
+  .j4vs-{{ section.id }}-stat + .j4vs-{{ section.id }}-stat {
+    border-left: 1px solid rgba(255,255,255,0.08);
+  }
+  /* Colored top dot per stat — R / W / B */
+  .j4vs-{{ section.id }}-stat:nth-child(1)::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 28px; height: 2px; background: #B22234; border-radius: 0 0 2px 2px; }
+  .j4vs-{{ section.id }}-stat:nth-child(2)::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 28px; height: 2px; background: #fff; border-radius: 0 0 2px 2px; }
+  .j4vs-{{ section.id }}-stat:nth-child(3)::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 28px; height: 2px; background: #002868; border-radius: 0 0 2px 2px; }
+
+  .j4vs-{{ section.id }}-stat-num {
+    display: block;
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 1;
+    color: #fff;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+  .j4vs-{{ section.id }}-stat-label {
+    display: block;
+    margin-top: 6px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     GRID — 4 video cards
+  ────────────────────────────────────────────────────────── */
+  .j4vs-{{ section.id }}-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .j4vs-{{ section.id }}-card {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #02112e;
+    aspect-ratio: 9/16;
+    transform: translateZ(0);
+    transition: transform 0.45s cubic-bezier(0.2,0.8,0.2,1), border-color 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+  .j4vs-{{ section.id }}-card video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+  .j4vs-{{ section.id }}-card-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      to top,
+      rgba(0,0,0,0.88) 0%,
+      rgba(0,0,0,0.2) 38%,
+      rgba(0,0,0,0) 65%,
+      rgba(0,0,0,0.3) 100%
+    );
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  /* Hover — patriotic red glow */
+  .j4vs-{{ section.id }}-card:hover {
+    border-color: rgba(178,34,52,0.55);
+    box-shadow: 0 0 0 1px rgba(178,34,52,0.3), 0 8px 32px rgba(178,34,52,0.18);
+    transform: translateY(-2px);
+  }
+  .j4vs-{{ section.id }}-card:hover .j4vs-{{ section.id }}-card-gradient { opacity: 0.75; }
+
+  /* Card meta */
+  .j4vs-{{ section.id }}-card-meta {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .j4vs-{{ section.id }}-card-tag {
+    display: inline-block;
+    padding: 4px 9px;
+    border-radius: 5px;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.18);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  /* July 4th tag variant — gold */
+  .j4vs-{{ section.id }}-card-tag.tag-july4 {
+    background: rgba(255,214,10,0.15);
+    border-color: rgba(255,214,10,0.5);
+    color: #FFD60A;
+  }
+  /* Trending tag — red */
+  .j4vs-{{ section.id }}-card-tag.tag-trending {
+    background: rgba(178,34,52,0.2);
+    border-color: rgba(178,34,52,0.55);
+    color: #ff8090;
+  }
+  .j4vs-{{ section.id }}-card-title {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.18;
+    color: #fff;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 14px rgba(0,0,0,0.6);
+  }
+
+  /* Play button */
+  .j4vs-{{ section.id }}-card-play {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    width: 34px !important;
+    height: 34px !important;
+    aspect-ratio: 1 !important;
+    border-radius: 50% !important;
+    background: rgba(0,0,0,0.55) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.2) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.3s ease;
+  }
+  .j4vs-{{ section.id }}-card-play svg { width: 11px; height: 11px; margin-left: 1px; }
+  /* Hover — red play button */
+  .j4vs-{{ section.id }}-card:hover .j4vs-{{ section.id }}-card-play {
+    background: #B22234 !important;
+    border-color: #B22234 !important;
+    transform: scale(1.12);
+    box-shadow: 0 0 24px rgba(178,34,52,0.5);
+  }
+  .j4vs-{{ section.id }}-card:hover .j4vs-{{ section.id }}-card-play svg path { fill: #fff !important; }
+
+  /* ESPN badge */
+  .j4vs-{{ section.id }}-badge-espn {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+    padding: 4px 9px;
+    border-radius: 5px;
+    background: #d50000;
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(213,0,0,0.45);
+  }
+
+  /* July 4th corner ribbon on cards */
+  .j4vs-{{ section.id }}-badge-j4 {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 9px;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #002868, #003399);
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .j4vs-{{ section.id }}-badge-j4-star { color: #FFD60A; font-size: 9px; }
+
+  /* ──────────────────────────────────────────────────────────
+     PRESS SECTION
+  ────────────────────────────────────────────────────────── */
+  .j4vs-{{ section.id }}-press {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    text-align: center;
+  }
+  .j4vs-{{ section.id }}-press-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 16px;
+  }
+  .j4vs-{{ section.id }}-press-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 18px 32px;
+  }
+  .j4vs-{{ section.id }}-press-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255,255,255,0.8);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    opacity: 0.6;
+    transition: opacity 0.25s ease;
+  }
+  .j4vs-{{ section.id }}-press-item:hover { opacity: 1; }
+  .j4vs-{{ section.id }}-press-espn {
+    background: #d50000;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.08em;
+    font-size: 13px;
+    font-weight: 900;
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     MODAL
+  ────────────────────────────────────────────────────────── */
+  .j4vs-{{ section.id }}-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(1,10,30,0.96);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    z-index: -1;
+    padding: 20px;
+    transition: opacity 0.3s ease;
+  }
+  .j4vs-{{ section.id }}-modal.is-open { opacity: 1; pointer-events: auto; z-index: 9999; }
+
+  .j4vs-{{ section.id }}-modal-stage {
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+    aspect-ratio: 9/16;
+    max-height: calc(100vh - 130px);
+    border-radius: 18px;
+    overflow: hidden;
+    background: #02112e;
+    box-shadow: 0 30px 90px rgba(0,0,0,0.7), 0 0 0 1px rgba(178,34,52,0.25);
+  }
+  .j4vs-{{ section.id }}-modal-stage video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; z-index: 1;
+  }
+
+  /* Loader — red spinner */
+  .j4vs-{{ section.id }}-modal-stage .j4vs-{{ section.id }}-loader {
+    position: absolute; inset: 0; z-index: 0;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+  }
+  .j4vs-{{ section.id }}-loader::before {
+    content: '';
+    width: 36px; height: 36px;
+    border: 3px solid rgba(255,255,255,0.15);
+    border-top-color: #B22234;
+    border-radius: 50%;
+    animation: j4vs-spin-{{ section.id }} 0.8s linear infinite;
+  }
+  @keyframes j4vs-spin-{{ section.id }} { to { transform: rotate(360deg); } }
+
+  .j4vs-{{ section.id }}-modal-counter {
+    position: absolute; top: 16px; left: 16px; z-index: 3;
+    padding: 6px 12px; border-radius: 6px;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.2);
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.12em; color: #fff;
+  }
+
+  /* Modal buttons */
+  button.j4vs-{{ section.id }}-modal-mute {
+    position: absolute !important; bottom: 16px !important; right: 16px !important;
+    z-index: 3 !important; width: 44px !important; height: 44px !important;
+    aspect-ratio: 1 !important; border-radius: 50% !important;
+    background: #fff !important; background-color: #fff !important;
+    border: 0 !important; padding: 0 !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    cursor: pointer !important; transition: background-color 0.25s ease, transform 0.25s ease !important;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5) !important;
+  }
+  button.j4vs-{{ section.id }}-modal-mute:hover { background: #B22234 !important; background-color: #B22234 !important; transform: scale(1.08) !important; }
+  button.j4vs-{{ section.id }}-modal-mute:hover svg path { fill: #fff !important; }
+  button.j4vs-{{ section.id }}-modal-mute svg { width: 20px !important; height: 20px !important; display: block !important; }
+  button.j4vs-{{ section.id }}-modal-mute .icon-on { display: none !important; }
+  button.j4vs-{{ section.id }}-modal-mute.is-on .icon-off { display: none !important; }
+  button.j4vs-{{ section.id }}-modal-mute.is-on .icon-on { display: block !important; }
+
+  button.j4vs-{{ section.id }}-modal-close {
+    position: fixed !important; top: 20px !important; right: 20px !important;
+    width: 48px !important; height: 48px !important; aspect-ratio: 1 !important;
+    border-radius: 50% !important; background: #fff !important; background-color: #fff !important;
+    border: 0 !important; padding: 0 !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    cursor: pointer !important; z-index: 10001 !important;
+    transition: background-color 0.25s ease, transform 0.25s ease !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5) !important;
+  }
+  button.j4vs-{{ section.id }}-modal-close:hover { background: #B22234 !important; background-color: #B22234 !important; transform: rotate(90deg) scale(1.05) !important; }
+  button.j4vs-{{ section.id }}-modal-close:hover svg path { fill: #fff !important; }
+  button.j4vs-{{ section.id }}-modal-close svg { width: 18px !important; height: 18px !important; display: block !important; }
+
+  button.j4vs-{{ section.id }}-modal-nav {
+    position: fixed !important; top: 50% !important;
+    width: 52px !important; height: 52px !important; aspect-ratio: 1 !important;
+    border-radius: 50% !important; background: #fff !important; background-color: #fff !important;
+    border: 0 !important; padding: 0 !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    cursor: pointer !important; z-index: 10001 !important;
+    transition: background-color 0.25s ease, transform 0.25s ease !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5) !important;
+    transform: translateY(-50%) !important;
+  }
+  button.j4vs-{{ section.id }}-modal-nav:hover:not(:disabled) { background: #B22234 !important; background-color: #B22234 !important; transform: translateY(-50%) scale(1.08) !important; }
+  button.j4vs-{{ section.id }}-modal-nav:hover:not(:disabled) svg path { fill: #fff !important; }
+  button.j4vs-{{ section.id }}-modal-nav:disabled { opacity: 0.3 !important; cursor: not-allowed !important; }
+  button.j4vs-{{ section.id }}-modal-nav.prev { left: 20px !important; }
+  button.j4vs-{{ section.id }}-modal-nav.next { right: 20px !important; }
+  button.j4vs-{{ section.id }}-modal-nav svg { width: 22px !important; height: 22px !important; display: block !important; }
+
+  /* ──────────────────────────────────────────────────────────
+     RESPONSIVE
+  ────────────────────────────────────────────────────────── */
+  @media (min-width: 480px) {
+    .j4vs-{{ section.id }}-headline { font-size: 50px; }
+    .j4vs-{{ section.id }}-stat-num  { font-size: 28px; }
+    .j4vs-{{ section.id }}-grid      { gap: 12px; }
+    .j4vs-{{ section.id }}-card-title { font-size: 16px; }
+  }
+  @media (min-width: 768px) {
+    .j4vs-{{ section.id }}-inner    { padding: 60px 32px 64px; }
+    .j4vs-{{ section.id }}-header   { margin-bottom: 28px; }
+    .j4vs-{{ section.id }}-headline { font-size: 64px; }
+    .j4vs-{{ section.id }}-stats    { margin: 28px auto 30px; }
+    .j4vs-{{ section.id }}-stat     { padding: 18px 12px; }
+    .j4vs-{{ section.id }}-stat-num { font-size: 34px; }
+    .j4vs-{{ section.id }}-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+  }
+  @media (min-width: 1024px) {
+    .j4vs-{{ section.id }}-inner     { padding: 72px 48px 76px; }
+    .j4vs-{{ section.id }}-headline  { font-size: 80px; }
+    .j4vs-{{ section.id }}-sub       { font-size: 15px; max-width: 580px; }
+    .j4vs-{{ section.id }}-grid      { gap: 14px; }
+    .j4vs-{{ section.id }}-card-title { font-size: 17px; }
+    .j4vs-{{ section.id }}-press-row { gap: 24px 48px; }
+    .j4vs-{{ section.id }}-press-item { font-size: 17px; }
+    .j4vs-{{ section.id }}-press-espn { font-size: 15px; }
+  }
+</style>
+
+<section class="j4vs-{{ section.id }}">
+  <div class="j4vs-{{ section.id }}-inner">
+
+    <!-- HEADER -->
+    <div class="j4vs-{{ section.id }}-header">
+      <div class="j4vs-{{ section.id }}-eyebrow">
+        <span class="j4vs-{{ section.id }}-eyebrow-star">★</span>
+        July 4th · Independence Day
+        <span class="j4vs-{{ section.id }}-eyebrow-star">★</span>
+      </div>
+      <h2 class="j4vs-{{ section.id }}-headline">
+        Over <em>1 Billion</em> Views.
+      </h2>
+      <p class="j4vs-{{ section.id }}-sub">
+        From SportsCenter to your For You Page — Popdarts™ moments that broke the internet. The perfect 4th of July game.
+      </p>
+    </div>
+
+    <!-- STATS -->
+    <div class="j4vs-{{ section.id }}-stats">
+      <div class="j4vs-{{ section.id }}-stat">
+        <span class="j4vs-{{ section.id }}-stat-num" data-count-to="1000000000" data-suffix="B+" data-divisor="1000000000">0</span>
+        <span class="j4vs-{{ section.id }}-stat-label">Total Views</span>
+      </div>
+      <div class="j4vs-{{ section.id }}-stat">
+        <span class="j4vs-{{ section.id }}-stat-num" data-count-to="1800000" data-suffix="M" data-divisor="1000000" data-decimals="1">0</span>
+        <span class="j4vs-{{ section.id }}-stat-label">TikTok Followers</span>
+      </div>
+      <div class="j4vs-{{ section.id }}-stat">
+        <span class="j4vs-{{ section.id }}-stat-num">ESPN</span>
+        <span class="j4vs-{{ section.id }}-stat-label">Top 10 Plays</span>
+      </div>
+    </div>
+
+    <!-- VIDEO GRID -->
+    <div class="j4vs-{{ section.id }}-grid">
+
+      <div class="j4vs-{{ section.id }}-card" data-video-index="0">
+        <video src="https://cdn.shopify.com/videos/c/o/v/cc9422c39b584c8dbf1f4ae9b820e3d5.mov" autoplay muted playsinline loop preload="metadata"></video>
+        <div class="j4vs-{{ section.id }}-card-gradient"></div>
+        <span class="j4vs-{{ section.id }}-badge-espn">As Seen On ESPN</span>
+        <button type="button" class="j4vs-{{ section.id }}-card-play" tabindex="-1" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+        </button>
+        <div class="j4vs-{{ section.id }}-card-meta">
+          <span class="j4vs-{{ section.id }}-card-tag tag-trending">Featured Play</span>
+          <h3 class="j4vs-{{ section.id }}-card-title">SportsCenter Top 10</h3>
+        </div>
+      </div>
+
+      <div class="j4vs-{{ section.id }}-card" data-video-index="1">
+        <video src="https://cdn.shopify.com/videos/c/o/v/1a1715e31e1e40ddb96ac62140e7da3f.mov" autoplay muted playsinline loop preload="metadata"></video>
+        <div class="j4vs-{{ section.id }}-card-gradient"></div>
+        <div class="j4vs-{{ section.id }}-badge-j4">
+          <span class="j4vs-{{ section.id }}-badge-j4-star">★</span> July 4th Pick
+        </div>
+        <button type="button" class="j4vs-{{ section.id }}-card-play" tabindex="-1" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+        </button>
+        <div class="j4vs-{{ section.id }}-card-meta">
+          <span class="j4vs-{{ section.id }}-card-tag tag-trending">Trending #1</span>
+          <h3 class="j4vs-{{ section.id }}-card-title">He Sneaks It In 👀</h3>
+        </div>
+      </div>
+
+      <div class="j4vs-{{ section.id }}-card" data-video-index="2">
+        <video src="https://cdn.shopify.com/videos/c/o/v/2c5f3daa7fd5441fa4894acf42bd7f42.mp4" autoplay muted playsinline loop preload="metadata"></video>
+        <div class="j4vs-{{ section.id }}-card-gradient"></div>
+        <div class="j4vs-{{ section.id }}-badge-j4">
+          <span class="j4vs-{{ section.id }}-badge-j4-star">★</span> BBQ Favorite
+        </div>
+        <button type="button" class="j4vs-{{ section.id }}-card-play" tabindex="-1" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+        </button>
+        <div class="j4vs-{{ section.id }}-card-meta">
+          <span class="j4vs-{{ section.id }}-card-tag">Viral Hit</span>
+          <h3 class="j4vs-{{ section.id }}-card-title">On The Dot 🤯</h3>
+        </div>
+      </div>
+
+      <div class="j4vs-{{ section.id }}-card" data-video-index="3">
+        <video src="https://cdn.shopify.com/videos/c/o/v/e56df60f0f1a45a194d7162f9faa6de8.mp4" autoplay muted playsinline loop preload="metadata"></video>
+        <div class="j4vs-{{ section.id }}-card-gradient"></div>
+        <button type="button" class="j4vs-{{ section.id }}-card-play" tabindex="-1" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+        </button>
+        <div class="j4vs-{{ section.id }}-card-meta">
+          <span class="j4vs-{{ section.id }}-card-tag tag-july4">🇺🇸 Fan Favorite</span>
+          <h3 class="j4vs-{{ section.id }}-card-title">Game Day Hero</h3>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PRESS -->
+    <div class="j4vs-{{ section.id }}-press">
+      <span class="j4vs-{{ section.id }}-press-label">As Featured On</span>
+      <div class="j4vs-{{ section.id }}-press-row">
+        <span class="j4vs-{{ section.id }}-press-item">
+          <span class="j4vs-{{ section.id }}-press-espn">ESPN</span>
+        </span>
+        <span class="j4vs-{{ section.id }}-press-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.84-.1z"/></svg>
+          TikTok
+        </span>
+        <span class="j4vs-{{ section.id }}-press-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58 0 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s0 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.65.07-4.85.07s-3.58 0-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.65-.07-4.85s0-3.58.07-4.85C2.38 3.92 3.9 2.38 7.15 2.23 8.42 2.18 8.8 2.16 12 2.16zm0-2.16C8.74 0 8.33.01 7.05.07 2.7.27.27 2.69.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.2-4.35-2.62-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4zm6.41-11.85a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44z"/></svg>
+          Instagram
+        </span>
+        <span class="j4vs-{{ section.id }}-press-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          YouTube
+        </span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MODAL -->
+  <div class="j4vs-{{ section.id }}-modal" data-modal>
+    <button type="button" class="j4vs-{{ section.id }}-modal-close" data-modal-close aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="#000"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="#000"/></svg>
+    </button>
+    <button type="button" class="j4vs-{{ section.id }}-modal-nav prev" data-modal-prev aria-label="Previous">
+      <svg viewBox="0 0 24 24" fill="#000"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" fill="#000"/></svg>
+    </button>
+    <button type="button" class="j4vs-{{ section.id }}-modal-nav next" data-modal-next aria-label="Next">
+      <svg viewBox="0 0 24 24" fill="#000"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z" fill="#000"/></svg>
+    </button>
+    <div class="j4vs-{{ section.id }}-modal-stage">
+      <div class="j4vs-{{ section.id }}-loader"></div>
+      <span class="j4vs-{{ section.id }}-modal-counter" data-modal-counter>1 / 4</span>
+      <video data-modal-video muted playsinline loop></video>
+      <button type="button" class="j4vs-{{ section.id }}-modal-mute" data-modal-mute aria-label="Toggle sound">
+        <svg class="icon-off" viewBox="0 0 24 24" fill="#000"><path d="M5.889 16H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h3.889l5.294-4.332a.5.5 0 0 1 .817.387v15.89a.5.5 0 0 1-.817.387L5.89 16zm14.525-4l3.536 3.536-1.414 1.414L19 13.414l-3.536 3.536-1.414-1.414L17.586 12 14.05 8.464l1.414-1.414L19 10.586l3.536-3.536 1.414 1.414L20.414 12z" fill="#000"/></svg>
+        <svg class="icon-on"  viewBox="0 0 24 24" fill="#000"><path d="M5.889 16H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h3.889l5.294-4.332a.5.5 0 0 1 .817.387v15.89a.5.5 0 0 1-.817.387L5.89 16zm13.517 4.134l-1.416-1.416A8.978 8.978 0 0 0 21 12a8.982 8.982 0 0 0-3.304-6.968l1.42-1.42A10.976 10.976 0 0 1 23 12c0 3.223-1.386 6.122-3.594 8.134zm-3.543-3.543l-1.422-1.422A3.993 3.993 0 0 0 16 12c0-1.43-.75-2.685-1.88-3.392l1.439-1.439A5.991 5.991 0 0 1 18 12c0 1.842-.83 3.49-2.137 4.591z" fill="#000"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  var sectionId = '{{ section.id }}';
+  var pfx = '.j4vs-' + sectionId;
+  var root = document.querySelector('.j4vs-' + sectionId);
+  if (!root) return;
+
+  var cards     = root.querySelectorAll('[data-video-index]');
+  var cardVideos = root.querySelectorAll('.j4vs-' + sectionId + '-card video');
+
+  /* Autoplay on scroll */
+  var playObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      var v = entry.target;
+      if (entry.isIntersecting) v.play().catch(function(){});
+      else v.pause();
+    });
+  }, { threshold: 0.1 });
+
+  cardVideos.forEach(function(v) {
+    playObserver.observe(v);
+    v.play().catch(function(){});
+  });
+
+  /* Animated stats */
+  var stats = root.querySelectorAll('[data-count-to]');
+  function animateCount(el) {
+    var target   = parseFloat(el.dataset.countTo);
+    var divisor  = parseFloat(el.dataset.divisor)  || 1;
+    var suffix   = el.dataset.suffix  || '';
+    var decimals = parseInt(el.dataset.decimals || '0', 10);
+    var duration = 1800;
+    var start    = performance.now();
+    (function step(now) {
+      var t = Math.min(1, (now - start) / duration);
+      var e = 1 - Math.pow(1 - t, 3);
+      var num = (target * e) / divisor;
+      el.textContent = (decimals ? num.toFixed(decimals) : Math.round(num)) + suffix;
+      if (t < 1) requestAnimationFrame(step);
+    })(start);
+  }
+  var statObs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) { animateCount(entry.target); statObs.unobserve(entry.target); }
+    });
+  }, { threshold: 0.5 });
+  stats.forEach(function(s) { statObs.observe(s); });
+
+  /* Modal */
+  var modal       = root.querySelector('[data-modal]');
+  var modalVideo  = root.querySelector('[data-modal-video]');
+  var modalMute   = root.querySelector('[data-modal-mute]');
+  var modalClose  = root.querySelector('[data-modal-close]');
+  var modalPrev   = root.querySelector('[data-modal-prev]');
+  var modalNext   = root.querySelector('[data-modal-next]');
+  var modalCounter = root.querySelector('[data-modal-counter]');
+  var videoSrcs   = Array.from(cards).map(function(c) { return c.querySelector('video').src; });
+  var currentIndex = 0;
+
+  cards.forEach(function(card) {
+    card.addEventListener('click', function() { openModal(parseInt(card.dataset.videoIndex, 10)); });
+  });
+
+  function openModal(index) {
+    currentIndex = index;
+    loadModalVideo();
+    document.body.style.overflow = 'hidden';
+    modal.classList.add('is-open');
+  }
+  function closeModal() {
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+    modalVideo.pause();
+    modalVideo.removeAttribute('src');
+    modalVideo.load();
+  }
+  function loadModalVideo() {
+    modalVideo.src = videoSrcs[currentIndex];
+    modalVideo.muted = !modalMute.classList.contains('is-on');
+    modalVideo.load();
+    modalVideo.play().catch(function(){});
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + videoSrcs.length;
+    modalPrev.disabled = currentIndex === 0;
+    modalNext.disabled = currentIndex === videoSrcs.length - 1;
+  }
+
+  modalClose.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
+  modalPrev.addEventListener('click', function() { if (currentIndex > 0) { currentIndex--; loadModalVideo(); } });
+  modalNext.addEventListener('click', function() { if (currentIndex < videoSrcs.length - 1) { currentIndex++; loadModalVideo(); } });
+  modalMute.addEventListener('click', function() {
+    modalMute.classList.toggle('is-on');
+    modalVideo.muted = !modalMute.classList.contains('is-on');
+  });
+  document.addEventListener('keydown', function(e) {
+    if (!modal.classList.contains('is-open')) return;
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'ArrowLeft' && currentIndex > 0) { currentIndex--; loadModalVideo(); }
+    if (e.key === 'ArrowRight' && currentIndex < videoSrcs.length - 1) { currentIndex++; loadModalVideo(); }
+  });
+
+  /* Move modal to body to escape theme containers */
+  if (modal && modal.parentElement !== document.body) document.body.appendChild(modal);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "July 4th Video Showcase",
+  "settings": [],
+  "blocks": [],
+  "presets": [{ "name": "July 4th Video Showcase" }]
+}
+{% endschema %}

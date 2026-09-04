@@ -1,0 +1,76 @@
+<section class="pd-page home-community" id="home-community" aria-labelledby="home-community-title-{{ section.id }}">
+  <div class="pd-wrap">
+    <div class="home-community__head">
+      <h2 id="home-community-title-{{ section.id }}" style="color: #0a0c10 !important;">{{ section.settings.heading | default: 'Everyone plays.' }}</h2>
+      <p>{{ section.settings.subheading | default: 'Backyards, tailgates, block parties, and the Championship arena — tag @popdarts and you might end up here.' }}</p>
+    </div>
+
+    <div class="bento">
+      {%- for block in section.blocks -%}
+        <div class="bento-item{% if block.settings.size == 'tall' %} bento-item--tall{% elsif block.settings.size == 'wide' %} bento-item--wide{% elsif block.settings.size == 'big' %} bento-item--big{% endif %}" {{ block.shopify_attributes }}>
+          <img src="{% if block.settings.image %}{{ block.settings.image | image_url: width: 900 }}{% elsif block.settings.fallback_url != blank %}{{ block.settings.fallback_url }}{% else %}{{ block.settings.asset_filename | asset_url }}{% endif %}" alt="" loading="lazy">
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Home Community Bento",
+  "tag": "section",
+  "class": "pd-section-home-community",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Everyone plays."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Backyards, tailgates, block parties, and the Championship arena — tag @popdarts and you might end up here."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "Photo",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "url", "id": "fallback_url", "label": "Fallback image URL (used if no image chosen)" },
+        { "type": "text", "id": "asset_filename", "label": "Bundled theme asset filename", "info": "Used only if Image and Fallback URL are both empty, e.g. pd-bento-example.jpg" },
+        {
+          "type": "select",
+          "id": "size",
+          "label": "Tile size",
+          "options": [
+            { "value": "normal", "label": "Normal" },
+            { "value": "tall", "label": "Tall" },
+            { "value": "wide", "label": "Wide" },
+            { "value": "big", "label": "Big" }
+          ],
+          "default": "normal"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home Community Bento",
+      "blocks": [
+        { "type": "photo", "settings": { "size": "big", "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_11_08_2026_14_15_01.png?v=1786637627" } },
+        { "type": "photo", "settings": { "size": "normal", "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_10_08_2026_14_14_41_1.png?v=1786637626" } },
+        { "type": "photo", "settings": { "size": "tall", "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_11_08_2026_11_28_24.png?v=1786637627" } },
+        { "type": "photo", "settings": { "size": "normal", "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_10_08_2026_14_14_41.png?v=1786637626" } },
+        { "type": "photo", "settings": { "size": "wide", "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_11_08_2026_11_28_24_1.png?v=1786637626" } },
+        { "type": "photo", "settings": { "size": "normal", "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_10_08_2026_12_10_18.png?v=1786637626" } },
+        { "type": "photo", "settings": { "size": "tall", "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_10_08_2026_13_16_18_1.png?v=1786637626" } },
+        { "type": "photo", "settings": { "size": "normal", "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_10_08_2026_13_16_18.png?v=1786637626" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

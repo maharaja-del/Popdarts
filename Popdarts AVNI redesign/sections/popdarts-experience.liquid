@@ -1,0 +1,63 @@
+<section class="pd-page experience" id="experience" aria-labelledby="experience-title-{{ section.id }}">
+  <div class="pd-texture" aria-hidden="true"></div>
+  <div class="pd-wrap">
+    <div class="experience__head">
+      <h2 id="experience-title-{{ section.id }}" style="color: #0a0c10 !important;">{{ section.settings.heading | default: 'Four moves.<br>One winner.' }}</h2>
+      <p>{{ section.settings.subheading | default: 'No boards to build. No refs to argue with. Just you, three darts, and a target.' }}</p>
+    </div>
+
+    <ol class="experience__steps">
+      {%- for block in section.blocks -%}
+        <li class="experience__step" {{ block.shopify_attributes }}>
+          <span class="experience__num">{{ block.settings.number | default: '01' }}</span>
+          <h3 style="color: #0a0c10 !important;">{{ block.settings.title | default: 'Setup' }}</h3>
+          <p>{{ block.settings.body | default: 'Drop the Target Marker on any smooth surface. Stand back at least 10 feet.' }}</p>
+        </li>
+      {%- endfor -%}
+    </ol>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Experience Steps",
+  "tag": "section",
+  "class": "pd-section-experience",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Four moves. One winner."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "No boards to build. No refs to argue with. Just you, three darts, and a target."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "number", "label": "Number", "default": "01" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Setup" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "Drop the Target Marker on any smooth surface. Stand back at least 10 feet." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Experience Steps",
+      "blocks": [
+        { "type": "step", "settings": { "number": "01", "title": "Setup", "body": "Drop the Target Marker on any smooth surface. Stand back at least 10 feet." } },
+        { "type": "step", "settings": { "number": "02", "title": "Throw", "body": "Take turns firing your Popdarts at the marker — three darts each, every round." } },
+        { "type": "step", "settings": { "number": "03", "title": "Score", "body": "Closest dart to the marker scores 3. Every other dart that sticks adds 1. Land a Pro Pack dart directly on the marker and it's 10 — instantly." } },
+        { "type": "step", "settings": { "number": "04", "title": "Repeat", "body": "Cancellation scoring settles the round — score 6, they score 4, you win by 2. First team to 21 wins the match." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

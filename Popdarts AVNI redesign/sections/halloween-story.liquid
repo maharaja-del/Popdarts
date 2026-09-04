@@ -1,0 +1,73 @@
+{% render 'halloween-lp-head' %}
+{%- liquid
+  if section.settings.image
+    assign img_url = section.settings.image | image_url: width: 1200
+  else
+    assign img_url = 'pd-hw-graves.jpg' | asset_url
+  endif
+  assign fallback = section.settings.cta_fallback | default: '/products/pro-pack'
+-%}
+<section class="hw hw--night hw-section hw-story" id="hw-story">
+  <div class="hw-container">
+    <div class="hw-story__grid">
+      <div class="hw-story__art" data-hw-reveal>
+        <div class="hw-story__glow"></div>
+        <img src="{{ img_url }}" alt="{{ section.settings.image_alt | escape }}" width="941" height="1672" loading="lazy">
+      </div>
+      <div>
+        <span class="hw-eyebrow hw-eyebrow--purple" data-hw-reveal>{{ section.settings.eyebrow }}</span>
+        <h2 class="hw-h2" data-hw-reveal="2">{{ section.settings.heading_1 }}<br>{{ section.settings.heading_2 }}</h2>
+        <p class="hw-sub" data-hw-reveal="3">{{ section.settings.body }}</p>
+        <div class="hw-facts" data-hw-reveal="4">
+          {%- for block in section.blocks -%}
+            <div class="hw-facts__row" {{ block.shopify_attributes }}>
+              <span class="hw-facts__icon">{{ block.settings.icon }}</span>
+              <span><b>{{ block.settings.title }}</b><small>{{ block.settings.text }}</small></span>
+            </div>
+          {%- endfor -%}
+        </div>
+        <a class="hw-textlink" href="{{ fallback }}" data-hw-atc data-variant-id="{{ section.settings.variant_id }}" data-hw-reveal="4">{{ section.settings.link_label }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HW Story",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Leave empty to use the built-in graves render" },
+    { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "Halloween Popdarts rising from glowing graves" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The resurrection" },
+    { "type": "text", "id": "heading_1", "label": "Heading line 1", "default": "You sold it out." },
+    { "type": "text", "id": "heading_2", "label": "Heading line 2", "default": "We dug it back up." },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "Last October the Halloween colorway sold out in days, and people kept asking us to bring it back. So we brought it back one more time. When this batch is gone, we're not making more." },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "Get yours before it sells out again →" },
+    { "type": "text", "id": "variant_id", "label": "Halloween variant ID", "info": "Leave empty to link to the product page instead." },
+    { "type": "text", "id": "cta_fallback", "label": "Link fallback URL", "default": "/products/pro-pack" }
+  ],
+  "blocks": [
+    {
+      "type": "fact",
+      "name": "Fact",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Emoji icon", "default": "🎃" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Two exclusive colorways" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Toxic Slime and Pumpkin Fright only come in this pack." }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "HW Story",
+      "blocks": [
+        { "type": "fact", "settings": { "icon": "⚰️", "title": "One final run", "text": "This is the last batch of the Halloween colorway we will make." } },
+        { "type": "fact", "settings": { "icon": "🎃", "title": "Two exclusive colorways", "text": "Toxic Slime and Pumpkin Fright only come in this pack." } },
+        { "type": "fact", "settings": { "icon": "🪦", "title": "No restocks", "text": "When it sells out, it stays sold out." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

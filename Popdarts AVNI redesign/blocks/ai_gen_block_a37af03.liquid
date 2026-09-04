@@ -1,0 +1,484 @@
+{% doc %}
+  @prompt
+    Countdown timer annoucement bar with red background and white text that says ESPN Ocho Lightning Deal Ends at Midnight PST, please change the counttime end time setting to a 12 hour setting with AM and PM, change the time zone to est., it is current.y 1 pm. why is this saying the count down is done in 2 hours? that would end it at 3 pm
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-countdown-bar-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    background-color: {{ block.settings.background_color }};
+    color: {{ block.settings.text_color }};
+    padding: 12px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-countdown-bar__content-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    max-width: {{ block.settings.page_width }}px;
+    margin: 0 auto;
+  }
+
+  .ai-countdown-bar__message-{{ ai_gen_id }} {
+    font-size: {{ block.settings.message_font_size }}px;
+    font-weight: {{ block.settings.message_font_weight }};
+    margin: 0;
+  }
+
+  .ai-countdown-bar__timer-{{ ai_gen_id }} {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .ai-countdown-bar__time-unit-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 40px;
+  }
+
+  .ai-countdown-bar__time-value-{{ ai_gen_id }} {
+    font-size: {{ block.settings.timer_font_size }}px;
+    font-weight: {{ block.settings.timer_font_weight }};
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+
+  .ai-countdown-bar__time-label-{{ ai_gen_id }} {
+    font-size: {{ block.settings.label_font_size }}px;
+    text-transform: uppercase;
+    opacity: 0.9;
+    line-height: 1;
+  }
+
+  .ai-countdown-bar__separator-{{ ai_gen_id }} {
+    font-size: {{ block.settings.timer_font_size }}px;
+    font-weight: {{ block.settings.timer_font_weight }};
+    opacity: 0.7;
+  }
+
+  .ai-countdown-bar__expired-{{ ai_gen_id }} {
+    font-size: {{ block.settings.message_font_size }}px;
+    font-weight: {{ block.settings.message_font_weight }};
+    display: none;
+  }
+
+  .ai-countdown-bar__expired-{{ ai_gen_id }}.active {
+    display: block;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-countdown-bar-{{ ai_gen_id }} {
+      padding: 10px 16px;
+    }
+
+    .ai-countdown-bar__content-{{ ai_gen_id }} {
+      gap: 8px;
+    }
+
+    .ai-countdown-bar__message-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.message_font_size }}px * 0.9);
+    }
+
+    .ai-countdown-bar__time-value-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.timer_font_size }}px * 0.85);
+    }
+
+    .ai-countdown-bar__time-label-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.label_font_size }}px * 0.85);
+    }
+
+    .ai-countdown-bar__time-unit-{{ ai_gen_id }} {
+      min-width: 32px;
+    }
+  }
+{% endstyle %}
+
+<countdown-timer-{{ ai_gen_id }}
+  class="ai-countdown-bar-{{ ai_gen_id }}"
+  data-end-date="{{ block.settings.end_date }}"
+  data-end-time="{{ block.settings.end_time }}"
+  data-time-period="{{ block.settings.time_period }}"
+  data-timezone="{{ block.settings.timezone }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-countdown-bar__content-{{ ai_gen_id }}">
+    <div class="ai-countdown-bar__message-{{ ai_gen_id }}">
+      {{ block.settings.message }}
+    </div>
+
+    <div class="ai-countdown-bar__timer-{{ ai_gen_id }}">
+      <div class="ai-countdown-bar__time-unit-{{ ai_gen_id }}">
+        <span class="ai-countdown-bar__time-value-{{ ai_gen_id }}" data-days>00</span>
+        <span class="ai-countdown-bar__time-label-{{ ai_gen_id }}">Days</span>
+      </div>
+      <span class="ai-countdown-bar__separator-{{ ai_gen_id }}">:</span>
+      <div class="ai-countdown-bar__time-unit-{{ ai_gen_id }}">
+        <span class="ai-countdown-bar__time-value-{{ ai_gen_id }}" data-hours>00</span>
+        <span class="ai-countdown-bar__time-label-{{ ai_gen_id }}">Hrs</span>
+      </div>
+      <span class="ai-countdown-bar__separator-{{ ai_gen_id }}">:</span>
+      <div class="ai-countdown-bar__time-unit-{{ ai_gen_id }}">
+        <span class="ai-countdown-bar__time-value-{{ ai_gen_id }}" data-minutes>00</span>
+        <span class="ai-countdown-bar__time-label-{{ ai_gen_id }}">Min</span>
+      </div>
+      <span class="ai-countdown-bar__separator-{{ ai_gen_id }}">:</span>
+      <div class="ai-countdown-bar__time-unit-{{ ai_gen_id }}">
+        <span class="ai-countdown-bar__time-value-{{ ai_gen_id }}" data-seconds>00</span>
+        <span class="ai-countdown-bar__time-label-{{ ai_gen_id }}">Sec</span>
+      </div>
+    </div>
+
+    <div class="ai-countdown-bar__expired-{{ ai_gen_id }}">
+      {{ block.settings.expired_message }}
+    </div>
+  </div>
+</countdown-timer-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class CountdownTimer{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+        this.endDate = this.dataset.endDate;
+        this.endTime = this.dataset.endTime;
+        this.timePeriod = this.dataset.timePeriod;
+        this.timezone = this.dataset.timezone;
+        this.timer = null;
+        this.daysEl = this.querySelector('[data-days]');
+        this.hoursEl = this.querySelector('[data-hours]');
+        this.minutesEl = this.querySelector('[data-minutes]');
+        this.secondsEl = this.querySelector('[data-seconds]');
+        this.timerContainer = this.querySelector('.ai-countdown-bar__timer-{{ ai_gen_id }}');
+        this.messageEl = this.querySelector('.ai-countdown-bar__message-{{ ai_gen_id }}');
+        this.expiredEl = this.querySelector('.ai-countdown-bar__expired-{{ ai_gen_id }}');
+      }
+
+      connectedCallback() {
+        this.startCountdown();
+      }
+
+      disconnectedCallback() {
+        if (this.timer) {
+          clearInterval(this.timer);
+        }
+      }
+
+      convertTo24Hour(time12h, period) {
+        const timeParts = time12h.split(':');
+        let hours = parseInt(timeParts[0]);
+        const minutes = timeParts[1] || '00';
+        const seconds = timeParts[2] || '00';
+
+        if (period === 'PM' && hours !== 12) {
+          hours += 12;
+        } else if (period === 'AM' && hours === 12) {
+          hours = 0;
+        }
+
+        return hours.toString().padStart(2, '0') + ':' + minutes + ':' + seconds;
+      }
+
+      parseEndTime() {
+        const time24h = this.convertTo24Hour(this.endTime, this.timePeriod);
+        const timezoneOffset = this.getTimezoneOffset(this.timezone);
+        
+        const dateTimeParts = this.endDate.split('-');
+        const timeParts = time24h.split(':');
+        
+        const targetDate = new Date(Date.UTC(
+          parseInt(dateTimeParts[0]),
+          parseInt(dateTimeParts[1]) - 1,
+          parseInt(dateTimeParts[2]),
+          parseInt(timeParts[0]) - timezoneOffset,
+          parseInt(timeParts[1]),
+          parseInt(timeParts[2])
+        ));
+        
+        return targetDate;
+      }
+
+      getTimezoneOffset(timezone) {
+        const offsets = {
+          'PST': -8,
+          'PDT': -7,
+          'MST': -7,
+          'MDT': -6,
+          'CST': -6,
+          'CDT': -5,
+          'EST': -5,
+          'EDT': -4,
+          'UTC': 0,
+          'GMT': 0
+        };
+        return offsets[timezone] || 0;
+      }
+
+      startCountdown() {
+        const updateTimer = () => {
+          const now = new Date().getTime();
+          const endTime = this.parseEndTime().getTime();
+          const distance = endTime - now;
+
+          if (distance < 0) {
+            clearInterval(this.timer);
+            this.showExpired();
+            return;
+          }
+
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          this.daysEl.textContent = String(days).padStart(2, '0');
+          this.hoursEl.textContent = String(hours).padStart(2, '0');
+          this.minutesEl.textContent = String(minutes).padStart(2, '0');
+          this.secondsEl.textContent = String(seconds).padStart(2, '0');
+        };
+
+        updateTimer();
+        this.timer = setInterval(updateTimer, 1000);
+      }
+
+      showExpired() {
+        this.timerContainer.style.display = 'none';
+        this.messageEl.style.display = 'none';
+        this.expiredEl.classList.add('active');
+      }
+    }
+
+    customElements.define('countdown-timer-{{ ai_gen_id }}', CountdownTimer{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Countdown timer bar",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "message",
+      "label": "Message",
+      "default": "ESPN Ocho Lightning Deal Ends at Midnight EST"
+    },
+    {
+      "type": "text",
+      "id": "expired_message",
+      "label": "Expired message",
+      "default": "Deal has ended"
+    },
+    {
+      "type": "header",
+      "content": "Countdown settings"
+    },
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "End date",
+      "info": "Format: YYYY-MM-DD (e.g., 2026-08-08)",
+      "default": "2026-08-08"
+    },
+    {
+      "type": "text",
+      "id": "end_time",
+      "label": "End time",
+      "info": "Format: HH:MM:SS in 12-hour format (e.g., 12:00:00 for midnight)",
+      "default": "12:00:00"
+    },
+    {
+      "type": "select",
+      "id": "time_period",
+      "label": "Time period",
+      "options": [
+        {
+          "value": "AM",
+          "label": "AM"
+        },
+        {
+          "value": "PM",
+          "label": "PM"
+        }
+      ],
+      "default": "AM"
+    },
+    {
+      "type": "select",
+      "id": "timezone",
+      "label": "Timezone",
+      "options": [
+        {
+          "value": "PST",
+          "label": "PST (Pacific Standard Time)"
+        },
+        {
+          "value": "PDT",
+          "label": "PDT (Pacific Daylight Time)"
+        },
+        {
+          "value": "MST",
+          "label": "MST (Mountain Standard Time)"
+        },
+        {
+          "value": "MDT",
+          "label": "MDT (Mountain Daylight Time)"
+        },
+        {
+          "value": "CST",
+          "label": "CST (Central Standard Time)"
+        },
+        {
+          "value": "CDT",
+          "label": "CDT (Central Daylight Time)"
+        },
+        {
+          "value": "EST",
+          "label": "EST (Eastern Standard Time)"
+        },
+        {
+          "value": "EDT",
+          "label": "EDT (Eastern Daylight Time)"
+        },
+        {
+          "value": "UTC",
+          "label": "UTC"
+        },
+        {
+          "value": "GMT",
+          "label": "GMT"
+        }
+      ],
+      "default": "EST"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ff3f3f"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "page_width",
+      "label": "Maximum width",
+      "min": 1000,
+      "max": 2000,
+      "step": 10,
+      "unit": "px",
+      "default": 1410
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "message_font_size",
+      "label": "Message font size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "message_font_weight",
+      "label": "Message font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "timer_font_size",
+      "label": "Timer font size",
+      "min": 16,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "timer_font_weight",
+      "label": "Timer font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        },
+        {
+          "value": "900",
+          "label": "Black"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "label_font_size",
+      "label": "Label font size",
+      "min": 8,
+      "max": 14,
+      "step": 1,
+      "unit": "px",
+      "default": 10
+    }
+  ],
+  "presets": [
+    {
+      "name": "Countdown timer bar"
+    }
+  ]
+}
+{% endschema %}

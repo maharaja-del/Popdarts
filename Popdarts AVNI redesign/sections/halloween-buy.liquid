@@ -1,0 +1,100 @@
+{% render 'halloween-lp-head' %}
+{%- liquid
+  if section.settings.image
+    assign img_url = section.settings.image | image_url: width: 1500
+  else
+    assign img_url = 'pd-hw-box.png' | asset_url
+  endif
+  assign fallback = section.settings.cta_fallback | default: '/products/pro-pack'
+-%}
+<section class="hw hw--night hw-section hw-buy" id="hw-buy">
+  <div class="hw-container">
+    <div class="hw-buy__grid">
+      <div class="hw-buy__main" data-hw-reveal>
+        <img src="{{ img_url }}" alt="{{ section.settings.image_alt | escape }}" width="1466" height="861" loading="eager">
+      </div>
+      <div>
+        <span class="hw-eyebrow" data-hw-reveal>{{ section.settings.eyebrow }}</span>
+        <h2 class="hw-buy__title" data-hw-reveal="2">{{ section.settings.title }}</h2>
+        <div class="hw-buy__rating" data-hw-reveal="2">
+          <span class="hw-stars">★★★★★</span>
+          <span>{{ section.settings.rating_text }}</span>
+        </div>
+        <div class="hw-buy__price" data-hw-reveal="3">
+          <span class="hw-buy__amount">{{ section.settings.price_text }}</span>
+          {%- if section.settings.compare_text != blank -%}
+            <span class="hw-buy__compare">{{ section.settings.compare_text }}</span>
+          {%- endif -%}
+          <span class="hw-buy__flag">{{ section.settings.flag_text }}</span>
+        </div>
+        <div class="hw-buy__list" data-hw-reveal="3">
+          {%- for block in section.blocks -%}
+            <div class="hw-buy__row" {{ block.shopify_attributes }}>
+              <span class="hw-buy__check">✓</span>
+              <span>{{ block.settings.text }}</span>
+            </div>
+          {%- endfor -%}
+        </div>
+        <div class="hw-buy__colorways" data-hw-reveal="4">
+          <div class="hw-buy__cw hw-buy__cw--toxic">
+            <img src="{{ 'pd-hw-dart-6.png' | asset_url }}" alt="{{ section.settings.cw1_name | escape }}" width="935" height="1000" loading="lazy">
+            <span><b>{{ section.settings.cw1_name }}</b><small>{{ section.settings.cw_note }}</small></span>
+          </div>
+          <div class="hw-buy__cw hw-buy__cw--orange">
+            <img src="{{ 'pd-hw-dart-1.png' | asset_url }}" alt="{{ section.settings.cw2_name | escape }}" width="901" height="1000" loading="lazy">
+            <span><b>{{ section.settings.cw2_name }}</b><small>{{ section.settings.cw_note }}</small></span>
+          </div>
+        </div>
+        <div class="hw-buy__cta" data-hw-reveal="4">
+          <a class="hw-btn hw-btn--xl" href="{{ fallback }}" data-hw-atc data-variant-id="{{ section.settings.variant_id }}">{{ section.settings.cta_label }}</a>
+        </div>
+        <p class="hw-buy__micro" data-hw-reveal="4">{{ section.settings.micro }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HW Buy Box",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Product image", "info": "Leave empty to use the built-in box render" },
+    { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "Popdarts PRO Pack Halloween edition retail box" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Limited Halloween colorway" },
+    { "type": "text", "id": "title", "label": "Product title", "default": "Halloween Pro Pack" },
+    { "type": "text", "id": "rating_text", "label": "Rating text", "default": "4.9 · 250+ verified reviews" },
+    { "type": "text", "id": "price_text", "label": "Price", "default": "$39.99" },
+    { "type": "text", "id": "compare_text", "label": "Compare-at price (optional)" },
+    { "type": "text", "id": "flag_text", "label": "Price flag", "default": "Final run" },
+    { "type": "text", "id": "cw1_name", "label": "Colorway 1 name", "default": "Toxic Slime" },
+    { "type": "text", "id": "cw2_name", "label": "Colorway 2 name", "default": "Pumpkin Fright" },
+    { "type": "text", "id": "cw_note", "label": "Colorway note", "default": "3 darts included" },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Add to cart — $39.99" },
+    { "type": "text", "id": "variant_id", "label": "Halloween variant ID", "info": "Numeric variant ID for one-click add to cart. Leave empty to link to the product page instead." },
+    { "type": "text", "id": "cta_fallback", "label": "Button fallback link", "default": "/products/pro-pack" },
+    { "type": "text", "id": "micro", "label": "Line under button", "default": "In stock now. No restocks after Halloween." }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Included item",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "6 Popdarts in two Halloween colorways" }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "HW Buy Box",
+      "blocks": [
+        { "type": "item", "settings": { "text": "6 Popdarts in two Halloween colorways" } },
+        { "type": "item", "settings": { "text": "1 PRO Target Marker™ (worth 10 points)" } },
+        { "type": "item", "settings": { "text": "1 carrying bag with printed rules and ruler" } },
+        { "type": "item", "settings": { "text": "2 Popdarts stickers" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

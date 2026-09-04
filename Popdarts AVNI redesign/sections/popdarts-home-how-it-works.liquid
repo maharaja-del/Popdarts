@@ -1,0 +1,67 @@
+<section class="pd-page home-how" id="home-how" aria-labelledby="home-how-title-{{ section.id }}">
+  <div class="pd-wrap">
+    <div class="home-how__head">
+      <h2 id="home-how-title-{{ section.id }}" style="color: #0a0c10 !important;">{{ section.settings.heading | default: 'Learn it in one throw.' }}</h2>
+      <p>{{ section.settings.subheading | default: 'Four steps stand between you and bragging rights. Read the rules once — you will remember them forever.' }}</p>
+    </div>
+
+    <div class="home-how__grid">
+      {%- for block in section.blocks -%}
+        <div class="how-step" {{ block.shopify_attributes }}>
+          <svg class="how-step__ring" viewBox="0 0 56 56" aria-hidden="true">
+            <circle class="r-outer" cx="28" cy="28" r="26"/>
+            <circle class="r-mid" cx="28" cy="28" r="16"/>
+            <circle class="r-bull" cx="28" cy="28" r="6"/>
+          </svg>
+          <span class="how-step__num">{{ block.settings.number | default: '01' }}</span>
+          <h3 style="color: #0a0c10 !important;">{{ block.settings.title | default: 'Setup' }}</h3>
+          <p>{{ block.settings.body | default: 'Drop the Target Marker on any smooth surface.' }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Home How It Works",
+  "tag": "section",
+  "class": "pd-section-home-how",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Learn it in one throw."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Four steps stand between you and bragging rights. Read the rules once — you will remember them forever."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "number", "label": "Number", "default": "01" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Setup" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "Drop the Target Marker on any smooth surface." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home How It Works",
+      "blocks": [
+        { "type": "step", "settings": { "number": "01", "title": "Set the Target", "body": "Drop the Target Marker anywhere flat — driveway, patio, hardwood, tile. No boards to build." } },
+        { "type": "step", "settings": { "number": "02", "title": "Take Your Shots", "body": "Three darts each, every round. Aim for the marker, not each other's ego." } },
+        { "type": "step", "settings": { "number": "03", "title": "Score the Round", "body": "Closest dart scores 3, every other stuck dart adds 1. Land directly on the marker for an instant 10." } },
+        { "type": "step", "settings": { "number": "04", "title": "Play to 21", "body": "Cancellation scoring settles the round. First team to 21 takes the match — and the trash talk rights." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

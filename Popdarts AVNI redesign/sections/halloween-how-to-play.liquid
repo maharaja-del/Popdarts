@@ -1,0 +1,63 @@
+{% render 'halloween-lp-head' %}
+<section class="hw hw--day hw-section hw-steps" id="hw-steps" style="background:#f5f5f8">
+  <div class="hw-container">
+    <div class="hw-sechead">
+      <span class="hw-eyebrow hw-eyebrow--center hw-eyebrow--blue" data-hw-reveal>{{ section.settings.eyebrow }}</span>
+      <h2 class="hw-h2" data-hw-reveal="2">{{ section.settings.heading }}</h2>
+    </div>
+    <div class="hw-steps__grid">
+      {%- assign step_arts = 'pd-hw-dart-2.png,pd-hw-dart-1.png,pd-hw-dart-5.png' | split: ',' -%}
+      {%- for block in section.blocks -%}
+        {%- assign art_index = forloop.index0 | modulo: 3 -%}
+        <div class="hw-step" data-hw-reveal{% if forloop.index > 1 %}="{{ forloop.index }}"{% endif %} style="background:#ffffff" {{ block.shopify_attributes }}>
+          <span class="hw-step__art"><img src="{{ step_arts[art_index] | asset_url }}" alt="" loading="lazy"></span>
+          <div class="hw-step__num">{{ forloop.index | prepend: '0' }}</div>
+          <div class="hw-step__title">{{ block.settings.title }}</div>
+          <p class="hw-step__body">{{ block.settings.text }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+    <div class="hw-score" data-hw-reveal>
+      <span class="t">{{ section.settings.score_1 }}</span>
+      <span>{{ section.settings.score_2 }}</span>
+      <span class="o">{{ section.settings.score_3 }}</span>
+      <span class="p">{{ section.settings.score_4 }}</span>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HW How To Play",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "How to play" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Easy to learn. Impossible to put down." },
+    { "type": "text", "id": "score_1", "label": "Score item 1 (green)", "default": "+3 closest" },
+    { "type": "text", "id": "score_2", "label": "Score item 2 (white)", "default": "+1 every stick" },
+    { "type": "text", "id": "score_3", "label": "Score item 3 (orange)", "default": "+10 on the marker" },
+    { "type": "text", "id": "score_4", "label": "Score item 4 (purple)", "default": "First to 21 wins" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Set" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Pick any smooth surface — table, window, floor — and drop the PRO Target Marker™." }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "HW How To Play",
+      "blocks": [
+        { "type": "step", "settings": { "title": "Set", "text": "Pick any smooth surface — table, window, floor — and drop the PRO Target Marker™." } },
+        { "type": "step", "settings": { "title": "Throw", "text": "Take turns throwing your darts at the marker. Each one sticks with a pop." } },
+        { "type": "step", "settings": { "title": "Score", "text": "Count the points after each round with cancellation scoring, just like cornhole." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,30 @@
+{% render 'halloween-lp-head' %}
+{%- assign items = section.settings.items | split: ',' -%}
+<div class="hw hw--night hw-marquee" aria-hidden="true">
+  <div class="hw-marquee__track">
+    {%- for n in (1..4) -%}
+      <span class="hw-marquee__item">
+        {%- for item in items -%}
+          {%- assign mod = forloop.index | modulo: 2 -%}
+          {%- if mod == 0 -%}<span class="t">{{ item | strip }}</span>{%- else -%}{{ item | strip }}{%- endif %} <i>✦</i>
+        {%- endfor -%}
+      </span>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "HW Marquee",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "items",
+      "label": "Marquee phrases (comma separated)",
+      "default": "Sold out last October,Back from the dead,Limited Halloween colorway,No restocks,Gone after Halloween"
+    }
+  ],
+  "presets": [{ "name": "HW Marquee" }]
+}
+{% endschema %}

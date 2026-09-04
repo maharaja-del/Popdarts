@@ -1,0 +1,326 @@
+ 
+{% liquid
+  assign laptop_padding_top = section.settings.laptop_top
+  assign laptop_padding_bottom = section.settings.laptop_bottom
+  assign mobail_padding_top = section.settings.mobail_top
+  assign mobail_padding_bottom = section.settings.mobail_bottom
+  assign bgcolor = section.settings.bgcolor
+%}
+
+<style>
+  .id_{{ section.id}}{
+    background-color: {{bgcolor}};
+    padding-top:{{laptop_padding_top}}px;
+    padding-bottom:{{laptop_padding_bottom}}px;
+    background-image:url({{section.settings.bgimage | image_url}});
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+ .id_{{ section.id}} .container{
+   width:100%;
+   margin:0px auto;
+   box-sizing: border-box;
+ }
+  
+  {% if section.settings.container == "container" %}
+      .id_{{ section.id}} .container{
+      max-width:1200px;    
+    }
+  {% elsif  section.settings.container == "container-full" %}
+    .id_{{ section.id}} .container{
+      max-width:100%;
+      padding:0px 5%;
+    }
+  {% endif %}
+
+
+
+    {% if section.settings.text_align == "left" %}
+    .id_{{ section.id}} img{
+   margin:0px auto 0px 0px;
+   }
+  {% elsif  section.settings.text_align == "center" %}
+    .id_{{ section.id}} img{
+   margin:0px auto;
+   }
+  {% elsif  section.settings.text_align == "right" %}
+    .id_{{ section.id}} img{
+   margin:0px 0px 0px auto;
+   }
+  {% endif %}
+  
+  
+    .id_{{ section.id}}  img{
+      display: block;
+       width:100%;
+       max-width:{{section.settings.icon_width}};
+      aspect-ratio:{{section.settings.aspect_ratio}};
+      object-fit:{{section.settings.object_fit}};
+      margin-bottom: {{ section.settings.icon_margin }}px;
+    }
+
+
+
+
+  @media(max-width:767px){
+
+      .id_{{ section.id}}{
+       padding-left:20px;
+       padding-right:20px;
+      padding-top:{{mobail_padding_top}}px;
+      padding-bottom:{{mobail_padding_bottom}}px;
+      background-image:url({{section.settings.mobail_bgimage | image_url}});
+     background-position: bottom center;
+    background-repeat: no-repeat;
+    background-size: contain;
+      }
+      .id_{{ section.id}} .container{
+      max-width:100%;
+      padding:0px;
+    }
+
+
+    .id_{{ section.id}} img{
+       max-width:{{section.settings.mobaile_icon_width}};
+      margin-bottom: {{ section.settings.mobail_icon_margin }}px !important;
+    }
+    
+    {% if section.settings.mobail_text_align == "left" %}
+    .id_{{ section.id}} img{
+   margin:0px auto 0px 0px;
+   }
+  {% elsif  section.settings.mobail_text_align == "center" %}
+    .id_{{ section.id}} img{
+   margin:0px auto;
+   }
+  {% elsif  section.settings.mobail_text_align == "right" %}
+    .id_{{ section.id}} img{
+   margin:0px 0px 0px auto;
+   }
+  {% endif %}
+
+
+
+  }
+</style>
+
+<section class="id_{{ section.id }}">
+  <div class="container">
+
+                    {% if section.settings.logo != blank %}
+                         <div class="icon_img">
+                <img class=""
+                  src="{{ section.settings.logo | image_url }}"
+                  alt="{{ section.settings.logo.alt }}"
+                  width="100%"
+                  height="100%"
+                >
+                       </div>
+                {% endif %}
+
+    
+    
+  </div>
+</section>
+
+ 
+
+{% schema %}
+  {
+     "name": "PopDarts Logo Banner",
+    "settings": [
+             {
+        "type": "select",
+         "id": "container",
+            "label": "Container Width",
+            "default": "container",
+            "options": [
+              {
+                "label": "Container",
+                "value": "container"
+              },
+              {
+                "value": "container-full",
+                "label": "Container Full"
+              }
+            ]
+          },
+
+      {
+  "type": "color",
+   "label": "Background Color",
+   "id": "bgcolor"
+ },
+  {
+        "type":"image_picker",
+        "label":"Select Background Image",
+        "id":"bgimage"
+      },
+      {
+        "type":"image_picker",
+        "label":"Mobail Background Image",
+        "id":"mobail_bgimage"
+      },
+      {
+        "type":"image_picker",
+        "label":"Select Logo",
+        "id":"logo"
+      },
+ {
+   "type": "header",
+   "content": "Laptop Style"
+ },
+
+ {
+       "type": "range",
+          "id": "laptop_top",
+          "label": "Section Top Padding",
+          "min":0,
+          "max":150,
+          "step": 2,
+        "unit": "px",
+        "default":112
+      },
+      {
+       "type": "range",
+          "id": "laptop_bottom",
+          "label": "Section Bottom Padding",
+          "min":0,
+          "max":150,
+        "unit": "px",
+          "default":112,
+          "step": 2
+      },
+      {
+        "type": "select",
+         "id": "text_align",
+            "label": "Logo Align",
+            "default": "left",
+            "options": [
+              {
+                "label": "left",
+                "value": "left"
+              },
+              {
+                "value": "center",
+                "label": "center"
+              },
+              {
+                "label": "right",
+                "value": "right"
+              }
+            ]
+          },
+        {
+       "type": "text",
+          "id": "icon_width",
+          "label": "Logo Max Width",
+          "default":"30px"
+      },
+      {
+      "type": "text",
+      "id": "aspect_ratio",
+      "label": "Logo Aspect Ratio(1/1)"
+    },
+     {
+        "type": "select",
+         "id": "object_fit",
+            "label": "Logo Object fit",
+            "options": [
+              {
+                "label": "fill",
+                "value": "fill"
+              },
+              {
+                "label": "cover",
+                "value": "cover"
+              },
+              {
+                "value": "contain",
+                "label": "contain"
+              }
+            ],
+          "default": "fill"
+          }, 
+             {
+       "type": "range",
+          "id": "icon_margin",
+          "label": "Logo Margin Bottom",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":0,
+          "step": 1
+      },
+       {
+        "type": "header",
+        "content": "Mobail Style"
+      },
+      {
+       "type": "range",
+          "id": "mobail_top",
+          "label": "Section Padding Top",
+          "min":0,
+          "max":80,
+          "step": 1,
+        "unit": "px",
+        "default":64
+      },
+      {
+       "type": "range",
+          "id": "mobail_bottom",
+          "label": "Section Padding Bottom",
+          "min":0,
+          "max":80,
+        "unit": "px",
+          "default":64,
+          "step": 1
+      },
+      {
+        "type": "select",
+         "id": "mobail_text_align",
+            "label": "Logo Align",
+            "default": "left",
+            "options": [
+              {
+                "label": "left",
+                "value": "left"
+              },
+              {
+                "value": "center",
+                "label": "center"
+              },
+              {
+                "label": "right",
+                "value": "right"
+              }
+            ]
+          },
+           {
+       "type": "text",
+          "id": "mobaile_icon_width",
+          "label": "Logo Max Width"
+      },
+                   {
+       "type": "range",
+          "id": "mobail_icon_margin",
+          "label": "Logo Margin Bottom",
+          "min":0,
+          "max":400,
+        "unit": "px",
+          "default":100,
+          "step": 4
+      }
+
+      
+     
+    ],
+    "presets": [
+      {
+        "name": "PopDarts Logo Banner"
+      }
+    ]
+  }
+{% endschema %}

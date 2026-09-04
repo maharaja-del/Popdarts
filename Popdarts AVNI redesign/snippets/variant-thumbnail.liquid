@@ -1,0 +1,141 @@
+{% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
+{% comment %}
+  Renders a variant thumbnail with a modal-opener
+
+  Accepts:
+  -product: {Object} Product
+  - variant: {Object} Variant
+  - image: {Object} Variant image
+  - media_count: {Number} Number of images
+  - position: {String} Position of the image. Used for accessible label.
+  - desktop_layout: {String} Layout of the media for desktop.
+  - mobile_layout: {String} Layout of the media for mobile.
+  - loop: {Boolean} Enable video looping (optional)
+  - modal_id: {String} The product modal that will be shown by clicking the thumbnail
+  - media_width: {Float} The width percentage that the media column occupies on desktop.
+
+  Usage:
+  {% render 'variant-thumbnail',
+    media: media,
+    position: forloop.index,
+    loop: section.settings.enable_video_looping,
+    modal_id: section.id
+  %}
+{% endcomment %}
+{%- liquid
+  assign desktop_columns = 1
+  if desktop_layout == 'columns' and media_count > 1
+    assign desktop_columns = 2
+  endif
+
+  assign loading = 'lazy'
+  assign fetchpriority = 'low'
+
+  if position < desktop_columns
+    assign loading = 'eager'
+    assign fetchpriority = 'high'
+  endif
+
+  assign compare_at_price = variant.compare_at_price
+  assign price = variant.price
+  assign on_sale = false
+  if compare_at_price > price
+    assign on_sale = true
+  endif
+
+  assign show_on_sale_badge = settings.pcard_show_sale_badge
+  unless on_sale
+    assign show_on_sale_badge = false
+  endunless
+
+-%}
+{%- capture sizes -%}
+{%- if desktop_columns > 1 -%}
+(max-width: 768px) calc(100vw - 3rem), calc(((min({{ settings.page_width | plus: 30 }}px, 100vw) * {{ media_width }}) - 4.5rem - {{ desktop_columns | times: 1 | minus: 1 }}rem) / {{ desktop_columns }})
+{%- else -%}
+(max-width: 768px) calc(100vw - 3rem), calc(((min({{ settings.page_width | plus: 30 }}px, 100vw) * {{ media_width }}) - 4.5rem) / {{ desktop_columns }})
+{%- endif -%}
+{%- endcapture -%}
+<div
+  role="listitem"
+  tabindex="-1"
+  class="product__media-item swiper-slide"
+  style="{% unless product.selected_or_first_available_variant.id == variant.id %}display: none;{% endunless %}"
+  data-media-id="{{ media.id }}"
+  data-variant-id="{{ variant.id }}"
+  data-media-type="image"
+  data-media-index="{{ position }}"
+  data-src="{{ media | image_url: width: 1946 }}"
+  data-pswp-width="{{ media.width }}"
+  data-pswp-height="{{ media.width | divided_by: media.aspect_ratio | ceil }}"
+>
+  <div
+    class="product__media-container blocks-radius media-type-image"
+    style="--aspect-ratio: {{ media.aspect_ratio | default: 1.0 }};"
+  >
+    <motion-element data-motion="zoom-out-sm" class="product__media media-wrapper">
+      {{
+        media
+        | image_url: width: 1946
+        | image_tag:
+          is: 'image-lazy',
+          loading: loading,
+          fetchpriority: fetchpriority,
+          sizes: sizes,
+          widths: '400, 620, 690, 810, 980, 1240, 1380, 1620, 1960'
+      }}
+    </motion-element>
+    {%- if enable_image_zoom -%}
+      <span
+        class="product__media-icon"
+        aria-hidden="true"
+      >
+        {%- render 'icon-zoom' -%}
+      </span>
+      <button
+        class="product__media-zoom btn--inherit js-photoswipe--zoom"
+        type="button"
+        aria-haspopup="dialog"
+        data-media-id="{{ variant.id }}-{{ position }}"
+        data-media-type="image"
+        data-media-index="{{ position }}"
+      >
+        <span class="visually-hidden">
+          {{ 'products.product.media.open_media' | t: index: position }}
+        </span>
+      </button>
+    {%- endif -%}
+    {% comment %} Customization to show sales badges on main PDP image {% endcomment %}
+    {%- if show_on_sale_badge and product.available -%} 
+      <div class="product-card__badge product-card__badge--{{ settings.pcard_sale_badge_position }}">
+          {%- liquid
+            assign sale_badge = ''
+            assign amount = 0
+            case settings.pcard_sale_badge_type
+              when 'show_percentage'
+                if compare_at_price > price
+                  assign amount = compare_at_price | minus: price | times: 100 | divided_by: compare_at_price
+                endif
+                assign sale_badge = amount | times: -1 | append: '%'
+              when 'show_amount'
+                if compare_at_price > price
+                  assign amount = compare_at_price | minus: price | money
+                endif
+                assign sale_badge = 'products.product.price.save_price_html' | t: amount: amount
+              else
+                assign sale_badge = 'products.product.on_sale' | t
+            endcase
+          -%}
+          <span class="f-badge f-badge--sale" aria-hidden="true">{{- sale_badge -}}</span>
+        {%- for tag in custom_tags -%}
+          {%- liquid
+            assign tag_content = tag | split: '__' | last
+            assign type = tag_content | split: '_' | first
+            assign tag_name = tag_content | split: '_' | last
+          -%}
+          <span class="f-badge f-badge--{{ type }}">{{ tag_name }}</span>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>

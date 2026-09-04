@@ -1,0 +1,44 @@
+<section class="pd-page home-manifesto" id="home-manifesto-{{ section.id }}" aria-labelledby="home-manifesto-title-{{ section.id }}">
+  <div class="pd-wrap">
+   <div class="home-manifesto__inner">
+    <p class="home-manifesto__eyebrow">{{ section.settings.eyebrow | default: 'Why We Exist' }}</p>
+    <h2 id="home-manifesto-title-{{ section.id }}" class="home-manifesto__text" style="color: #fdfdfd;">
+      {{ section.settings.text_before | default: "We didn't build another yard game." }}
+      <span class="accent" style="color: #2b99ff;">{{ section.settings.text_accent | default: 'We built the next American Classic staple.' }}</span>
+    </h2>
+   </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Home Manifesto",
+  "tag": "section",
+  "class": "pd-section-home-manifesto",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Why We Exist"
+    },
+    {
+      "type": "textarea",
+      "id": "text_before",
+      "label": "Statement (white)",
+      "default": "We didn't build another yard game."
+    },
+    {
+      "type": "textarea",
+      "id": "text_accent",
+      "label": "Statement, accent part (blue)",
+      "default": "We built the next American Classic staple."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home Manifesto"
+    }
+  ]
+}
+{% endschema %}

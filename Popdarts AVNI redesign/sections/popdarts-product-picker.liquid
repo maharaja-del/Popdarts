@@ -1,0 +1,219 @@
+<section class="pd-page products" id="select-pack-{{ section.id }}" aria-labelledby="products-title-{{ section.id }}">
+  <div class="pd-wrap">
+    <div class="products__head">
+      <p class="products__eyebrow">{{ section.settings.eyebrow | default: 'Select Your Pack' }}</p>
+      <h2 id="products-title-{{ section.id }}" style="color: #0a0c10 !important;">{{ section.settings.heading | default: 'Rookie. Pro. Elite.' }}</h2>
+      <p>{{ section.settings.subheading | default: 'Every pack gets you on the board. Pick the one that fits your crew.' }}</p>
+    </div>
+
+    <div class="products__grid">
+      {%- for block in section.blocks -%}
+        {%- assign fallback_product = block.settings.product_handle -%}
+        {%- assign p = block.settings.product | default: all_products[fallback_product] -%}
+        <article class="product-card product-card--{{ block.settings.style }}" {{ block.shopify_attributes }}>
+          <div class="product-card__media">
+            {%- if p and p.featured_image -%}
+              <img src="{{ p.featured_image | image_url: width: 800 }}" alt="{{ p.featured_image.alt | default: p.title | escape }}" loading="lazy" width="800" height="800">
+            {%- elsif block.settings.fallback_image -%}
+              <img src="{{ block.settings.fallback_image | image_url: width: 800 }}" alt="{{ block.settings.title | escape }}" loading="lazy">
+            {%- elsif block.settings.fallback_image_url != blank -%}
+              <img src="{{ block.settings.fallback_image_url }}" alt="{{ block.settings.title | escape }}" loading="lazy">
+            {%- elsif block.settings.asset_filename != blank -%}
+              <img src="{{ block.settings.asset_filename | asset_url }}" alt="{{ block.settings.title | escape }}" loading="lazy">
+            {%- else -%}
+              <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/FlyingV-USA.jpg" alt="{{ block.settings.title | escape }}" loading="lazy">
+            {%- endif -%}
+          </div>
+
+          <div class="product-card__body">
+            <span class="product-card__badge">{{ block.settings.badge | default: 'Pack' }}</span>
+            <h3 class="product-card__title" style="color: #0a0c10 !important;">{% if p %}{{ p.title }}{% elsif block.settings.title != blank %}{{ block.settings.title }}{% else %}Pro Pack{% endif %}</h3>
+            <p class="product-card__ages">{{ block.settings.ages | default: 'Ages 8–55' }}</p>
+
+            <div class="product-card__price">
+              {%- if p -%}
+                <span class="product-card__price-now">{{ p.price | money }}</span>
+                {%- if p.compare_at_price > p.price -%}
+                  <span class="product-card__price-was">{{ p.compare_at_price | money }}</span>
+                {%- endif -%}
+              {%- elsif block.settings.fallback_price != blank -%}
+                <span class="product-card__price-now">{{ block.settings.fallback_price }}</span>
+                {%- if block.settings.fallback_price_was != blank -%}
+                  <span class="product-card__price-was">{{ block.settings.fallback_price_was }}</span>
+                {%- endif -%}
+              {%- endif -%}
+            </div>
+
+            <a class="btn btn--primary product-card__cta" href="{% if p %}{{ p.url }}{% else %}{{ block.settings.fallback_link | default: '/products' }}{% endif %}">
+              {{ block.settings.cta_text | default: 'Shop Now' }}
+            </a>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Select Your Pack",
+  "tag": "section",
+  "class": "pd-section-products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Select Your Pack"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Rookie. Pro. Elite."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Every pack gets you on the board. Pick the one that fits your crew."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_card",
+      "name": "Product card",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product",
+          "info": "If left empty, the theme looks up the product handle below. If neither resolves, the fallback fields underneath are used."
+        },
+        {
+          "type": "text",
+          "id": "product_handle",
+          "label": "Fallback product handle",
+          "info": "e.g. rookie-pack, pro-pack, elite-full-pack, swaptop-kit"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Accent color",
+          "options": [
+            { "value": "rookie", "label": "Light blue" },
+            { "value": "pro", "label": "Blue" },
+            { "value": "elite", "label": "Ink (premium)" },
+            { "value": "swaptop", "label": "Green" }
+          ],
+          "default": "pro"
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge text",
+          "default": "Pack"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Fallback title",
+          "default": "Pro Pack"
+        },
+        {
+          "type": "text",
+          "id": "ages",
+          "label": "Age range",
+          "default": "Ages 8–55"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "Button text",
+          "default": "Shop Now"
+        },
+        {
+          "type": "image_picker",
+          "id": "fallback_image",
+          "label": "Fallback image"
+        },
+        {
+          "type": "url",
+          "id": "fallback_image_url",
+          "label": "Fallback image URL",
+          "info": "Used only if Fallback image above is empty."
+        },
+        {
+          "type": "text",
+          "id": "asset_filename",
+          "label": "Bundled theme asset filename",
+          "info": "Used only if Fallback image and Fallback image URL are both empty, e.g. pd-why-target-macro.jpg"
+        },
+        {
+          "type": "text",
+          "id": "fallback_price",
+          "label": "Fallback price text",
+          "default": "$31.99"
+        },
+        {
+          "type": "text",
+          "id": "fallback_price_was",
+          "label": "Fallback compare-at price text"
+        },
+        {
+          "type": "url",
+          "id": "fallback_link",
+          "label": "Fallback link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Select Your Pack",
+      "blocks": [
+        {
+          "type": "product_card",
+          "settings": {
+            "product_handle": "rookie-pack",
+            "style": "rookie",
+            "badge": "Rookie Pack",
+            "title": "Rookie Pack",
+            "ages": "Ages 2–14",
+            "cta_text": "Shop the Rookie Pack",
+            "fallback_price": "$24.99",
+            "fallback_link": "/products/rookie-pack"
+          }
+        },
+        {
+          "type": "product_card",
+          "settings": {
+            "product_handle": "pro-pack",
+            "style": "pro",
+            "badge": "Pro Pack",
+            "title": "Pro Pack",
+            "ages": "Ages 8–55",
+            "cta_text": "Shop the Pro Pack",
+            "fallback_price": "$31.99",
+            "fallback_price_was": "$39.99",
+            "fallback_link": "/products/pro-pack"
+          }
+        },
+        {
+          "type": "product_card",
+          "settings": {
+            "product_handle": "elite-full-pack",
+            "style": "elite",
+            "badge": "Elite Pack",
+            "title": "Elite Pack",
+            "ages": "Tournament-weight · APL players",
+            "cta_text": "Shop the Elite Pack",
+            "fallback_price": "$44.99",
+            "fallback_link": "/products/elite-full-pack"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

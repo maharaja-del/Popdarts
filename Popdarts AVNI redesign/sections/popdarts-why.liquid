@@ -1,0 +1,67 @@
+<section class="pd-page why" id="why-{{ section.id }}" aria-labelledby="why-title-{{ section.id }}">
+  <div class="pd-texture" aria-hidden="true"></div>
+  <div class="pd-wrap">
+    <div class="why__intro">
+      <h2 id="why-title-{{ section.id }}" style="color: #0a0c10 !important;">{{ section.settings.heading | default: 'Easy to learn.<br>Never fully mastered.' }}</h2>
+    </div>
+  </div>
+
+  <div class="slider why__slider" data-slider aria-roledescription="carousel" aria-label="Why Popdarts">
+    <div class="slider__track" data-slider-track tabindex="0" role="group" aria-label="Slides">
+      {%- for block in section.blocks -%}
+        <article class="slide slide--why" {{ block.shopify_attributes }}>
+          <img class="slide__media" src="{% if block.settings.image %}{{ block.settings.image | image_url: width: 800 }}{% elsif block.settings.fallback_url != blank %}{{ block.settings.fallback_url }}{% elsif block.settings.asset_filename != blank %}{{ block.settings.asset_filename | asset_url }}{% else %}{{ 'pd-why-target-macro.jpg' | asset_url }}{% endif %}" alt="{{ block.settings.bold | default: 'Learn it' }} {{ block.settings.rest | default: 'in one throw.' }}" loading="lazy">
+          <p class="slide__caption why__statement"><span>{{ block.settings.bold | default: 'Learn it' }}</span> {{ block.settings.rest | default: 'in one throw.' }}</p>
+        </article>
+      {%- endfor -%}
+    </div>
+    <div class="slider__controls">
+      <button class="slider__arrow" type="button" data-slider-prev aria-label="Previous">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="slider__arrow" type="button" data-slider-next aria-label="Next">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Why Popdarts",
+  "tag": "section",
+  "class": "pd-section-why",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Easy to learn. Never fully mastered."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "statement",
+      "name": "Statement",
+      "settings": [
+        { "type": "text", "id": "bold", "label": "Bold lead-in", "default": "Learn it" },
+        { "type": "text", "id": "rest", "label": "Rest of sentence", "default": "in one throw." },
+        { "type": "image_picker", "id": "image", "label": "Photo" },
+        { "type": "url", "id": "fallback_url", "label": "Fallback image URL" },
+        { "type": "text", "id": "asset_filename", "label": "Bundled theme asset filename", "info": "Used only if Photo and Fallback URL are both empty, e.g. pd-why-target-macro.jpg" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why Popdarts",
+      "blocks": [
+        { "type": "statement", "settings": { "bold": "Learn it", "rest": "in one throw.", "asset_filename": "pd-hero-dart-strike.jpg" } },
+        { "type": "statement", "settings": { "bold": "Master it", "rest": "in a lifetime.", "asset_filename": "pd-championship-arena.jpg" } },
+        { "type": "statement", "settings": { "bold": "Fits in a bag", "rest": "— plays on any smooth surface, indoors or out.", "asset_filename": "pd-why-target-macro.jpg" } },
+        { "type": "statement", "settings": { "bold": "No batteries.", "rest": "No boards to build. No screens.", "asset_filename": "pd-bento-players-ready.jpg" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

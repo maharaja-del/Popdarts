@@ -1,0 +1,1504 @@
+{% comment %}
+---------------------------------------------------------
+Copyright © 2023 Section Store. All rights reserved.
+Unauthorized copying, modification, distribution, or use
+of this code or any portion of it, is strictly prohibited.
+Violators will be prosecuted to the fullest extent of the law.
+For inquiries or permissions, contact daniel@section.store
+---------------------------------------------------------
+{% endcomment %}
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+/>
+
+{%- liquid 
+  assign padding_horizontal = section.settings.padding_horizontal
+  assign padding_horizontal_mobile = section.settings.padding_horizontal_mobile
+  assign padding_top = section.settings.padding_top
+  assign padding_bottom = section.settings.padding_bottom
+  assign border_color = section.settings.border_color
+  assign border_thickness = section.settings.border_thickness
+  assign margin_top = section.settings.margin_top
+  assign margin_bottom = section.settings.margin_bottom
+  assign margin_horizontal_mobile = section.settings.margin_horizontal_mobile
+  assign margin_horizontal = section.settings.margin_horizontal
+  assign background_color = section.settings.background_color
+  assign background_gradient = section.settings.background_gradient
+  assign full_width = section.settings.full_width
+  assign content_width = section.settings.content_width
+  assign lazy = section.settings.lazy
+  assign section_radius = section.settings.section_radius
+
+  assign vertical_line_color = section.settings.vertical_line_color
+
+  assign heading = section.settings.heading
+  assign heading_size = section.settings.heading_size
+  assign heading_size_mobile = section.settings.heading_size_mobile
+  assign heading_color = section.settings.heading_color
+  assign heading_custom = section.settings.heading_custom
+  assign heading_font = section.settings.heading_font
+  assign heading_height = section.settings.heading_height
+  assign heading_align = section.settings.heading_align
+  assign heading_align_mobile = section.settings.heading_align_mobile
+
+  assign items_mt_mobile = section.settings.items_mt_mobile
+  assign items_mt = section.settings.items_mt
+
+  assign item_mt_mobile = section.settings.item_mt_mobile
+  assign item_mt = section.settings.item_mt
+  assign item_gap_mobile = section.settings.item_gap_mobile
+  assign item_gap = section.settings.item_gap
+
+  assign image_radius = section.settings.image_radius
+  assign image_border_thickness = section.settings.image_border_thickness
+  assign image_border_color = section.settings.image_border_color
+  assign image_ratio = section.settings.image_ratio
+  assign image_ratio_mobile = section.settings.image_ratio_mobile
+
+  assign item_heading_size = section.settings.item_heading_size
+  assign item_heading_size_mobile = section.settings.item_heading_size_mobile
+  assign item_heading_color = section.settings.item_heading_color
+  assign item_heading_custom = section.settings.item_heading_custom
+  assign item_heading_font = section.settings.item_heading_font
+  assign item_heading_height = section.settings.item_heading_height
+  assign item_heading_align = section.settings.item_heading_align
+  assign item_heading_align_mobile = section.settings.item_heading_align_mobile
+
+  assign date_size = section.settings.date_size
+  assign date_size_mobile = section.settings.date_size_mobile
+  assign date_color = section.settings.date_color
+  assign date_custom = section.settings.date_custom
+  assign date_font = section.settings.date_font
+  assign date_height = section.settings.date_height
+  assign date_align = section.settings.date_align
+  assign date_align_mobile = section.settings.date_align_mobile
+  assign date_mt_mobile = section.settings.date_mt_mobile
+  assign date_mt = section.settings.date_mt
+
+  assign text_size = section.settings.text_size
+  assign text_size_mobile = section.settings.text_size_mobile
+  assign text_color = section.settings.text_color
+  assign text_custom = section.settings.text_custom
+  assign text_font = section.settings.text_font
+  assign text_height = section.settings.text_height
+  assign text_align = section.settings.text_align
+  assign text_align_mobile = section.settings.text_align_mobile
+  assign text_mt_mobile = section.settings.text_mt_mobile
+  assign text_mt = section.settings.text_mt
+
+  assign arrow_size = section.settings.arrow_size
+  assign arrow_size_mobile = section.settings.arrow_size_mobile
+  assign arrow_icon_size = section.settings.arrow_icon_size
+  assign arrow_icon_size_mobile = section.settings.arrow_icon_size_mobile
+  assign arrow_color = section.settings.arrow_color
+  assign arrow_hover_color = section.settings.arrow_hover_color
+  assign arrow_bg_color = section.settings.arrow_bg_color
+  assign arrow_bg_hover_color = section.settings.arrow_bg_hover_color
+  assign arrow_border_thickness = section.settings.arrow_border_thickness
+  assign arrow_border_color = section.settings.arrow_border_color
+  assign arrow_border_hover_color = section.settings.arrow_border_hover_color
+  assign arrow_show_desktop = section.settings.arrow_show_desktop
+  assign arrow_show_mobile = section.settings.arrow_show_mobile
+  
+-%}
+
+{%- style -%}
+
+  {{  heading_font | font_face: font_display: 'swap' }}
+  {{  item_heading_font | font_face: font_display: 'swap' }}
+  {{  date_font | font_face: font_display: 'swap' }}
+  {{  text_font | font_face: font_display: 'swap' }}
+  
+  .section-{{ section.id }} {
+    border-top: solid {{ border_color }} {{ border_thickness }}px;
+    border-bottom: solid {{ border_color }} {{ border_thickness }}px;
+    margin-top: {{ margin_top | times: 0.75 | round: 0 }}px;
+    margin-bottom: {{ margin_bottom | times: 0.75 | round: 0 }}px;
+    margin-left: {{ margin_horizontal_mobile }}rem;
+    margin-right: {{ margin_horizontal_mobile }}rem;
+    border-radius: {{ section_radius | times: 0.6 | round: 0 }}px;
+    overflow: hidden;
+  }
+  
+  .section-{{ section.id }}-settings {
+    margin: 0 auto;
+    padding-top: {{ padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ padding_bottom | times: 0.75 | round: 0 }}px;
+    padding-left: {{ padding_horizontal_mobile }}rem;
+    padding-right: {{ padding_horizontal_mobile }}rem;
+    position: relative;
+  }
+
+  .section-{{ section.id }}-settings:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: {{ padding_horizontal_mobile }}rem;
+    height: 100%;
+    width: 1px;
+    background-color: {{ vertical_line_color }};
+  }
+
+  .timeline-heading-{{ section.id }} {
+    text-align: {{ heading_align_mobile }};
+    padding: 0 5%;
+  }
+
+  .timeline-heading-{{ section.id }} * {
+    margin: 0;
+    font-size: {{ heading_size_mobile }}px;
+    color: {{ heading_color }};
+    line-height: {{ heading_height }}%;
+    text-transform: unset;
+  }
+
+  .timeline-items-{{ section.id }} {
+    margin-top: {{ items_mt_mobile }}px;
+  }
+
+  .timeline-item-{{ section.id }} {
+    display: grid;
+    gap: {{ item_gap_mobile }}px;
+  }
+
+  .timeline-item-{{ section.id }}:not(:first-child) {
+    margin-top: {{ item_mt_mobile }}px;
+  }
+
+  .timeline-images-wrapper-{{ section.id }} {
+    position: relative;
+    min-width: 0;
+    width: 100%;
+    order: 1;
+  }
+
+  .timeline-image-{{ section.id }} {
+    overflow: hidden;
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  .timeline-image-{{ section.id }} img,
+  .timeline-image-{{ section.id }} svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: {{ image_radius }}px;
+    border: {{ image_border_thickness }}px solid {{ image_border_color }};
+  }
+
+  .timeline-image-{{ section.id }} svg {
+    background-color: #AFAFAF;
+  }
+
+  .timeline-content-{{ section.id }} {
+    order: 2;
+    padding-left: 10%;
+  }
+
+  .timeline-title-{{ section.id }} {
+    margin: 0;
+    display: block;
+    width: 100%;
+    text-align: {{ item_heading_align_mobile }};
+    font-size: {{ item_heading_size_mobile }}px;
+    color: {{ item_heading_color }};
+    line-height: {{ item_heading_height }}%;
+    text-transform: unset;
+    font-weight: 700;
+  }
+
+  .timeline-date-{{ section.id }} {
+    margin: 0;
+    margin-top: {{ date_mt_mobile }}px;
+    display: block;
+    width: 100%;
+    text-align: {{ date_align_mobile }};
+    font-size: {{ date_size_mobile }}px;
+    color: {{ date_color }};
+    line-height: {{ date_height }}%;
+    text-transform: unset;
+    font-weight: 700;
+  }
+
+  .timeline-text-{{ section.id }} {
+    margin: 0;
+    margin-top: {{ text_mt_mobile }}px;
+    display: block;
+    width: 100%;
+    text-align: {{ text_align_mobile }};
+    font-size: {{ text_size_mobile }}px;
+    color: {{ text_color }};
+    line-height: {{ text_height }}%;
+    text-transform: unset;
+  }
+
+  .timeline-btn-prev-{{ section.id }},
+  .timeline-btn-next-{{ section.id }} {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    transform: translateY(-50%);
+    width: {{ arrow_size_mobile }}px;
+    height: {{ arrow_size_mobile }}px;
+    border: 0px;
+    border: {{ arrow_border_thickness }}px solid {{ arrow_border_color }};
+    border-radius: 50%;
+    background: trasparent;
+    background: {{ arrow_bg_color }};
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    -webkit-appearance: none;
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,.15);
+  }
+
+  .timeline-btn-prev-{{ section.id }} {
+    left: 10px !important;
+  }
+
+  .timeline-btn-next-{{ section.id }} {
+    right: 10px !important;
+  }
+
+  .timeline-btn-prev-{{ section.id }} svg,
+  .timeline-btn-next-{{ section.id }} svg {
+    height: {{ arrow_icon_size_mobile }}px;
+    width: {{ arrow_icon_size_mobile }}px;
+  }
+
+  .timeline-btn-next-{{ section.id }} svg {
+    transform: rotate(180deg);
+    margin-left: 2px;
+  }
+
+  .timeline-btn-prev-{{ section.id }} svg {
+    margin-left: -2px;
+  }
+
+  .timeline-btn-prev-{{ section.id }} svg path,
+  .timeline-btn-next-{{ section.id }} svg path {
+    fill: {{ arrow_color }};
+    transition: all 0.3s ease 0s;
+  }
+
+  .timeline-btn-prev-{{ section.id }}:hover,
+  .timeline-btn-next-{{ section.id }}:hover {
+    transition: all 0.3s ease 0s;
+    border: {{ arrow_border_thickness }}px solid {{ arrow_border_hover_color }};
+    background: {{ arrow_bg_hover_color }};
+  }
+
+  .timeline-btn-prev-{{ section.id }}:hover svg path,
+  .timeline-btn-next-{{ section.id }}:hover svg path {
+    fill: {{ arrow_hover_color }};
+    transition: all 0.3s ease 0s;
+  }
+
+  .timeline-btn-prev-{{ section.id }}.swiper-button-disabled,
+  .timeline-btn-next-{{ section.id }}.swiper-button-disabled {
+    opacity: 0;
+  }
+  
+  @media(min-width: 1024px) {
+
+    .section-{{ section.id }} {
+      margin-top: {{ margin_top }}px;
+      margin-bottom: {{ margin_bottom }}px;
+      margin-left: {{ margin_horizontal }}rem;
+      margin-right: {{ margin_horizontal }}rem;
+      border-radius: {{ section_radius }}px;
+    }
+    
+    .section-{{ section.id }}-settings {
+      padding: 0 5rem;
+      padding-top: {{ padding_top }}px;
+      padding-bottom: {{ padding_bottom }}px;
+      padding-left: {{ padding_horizontal }}rem;
+      padding-right: {{ padding_horizontal }}rem;
+    }
+
+    .section-{{ section.id }}-settings:before {
+      left: 25%;
+    }
+
+    .timeline-heading-{{ section.id }} {
+      text-align: {{ heading_align }};
+      padding: 0 0 0 30%;
+    }
+
+    .timeline-heading-{{ section.id }} * {
+      font-size: {{ heading_size }}px;
+    }
+
+    .timeline-items-{{ section.id }} {
+      margin-top: {{ items_mt }}px;
+    }
+
+    .timeline-item-{{ section.id }} {
+      grid-template-columns: 40% 60%;
+      gap: {{ item_gap }}px;
+      align-items: start;
+    }
+
+    .timeline-content-{{ section.id }} {
+      padding-left: 0;
+    }
+
+    .timeline-item-{{ section.id }}:not(:first-child) {
+      margin-top: {{ item_mt }}px;
+    }
+
+    .timeline-item-{{ section.id }}:nth-child(even) {
+      padding-right: 10%;
+    }
+  
+    .timeline-item-{{ section.id }}:nth-child(odd) {
+      padding-left: 10%;
+    }
+
+    .timeline-title-{{ section.id }} {
+      text-align: {{ item_heading_align }};
+      font-size: {{ item_heading_size }}px;
+    }
+
+    .timeline-date-{{ section.id }} {
+      margin-top: {{ date_mt }}px;
+      text-align: {{ date_align }};
+      font-size: {{ date_size }}px;
+    }
+
+    .timeline-text-{{ section.id }} {
+      margin-top: {{ text_mt }}px;
+      text-align: {{ text_align }};
+      font-size: {{ text_size }}px;
+    }
+
+    .timeline-btn-prev-{{ section.id }},
+    .timeline-btn-next-{{ section.id }} {
+      width: {{ arrow_size }}px;
+      height: {{ arrow_size }}px;
+      transition: all 0.25s ease 0s;
+      top: 50%;
+    }
+    
+    .timeline-btn-prev-{{ section.id }}.swiper-button-disabled,
+    .timeline-btn-next-{{ section.id }}.swiper-button-disabled {
+      opacity: 0 !important;
+    }
+
+    .timeline-btn-prev-{{ section.id }} {
+      left: -{{ arrow_size | times: 0.5 | round: 0 }}px !important;
+    }
+  
+    .timeline-btn-next-{{ section.id }} {
+      right: -{{ arrow_size | times: 0.5 | round: 0 }}px !important;
+    }
+
+    .timeline-btn-prev-{{ section.id }} svg,
+    .timeline-btn-next-{{ section.id }} svg {
+      height: {{ arrow_icon_size }}px;
+      width: {{ arrow_icon_size }}px;
+    }
+  }
+  
+{%- endstyle -%}
+
+{% unless full_width %}
+  <style>
+    .section-{{ section.id }}-settings {
+      max-width: {{ content_width }}rem;
+    }
+  </style>
+{% endunless %}
+
+{% if heading_custom %}
+  <style>
+    .timeline-heading-{{ section.id }} * {
+      font-family: {{ heading_font.family }}, {{ heading_font.fallback_families }};
+      font-weight: {{ heading_font.weight }};
+      font-style: {{ heading_font.style }};
+    }
+  </style>
+{% endif %}
+
+{% if item_heading_custom %}
+  <style>
+    .timeline-title-{{ section.id }} {
+      font-family: {{ item_heading_font.family }}, {{ item_heading_font.fallback_families }};
+      font-weight: {{ item_heading_font.weight }};
+      font-style: {{ item_heading_font.style }};
+    }
+  </style>
+{% endif %}
+
+{% if date_custom %}
+  <style>
+    .timeline-date-{{ section.id }} {
+      font-family: {{ date_font.family }}, {{ date_font.fallback_families }};
+      font-weight: {{ date_font.weight }};
+      font-style: {{ date_font.style }};
+    }
+  </style>
+{% endif %}
+
+{% if text_custom %}
+  <style>
+    .timeline-text-{{ section.id }} {
+      font-family: {{ text_font.family }}, {{ text_font.fallback_families }};
+      font-weight: {{ text_font.weight }};
+      font-style: {{ text_font.style }};
+    }
+  </style>
+{% endif %}
+
+{% if margin_horizontal_mobile > 0 %}
+  <style>
+    .section-{{ section.id }} {
+      border-left: solid {{ border_color }} {{ border_thickness }}px;
+      border-right: solid {{ border_color }} {{ border_thickness }}px;
+    }
+    
+    @media(min-width: 1024px) {
+      .section-{{ section.id }} {
+        border-left: 0px;
+        border-right: 0px;
+      }
+    }
+  </style>
+{% endif %}
+
+{% if margin_horizontal > 0 %}
+  <style>
+    @media(min-width: 1024px) {
+      .section-{{ section.id }} {
+        border-left: solid {{ border_color }} {{ border_thickness }}px;
+        border-right: solid {{ border_color }} {{ border_thickness }}px;
+      }
+    }
+  </style>
+{% endif %}
+
+{% if image_ratio_mobile == "portrait" %}
+  <style>
+    .timeline-image-{{ section.id }} {
+     aspect-ratio: 9.6/12; 
+    }
+  </style>
+{% elsif image_ratio_mobile == "landscape" %}
+  <style>
+    .timeline-image-{{ section.id }}{
+     aspect-ratio: 12/10; 
+    }
+  </style>
+{% elsif image_ratio_mobile == "square" %}
+  <style>
+    .timeline-image-{{ section.id }} {
+     aspect-ratio: 12/12; 
+    }
+  </style>
+{% else %}
+  <style>
+    .timeline-image-{{ section.id }} {
+     aspect-ratio: auto; 
+    }
+  </style>
+{% endif %}
+
+{% if image_ratio == "portrait" %}
+  <style>
+    @media(min-width: 1024px) {
+     .timeline-image-{{ section.id }} {
+       aspect-ratio: 9.6/12; 
+      } 
+    }
+  </style>
+{% elsif image_ratio == "landscape" %}
+  <style>
+    @media(min-width: 1024px) {
+      .timeline-image-{{ section.id }}{
+       aspect-ratio: 12/10; 
+      }
+    }
+  </style>
+{% elsif image_ratio == "square" %}
+  <style>
+    @media(min-width: 1024px) {
+      .timeline-image-{{ section.id }} {
+       aspect-ratio: 12/12; 
+      }
+    }
+  </style>
+{% else %}
+  <style>
+    @media(min-width: 1024px) {
+      .timeline-image-{{ section.id }} {
+       aspect-ratio: auto; 
+      }
+    }
+  </style>
+{% endif %}
+
+{% if arrow_show_mobile %}
+  <style>
+    .timeline-btn-prev-{{ section.id }},
+    .timeline-btn-next-{{ section.id }} {
+      display: flex;
+    }
+  </style>
+{% else %}
+  <style>
+    .timeline-btn-prev-{{ section.id }},
+    .timeline-btn-next-{{ section.id }} {
+      display: none;
+    }
+  </style>
+{% endif %}
+
+{% if arrow_show_desktop %}
+  <style>
+    @media(min-width: 1024px) {
+      .timeline-btn-prev-{{ section.id }},
+      .timeline-btn-next-{{ section.id }} {
+        display: flex;
+      }
+    }
+  </style>
+{% else %}
+  <style>
+    @media(min-width: 1024px) {
+      .timeline-btn-prev-{{ section.id }},
+      .timeline-btn-next-{{ section.id }} {
+        display: none;
+      }
+    }
+  </style>
+{% endif %}
+
+<div class="section-{{ section.id }} timeline-{{ section.id }}" style="background-color:{{ background_color }}; background-image: {{ background_gradient }};">
+    <div class="section-{{ section.id }}-settings">
+      {% if heading != blank %}
+        <div class="timeline-heading-{{ section.id }}">{{ heading }}</div>
+      {% endif %}
+
+      <div class="timeline-items-{{ section.id }}">
+        {% assign inside_item = false %}
+        {% for block in section.blocks %}
+          {% if block.type == "date" %}
+            {% if inside_item %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+            
+            <div class="timeline-item-{{ section.id }}">
+              <div class="timeline-content-{{ section.id }}">
+                {% if block.settings.heading != blank %}
+                  <p class="timeline-title-{{ section.id }}">{{ block.settings.heading }}</p>
+                {% endif %}
+
+                {% if block.settings.date != blank %}
+                  <p class="timeline-date-{{ section.id }}">{{ block.settings.date }}</p>
+                {% endif %}
+
+                {% if block.settings.text != blank %}
+                  <p class="timeline-text-{{ section.id }}">{{ block.settings.text }}</p>
+                {% endif %}
+              </div>
+
+              <div class="timeline-images-wrapper-{{ section.id }}">
+               <button class="timeline-btn-prev-{{ section.id }} timeline-btn-prev-{{ block.id }}">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="Left"><path d="M14,17a1,1,0,0,1-.707-.293l-4-4a1,1,0,0,1,0-1.414l4-4a1,1,0,1,1,1.414,1.414L11.414,12l3.293,3.293A1,1,0,0,1,14,17Z"/></g></svg>
+                </button>
+                <button class="timeline-btn-next-{{ section.id }} timeline-btn-next-{{ block.id }}">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="Left"><path d="M14,17a1,1,0,0,1-.707-.293l-4-4a1,1,0,0,1,0-1.414l4-4a1,1,0,1,1,1.414,1.414L11.414,12l3.293,3.293A1,1,0,0,1,14,17Z"/></g></svg>
+                </button>
+                <div class="timeline-images-{{ section.id }} timeline-images-{{ block.id }} swiper">
+                  <div class="swiper-wrapper">
+                    {% assign inside_item = true %}
+
+          {% elsif block.type == "image" %}
+            <div class="timeline-image-{{ section.id }} swiper-slide">
+              {% if block.settings.image != blank %}
+                <img src="{{ block.settings.image | image_url }}" alt="{{ block.settings.image.alt }}" {% if lazy %}loading="lazy"{% endif %}>
+              {% else %}
+                {{ 'image' | placeholder_svg_tag }}
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+
+        {% if inside_item %}
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+  function initTimeline2() {
+    {% for block in section.blocks %}
+      const slider{{ block.id | replace: '-', '' }} = new Swiper(".timeline-images-{{ block.id }}", {
+        speed: 300,
+        spaceBetween: 0,
+        loop: true,
+        slidesPerView: 1,
+        navigation: {
+        nextEl: '.timeline-btn-next-{{ block.id }}',
+        prevEl: '.timeline-btn-prev-{{ block.id }}',
+      },
+      });
+    {% endfor %}
+  }
+
+  document.addEventListener('DOMContentLoaded', initTimeline2);
+  
+  if (Shopify.designMode) {
+     document.addEventListener('shopify:section:unload', initTimeline2);
+     document.addEventListener('shopify:section:load', initTimeline2);
+  }
+</script>
+
+{% schema %}
+  {
+    "name": "SS - Timeline #2",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Heading Settings"
+      },
+      {
+        "type": "richtext",
+        "id": "heading",
+        "label": "Heading",
+        "default": "<h2>Our Journey</h2>"
+      },
+      {
+        "type": "checkbox",
+        "id": "heading_custom",
+        "label": "Use Custom Font",
+        "default": false
+      },
+      {
+        "type": "font_picker",
+        "id": "heading_font",
+        "label": "Heading Font Family",
+        "default": "josefin_sans_n4"
+      },
+      {
+        "type": "range",
+        "id": "heading_size",
+        "min": 0,
+        "max": 72,
+        "step": 2,
+        "unit": "px",
+        "label": "Heading Size",
+        "default": 48
+      },
+      {
+        "type": "range",
+        "id": "heading_size_mobile",
+        "min": 0,
+        "max": 72,
+        "step": 2,
+        "unit": "px",
+        "label": "Heading Size - Mobile",
+        "default": 30
+      },
+      {
+        "type": "range",
+        "id": "heading_height",
+        "min": 50,
+        "max": 200,
+        "step": 10,
+        "unit": "%",
+        "label": "Heading Line Height",
+        "default": 150
+      },
+      {
+        "type": "text_alignment",
+        "id": "heading_align",
+        "label": "Heading Text Align",
+        "default": "right"
+      },
+      {
+        "type": "text_alignment",
+        "id": "heading_align_mobile",
+        "label": "Heading Text Align - Mobile",
+        "default": "center"
+      },
+      {
+        "type": "header",
+        "content": "Items Settings"
+      },
+      {
+        "type": "range",
+        "id": "items_mt",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Items Margin Top - Desktop",
+        "default": 60
+      },
+      {
+        "type": "range",
+        "id": "items_mt_mobile",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Items Margin Top - Mobile",
+        "default": 30
+      },
+      {
+        "type": "header",
+        "content": "Item Settings"
+      },
+      {
+        "type": "range",
+        "id": "item_mt",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Item Margin Top - Desktop",
+        "default": 90
+      },
+      {
+        "type": "range",
+        "id": "item_mt_mobile",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Item Margin Top - Mobile",
+        "default": 40
+      },
+      {
+        "type": "range",
+        "id": "item_gap",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Item gap - Desktop",
+        "default": 56
+      },
+      {
+        "type": "range",
+        "id": "item_gap_mobile",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Item gap - Mobile",
+        "default": 30
+      },
+      {
+        "type": "header",
+        "content": "Image Settings"
+      },
+      {
+         "type": "range",
+         "id": "image_radius",
+         "min": 0,
+         "max": 100,
+         "step": 2,
+         "unit": "px",
+         "label": "Image Roundness",
+         "default": 12
+      },
+      {
+         "type": "range",
+         "id": "image_border_thickness",
+         "min": 0,
+         "max": 10,
+         "step": 1,
+         "unit": "px",
+         "label": "Image Border Thickness",
+         "default": 0
+      },
+      {
+        "type": "select",
+        "id": "image_ratio",
+        "label": "Image Aspect Ratio",
+        "default": "portrait",
+        "options": [
+          {
+            "label": "Portrait",
+            "value": "portrait"
+          },
+          {
+            "label": "Square",
+            "value": "square"
+          },
+          {
+            "label": "Landscape",
+            "value": "landscape"
+          },
+          {
+            "label": "Original",
+            "value": "original"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "image_ratio_mobile",
+        "label": "Image Aspect Ratio - Mobile",
+        "default": "portrait",
+        "options": [
+          {
+            "label": "Portrait",
+            "value": "portrait"
+          },
+          {
+            "label": "Square",
+            "value": "square"
+          },
+          {
+            "label": "Landscape",
+            "value": "landscape"
+          },
+          {
+            "label": "Original",
+            "value": "original"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Item Heading Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "item_heading_custom",
+        "label": "Use Custom Font",
+        "default": false
+      },
+      {
+        "type": "font_picker",
+        "id": "item_heading_font",
+        "label": "Item Heading Font Family",
+        "default": "josefin_sans_n4"
+      },
+      {
+        "type": "range",
+        "id": "item_heading_size",
+        "min": 0,
+        "max": 72,
+        "step": 2,
+        "unit": "px",
+        "label": "Item Heading Size",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "item_heading_size_mobile",
+        "min": 0,
+        "max": 72,
+        "step": 2,
+        "unit": "px",
+        "label": "Item Heading Size - Mobile",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "item_heading_height",
+        "min": 50,
+        "max": 200,
+        "step": 10,
+        "unit": "%",
+        "label": "Item Heading Line Height",
+        "default": 150
+      },
+      {
+        "type": "text_alignment",
+        "id": "item_heading_align",
+        "label": "Item Heading Text Align"
+      },
+      {
+        "type": "text_alignment",
+        "id": "item_heading_align_mobile",
+        "label": "Item Heading Text Align - Mobile"
+      },
+      {
+        "type": "header",
+        "content": "Item Date Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "date_custom",
+        "label": "Use Custom Font",
+        "default": false
+      },
+      {
+        "type": "font_picker",
+        "id": "date_font",
+        "label": "Item Date Font Family",
+        "default": "josefin_sans_n4"
+      },
+      {
+        "type": "range",
+        "id": "date_size",
+        "min": 0,
+        "max": 72,
+        "step": 2,
+        "unit": "px",
+        "label": "Item Date Size",
+        "default": 58
+      },
+      {
+        "type": "range",
+        "id": "date_size_mobile",
+        "min": 0,
+        "max": 72,
+        "step": 2,
+        "unit": "px",
+        "label": "Item Date Size - Mobile",
+        "default": 50
+      },
+      {
+        "type": "range",
+        "id": "date_height",
+        "min": 50,
+        "max": 200,
+        "step": 10,
+        "unit": "%",
+        "label": "Item Date Line Height",
+        "default": 130
+      },
+      {
+        "type": "range",
+        "id": "date_mt",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Item Date Margin Top - Desktop",
+        "default": 32
+      },
+      {
+        "type": "range",
+        "id": "date_mt_mobile",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Item Date Margin Top - Mobile",
+        "default": 16
+      },
+      {
+        "type": "text_alignment",
+        "id": "date_align",
+        "label": "Item Date Text Align"
+      },
+      {
+        "type": "text_alignment",
+        "id": "date_align_mobile",
+        "label": "Item Date Text Align - Mobile"
+      },
+      {
+        "type": "header",
+        "content": "Item Text Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "text_custom",
+        "label": "Use Custom Font",
+        "default": false
+      },
+      {
+        "type": "font_picker",
+        "id": "text_font",
+        "label": "Item Text Font Family",
+        "default": "josefin_sans_n4"
+      },
+      {
+        "type": "range",
+        "id": "text_size",
+        "min": 0,
+        "max": 72,
+        "step": 2,
+        "unit": "px",
+        "label": "Item Text Size",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "text_size_mobile",
+        "min": 0,
+        "max": 72,
+        "step": 2,
+        "unit": "px",
+        "label": "Item Text Size - Mobile",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "text_height",
+        "min": 50,
+        "max": 200,
+        "step": 10,
+        "unit": "%",
+        "label": "Item Text Line Height",
+        "default": 170
+      },
+      {
+        "type": "range",
+        "id": "text_mt",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Item Text Margin Top - Desktop",
+        "default": 32
+      },
+      {
+        "type": "range",
+        "id": "text_mt_mobile",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Item Text Margin Top - Mobile",
+        "default": 16
+      },
+      {
+        "type": "text_alignment",
+        "id": "text_align",
+        "label": "Item Text Align"
+      },
+      {
+        "type": "text_alignment",
+        "id": "text_align_mobile",
+        "label": "Item Text Align - Mobile"
+      },
+      {
+        "type": "header",
+        "content": "Arrow Settings"
+      },
+      {
+        "type": "range",
+        "id": "arrow_size",
+        "min": 10,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Arrow Size",
+        "default": 48
+      },
+      {
+        "type": "range",
+        "id": "arrow_size_mobile",
+        "min": 10,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Arrow Size - Mobile",
+        "default": 48
+      },
+      {
+        "type": "range",
+        "id": "arrow_icon_size",
+        "min": 10,
+        "max": 50,
+        "step": 2,
+        "unit": "px",
+        "label": "Arrow Icon Size",
+        "default": 28
+      },
+      {
+        "type": "range",
+        "id": "arrow_icon_size_mobile",
+        "min": 10,
+        "max": 50,
+        "step": 2,
+        "unit": "px",
+        "label": "Arrow Icon Size - Mobile",
+        "default": 28
+      },
+      {
+        "type": "range",
+        "id": "arrow_border_thickness",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "unit": "px",
+        "label": "Arrow Border Thickness",
+        "default": 0
+      },
+      {
+        "type": "checkbox",
+        "id": "arrow_show_desktop",
+        "label": "Show on Desktop",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "arrow_show_mobile",
+        "label": "Show on Mobile",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Item Colors"
+      },
+      {
+        "type": "color",
+        "label": "Image Border Color",
+        "id": "image_border_color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "label": "Item Heading Color",
+        "id": "item_heading_color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "label": "Item Date Color",
+        "id": "date_color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "label": "Item Text Color",
+        "id": "text_color",
+        "default": "#000000"
+      },
+      {
+        "type": "header",
+        "content": "Arrows Colors"
+      },
+      {
+        "type": "color",
+        "label": "Arrow color",
+        "id": "arrow_color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "label": "Arrow Hover color",
+        "id": "arrow_hover_color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "label": "Arrow Background color",
+        "id": "arrow_bg_color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "label": "Arrow Background Hover color",
+        "id": "arrow_bg_hover_color",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "label": "Arrow Border color",
+        "id": "arrow_border_color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "label": "Arrow Border Hover color",
+        "id": "arrow_border_hover_color",
+        "default": "#333333"
+      },
+      {
+        "type": "header",
+        "content": "Section Colors"
+      },
+      {
+        "type": "color",
+        "label": "Heading Color",
+        "id": "heading_color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "label": "Section background",
+        "id": "background_color",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "color_background",
+        "id": "background_gradient",
+        "label": "Section background gradient"
+      },
+      {
+        "type": "color",
+        "label": "Vertical Line Color",
+        "id": "vertical_line_color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "label": "Border",
+        "id": "border_color",
+        "default": "#000000"
+      },
+      {
+        "type": "header",
+        "content": "Section margin (outside)"
+      },
+      {
+        "type": "range",
+        "id": "margin_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Margin top",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "margin_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Margin bottom",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "margin_horizontal",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "unit": "rem",
+        "label": "Margin sides",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "margin_horizontal_mobile",
+        "min": 0,
+        "max": 15,
+        "step": 0.5,
+        "unit": "rem",
+        "label": "Margin sides mobile",
+        "default": 0
+      },
+      {
+        "type": "header",
+        "content": "Section padding (inside)"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Padding top",
+        "default": 80
+      },
+      {
+         "type": "range",
+         "id": "padding_bottom",
+         "min": 0,
+         "max": 100,
+         "step": 4,
+         "unit": "px",
+         "label": "Padding bottom",
+         "default": 60
+      },
+      {
+        "type": "range",
+        "id": "padding_horizontal",
+        "min": 0,
+        "max": 30,
+        "step": 1,
+        "unit": "rem",
+        "label": "Padding sides",
+        "default": 5
+      },
+      {
+        "type": "range",
+        "id": "padding_horizontal_mobile",
+        "min": 0,
+        "max": 15,
+        "step": 0.5,
+        "unit": "rem",
+        "label": "Padding sides mobile",
+        "default": 4
+      },
+      {
+        "type": "header",
+        "content": "Section Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "full_width",
+        "label": "Full Width",
+        "default": false
+      },
+      {
+        "type": "range",
+        "id": "content_width",
+        "min": 0,
+        "max": 400,
+        "step": 10,
+        "unit": "rem",
+        "label": "Section content width",
+        "default": 80
+      },
+      {
+        "type": "range",
+        "id": "border_thickness",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "label": "Border thickness",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "section_radius",
+        "min": 0,
+        "max": 100,
+        "step": 2,
+        "unit": "px",
+        "label": "Section Roundness",
+        "default": 0
+      },
+      {
+        "type": "checkbox",
+        "id": "lazy",
+        "label": "Lazy load",
+        "info": "Lazy load images for speed optimisation",
+        "default": true
+      }
+    ],
+    "blocks": [
+      {
+        "type": "date",
+        "name": "Date",
+        "settings": [
+          {
+            "type": "text",
+            "id": "heading",
+            "label": "Heading",
+            "default": "Heading"
+          },
+          {
+            "type": "text",
+            "id": "date",
+            "label": "Date",
+            "default": "Year"
+          },
+          {
+            "type": "text",
+            "id": "text",
+            "label": "Text",
+            "default": "Text"
+          }
+        ]
+      },
+      {
+        "type": "image",
+        "name": "Image",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "SS - Timeline #2",
+        "blocks": [
+          {
+            "type": "date",
+            "settings": {
+              "heading": "WHEN IT ALL BEGAN",
+              "date": "1982",
+              "text": "What inspired you to start your journey with your brand? Was it a personal experience, a creative spark, or something else entirely? Share the story behind the beginnings of your brand."
+            }
+          },
+          {
+            "type": "image"
+          },
+          {
+            "type": "image"
+          },
+          {
+            "type": "image"
+          },
+          {
+            "type": "date",
+            "settings": {
+              "heading": "EXPLORATION, RESEARCHING & TESTING",
+              "date": "1982-1998",
+              "text": "How did you translate your vision into a tangible form? Did you begin with sketching designs, sourcing materials, or something else?"
+            }
+          },
+          {
+            "type": "image"
+          },
+          {
+            "type": "image"
+          },
+          {
+            "type": "image"
+          },
+          {
+            "type": "date",
+            "settings": {
+              "heading": "OUR FIRST PRODUCT",
+              "date": "1998",
+              "text": "How do you connect with your customers? Do you use social media, participate in events, or offer other ways for customers to engage with your brand?"
+            }
+          },
+          {
+            "type": "image"
+          },
+          {
+            "type": "image"
+          },
+          {
+            "type": "image"
+          },
+          {
+            "type": "date",
+            "settings": {
+              "heading": "WHAT'S NEXT?",
+              "date": "1999 to Now",
+              "text": "Your story is ever-evolving! Share your aspirations for the future of your brand. What are you passionate about creating, and how do you see your brand continuing to grow?"
+            }
+          },
+          {
+            "type": "image"
+          },
+          {
+            "type": "image"
+          },
+          {
+            "type": "image"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,952 @@
+{% comment %}
+  SS - Shoppable Video — Premium White Editorial
+{% endcomment %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap">
+
+<style>
+  /* ─── TOKENS ─────────────────────────────────────── */
+  .sv-{{ section.id }} {
+    --c-bg:         #ffffff;
+    --c-surface:    #f7f7f7;
+    --c-border:     #e9e9e9;
+    --c-border-dk:  #d0d0d0;
+    --c-ink:        #0a0a0a;
+    --c-ink-mid:    #555555;
+    --c-ink-faint:  #aaaaaa;
+    --c-green:      #14cc44;
+    --c-green-bg:   #edfff3;
+    --c-green-dk:   #0fa836;
+    --font-body:    'DM Sans', sans-serif;
+    --radius-card:  16px;
+    --shadow-idle:  0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.05);
+    --shadow-hover: 0 8px 24px rgba(0,0,0,0.10), 0 24px 56px rgba(0,0,0,0.12);
+  }
+
+  /* ─── SECTION SHELL ──────────────────────────────── */
+  .sv-{{ section.id }} {
+    position: relative;
+    background: var(--c-bg);
+    font-family: var(--font-body);
+    overflow: hidden;
+  }
+
+  /* Subtle noise texture */
+  .sv-{{ section.id }}::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.018;
+    pointer-events: none;
+    z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 256px 256px;
+  }
+
+  .sv-inner-{{ section.id }} {
+    position: relative;
+    z-index: 1;
+    max-width: 1380px;
+    margin: 0 auto;
+    padding: 72px 24px 80px;
+  }
+
+  /* ─── HEADER ─────────────────────────────────────── */
+  .sv-header-{{ section.id }} {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .sv-eyebrow-{{ section.id }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--c-green-dk);
+    margin-bottom: 10px;
+  }
+  .sv-eyebrow-{{ section.id }}::before,
+  .sv-eyebrow-{{ section.id }}::after {
+    content: '';
+    display: inline-block;
+    width: 18px; height: 2px;
+    background: var(--c-green);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .sv-headline-{{ section.id }} {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 38px;
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--c-ink);
+  }
+
+  /* ─── SOCIAL PROOF BAR ───────────────────────────── */
+  .sv-proof-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin: 18px auto 40px;
+    padding: 10px 20px;
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: 100px;
+    width: fit-content;
+    max-width: calc(100% - 48px);
+    flex-wrap: wrap;
+  }
+  .sv-avatars-{{ section.id }} {
+    display: flex;
+    align-items: center;
+  }
+  .sv-avatar-{{ section.id }} {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    overflow: hidden;
+    margin-left: -8px;
+    background: #ddd;
+    flex-shrink: 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+  }
+  .sv-avatar-{{ section.id }}:first-child { margin-left: 0; }
+  .sv-avatar-{{ section.id }} img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .sv-proof-divider-{{ section.id }} {
+    width: 1px; height: 22px;
+    background: var(--c-border);
+    flex-shrink: 0;
+  }
+  .sv-proof-text-{{ section.id }} { display: flex; flex-direction: column; gap: 2px; }
+  .sv-proof-stars-{{ section.id }} { display: flex; gap: 1px; align-items: center; }
+  .sv-proof-stars-{{ section.id }} svg { width: 13px; height: 13px; fill: #f59e0b; flex-shrink: 0; }
+  .sv-proof-label-{{ section.id }} {
+    font-size: 11px; font-weight: 700;
+    color: var(--c-ink-mid);
+    white-space: nowrap;
+  }
+  .sv-proof-viral-{{ section.id }} {
+    display: flex; align-items: center; gap: 5px;
+    padding: 4px 11px;
+    background: var(--c-green-bg);
+    border: 1px solid rgba(20,204,68,0.25);
+    border-radius: 50px;
+    font-size: 11px; font-weight: 800;
+    color: var(--c-green-dk);
+    white-space: nowrap;
+  }
+  .sv-proof-viral-{{ section.id }}::before {
+    content: '▶';
+    font-size: 8px;
+    color: var(--c-green);
+  }
+
+  /* ─── CARDS ──────────────────────────────────────── */
+  .sv-slider-{{ section.id }} { overflow: visible !important; }
+  .sv-slider-{{ section.id }} .swiper-wrapper { align-items: stretch !important; }
+
+  .sv-slide-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    height: auto !important;
+    background: var(--c-bg);
+    border-radius: var(--radius-card);
+    border: 1px solid var(--c-border);
+    box-shadow: var(--shadow-idle);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+    will-change: transform;
+  }
+  .sv-slide-{{ section.id }}:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-6px);
+    border-color: var(--c-border-dk);
+  }
+
+  /* ─── VIDEO AREA ─────────────────────────────────── */
+  .sv-video-wrap-{{ section.id }} {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: #111;
+    aspect-ratio: 9 / 16;
+    flex-shrink: 0;
+  }
+  .sv-video-wrap-{{ section.id }} video {
+    display: block;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+
+  /* Bottom gradient for legibility */
+  .sv-video-wrap-{{ section.id }}::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background: linear-gradient(
+      to top,
+      rgba(0,0,0,0.72) 0%,
+      rgba(0,0,0,0.28) 30%,
+      transparent 60%
+    );
+  }
+
+  /* Play hint overlay */
+  .sv-play-hint-{{ section.id }} {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    z-index: 3;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.95);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), opacity 0.2s;
+    opacity: 0;
+  }
+  .sv-play-hint-{{ section.id }} svg {
+    width: 18px; height: 18px;
+    fill: #0a0a0a;
+    margin-left: 3px;
+  }
+  .sv-slide-{{ section.id }}:hover .sv-play-hint-{{ section.id }} {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  /* ─── PRODUCT PILL (inside video) ───────────────── */
+  .sv-product-pill-{{ section.id }} {
+    position: absolute;
+    bottom: 12px; left: 12px; right: 12px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sv-pill-img-{{ section.id }} {
+    flex: 0 0 46px; height: 46px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .sv-pill-img-{{ section.id }} img {
+    display: block; width: 100%; height: 100%; object-fit: cover;
+  }
+  .sv-pill-title-{{ section.id }} {
+    margin: 0;
+    font-size: 12px; font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.4);
+  }
+  .sv-pill-price-{{ section.id }} {
+    margin: 0; margin-top: 2px;
+    font-size: 12px; font-weight: 800;
+    color: #23ff53;
+    line-height: 1;
+  }
+
+  /* ─── CARD BOTTOM (ADD TO CART) ──────────────────── */
+  .sv-card-bottom-{{ section.id }} {
+    display: flex;
+    border-top: 1px solid var(--c-border);
+  }
+  .sv-card-bottom-{{ section.id }} .form { flex: 1; }
+
+  .sv-btn-{{ section.id }} {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--c-ink);
+    border: 0;
+    padding: 15px 20px;
+    min-height: 50px;
+    cursor: pointer;
+    transition: background 0.2s ease, letter-spacing 0.2s ease;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    border-radius: 0;
+  }
+  .sv-btn-{{ section.id }}:hover {
+    background: #222;
+    letter-spacing: 0.16em;
+  }
+  .sv-btn-{{ section.id }}:active { background: #000; }
+  /* Cart icon */
+  .sv-btn-{{ section.id }}::before {
+    content: '';
+    display: inline-block;
+    width: 13px; height: 13px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='9' cy='21' r='1'/%3E%3Ccircle cx='20' cy='21' r='1'/%3E%3Cpath d='M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    flex-shrink: 0;
+  }
+
+  /* ─── PREVIEW LAYOUT ─────────────────────────────── */
+  .sv-slider-{{ section.id }}.preview .swiper-wrapper {
+    display: flex; overflow: hidden; gap: 16px;
+  }
+  .sv-slider-{{ section.id }}.preview .sv-slide-{{ section.id }} { width: 78vw; }
+
+  /* ─── MODAL ──────────────────────────────────────── */
+  .sv-modal-{{ section.id }} {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    opacity: 0;
+    pointer-events: none;
+    overflow-y: auto;
+    transition: opacity 0.25s ease;
+  }
+  .sv-modal-{{ section.id }}.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .sv-modal-inner-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    max-height: 92vh;
+  }
+
+  /* Modal card */
+  .sv-modal-slide-{{ section.id }} {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid var(--c-border);
+    box-shadow: 0 32px 80px rgba(0,0,0,0.4);
+  }
+
+  .sv-modal-video-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    max-height: 64vh;
+    aspect-ratio: 9/16;
+    overflow: hidden;
+    background: #111;
+  }
+  .sv-modal-video-{{ section.id }} video {
+    display: block; width: 100%; height: 100%; object-fit: cover;
+  }
+  .sv-modal-video-{{ section.id }}::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 45%);
+    pointer-events: none; z-index: 1;
+  }
+
+  /* Mute btn */
+  .sv-modal-mute-btn-{{ section.id }} {
+    position: absolute;
+    top: 12px; left: 12px;
+    z-index: 3;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.22);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .sv-modal-mute-btn-{{ section.id }}:hover { background: rgba(255,255,255,0.28); }
+  .sv-modal-mute-btn-{{ section.id }} svg { width: 16px; height: 16px; fill: #fff; }
+  .sv-modal-mute-btn-{{ section.id }} .sv-unmute-{{ section.id }} { display: none; }
+  .sv-modal-mute-btn-{{ section.id }}.active .sv-unmute-{{ section.id }} { display: block; }
+  .sv-modal-mute-btn-{{ section.id }}.active .sv-mute-{{ section.id }} { display: none; }
+
+  /* Showcase title overlay */
+  .sv-modal-overlay-title-{{ section.id }} {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    z-index: 2;
+    padding: 32px 20px 22px;
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+  }
+  .sv-modal-overlay-title-{{ section.id }} p {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 28px;
+    color: #fff;
+    line-height: 1.05;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  }
+
+  /* Modal product panel */
+  .sv-modal-panel-{{ section.id }} {
+    padding: 18px 20px 20px;
+    background: #fff;
+    border-top: 1px solid var(--c-border);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .sv-modal-product-row-{{ section.id }} {
+    display: flex; gap: 14px; align-items: center;
+  }
+  .sv-modal-prod-img-{{ section.id }} {
+    flex: 0 0 64px; height: 64px;
+    border-radius: 12px; overflow: hidden;
+    border: 1px solid var(--c-border);
+    background: var(--c-surface);
+  }
+  .sv-modal-prod-img-{{ section.id }} img {
+    display: block; width: 100%; height: 100%; object-fit: cover;
+  }
+  .sv-modal-prod-name-{{ section.id }} {
+    margin: 0;
+    font-size: 15px; font-weight: 800;
+    color: var(--c-ink);
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+  .sv-modal-prod-price-{{ section.id }} {
+    margin: 4px 0 0;
+    font-size: 14px; font-weight: 700;
+    color: var(--c-green-dk);
+  }
+
+  /* Modal CTA */
+  .sv-modal-cta-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    width: 100%;
+    padding: 15px 20px;
+    font-family: var(--font-body);
+    font-size: 12px; font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--c-ink);
+    border: 0;
+    border-radius: 10px;
+    cursor: pointer;
+    min-height: 50px;
+    transition: background 0.2s ease, transform 0.15s ease, letter-spacing 0.2s ease;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .sv-modal-cta-{{ section.id }}:hover {
+    background: #222;
+    transform: translateY(-1px);
+    letter-spacing: 0.18em;
+  }
+  .sv-modal-cta-{{ section.id }}:active { transform: translateY(0); }
+
+  /* Modal nav */
+  .sv-modal-close-{{ section.id }},
+  .sv-modal-prev-{{ section.id }},
+  .sv-modal-next-{{ section.id }} {
+    position: fixed;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(255,255,255,0.22);
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    cursor: pointer;
+    z-index: 10001;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .sv-modal-close-{{ section.id }} {
+    top: 14px; right: 14px;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+  }
+  .sv-modal-close-{{ section.id }}:hover { background: #fff; transform: rotate(90deg); }
+  .sv-modal-close-{{ section.id }}:hover svg path { fill: #000; }
+  .sv-modal-close-{{ section.id }} svg { width: 18px; height: 18px; }
+  .sv-modal-close-{{ section.id }} svg path { fill: #fff; transition: fill 0.15s; }
+
+  .sv-modal-prev-{{ section.id }},
+  .sv-modal-next-{{ section.id }} {
+    top: 50%; transform: translateY(-50%);
+    width: 46px; height: 46px;
+    border-radius: 50%;
+  }
+  .sv-modal-prev-{{ section.id }} { left: 14px; }
+  .sv-modal-next-{{ section.id }} { right: 14px; }
+  .sv-modal-prev-{{ section.id }}:hover,
+  .sv-modal-next-{{ section.id }}:hover { background: #fff; }
+  .sv-modal-prev-{{ section.id }}:hover svg,
+  .sv-modal-next-{{ section.id }}:hover svg { fill: #000; }
+  .sv-modal-prev-{{ section.id }} svg,
+  .sv-modal-next-{{ section.id }} svg { width: 65%; height: 65%; fill: #fff; transition: fill 0.15s; }
+  .sv-modal-prev-{{ section.id }}.swiper-button-disabled,
+  .sv-modal-next-{{ section.id }}.swiper-button-disabled { opacity: 0.25; cursor: not-allowed; }
+
+  /* Showcase slide — no product panel */
+  .sv-modal-showcase-{{ section.id }} .sv-modal-panel-{{ section.id }} { display: none; }
+  .sv-modal-showcase-{{ section.id }} .sv-modal-video-{{ section.id }} {
+    max-height: 80vh;
+    aspect-ratio: 9/16;
+  }
+
+  /* ─── RESPONSIVE ─────────────────────────────────── */
+  @media (min-width: 480px) {
+    .sv-headline-{{ section.id }} { font-size: 46px; }
+  }
+
+  @media (min-width: 768px) {
+    .sv-inner-{{ section.id }} { padding: 80px 40px 88px; }
+    .sv-headline-{{ section.id }} { font-size: 54px; }
+  }
+
+  @media (min-width: 1024px) {
+    .sv-inner-{{ section.id }} { padding: 96px 64px 104px; }
+    .sv-headline-{{ section.id }} { font-size: 60px; }
+    .sv-slider-{{ section.id }}.preview .sv-slide-{{ section.id }} {
+      width: calc(33.333% - 11px);
+    }
+    .sv-modal-inner-{{ section.id }} { max-width: 380px; }
+    .sv-modal-{{ section.id }} { padding: 80px; }
+  }
+</style>
+
+<div class="sv-{{ section.id }}" style="background:#ffffff;">
+  <div class="sv-inner-{{ section.id }}">
+
+    <!-- ── HEADER ── -->
+    <div class="sv-header-{{ section.id }}">
+      <span class="sv-eyebrow-{{ section.id }}">See It In Action</span>
+      <h2 class="sv-headline-{{ section.id }}">See Swaptop&#x2122; In Action &#x1F525;</h2>
+    </div>
+
+    <!-- ── SOCIAL PROOF BAR ── -->
+    <div class="sv-proof-{{ section.id }}">
+      <!-- Real customer faces from Popdarts UGC -->
+      <div class="sv-avatars-{{ section.id }}">
+        <div class="sv-avatar-{{ section.id }}"><img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Images_Popdarts_Images1.jpg?v=1778015525" alt="Customer"></div>
+        <div class="sv-avatar-{{ section.id }}"><img src="//popdartsgame.com/cdn/shop/files/SwapTopKitHero.jpg?v=1763652488" alt="Customer"></div>
+        <div class="sv-avatar-{{ section.id }}"><img src="//popdartsgame.com/cdn/shop/files/FootballHero.jpg?v=1763652241" alt="Customer"></div>
+        <div class="sv-avatar-{{ section.id }}"><img src="//popdartsgame.com/cdn/shop/files/OG_Board_671ed0cd-8b66-4e6b-a590-53122ff8612f.jpg?v=1758548416" alt="Customer"></div>
+      </div>
+      <div class="sv-proof-divider-{{ section.id }}"></div>
+      <div class="sv-proof-text-{{ section.id }}">
+        <div class="sv-proof-stars-{{ section.id }}">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <span class="sv-proof-label-{{ section.id }}">4.9 · 17 reviews</span>
+      </div>
+      <div class="sv-proof-divider-{{ section.id }}"></div>
+      <span class="sv-proof-viral-{{ section.id }}">1B+ Views</span>
+    </div>
+
+    <!-- ── SLIDER ── -->
+    <div class="sv-slider-{{ section.id }} swiper preview">
+      <div class="swiper-wrapper">
+
+        <!-- CARD 1: Swaptop Kit -->
+        <div class="sv-slide-{{ section.id }} swiper-slide">
+          <div class="sv-video-wrap-{{ section.id }}" id="{{ section.id }}">
+            <video data-src="https://cdn.shopify.com/videos/c/o/v/f472f1a577d644559bdffc425c7b1486.mp4"
+              muted playsinline preload="none" loop></video>
+            <div class="sv-play-hint-{{ section.id }}">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+            <div class="sv-product-pill-{{ section.id }}">
+              <div class="sv-pill-img-{{ section.id }}">
+                <img src="//popdartsgame.com/cdn/shop/files/SwapTopKitHero.jpg?v=1763652488" alt="Swaptop™ Kit" loading="lazy" data-shoppable-image--1>
+              </div>
+              <div>
+                <p class="sv-pill-title-{{ section.id }}">Swaptop™ Kit</p>
+                <p class="sv-pill-price-{{ section.id }}" data-shoppable-price--1>$149.99</p>
+              </div>
+            </div>
+          </div>
+          <div class="sv-card-bottom-{{ section.id }}">
+            <form method="post" action="/cart/add" id="sv-form-1-{{ section.id }}" class="form" enctype="multipart/form-data" novalidate>
+              <input type="hidden" name="form_type" value="product">
+              <input type="hidden" name="utf8" value="✓">
+              <input type="hidden" name="id" value="46838667575532" data-shoppable-input--1 class="product-variant-id">
+              <button type="submit" name="add" class="sv-btn-{{ section.id }}" data-shoppable-button--1>Add to Cart</button>
+              <input type="hidden" name="product-id" value="9022630854892">
+              <input type="hidden" name="section-id" value="{{ section.id }}">
+            </form>
+          </div>
+        </div>
+
+        <!-- CARD 2: Swaptop OG -->
+        <div class="sv-slide-{{ section.id }} swiper-slide">
+          <div class="sv-video-wrap-{{ section.id }}" id="{{ section.id }}">
+            <video data-src="https://cdn.shopify.com/videos/c/o/v/e4fe806039a84e01a140b22b871be84d.mp4"
+              muted playsinline preload="none" loop></video>
+            <div class="sv-play-hint-{{ section.id }}">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+            <div class="sv-product-pill-{{ section.id }}">
+              <div class="sv-pill-img-{{ section.id }}">
+                <img src="//popdartsgame.com/cdn/shop/files/OG_Board_671ed0cd-8b66-4e6b-a590-53122ff8612f.jpg?v=1758548416" alt="Swaptop™ OG" loading="lazy" data-shoppable-image--2>
+              </div>
+              <div>
+                <p class="sv-pill-title-{{ section.id }}">Swaptop™ OG</p>
+                <p class="sv-pill-price-{{ section.id }}" data-shoppable-price--2>$39.99</p>
+              </div>
+            </div>
+          </div>
+          <div class="sv-card-bottom-{{ section.id }}">
+            <form method="post" action="/cart/add" id="sv-form-2-{{ section.id }}" class="form" enctype="multipart/form-data" novalidate>
+              <input type="hidden" name="form_type" value="product">
+              <input type="hidden" name="utf8" value="✓">
+              <input type="hidden" name="id" value="46838680846572" data-shoppable-input--2 class="product-variant-id">
+              <button type="submit" name="add" class="sv-btn-{{ section.id }}" data-shoppable-button--2>Add to Cart</button>
+              <input type="hidden" name="product-id" value="9022636032236">
+              <input type="hidden" name="section-id" value="{{ section.id }}">
+            </form>
+          </div>
+        </div>
+
+        <!-- CARD 3: Swaptop Football -->
+        <div class="sv-slide-{{ section.id }} swiper-slide">
+          <div class="sv-video-wrap-{{ section.id }}" id="{{ section.id }}">
+            <video data-src="https://cdn.shopify.com/videos/c/o/v/16797c03207e49498c3466eed11b1694.mp4"
+              muted playsinline preload="none" loop></video>
+            <div class="sv-play-hint-{{ section.id }}">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+            <div class="sv-product-pill-{{ section.id }}">
+              <div class="sv-pill-img-{{ section.id }}">
+                <img src="//popdartsgame.com/cdn/shop/files/FootballHero.jpg?v=1763652241" alt="Swaptop™ Football" loading="lazy" data-shoppable-image--3>
+              </div>
+              <div>
+                <p class="sv-pill-title-{{ section.id }}">Swaptop™ Football</p>
+                <p class="sv-pill-price-{{ section.id }}" data-shoppable-price--3>$39.99</p>
+              </div>
+            </div>
+          </div>
+          <div class="sv-card-bottom-{{ section.id }}">
+            <form method="post" action="/cart/add" id="sv-form-3-{{ section.id }}" class="form" enctype="multipart/form-data" novalidate>
+              <input type="hidden" name="form_type" value="product">
+              <input type="hidden" name="utf8" value="✓">
+              <input type="hidden" name="id" value="46838670098668" data-shoppable-input--3 class="product-variant-id">
+              <button type="submit" name="add" class="sv-btn-{{ section.id }}" data-shoppable-button--3>Add to Cart</button>
+              <input type="hidden" name="product-id" value="9022632231148">
+              <input type="hidden" name="section-id" value="{{ section.id }}">
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MODAL ── -->
+<div class="sv-modal-{{ section.id }}">
+  <div class="sv-modal-inner-{{ section.id }}">
+    <div class="sv-modal-slider-{{ section.id }} swiper">
+      <div class="swiper-wrapper">
+
+        <!-- Modal 0: Showcase -->
+        <div class="sv-modal-slide-{{ section.id }} sv-modal-showcase-{{ section.id }} swiper-slide">
+          <div class="sv-modal-video-{{ section.id }}">
+            <video data-src="https://cdn.shopify.com/videos/c/o/v/05912d60b8f8466d84b905281384de8f.mp4" muted playsinline preload="none" loop></video>
+            <button class="sv-modal-mute-btn-{{ section.id }}">
+              <svg class="sv-mute-{{ section.id }}" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M5.889 16H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h3.889l5.294-4.332a.5.5 0 0 1 .817.387v15.89a.5.5 0 0 1-.817.387L5.89 16zm14.525-4l3.536 3.536-1.414 1.414L19 13.414l-3.536 3.536-1.414-1.414L17.586 12 14.05 8.464l1.414-1.414L19 10.586l3.536-3.536 1.414 1.414L20.414 12z"/></svg>
+              <svg class="sv-unmute-{{ section.id }}" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M5.889 16H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h3.889l5.294-4.332a.5.5 0 0 1 .817.387v15.89a.5.5 0 0 1-.817.387L5.89 16zm13.517 4.134l-1.416-1.416A8.978 8.978 0 0 0 21 12a8.982 8.982 0 0 0-3.304-6.968l1.42-1.42A10.976 10.976 0 0 1 23 12c0 3.223-1.386 6.122-3.594 8.134zm-3.543-3.543l-1.422-1.422A3.993 3.993 0 0 0 16 12c0-1.43-.75-2.685-1.88-3.392l1.439-1.439A5.991 5.991 0 0 1 18 12c0 1.842-.83 3.49-2.137 4.591z"/></svg>
+            </button>
+            <div class="sv-modal-overlay-title-{{ section.id }}"><p>Over a Billion<br>Viral Views.</p></div>
+          </div>
+          <div class="sv-modal-panel-{{ section.id }}"></div>
+        </div>
+
+        <!-- Modal 1: Kit -->
+        <div class="sv-modal-slide-{{ section.id }} swiper-slide">
+          <div class="sv-modal-video-{{ section.id }}">
+            <video data-src="https://cdn.shopify.com/videos/c/o/v/f472f1a577d644559bdffc425c7b1486.mp4" muted playsinline preload="none" loop></video>
+            <button class="sv-modal-mute-btn-{{ section.id }}">
+              <svg class="sv-mute-{{ section.id }}" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M5.889 16H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h3.889l5.294-4.332a.5.5 0 0 1 .817.387v15.89a.5.5 0 0 1-.817.387L5.89 16zm14.525-4l3.536 3.536-1.414 1.414L19 13.414l-3.536 3.536-1.414-1.414L17.586 12 14.05 8.464l1.414-1.414L19 10.586l3.536-3.536 1.414 1.414L20.414 12z"/></svg>
+              <svg class="sv-unmute-{{ section.id }}" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M5.889 16H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h3.889l5.294-4.332a.5.5 0 0 1 .817.387v15.89a.5.5 0 0 1-.817.387L5.89 16zm13.517 4.134l-1.416-1.416A8.978 8.978 0 0 0 21 12a8.982 8.982 0 0 0-3.304-6.968l1.42-1.42A10.976 10.976 0 0 1 23 12c0 3.223-1.386 6.122-3.594 8.134zm-3.543-3.543l-1.422-1.422A3.993 3.993 0 0 0 16 12c0-1.43-.75-2.685-1.88-3.392l1.439-1.439A5.991 5.991 0 0 1 18 12c0 1.842-.83 3.49-2.137 4.591z"/></svg>
+            </button>
+          </div>
+          <div class="sv-modal-panel-{{ section.id }}">
+            <div class="sv-modal-product-row-{{ section.id }}">
+              <div class="sv-modal-prod-img-{{ section.id }}"><img src="//popdartsgame.com/cdn/shop/files/SwapTopKitHero.jpg?v=1763652488" alt="Kit"></div>
+              <div>
+                <p class="sv-modal-prod-name-{{ section.id }}">Swaptop™ Kit</p>
+                <p class="sv-modal-prod-price-{{ section.id }}">$149.99</p>
+              </div>
+            </div>
+            <form method="post" action="/cart/add" id="sv-modal-form-1-{{ section.id }}" class="form" enctype="multipart/form-data" novalidate>
+              <input type="hidden" name="form_type" value="product">
+              <input type="hidden" name="utf8" value="✓">
+              <input type="hidden" name="id" value="46838667575532" data-shoppable-modal-input--1>
+              <button type="submit" class="sv-modal-cta-{{ section.id }}" data-shoppable-modal-button--1>Add To Cart</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Modal 2: OG -->
+        <div class="sv-modal-slide-{{ section.id }} swiper-slide">
+          <div class="sv-modal-video-{{ section.id }}">
+            <video data-src="https://cdn.shopify.com/videos/c/o/v/e4fe806039a84e01a140b22b871be84d.mp4" muted playsinline preload="none" loop></video>
+            <button class="sv-modal-mute-btn-{{ section.id }}">
+              <svg class="sv-mute-{{ section.id }}" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M5.889 16H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h3.889l5.294-4.332a.5.5 0 0 1 .817.387v15.89a.5.5 0 0 1-.817.387L5.89 16zm14.525-4l3.536 3.536-1.414 1.414L19 13.414l-3.536 3.536-1.414-1.414L17.586 12 14.05 8.464l1.414-1.414L19 10.586l3.536-3.536 1.414 1.414L20.414 12z"/></svg>
+              <svg class="sv-unmute-{{ section.id }}" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M5.889 16H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h3.889l5.294-4.332a.5.5 0 0 1 .817.387v15.89a.5.5 0 0 1-.817.387L5.89 16zm13.517 4.134l-1.416-1.416A8.978 8.978 0 0 0 21 12a8.982 8.982 0 0 0-3.304-6.968l1.42-1.42A10.976 10.976 0 0 1 23 12c0 3.223-1.386 6.122-3.594 8.134zm-3.543-3.543l-1.422-1.422A3.993 3.993 0 0 0 16 12c0-1.43-.75-2.685-1.88-3.392l1.439-1.439A5.991 5.991 0 0 1 18 12c0 1.842-.83 3.49-2.137 4.591z"/></svg>
+            </button>
+          </div>
+          <div class="sv-modal-panel-{{ section.id }}">
+            <div class="sv-modal-product-row-{{ section.id }}">
+              <div class="sv-modal-prod-img-{{ section.id }}"><img src="//popdartsgame.com/cdn/shop/files/OG_Board_671ed0cd-8b66-4e6b-a590-53122ff8612f.jpg?v=1758548416" alt="OG"></div>
+              <div>
+                <p class="sv-modal-prod-name-{{ section.id }}">Swaptop™ OG</p>
+                <p class="sv-modal-prod-price-{{ section.id }}">$39.99</p>
+              </div>
+            </div>
+            <form method="post" action="/cart/add" id="sv-modal-form-2-{{ section.id }}" class="form" enctype="multipart/form-data" novalidate>
+              <input type="hidden" name="form_type" value="product">
+              <input type="hidden" name="utf8" value="✓">
+              <input type="hidden" name="id" value="46838680846572" data-shoppable-modal-input--2>
+              <button type="submit" class="sv-modal-cta-{{ section.id }}" data-shoppable-modal-button--2>Add To Cart</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Modal 3: Football -->
+        <div class="sv-modal-slide-{{ section.id }} swiper-slide">
+          <div class="sv-modal-video-{{ section.id }}">
+            <video data-src="https://cdn.shopify.com/videos/c/o/v/16797c03207e49498c3466eed11b1694.mp4" muted playsinline preload="none" loop></video>
+            <button class="sv-modal-mute-btn-{{ section.id }}">
+              <svg class="sv-mute-{{ section.id }}" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M5.889 16H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h3.889l5.294-4.332a.5.5 0 0 1 .817.387v15.89a.5.5 0 0 1-.817.387L5.89 16zm14.525-4l3.536 3.536-1.414 1.414L19 13.414l-3.536 3.536-1.414-1.414L17.586 12 14.05 8.464l1.414-1.414L19 10.586l3.536-3.536 1.414 1.414L20.414 12z"/></svg>
+              <svg class="sv-unmute-{{ section.id }}" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z"/><path d="M5.889 16H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h3.889l5.294-4.332a.5.5 0 0 1 .817.387v15.89a.5.5 0 0 1-.817.387L5.89 16zm13.517 4.134l-1.416-1.416A8.978 8.978 0 0 0 21 12a8.982 8.982 0 0 0-3.304-6.968l1.42-1.42A10.976 10.976 0 0 1 23 12c0 3.223-1.386 6.122-3.594 8.134zm-3.543-3.543l-1.422-1.422A3.993 3.993 0 0 0 16 12c0-1.43-.75-2.685-1.88-3.392l1.439-1.439A5.991 5.991 0 0 1 18 12c0 1.842-.83 3.49-2.137 4.591z"/></svg>
+            </button>
+          </div>
+          <div class="sv-modal-panel-{{ section.id }}">
+            <div class="sv-modal-product-row-{{ section.id }}">
+              <div class="sv-modal-prod-img-{{ section.id }}"><img src="//popdartsgame.com/cdn/shop/files/FootballHero.jpg?v=1763652241" alt="Football"></div>
+              <div>
+                <p class="sv-modal-prod-name-{{ section.id }}">Swaptop™ Football</p>
+                <p class="sv-modal-prod-price-{{ section.id }}">$39.99</p>
+              </div>
+            </div>
+            <form method="post" action="/cart/add" id="sv-modal-form-3-{{ section.id }}" class="form" enctype="multipart/form-data" novalidate>
+              <input type="hidden" name="form_type" value="product">
+              <input type="hidden" name="utf8" value="✓">
+              <input type="hidden" name="id" value="46838670098668" data-shoppable-modal-input--3>
+              <button type="submit" class="sv-modal-cta-{{ section.id }}" data-shoppable-modal-button--3>Add To Cart</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <button class="sv-modal-close-{{ section.id }}">
+    <svg viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 10.586L4.707 3.293 3.293 4.707 10.586 12l-7.293 7.293 1.414 1.414L12 13.414l7.293 7.293 1.414-1.414L13.414 12l7.293-7.293-1.414-1.414L12 10.586z" fill="white"/></svg>
+  </button>
+  <button class="sv-modal-prev-{{ section.id }}">
+    <svg viewBox="0 0 24 24"><path d="m8.5 12.8 5.7 5.6c.4.4 1 .4 1.4 0 .4-.4.4-1 0-1.4l-4.9-5 4.9-5c.4-.4.4-1 0-1.4-.2-.2-.4-.3-.7-.3-.3 0-.5.1-.7.3l-5.7 5.6c-.4.5-.4 1.1 0 1.6z"/></svg>
+  </button>
+  <button class="sv-modal-next-{{ section.id }}">
+    <svg viewBox="0 0 24 24"><path d="M15.54 11.29 9.88 5.64a1 1 0 0 0-1.42 0 1 1 0 0 0 0 1.41l4.95 5-4.95 5a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.3 1 1 0 0 0 .71-.3l5.66-5.65a1 1 0 0 0 0-1.42z"/></svg>
+  </button>
+</div>
+
+<script>
+(function() {
+  var SID = '{{ section.id }}';
+
+  function loadSwiper(cb) {
+    if (window.Swiper) { cb(); return; }
+    var s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/swiper@8.4.7/swiper-bundle.min.js';
+    s.onload = cb;
+    document.head.appendChild(s);
+  }
+
+  function init(sectionId) {
+    var el = document.querySelector('.sv-slider-' + sectionId);
+    if (!el) return;
+    el.classList.remove('preview');
+
+    var slider = new Swiper('.sv-slider-' + sectionId, {
+      speed: 340,
+      breakpoints: {
+        320:  { spaceBetween: 14, slidesPerView: 1.18 },
+        560:  { spaceBetween: 16, slidesPerView: 2.1 },
+        1024: { spaceBetween: 18, slidesPerView: 3 }
+      }
+    });
+
+    var modal    = document.querySelector('.sv-modal-' + sectionId);
+    var closeBtn = document.querySelector('.sv-modal-close-' + sectionId);
+
+    var slider2 = new Swiper('.sv-modal-slider-' + sectionId, {
+      speed: 300, slidesPerView: 1, spaceBetween: 0, allowTouchMove: false,
+      navigation: {
+        nextEl: '.sv-modal-next-' + sectionId,
+        prevEl: '.sv-modal-prev-' + sectionId
+      },
+      on: {
+        slideChange: function() {
+          this.slides.forEach(function(slide, i) {
+            var v = slide.querySelector('video');
+            if (!v) return;
+            if (i === this.activeIndex) { v.play(); v.muted = false; }
+            else v.pause();
+          }, this);
+        }
+      }
+    });
+
+    /* Lazy load + autoplay on scroll */
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        var v = e.target;
+        if (!v.dataset.src) return;
+        if (e.isIntersecting) {
+          if (!v.src || v.src === location.href) { v.src = v.dataset.src; v.load(); }
+          v.play().catch(function(){});
+        } else { v.pause(); }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.sv-slider-' + sectionId + ' video').forEach(function(v) {
+      obs.observe(v);
+    });
+
+    /* Open modal on card click */
+    document.querySelectorAll('.sv-video-wrap-' + sectionId).forEach(function(wrap, i) {
+      wrap.addEventListener('click', function(e) {
+        if (e.target.id !== sectionId) return;
+        slider2.slideTo(i);
+        setTimeout(function() {
+          document.body.style.overflow = 'hidden';
+          modal.classList.add('active');
+          var v = slider2.slides[i] && slider2.slides[i].querySelector('video');
+          if (v) {
+            if (v.dataset.src && (!v.src || v.src === location.href)) { v.src = v.dataset.src; v.load(); }
+            v.play(); v.muted = false;
+          }
+        }, 160);
+      });
+    });
+
+    /* Close modal */
+    function closeModal() {
+      document.body.style.overflow = '';
+      modal.classList.remove('active');
+      modal.querySelectorAll('video').forEach(function(v) { v.pause(); });
+    }
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
+
+    /* Mute toggles in modal */
+    document.querySelectorAll('.sv-modal-mute-btn-' + sectionId).forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        btn.classList.toggle('active');
+        var v = btn.closest('.sv-modal-video-' + sectionId).querySelector('video');
+        if (v) v.muted = !btn.classList.contains('active');
+      });
+    });
+
+    /* Add to cart — slider buttons */
+    [
+      ['sv-form-1-' + sectionId, '[data-shoppable-button--1]'],
+      ['sv-form-2-' + sectionId, '[data-shoppable-button--2]'],
+      ['sv-form-3-' + sectionId, '[data-shoppable-button--3]']
+    ].forEach(function(pair) {
+      var form = document.getElementById(pair[0]);
+      var btn  = document.querySelector(pair[1]);
+      if (!form || !btn) return;
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        await fetch('/cart/add.js', { method: 'POST', body: new FormData(form) });
+        var bubble = document.querySelector('.cart-count-bubble span');
+        if (bubble) bubble.textContent = (parseInt(bubble.textContent) || 0) + 1;
+        btn.textContent = '✓ Added';
+        setTimeout(function() { btn.textContent = 'Add to Cart'; }, 2000);
+      });
+    });
+
+    /* Add to cart — modal buttons */
+    [
+      ['sv-modal-form-1-' + sectionId, '[data-shoppable-modal-button--1]'],
+      ['sv-modal-form-2-' + sectionId, '[data-shoppable-modal-button--2]'],
+      ['sv-modal-form-3-' + sectionId, '[data-shoppable-modal-button--3]']
+    ].forEach(function(pair) {
+      var form = document.getElementById(pair[0]);
+      var btn  = document.querySelector(pair[1]);
+      if (!form || !btn) return;
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        await fetch('/cart/add.js', { method: 'POST', body: new FormData(form) });
+        var bubble = document.querySelector('.cart-count-bubble span');
+        if (bubble) bubble.textContent = (parseInt(bubble.textContent) || 0) + 1;
+        btn.textContent = '✓ Added';
+        setTimeout(function() { btn.textContent = 'Add To Cart'; }, 2000);
+      });
+    });
+  }
+
+  function boot() {
+    loadSwiper(function() { init(SID); });
+  }
+
+  document.readyState === 'loading'
+    ? document.addEventListener('DOMContentLoaded', boot)
+    : boot();
+
+  if (typeof Shopify !== 'undefined' && Shopify.designMode) {
+    document.addEventListener('shopify:section:load', function(e) {
+      if (e.target.querySelector('.sv-' + SID)) {
+        loadSwiper(function() { init(e.detail.sectionId); });
+      }
+    });
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "SS - Shoppable Video",
+  "settings": [],
+  "blocks": [],
+  "presets": [{ "name": "SS - Shoppable Video" }]
+}
+{% endschema %}

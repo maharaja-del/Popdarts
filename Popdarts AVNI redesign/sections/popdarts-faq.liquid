@@ -1,0 +1,61 @@
+<section class="pd-page faq" id="faq-list" aria-labelledby="faq-title-{{ section.id }}">
+  <div class="pd-wrap faq__grid">
+    <div class="faq__head">
+      <h2 id="faq-title-{{ section.id }}" style="color: #0a0c10 !important;">{{ section.settings.heading | default: "Questions?<br>We've got sticks." }}</h2>
+      <p>{{ section.settings.subheading | default: 'Everything you need to know before your first throw.' }}</p>
+    </div>
+
+    <div class="faq__list">
+      {%- for block in section.blocks -%}
+        <details class="faq__item" {{ block.shopify_attributes }}>
+          <summary>{{ block.settings.question | default: 'Question' }}</summary>
+          <p>{{ block.settings.answer | default: 'Answer.' }}</p>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "tag": "section",
+  "class": "pd-section-faq",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Questions? We've got sticks."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Everything you need to know before your first throw."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Question" },
+        { "type": "textarea", "id": "answer", "label": "Answer", "default": "Answer." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        { "type": "faq_item", "settings": { "question": "What surfaces does Popdarts work on?", "answer": "Any smooth, flat surface — driveways, patios, hardwood, tile, even carpet with the Swaptop board. Indoors or out, it sets up in under a minute." } },
+        { "type": "faq_item", "settings": { "question": "What age is Popdarts good for?", "answer": "5 to 95. The Rookie Pack uses softer darts built for younger throwers; the Pro Pack is tournament-weight for older kids and adults. Most families end up owning both." } },
+        { "type": "faq_item", "settings": { "question": "How is a round scored?", "answer": "Closest dart to the Target Marker scores 3, every other stuck dart adds 1, and a dart landing directly on the marker is an instant 10. Cancellation scoring settles the round, and first team to 21 wins the match." } },
+        { "type": "faq_item", "settings": { "question": "What's included in the Pro Pack?", "answer": "6 Pro Popdarts (2 sets of 3), 1 Pro Target Marker, game rules, a carrying bag with a built-in ruler, and 4 stickers — everything you need for your first match." } },
+        { "type": "faq_item", "settings": { "question": "How fast does it ship?", "answer": "Orders ship next business day, with free shipping on orders $50 and up. Returns are easy — just reach out to support@popdartsgame.com." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

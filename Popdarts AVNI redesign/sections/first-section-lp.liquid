@@ -1,0 +1,677 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+
+{% comment %}
+  Swaptop Logo Bar (with integrated As-Seen-On strip)
+  Drop into: sections/swaptop-logo-bar.liquid
+{% endcomment %}
+
+<style>
+  div#epb_container { display: none !important; }
+  #up-upsell-carousel { display: none !important; }
+</style>
+
+<script>
+(function () {
+  function hide() {
+    var el = document.getElementById('up-upsell-carousel');
+    if (el) el.style.setProperty('display', 'none', 'important');
+    function checkShadows(root) {
+      root.querySelectorAll('*').forEach(function (node) {
+        if (node.id === 'up-upsell-carousel') {
+          node.style.setProperty('display', 'none', 'important');
+        }
+        if (node.shadowRoot) checkShadows(node.shadowRoot);
+      });
+    }
+    checkShadows(document);
+  }
+  new MutationObserver(hide).observe(document.documentElement, { childList: true, subtree: true });
+  var t = setInterval(hide, 200);
+  window.addEventListener('load', function () {
+    setTimeout(function () { clearInterval(t); }, 15000);
+  });
+})();
+</script>
+
+<style>
+  .spb-announcement {
+    background: rgb(35, 255, 83);
+    width: 100%;
+    padding: 0;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10000;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+    height: 38px;
+  }
+  .spb-announcement__slider { position: relative; width: 100%; height: 100%; }
+  .spb-announcement__slide {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 24px;
+    opacity: 0; transform: translateY(100%);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
+  }
+  .spb-announcement__slide.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .spb-announcement__slide.exit { opacity: 0; transform: translateY(-100%); }
+  .spb-announcement__text {
+    font-size: 13px; font-weight: 700; color: rgb(0, 0, 0);
+    letter-spacing: 0.06em; text-transform: uppercase;
+    margin: 0; white-space: nowrap;
+  }
+  .spb-announcement__text a { color: rgb(0, 0, 0); text-decoration: underline; text-underline-offset: 2px; }
+
+  @media (min-width: 640px) {
+    button.spb-subnav-cart svg { color: black; }
+    button.spb-subnav-cart { background: #23ff53; }
+  }
+
+  @media (max-width: 640px) {
+    .spb-announcement { height: 34px; }
+    .spb-announcement__slide { padding: 0 16px; }
+    .spb-announcement__text { font-size: 11px; }
+    span.spb-corner { display: none; }
+  }
+</style>
+
+<div class="spb-announcement">
+  <div class="spb-announcement__slider" id="spb-announcement-slider">
+    <div class="spb-announcement__slide active">
+      <p class="spb-announcement__text">🎁 <strong>FREE GIFT CARD</strong> WITH EVERY ORDER OVER $210</p>
+    </div>
+    <div class="spb-announcement__slide">
+      <p class="spb-announcement__text">🚚 <strong>FREE SHIPPING</strong> IN THE USA</p>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const slides = document.querySelectorAll('#spb-announcement-slider .spb-announcement__slide');
+  let current = 0;
+  setInterval(() => {
+    slides[current].classList.add('exit');
+    slides[current].classList.remove('active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('active');
+    slides[current].classList.remove('exit');
+    const prev = (current - 1 + slides.length) % slides.length;
+    setTimeout(() => slides[prev].classList.remove('exit'), 550);
+  }, 3500);
+})();
+</script>
+
+<style>
+  .shopify-section-header,
+  .shopify-section-footer,
+  .shopify-section-announcement-bar,
+  #shopify-section-header,
+  #shopify-section-footer,
+  #shopify-section-announcement-bar,
+  .announcement-bar,
+  .header-wrapper,
+  .footer,
+  header.header,
+  footer.footer,
+  .site-header,
+  .site-footer { display: none !important; }
+
+  .spb-wrap *,
+  .spb-wrap *::before,
+  .spb-wrap *::after { box-sizing: border-box; }
+
+  .spb-wrap {
+    font-family: 'Inter', sans-serif;
+    position: sticky;
+    top: 38px;
+    z-index: 9999;
+  }
+
+  .spb-bar {
+    background: #000;
+    overflow: visible;
+    padding: 0 24px;
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .spb-bar::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: -100%;
+    width: 60%; height: 1px;
+    background: linear-gradient(to right, transparent, #23ff53, transparent);
+    animation: spb-scan 4s ease-in-out infinite;
+  }
+
+  @keyframes spb-scan {
+    0%   { left: -60%; opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { left: 100%; opacity: 0; }
+  }
+
+  .spb-corner { display: none !important; }
+
+  .spb-logo-link { display: flex; align-items: center; justify-content: center; text-decoration: none; z-index: 1; }
+  .spb-logo-link:hover .spb-logo { filter: drop-shadow(0 0 6px #23ff53); }
+  .spb-logo { height: 28px; width: auto; display: block; transition: filter 0.3s ease; }
+  .spb-logo-text {
+    font-size: 22px; font-weight: 800; color: #fff;
+    letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.3s ease;
+  }
+  .spb-logo-link:hover .spb-logo-text { color: #23ff53; }
+
+  .spb-bar-left, .spb-bar-right { display: none; }
+
+  .spb-subnav {
+    background: #0a0a0a;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex; align-items: center; justify-content: center;
+    gap: 32px; padding: 0 24px; height: 58px;
+    position: relative; overflow: visible;
+  }
+
+  .spb-subnav-link {
+    font-size: 12px; font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none; letter-spacing: 0.05em; text-transform: uppercase;
+    position: relative; padding-bottom: 2px;
+    transition: color 0.3s ease;
+  }
+  .spb-subnav-link::after {
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 0; height: 1.5px; background: #23ff53;
+    transition: width 0.3s ease;
+  }
+  .spb-subnav-link:hover { color: #fff; }
+  .spb-subnav-link:hover::after { width: 100%; }
+
+  .spb-subnav-icons {
+    position: absolute; right: 20px; top: 50%;
+    transform: translateY(-50%);
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .spb-subnav-icon {
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px;
+    background: none; border: none; cursor: pointer;
+    color: rgba(255, 255, 255, 0.75);
+    transition: color 0.25s ease, transform 0.2s ease;
+    padding: 0; text-decoration: none;
+  }
+  .spb-subnav-icon:hover { color: #23ff53; transform: translateY(-1px); }
+  .spb-subnav-icon svg { width: 20px; height: 20px; display: block; flex-shrink: 0; pointer-events: none; }
+
+  .spb-subnav-cart {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px;
+    border: none; cursor: pointer;
+    color: rgba(255, 255, 255, 0.75);
+    transition: color 0.25s ease, transform 0.2s ease;
+    padding: 0; overflow: visible; border-radius: 8px;
+  }
+  .spb-subnav-cart:hover { color: #23ff53; transform: translateY(-1px); }
+  .spb-subnav-cart svg { width: 20px; height: 20px; display: block; flex-shrink: 0; pointer-events: none; }
+
+  .spb-subnav-cart__count {
+    position: absolute; top: -4px; right: -4px;
+    background: #000; color: #23ff53;
+    font-size: 9px; font-weight: 800;
+    min-width: 16px; height: 16px;
+    border-radius: 999px;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 4px; line-height: 1; pointer-events: none;
+    border: 1.5px solid #23ff53;
+  }
+  .spb-subnav-cart__count[data-count="0"] { display: none; }
+
+  .spb-mobile-menu { display: none; position: absolute; }
+
+  /* ════════════════════════════════════════════ */
+  /* ── PRESS STRIP — locked inside header ── */
+  /* ════════════════════════════════════════════ */
+  .spb-press {
+    display: block !important;
+    visibility: visible !important;
+    background: #0a0a0a !important;
+    padding: 10px 0 !important;
+    position: relative !important;
+    overflow: hidden !important;
+    border-top: 1px solid rgba(35, 255, 83, 0.18) !important;
+    border-bottom: 1px solid rgba(35, 255, 83, 0.18) !important;
+    width: 100% !important;
+    min-height: 42px !important;
+    z-index: 1;
+  }
+
+  .spb-press-track-outer {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 22px;
+  }
+
+  .spb-press-track-outer::before,
+  .spb-press-track-outer::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 80px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .spb-press-track-outer::before {
+    left: 0;
+    background: linear-gradient(to right, #0a0a0a 0%, transparent 100%);
+  }
+  .spb-press-track-outer::after {
+    right: 0;
+    background: linear-gradient(to left, #0a0a0a 0%, transparent 100%);
+  }
+
+  .spb-press-track {
+    display: flex !important;
+    width: max-content;
+    animation: spb-press-scroll 35s linear infinite;
+    height: 22px;
+    will-change: transform;
+    --spb-press-shift: 0px;
+  }
+  .spb-press-track:hover { animation-play-state: paused; }
+
+  @keyframes spb-press-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(calc(var(--spb-press-shift) * -1)); }
+  }
+
+  .spb-press-set {
+    display: flex !important;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .spb-press-item {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 0 28px;
+    opacity: 0.75;
+    transition: opacity 0.25s ease;
+  }
+  .spb-press-item:hover { opacity: 1; }
+
+  .spb-press-logo {
+    height: 22px !important;
+    width: auto !important;
+    max-width: 120px !important;
+    object-fit: contain;
+    display: block !important;
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 640px) {
+    .spb-wrap { top: 34px; }
+    .spb-subnav { display: none; }
+
+    .spb-bar { height: 72px; padding: 0 12px; justify-content: space-between; }
+    .spb-bar-left { display: flex; align-items: center; width: auto; min-width: 36px; flex-shrink: 0; }
+    .spb-logo-link { flex: 1; display: flex; align-items: center; justify-content: center; position: static; transform: none; }
+    .spb-logo { height: 22px; }
+    .spb-bar-right { display: flex; align-items: center; gap: 0; width: auto; flex-shrink: 0; justify-content: flex-end; }
+
+    .spb-bar-icon {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px;
+      background: none; border: none; cursor: pointer;
+      color: #fff; text-decoration: none; flex-shrink: 0; padding: 0;
+    }
+    .spb-bar-icon svg { width: 20px; height: 20px; display: block; color: #fff; }
+
+    .spb-bar-cart {
+      display: flex !important; align-items: center !important; justify-content: center !important;
+      width: 36px !important; height: 36px !important;
+      color: #fff !important; text-decoration: none; cursor: pointer;
+      background: none !important; border: none !important;
+      position: relative; flex-shrink: 0; overflow: visible; padding: 0 !important;
+    }
+    .spb-bar-cart svg { width: 20px !important; min-width: 20px !important; height: 20px !important; display: block !important; color: #fff !important; fill: none; }
+
+    .spb-bar-cart__count {
+      position: absolute; top: 4px; right: 2px;
+      background: #23ff53; color: #000;
+      font-size: 9px; font-weight: 800;
+      min-width: 14px; height: 14px;
+      border-radius: 999px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 3px; line-height: 1; pointer-events: none;
+    }
+    .spb-bar-cart__count[data-count="0"] { display: none; }
+
+    .spb-hamburger {
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px;
+      background: none; border: none; cursor: pointer;
+      padding: 0; flex-shrink: 0; position: static; transform: none;
+    }
+    .spb-hamburger-icon,
+    .spb-hamburger-icon::before,
+    .spb-hamburger-icon::after {
+      display: block; width: 20px; height: 1.5px;
+      background: #fff; border-radius: 1px; transition: all 0.3s ease;
+    }
+    .spb-hamburger-icon { position: relative; }
+    .spb-hamburger-icon::before, .spb-hamburger-icon::after { content: ''; position: absolute; left: 0; }
+    .spb-hamburger-icon::before { top: -6px; }
+    .spb-hamburger-icon::after  { top: 6px; }
+    .spb-hamburger.is-open .spb-hamburger-icon { background: transparent; }
+    .spb-hamburger.is-open .spb-hamburger-icon::before { top: 0; transform: rotate(45deg); background: #23ff53; }
+    .spb-hamburger.is-open .spb-hamburger-icon::after { top: 0; transform: rotate(-45deg); background: #23ff53; }
+
+    .spb-mobile-menu {
+      display: flex; flex-direction: column; align-items: center;
+      top: 100%; left: 0; right: 0;
+      background: #000;
+      border-top: 1px solid rgba(34, 197, 94, 0.15);
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+      padding: 0 16px;
+      z-index: 9998;
+    }
+    .spb-mobile-menu.is-open { max-height: 400px; padding: 14px 16px 18px; }
+    .spb-mobile-link {
+      font-size: 14px; font-weight: 600;
+      color: #fff; text-decoration: none;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      padding: 12px 0; width: 100%; text-align: center;
+      transition: color 0.3s ease;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .spb-mobile-link:last-child { border-bottom: none; }
+    .spb-mobile-link:hover, .spb-mobile-link:active { color: #23ff53; }
+
+    /* Press strip mobile */
+    .spb-press { padding: 8px 0 !important; min-height: 32px !important; }
+    .spb-press-track-outer { height: 16px; }
+    .spb-press-track { height: 16px; }
+    .spb-press-item { padding: 0 18px; }
+    .spb-press-logo { height: 16px !important; max-width: 80px !important; }
+    .spb-press-track-outer::before, .spb-press-track-outer::after { width: 40px; }
+  }
+</style>
+
+<div class="spb-wrap">
+
+  <div class="spb-bar">
+    <div class="spb-bar-left"></div>
+
+    <a href="https://popdartsgame.com/pages/swaptopkit" class="spb-logo-link" aria-label="{{ shop.name }} — Home">
+      {%- if settings.logo -%}
+        <img class="spb-logo" src="{{ settings.logo | image_url: width: 300 }}" alt="{{ shop.name }}">
+      {%- else -%}
+        <span class="spb-logo-text">{{ shop.name }}</span>
+      {%- endif -%}
+    </a>
+
+    <div class="spb-bar-right">
+      <a href="/search" class="spb-bar-icon" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M20.5 20.5L16.5 16.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </a>
+      <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="spb-bar-icon" aria-label="Account">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M4 21C4 16.5817 7.58172 13 12 13C16.4183 13 20 16.5817 20 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </a>
+
+      <button class="spb-bar-cart" aria-label="Cart ({{ cart.item_count }} items)" onclick="spbOpenCart(event)">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7.5 21.75C8.32843 21.75 9 21.0784 9 20.25C9 19.4216 8.32843 18.75 7.5 18.75C6.67157 18.75 6 19.4216 6 20.25C6 21.0784 6.67157 21.75 7.5 21.75Z" fill="currentColor"></path>
+          <path d="M17.25 21.75C18.0784 21.75 18.75 21.0784 18.75 20.25C18.75 19.4216 18.0784 18.75 17.25 18.75C16.4216 18.75 15.75 19.4216 15.75 20.25C15.75 21.0784 16.4216 21.75 17.25 21.75Z" fill="currentColor"></path>
+          <path d="M3.96469 6.75H21L18.3262 15.4416C18.2318 15.7482 18.0415 16.0165 17.7833 16.207C17.5252 16.3975 17.2127 16.5002 16.8919 16.5H7.88156C7.55556 16.5001 7.23839 16.3941 6.97806 16.1978C6.71772 16.0016 6.5284 15.7259 6.43875 15.4125L3.04781 3.54375C3.00301 3.38711 2.90842 3.24932 2.77835 3.15122C2.64828 3.05311 2.4898 3.00003 2.32687 3H0.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <span class="spb-bar-cart__count" data-count="{{ cart.item_count }}">{{ cart.item_count }}</span>
+      </button>
+
+      <button class="spb-hamburger" aria-label="Menu" onclick="this.classList.toggle('is-open'); document.querySelector('.spb-mobile-menu').classList.toggle('is-open');">
+        <span class="spb-hamburger-icon"></span>
+      </button>
+    </div>
+
+    <nav class="spb-mobile-menu">
+      <a href="/pages/swaptopkit" class="spb-mobile-link">Home</a>
+      <a href="/pages/swaptop-aboutus" class="spb-mobile-link">About</a>
+      <a href="/pages/swaptop-contactus" class="spb-mobile-link">Contact</a>
+      <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="spb-mobile-link">
+        {%- if customer -%}My Account{%- else -%}Login{%- endif -%}
+      </a>
+    </nav>
+  </div>
+
+  <nav class="spb-subnav">
+    <a href="/pages/swaptopkit" class="spb-subnav-link">Home</a>
+    <a href="/pages/swaptop-aboutus" class="spb-subnav-link">About</a>
+    <a href="/pages/swaptop-contactus" class="spb-subnav-link">Contact</a>
+
+    <div class="spb-subnav-icons">
+      <a href="/search" class="spb-subnav-icon" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M20.5 20.5L16.5 16.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </a>
+      <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" class="spb-subnav-icon" aria-label="Account">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M4 21C4 16.5817 7.58172 13 12 13C16.4183 13 20 16.5817 20 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </a>
+      <button class="spb-subnav-cart" aria-label="Cart ({{ cart.item_count }} items)" onclick="spbOpenCart(event)">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7.5 21.75C8.32843 21.75 9 21.0784 9 20.25C9 19.4216 8.32843 18.75 7.5 18.75C6.67157 18.75 6 19.4216 6 20.25C6 21.0784 6.67157 21.75 7.5 21.75Z" fill="currentColor"></path>
+          <path d="M17.25 21.75C18.0784 21.75 18.75 21.0784 18.75 20.25C18.75 19.4216 18.0784 18.75 17.25 18.75C16.4216 18.75 15.75 19.4216 15.75 20.25C15.75 21.0784 16.4216 21.75 17.25 21.75Z" fill="currentColor"></path>
+          <path d="M3.96469 6.75H21L18.3262 15.4416C18.2318 15.7482 18.0415 16.0165 17.7833 16.207C17.5252 16.3975 17.2127 16.5002 16.8919 16.5H7.88156C7.55556 16.5001 7.23839 16.3941 6.97806 16.1978C6.71772 16.0016 6.5284 15.7259 6.43875 15.4125L3.04781 3.54375C3.00301 3.38711 2.90842 3.24932 2.77835 3.15122C2.64828 3.05311 2.4898 3.00003 2.32687 3H0.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <span class="spb-subnav-cart__count" data-count="{{ cart.item_count }}">{{ cart.item_count }}</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════ -->
+  <!-- ── PRESS STRIP (As Seen On) ── -->
+  <!-- ══════════════════════════════════ -->
+  <div class="spb-press">
+    <div class="spb-press-track-outer">
+      <div class="spb-press-track">
+
+        <div class="spb-press-set">
+          <div class="spb-press-item"><img class="spb-press-logo" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/BuzzFeed.svg_1.png?v=1774991458" alt="BuzzFeed"></div>
+          <div class="spb-press-item"><img class="spb-press-logo" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ESPN_wordmark_svg.png?v=1774991116" alt="ESPN"></div>
+          <div class="spb-press-item"><img class="spb-press-logo" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/logo-white.png?v=1774991205" alt="Barstool Sports"></div>
+          <div class="spb-press-item"><img class="spb-press-logo" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/SportsIllustratedLogo_svg.png?v=1774991245" alt="Sports Illustrated"></div>
+        </div>
+
+        <div class="spb-press-set">
+          <div class="spb-press-item"><img class="spb-press-logo" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/BuzzFeed.svg_1.png?v=1774991458" alt="BuzzFeed"></div>
+          <div class="spb-press-item"><img class="spb-press-logo" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ESPN_wordmark_svg.png?v=1774991116" alt="ESPN"></div>
+          <div class="spb-press-item"><img class="spb-press-logo" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/logo-white.png?v=1774991205" alt="Barstool Sports"></div>
+          <div class="spb-press-item"><img class="spb-press-logo" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/SportsIllustratedLogo_svg.png?v=1774991245" alt="Sports Illustrated"></div>
+        </div>
+
+        <div class="spb-press-set">
+          <div class="spb-press-item"><img class="spb-press-logo" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/BuzzFeed.svg_1.png?v=1774991458" alt="BuzzFeed"></div>
+          <div class="spb-press-item"><img class="spb-press-logo" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ESPN_wordmark_svg.png?v=1774991116" alt="ESPN"></div>
+          <div class="spb-press-item"><img class="spb-press-logo" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/logo-white.png?v=1774991205" alt="Barstool Sports"></div>
+          <div class="spb-press-item"><img class="spb-press-logo" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/SportsIllustratedLogo_svg.png?v=1774991245" alt="Sports Illustrated"></div>
+        </div>
+
+        <div class="spb-press-set">
+          <div class="spb-press-item"><img class="spb-press-logo" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/BuzzFeed.svg_1.png?v=1774991458" alt="BuzzFeed"></div>
+          <div class="spb-press-item"><img class="spb-press-logo" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ESPN_wordmark_svg.png?v=1774991116" alt="ESPN"></div>
+          <div class="spb-press-item"><img class="spb-press-logo" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/logo-white.png?v=1774991205" alt="Barstool Sports"></div>
+          <div class="spb-press-item"><img class="spb-press-logo" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/SportsIllustratedLogo_svg.png?v=1774991245" alt="Sports Illustrated"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function spbOpenCart(e) {
+  if (e) { e.preventDefault(); e.stopPropagation(); }
+
+  document.dispatchEvent(new CustomEvent('cart:open'));
+  document.dispatchEvent(new CustomEvent('theme:cart:open'));
+
+  var drawerEl = document.querySelector('cart-drawer');
+  if (drawerEl && typeof drawerEl.open === 'function') { drawerEl.open(); return; }
+
+  var selectors = [
+    '[data-cart-toggle]', '[data-drawer-toggle="cart-drawer"]',
+    '.cart-drawer-toggle', '#cart-icon-bubble', '.header__icon--cart',
+    '[aria-controls="cart-drawer"]', '[data-action="toggle-cart"]',
+    '.js-cart-toggle', '[data-cart-drawer-trigger]'
+  ];
+  for (var i = 0; i < selectors.length; i++) {
+    var btn = document.querySelector(selectors[i]);
+    if (btn) { btn.click(); return; }
+  }
+
+  var allEls = document.querySelectorAll('[id*="cart-drawer"], [class*="cart-drawer"]');
+  for (var j = 0; j < allEls.length; j++) {
+    var el = allEls[j];
+    if (el.tagName === 'BUTTON' || el.tagName === 'A') { el.click(); return; }
+    el.setAttribute('open', '');
+    el.removeAttribute('hidden');
+    el.style.display = '';
+    el.style.visibility = 'visible';
+  }
+}
+
+// Scroll speed in pixels per second (constant across all screen widths).
+var SPB_PRESS_SPEED = 20;
+
+function spbFillPressTrack() {
+  var track = document.querySelector('.spb-press-track');
+  var outer = document.querySelector('.spb-press-track-outer');
+  if (!track || !outer) return;
+
+  // Capture the original markup once so repeated runs always start from the
+  // pristine source (not from a previously-filled, doubled track).
+  if (!track.dataset.spbSource) {
+    track.dataset.spbSource = track.innerHTML;
+  }
+
+  var source = track.dataset.spbSource;
+  var available = outer.clientWidth;
+  if (!available) return; // not laid out yet — a later trigger will handle it
+
+  // Build a "half" wide enough that two halves always cover the viewport with
+  // room to spare, so the -halfWidth shift loops seamlessly at any screen size.
+  var targetWidth = available * 2;
+
+  var measure = document.createElement('div');
+  measure.style.cssText = 'position:absolute;visibility:hidden;left:-99999px;top:0;display:flex;width:max-content;';
+  measure.innerHTML = source;
+  document.body.appendChild(measure);
+
+  // Cap iterations so unloaded/zero-width images can never spin forever.
+  var guard = 0;
+  while (measure.scrollWidth < targetWidth && guard < 200) {
+    measure.insertAdjacentHTML('beforeend', source);
+    guard++;
+  }
+
+  var halfHTML = measure.innerHTML;
+  var halfWidth = measure.scrollWidth;
+  document.body.removeChild(measure);
+
+  if (!halfWidth) return; // images not measurable yet; retry on a later trigger
+
+  // Only rewrite the DOM if something actually changed (avoids resetting the
+  // animation on every ResizeObserver tick / scrollbar-driven micro resizes).
+  var signature = halfWidth + '|' + available;
+  if (track.dataset.spbSignature === signature) return;
+  track.dataset.spbSignature = signature;
+
+  track.style.animation = 'none';
+  track.innerHTML = halfHTML + halfHTML;
+  track.style.setProperty('--spb-press-shift', halfWidth + 'px');
+  // Keep a constant scroll speed (px/sec) regardless of how wide the filled
+  // track is — otherwise wider screens scroll faster for the same duration.
+  track.style.animationDuration = (halfWidth / SPB_PRESS_SPEED) + 's';
+  track.offsetWidth; // force reflow so the animation restarts cleanly
+  track.style.animation = '';
+  track.dataset.spbFilled = 'true';
+}
+
+// Run as early as possible, then again as the page/images/layout settle.
+function spbInitPressTrack() {
+  spbFillPressTrack();
+
+  // Re-fill whenever the strip's container width changes — this is what makes
+  // the logos repeat at "whatever width the screen has", including ultrawide.
+  var outer = document.querySelector('.spb-press-track-outer');
+  if (outer && 'ResizeObserver' in window) {
+    var ro = new ResizeObserver(function () {
+      clearTimeout(window.__spbPressResizeT);
+      window.__spbPressResizeT = setTimeout(spbFillPressTrack, 100);
+    });
+    ro.observe(outer);
+  }
+
+  // Late-loading press logos can change the half width after first measure.
+  document.querySelectorAll('.spb-press-logo').forEach(function (img) {
+    if (!img.complete) {
+      img.addEventListener('load', function () {
+        var track = document.querySelector('.spb-press-track');
+        if (track) track.dataset.spbSignature = '';
+        spbFillPressTrack();
+      }, { once: true });
+    }
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', spbInitPressTrack);
+} else {
+  spbInitPressTrack();
+}
+window.addEventListener('load', spbFillPressTrack);
+
+// Fallback for browsers without ResizeObserver.
+window.addEventListener('resize', function () {
+  var track = document.querySelector('.spb-press-track');
+  if (track) track.dataset.spbSignature = '';
+  clearTimeout(window.__spbPressResizeT);
+  window.__spbPressResizeT = setTimeout(spbFillPressTrack, 100);
+});
+</script>
+
+{% schema %}
+{
+  "name": "Logo Bar",
+  "tag": "div",
+  "class": "spb-wrapper",
+  "settings": [],
+  "presets": [
+    { "name": "Logo Bar", "category": "Header" }
+  ]
+}
+{% endschema %}

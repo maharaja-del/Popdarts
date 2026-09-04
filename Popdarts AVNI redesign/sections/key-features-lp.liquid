@@ -1,0 +1,280 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+.kf-section {
+  font-family: 'Inter', sans-serif;
+  padding: 80px 20px;
+  background: #000000;
+  overflow: hidden;
+}
+
+.kf-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.kf-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.kf-title {
+  font-size: 42px;
+  font-weight: 800;
+  margin: 0 0 10px;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.kf-fire {
+  display: inline-block;
+  font-size: 40px;
+  margin-left: 4px;
+}
+
+.kf-subtitle {
+  font-size: 16px;
+  color: #999999;
+  font-weight: 500;
+  margin: 0;
+}
+
+.kf-subtitle em {
+  font-style: normal;
+  font-weight: 700;
+  color: #23FF53;
+}
+
+/* ── SWIPER ── */
+.kf-swiper {
+  padding-bottom: 48px !important;
+}
+
+.kf-swiper .swiper-slide {
+  height: auto;
+}
+
+.kf-swiper .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: #333;
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+.kf-swiper .swiper-pagination-bullet-active {
+  background: #23FF53;
+  width: 24px;
+  border-radius: 4px;
+}
+
+/* Hide pagination on large screens where all slides are visible */
+@media (min-width: 900px) {
+  .kf-swiper .swiper-pagination {
+    display: none;
+  }
+}
+
+/* ── CARD ── */
+.kf-card {
+  background: #1a1a1a;
+  border-radius: 16px;
+  padding: 28px 24px;
+  transition: all 0.3s ease;
+  border: 2px solid #2a2a2a;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.kf-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(35, 255, 83, 0.2);
+  border-color: #23FF53;
+  background: #222222;
+}
+
+.kf-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  background: #23FF53;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.kf-card:hover .kf-icon-wrap {
+  transform: scale(1.08);
+}
+
+.kf-icon {
+  width: 26px;
+  height: 26px;
+  stroke: #000000;
+}
+
+.kf-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+/* ── MOBILE TWEAKS ── */
+@media (max-width: 768px) {
+  .kf-section {
+    padding: 60px 0 60px 16px;
+  }
+
+  .kf-header {
+    margin-bottom: 32px;
+    padding-right: 16px;
+  }
+
+  .kf-title    { font-size: 32px; }
+  .kf-fire     { font-size: 30px; }
+  .kf-subtitle { font-size: 15px; }
+
+  .kf-card         { padding: 24px 20px; }
+  .kf-icon-wrap    { width: 48px; height: 48px; }
+  .kf-icon         { width: 24px; height: 24px; }
+  .kf-card-title   { font-size: 14px; }
+}
+</style>
+
+<section class="kf-section">
+  <div class="kf-container">
+
+    <div class="kf-header">
+      <h2 class="kf-title">KEY FEATURES <span class="kf-fire">🔥</span></h2>
+      <p class="kf-subtitle">See what makes <em>Swaptop™</em> amazing!</p>
+    </div>
+
+    <div class="kf-swiper swiper">
+      <div class="swiper-wrapper">
+
+        <div class="swiper-slide">
+          <div class="kf-card">
+            <div class="kf-icon-wrap">
+              <svg class="kf-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3 class="kf-card-title">2 games for the price of 1</h3>
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="kf-card">
+            <div class="kf-icon-wrap">
+              <svg class="kf-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2"/>
+                <path d="M12 8V16M8 12H16" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="kf-card-title">Portable and storable</h3>
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="kf-card">
+            <div class="kf-icon-wrap">
+              <svg class="kf-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="3" width="18" height="18" rx="2" stroke-width="2"/>
+                <path d="M9 3V21M15 3V21M3 9H21M3 15H21" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="kf-card-title">Easy clip-in frame</h3>
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="kf-card">
+            <div class="kf-icon-wrap">
+              <svg class="kf-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="9" cy="7" r="4" stroke-width="2"/>
+                <path d="M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3 class="kf-card-title">Games for everyone</h3>
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="kf-card">
+            <div class="kf-icon-wrap">
+              <svg class="kf-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="3" width="20" height="14" rx="2" stroke-width="2"/>
+                <line x1="4" y1="6" x2="20" y2="14" stroke-width="2" stroke-linecap="round"/>
+                <line x1="4" y1="14" x2="20" y2="6" stroke-width="2" stroke-linecap="round"/>
+                <path d="M8 21H16" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3 class="kf-card-title">Active – no screens!</h3>
+          </div>
+        </div>
+
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  new Swiper('.kf-swiper', {
+    slidesPerView: 1.2,
+    spaceBetween: 12,
+    pagination: {
+      el: '.kf-swiper .swiper-pagination',
+      clickable: true,
+    },
+    breakpoints: {
+      480: {
+        slidesPerView: 1.5,
+        spaceBetween: 14,
+      },
+      640: {
+        slidesPerView: 2,
+        spaceBetween: 16,
+      },
+      769: {
+        slidesPerView: 3,
+        spaceBetween: 20,
+      },
+      1025: {
+        slidesPerView: 5,
+        spaceBetween: 16,
+      }
+    }
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Key Features",
+  "tag": "section",
+  "class": "kf-section-wrapper",
+  "settings": [],
+  "presets": [
+    { "name": "Key Features" }
+  ]
+}
+{% endschema %}

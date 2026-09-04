@@ -1,0 +1,235 @@
+{% comment %}
+  Swaptop Footer
+  Drop into: sections/swaptop-footer.liquid
+  { "type": "swaptop-footer" }
+{% endcomment %}
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+  .sft-footer {
+    font-family: 'Inter', sans-serif;
+    background: #000;
+    padding: 20px 24px;
+    border-top: 1px solid #1a1a1a;
+  }
+
+  .sft-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  /* Top row: country selector */
+  .sft-top {
+    display: flex;
+    align-items: center;
+  }
+
+  .sft-locale-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .sft-locale-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding: 6px 10px;
+    color: rgba(255,255,255,0.6);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: border-color 0.2s, color 0.2s;
+    pointer-events: none;
+  }
+
+  .sft-locale-btn svg { opacity: 0.6; flex-shrink: 0; }
+
+  .sft-locale-select {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
+  }
+
+  .sft-locale-wrap:hover .sft-locale-btn {
+    border-color: rgba(255,255,255,0.35);
+    color: #fff;
+  }
+
+  /* Bottom row */
+  .sft-bottom {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .sft-left {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .sft-copy {
+    font-size: 13px;
+    color: rgba(255,255,255,0.35);
+    font-weight: 400;
+  }
+
+  .sft-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .sft-link {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    padding: 4px 10px;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+    white-space: nowrap;
+  }
+
+  .sft-link:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.07);
+  }
+
+  .sft-sep {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    flex-shrink: 0;
+  }
+
+  /* Payment icons */
+  .sft-payments {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    max-width: 380px;
+  }
+
+  /* White pill wrapper makes every SVG visible regardless of its own colors */
+  .sft-pay-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 26px;
+    width: 40px;
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .sft-pay-icon svg {
+    display: block;
+    height: 18px;
+    width: auto;
+    max-width: 34px;
+  }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    .sft-footer { padding: 20px 16px; }
+
+    .sft-bottom {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .sft-left { align-items: center; }
+    .sft-links { justify-content: center; }
+    .sft-payments { justify-content: center; max-width: 100%; }
+  }
+
+  /* Large screens */
+  @media (min-width: 1024px) {
+    .sft-footer { padding: 24px 40px; }
+    .sft-inner { gap: 16px; }
+  }
+</style>
+
+<div class="sft-footer">
+  <div class="sft-inner">
+
+    <!-- Top: country selector -->
+    <div class="sft-top">
+      {% form 'localization', id: 'SftLocalizationForm' %}
+        <div class="sft-locale-wrap">
+          <span class="sft-locale-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <span>{{ localization.country.name }} ({{ localization.country.currency.iso_code }} {{ localization.country.currency.symbol }})</span>
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <select name="country_code" class="sft-locale-select" onchange="this.closest('form').submit()">
+            {% for country in localization.available_countries %}
+              <option value="{{ country.iso_code }}"{% if country.iso_code == localization.country.iso_code %} selected{% endif %}>
+                {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+      {% endform %}
+    </div>
+
+    <!-- Bottom: copyright + links | payment icons -->
+    <div class="sft-bottom">
+
+      <div class="sft-left">
+        <span class="sft-copy">&copy; {{ 'now' | date: '%Y' }} PopDarts. All rights reserved.</span>
+        <nav class="sft-links">
+          <a class="sft-link" href="/policies/privacy-policy">Privacy Policy</a>
+          <span class="sft-sep"></span>
+          <a class="sft-link" href="/policies/terms-of-service">Terms of Service</a>
+          <span class="sft-sep"></span>
+          <a class="sft-link" href="/policies/shipping-policy">Shipping Policy</a>
+          <span class="sft-sep"></span>
+          <a class="sft-link" href="/policies/refund-policy">Refund Policy</a>
+        </nav>
+      </div>
+
+      <div class="sft-payments">
+        {% for type in shop.enabled_payment_types %}
+          <span class="sft-pay-icon">{{ type | payment_type_svg_tag }}</span>
+        {% endfor %}
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Swaptop Footer",
+  "tag": "div",
+  "class": "swaptop-footer-wrapper",
+  "settings": [],
+  "presets": [
+    { "name": "Swaptop Footer" }
+  ]
+}
+{% endschema %}

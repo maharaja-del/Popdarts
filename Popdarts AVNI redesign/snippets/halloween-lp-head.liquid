@@ -1,0 +1,9 @@
+{% comment %}
+  Shared head assets for the Halloween Pro Pack landing page sections.
+  Rendered by every halloween-* section; browsers dedupe repeated tags.
+{% endcomment %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&display=swap">
+{{ 'halloween-lp.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'halloween-lp.js' | asset_url }}" defer></script>

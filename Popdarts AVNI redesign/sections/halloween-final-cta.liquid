@@ -1,0 +1,48 @@
+{% render 'halloween-lp-head' %}
+{%- liquid
+  if section.settings.image
+    assign img_url = section.settings.image | image_url: width: 1800
+  else
+    assign img_url = 'pd-hw-reaper.jpg' | asset_url
+  endif
+  assign fallback = section.settings.cta_fallback | default: '/products/pro-pack'
+-%}
+<section class="hw hw--night hw-final" id="hw-final">
+  <div class="hw-final__art" style="background-image:url('{{ img_url }}')"></div>
+  <div class="hw-container">
+    <div class="hw-final__content">
+      <span class="hw-eyebrow hw-eyebrow--center hw-eyebrow--orange" data-hw-reveal>{{ section.settings.eyebrow }}</span>
+      <h2 class="hw-h2" data-hw-reveal="2">{{ section.settings.heading }}</h2>
+      <p class="hw-sub" data-hw-reveal="3">{{ section.settings.subtext }}</p>
+      <div class="hw-count" data-hw-countdown data-deadline="{{ section.settings.deadline }}" data-hw-reveal="3">
+        <div class="hw-count__tile"><div class="hw-count__val" data-hw-unit="d">00</div><div class="hw-count__lbl">Days</div></div>
+        <div class="hw-count__tile"><div class="hw-count__val" data-hw-unit="h">00</div><div class="hw-count__lbl">Hours</div></div>
+        <div class="hw-count__tile"><div class="hw-count__val" data-hw-unit="m">00</div><div class="hw-count__lbl">Min</div></div>
+        <div class="hw-count__tile"><div class="hw-count__val" data-hw-unit="s">00</div><div class="hw-count__lbl">Sec</div></div>
+      </div>
+      <div class="hw-final__cta" data-hw-reveal="4">
+        <a class="hw-btn hw-btn--xl" href="{{ fallback }}" data-hw-atc data-variant-id="{{ section.settings.variant_id }}">{{ section.settings.cta_label }}</a>
+      </div>
+      <p class="hw-final__micro" data-hw-reveal="4">{{ section.settings.micro }}</p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HW Final CTA",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Background art", "info": "Leave empty to use the built-in reaper render" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Last call" },
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Get it before it ghosts you again. 👻" },
+    { "type": "textarea", "id": "subtext", "label": "Subtext", "default": "Blink twice and you'll miss it again. When the last Halloween Pro Pack ships, this page comes down for good." },
+    { "type": "text", "id": "deadline", "label": "Countdown deadline (ISO format)", "default": "2026-10-31T23:59:00-04:00" },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "🎃 Claim your pack — $39.99" },
+    { "type": "text", "id": "variant_id", "label": "Halloween variant ID", "info": "Leave empty to link to the product page instead." },
+    { "type": "text", "id": "cta_fallback", "label": "CTA fallback link", "default": "/products/pro-pack" },
+    { "type": "text", "id": "micro", "label": "Micro line", "default": "Limited Halloween colorway · No restocks · Gone after Halloween" }
+  ],
+  "presets": [{ "name": "HW Final CTA" }]
+}
+{% endschema %}

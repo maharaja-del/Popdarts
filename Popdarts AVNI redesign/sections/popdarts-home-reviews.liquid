@@ -1,0 +1,66 @@
+<section class="pd-page home-reviews" id="home-reviews-{{ section.id }}" aria-labelledby="home-reviews-title-{{ section.id }}">
+  <div class="pd-wrap">
+    <p class="home-reviews__eyebrow">{{ section.settings.eyebrow | default: 'From the Community' }}</p>
+    <h2 id="home-reviews-title-{{ section.id }}" style="color: #0a0c10 !important; text-align: center; margin-bottom: clamp(32px, 5vh, 56px);">{{ section.settings.heading | default: 'Straight from real players.' }}</h2>
+
+    <div class="quote-carousel">
+      {%- for block in section.blocks -%}
+        <div class="quote-slide" {{ block.shopify_attributes }}>
+          <div class="quote-slide__stars" aria-hidden="true">
+            {%- for i in (1..5) -%}{%- if i <= block.settings.rating -%}&#9733;{%- else -%}&#9734;{%- endif -%}{%- endfor -%}
+          </div>
+          <p class="quote-slide__text">&ldquo;{{ block.settings.quote | default: 'Great game for the whole family.' }}&rdquo;</p>
+          <p class="quote-slide__name">{{ block.settings.name | default: 'Verified Buyer' }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Home Reviews Carousel",
+  "tag": "section",
+  "class": "pd-section-home-reviews",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "From the Community"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Straight from real players."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "quote",
+      "name": "Quote",
+      "settings": [
+        { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "Great game for the whole family." },
+        { "type": "text", "id": "name", "label": "Reviewer label", "default": "Verified Buyer" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home Reviews Carousel",
+      "blocks": [
+        { "type": "quote", "settings": { "rating": 5, "quote": "We bought one set for the driveway and now every cookout turns into a bracket. Best impulse buy of the year.", "name": "Verified Buyer" } },
+        { "type": "quote", "settings": { "rating": 5, "quote": "Rules took two minutes to learn and my in-laws still bring it up every Thanksgiving.", "name": "Verified Buyer" } },
+        { "type": "quote", "settings": { "rating": 5, "quote": "The Swaptop board alone replaced three other yard games we owned. Genuinely great design.", "name": "Verified Buyer" } },
+        { "type": "quote", "settings": { "rating": 4, "quote": "Watched the Championship on ESPN, bought a Pro Pack the next day. Now I understand the hype.", "name": "Verified Buyer" } },
+        { "type": "quote", "settings": { "rating": 5, "quote": "The whole cul-de-sac has a set now. Tuesday night is Popdarts night.", "name": "Verified Buyer" } },
+        { "type": "quote", "settings": { "rating": 5, "quote": "Simplest yard game we own and somehow the most competitive.", "name": "Verified Buyer" } },
+        { "type": "quote", "settings": { "rating": 5, "quote": "My kids beat me more than I'd like to admit. Genuinely fun for every age.", "name": "Verified Buyer" } },
+        { "type": "quote", "settings": { "rating": 4, "quote": "Ordered the Elite Pack after watching the Championship. Worth it.", "name": "Verified Buyer" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

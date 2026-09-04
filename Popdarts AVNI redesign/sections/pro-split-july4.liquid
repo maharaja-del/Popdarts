@@ -1,0 +1,242 @@
+{% comment %}
+  pro Pack — Independence Day Split Hero
+  Left: patriotic copy + CTA + feature row.  Right: single-image slider (one creative at a time).
+  Scoped to section.id. Pulls the 4th-July ad creatives.
+{% endcomment %}
+
+{%- assign default_slides = "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/I131_9x16_26_5-PD_4thJuly_01.jpg?v=1780512494,https://cdn.shopify.com/s/files/1/0471/3375/3505/files/FlyingV-USA.jpg?v=1782259992,https://cdn.shopify.com/s/files/1/0471/3375/3505/files/PRO_PDP_1-USA_9a3cdf5f-4cef-499a-8478-94bd471750b5.jpg?v=1782259995,https://cdn.shopify.com/s/files/1/0471/3375/3505/files/PRO_PDP_6_5791db32-4ab7-470e-b0e5-38c3102d17d1.jpg?v=1782259996,https://cdn.shopify.com/s/files/1/0471/3375/3505/files/PRO_PDP_8_3ae9e3dd-09e4-47ce-9c6c-54b2b07c3db9.jpg?v=1782259996,https://cdn.shopify.com/s/files/1/0471/3375/3505/files/PRO_PDP_4_57c18ad2-29f1-40fa-92e4-56e870ce320d.jpg?v=1782259999,https://cdn.shopify.com/s/files/1/0471/3375/3505/files/USA-BOX_5c4f5b31-23e5-4a59-b481-9b59e09258a1.jpg?v=1782259999,https://cdn.shopify.com/s/files/1/0471/3375/3505/files/PRO_PDP_5_197b7b1c-5c52-47e0-8884-0733c3ecb172.jpg?v=1782259999" | split: "," -%}
+
+<style>
+  .rhs-{{ section.id }}{
+    --red:#C8102E; --red-d:#8B0000; --navy:#002868; --gold:#FFD60A;
+    --ink:#0c1430;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    position:relative;overflow:hidden;
+    background:
+      radial-gradient(60% 70% at 88% 30%, rgba(0,40,104,.07), transparent 60%),
+      radial-gradient(50% 60% at 6% 80%, rgba(200,16,46,.06), transparent 60%),
+      #fbfbfd;
+    padding:0 0 56px;
+  }
+  .rhs-{{ section.id }}::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:5px;z-index:4;pointer-events:none;
+    background:linear-gradient(90deg,var(--red) 0 33.34%,#fff 33.34% 66.67%,var(--navy) 66.67% 100%);
+  }
+
+  .rhs-{{ section.id }} .rhs-wrap{
+    position:relative;z-index:1;
+    max-width:1240px;margin:0 auto;padding:56px 28px 8px;
+    display:grid;grid-template-columns:1.05fr .95fr;gap:54px;align-items:center;
+  }
+
+  /* ── LEFT ── */
+  .rhs-{{ section.id }} .rhs-eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    background:linear-gradient(90deg,var(--red),var(--navy));color:#fff;
+    font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+    padding:7px 15px;border-radius:999px;margin-bottom:20px;
+    box-shadow:0 6px 18px rgba(200,16,46,.3);
+  }
+  .rhs-{{ section.id }} .rhs-title{
+    margin:0;color:var(--ink);font-weight:900;text-transform:uppercase;
+    font-size:clamp(38px,6vw,72px);line-height:.92;letter-spacing:-.03em;
+  }
+  .rhs-{{ section.id }} .rhs-title .r{color:var(--red)}
+  .rhs-{{ section.id }} .rhs-title .b{color:var(--navy)}
+  .rhs-{{ section.id }} .rhs-sub{
+    margin:20px 0 0;max-width:460px;
+    color:#55607a;font-size:clamp(15px,1.4vw,17px);line-height:1.6;
+  }
+  .rhs-{{ section.id }} .rhs-cta-row{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-top:28px}
+  .rhs-{{ section.id }} .rhs-btn{
+    display:inline-flex;align-items:center;gap:10px;text-decoration:none;
+    background:var(--red);color:#fff;font-size:14px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    padding:16px 32px;border-radius:9px;box-shadow:0 10px 26px rgba(200,16,46,.32);
+    transition:background .2s,transform .2s;
+  }
+  .rhs-{{ section.id }} .rhs-btn:hover{background:var(--red-d);transform:translateY(-2px)}
+  .rhs-{{ section.id }} .rhs-link{
+    color:var(--navy);font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    text-decoration:none;border-bottom:2px solid rgba(0,40,104,.25);padding-bottom:3px;transition:border-color .2s,color .2s;
+  }
+  .rhs-{{ section.id }} .rhs-link:hover{color:var(--red);border-color:var(--red)}
+
+  /* ── RIGHT: single-image slider ── */
+  .rhs-{{ section.id }} .rhs-stage{position:relative;width:fit-content;max-width:100%;margin:0 auto}
+  .rhs-{{ section.id }} .rhs-viewport{
+    position:relative;z-index:1;
+    width:min(90vw,520px);aspect-ratio:1/1;
+    border-radius:18px;overflow:hidden;
+    background:#0c1020;border:3px solid #fff;
+    box-shadow:0 24px 50px rgba(0,0,0,.18);
+  }
+  .rhs-{{ section.id }} .rhs-track{display:flex;height:100%;transition:transform .55s cubic-bezier(.16,1,.3,1)}
+  .rhs-{{ section.id }} .rhs-slide{flex:0 0 100%;height:100%}
+  .rhs-{{ section.id }} .rhs-slide img{width:100%;height:100%;object-fit:cover;display:block}
+
+  /* arrows */
+  .rhs-{{ section.id }} .rhs-arrow{
+    -webkit-appearance:none;appearance:none;
+    position:absolute;top:50%;transform:translateY(-50%);z-index:4;
+    box-sizing:border-box;
+    width:44px;height:44px;min-width:44px;min-height:44px;max-width:44px;
+    flex:0 0 44px;aspect-ratio:1/1;
+    padding:0;margin:0;line-height:0;font-size:0;
+    border:none;border-radius:50%;cursor:pointer;overflow:hidden;
+    background:#fff;color:var(--red);display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 18px rgba(0,0,0,.22);transition:transform .2s,background .2s;
+  }
+  .rhs-{{ section.id }} .rhs-arrow::before,
+  .rhs-{{ section.id }} .rhs-arrow::after{content:none !important;display:none !important}
+  .rhs-{{ section.id }} .rhs-arrow:hover{background:var(--red);transform:translateY(-50%) scale(1.08)}
+  .rhs-{{ section.id }} .rhs-arrow:hover svg{stroke:#fff}
+  .rhs-{{ section.id }} .rhs-arrow svg{width:20px;height:20px;fill:none;stroke:var(--red);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+  .rhs-{{ section.id }} .rhs-arrow--prev{left:-6px}
+  .rhs-{{ section.id }} .rhs-arrow--next{right:-6px}
+
+  /* dots */
+  .rhs-{{ section.id }} .rhs-dots{display:flex;justify-content:center;gap:7px;margin-top:18px}
+  .rhs-{{ section.id }} .rhs-dot{
+    -webkit-appearance:none;appearance:none;box-sizing:border-box;
+    width:8px;height:8px;min-width:8px;min-height:8px;flex:0 0 8px;aspect-ratio:1/1;
+    border-radius:50%;border:none;cursor:pointer;padding:0;margin:0;line-height:0;font-size:0;
+    background:#c8ccd8;transition:background .2s,transform .2s;
+  }
+  .rhs-{{ section.id }} .rhs-dot::before,
+  .rhs-{{ section.id }} .rhs-dot::after{content:none !important;display:none !important}
+  .rhs-{{ section.id }} .rhs-dot.is-active{background:var(--red);transform:scale(1.3)}
+
+  /* ── RESPONSIVE ── */
+  @media (max-width:900px){
+    .rhs-{{ section.id }} .rhs-wrap{grid-template-columns:1fr;gap:38px;padding:40px 22px 8px;text-align:center}
+    .rhs-{{ section.id }} .rhs-eyebrow{margin-bottom:14px}
+    .rhs-{{ section.id }} .rhs-sub{margin-left:auto;margin-right:auto}
+    .rhs-{{ section.id }} .rhs-cta-row{justify-content:center}
+    .rhs-{{ section.id }} .rhs-stage{order:-1}
+  }
+</style>
+
+<section class="rhs-{{ section.id }}" aria-label="{{ section.settings.title | default: 'Independence Day' | escape }}">
+  <div class="rhs-wrap">
+
+    <!-- LEFT -->
+    <div class="rhs-left">
+      <span class="rhs-eyebrow">🎆 {{ section.settings.eyebrow | default: 'Independence Day' }} 🇺🇸</span>
+      <h1 class="rhs-title">{{ section.settings.title | default: 'Play Loud<br>This <span class="r">4th</span> Of <span class="b">July</span>' }}</h1>
+      {%- if section.settings.subtext != blank -%}
+        <p class="rhs-sub">{{ section.settings.subtext }}</p>
+      {%- endif -%}
+
+      <div class="rhs-cta-row">
+        {%- if section.settings.button_label != blank -%}
+          <a class="rhs-btn" href="{{ section.settings.button_link | default: '#goti' }}">
+            {{ section.settings.button_label }}
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        {%- endif -%}
+        
+      </div>
+    </div>
+
+    <!-- RIGHT: single-image slider -->
+    <div class="rhs-right">
+      <div class="rhs-stage">
+        <button class="rhs-arrow rhs-arrow--prev" id="rhs-prev-{{ section.id }}" aria-label="Previous">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+
+        <div class="rhs-viewport">
+          <div class="rhs-track" id="rhs-track-{{ section.id }}">
+            {%- for slide in default_slides -%}
+              <div class="rhs-slide"><img src="{{ slide }}" alt="Popdarts 4th of July {{ forloop.index }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" decoding="async"></div>
+            {%- endfor -%}
+          </div>
+        </div>
+
+        <button class="rhs-arrow rhs-arrow--next" id="rhs-next-{{ section.id }}" aria-label="Next">
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+
+      <div class="rhs-dots" id="rhs-dots-{{ section.id }}">
+        {%- for slide in default_slides -%}
+          <button class="rhs-dot{% if forloop.first %} is-active{% endif %}" data-i="{{ forloop.index0 }}" aria-label="Go to slide {{ forloop.index }}"></button>
+        {%- endfor -%}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function(){
+  var track = document.getElementById('rhs-track-{{ section.id }}');
+  var prev  = document.getElementById('rhs-prev-{{ section.id }}');
+  var next  = document.getElementById('rhs-next-{{ section.id }}');
+  var dotsW = document.getElementById('rhs-dots-{{ section.id }}');
+  if(!track) return;
+
+  var slides = track.querySelectorAll('.rhs-slide').length;
+  var dots   = dotsW ? dotsW.querySelectorAll('.rhs-dot') : [];
+  var i = 0, timer = null, paused = false;
+
+  function go(n){
+    i = (n + slides) % slides;
+    track.style.transform = 'translateX(' + (-i * 100) + '%)';
+    for(var d=0; d<dots.length; d++) dots[d].classList.toggle('is-active', d === i);
+  }
+
+  if(prev) prev.addEventListener('click', function(){ go(i-1); reset(); });
+  if(next) next.addEventListener('click', function(){ go(i+1); reset(); });
+  for(var d=0; d<dots.length; d++){
+    (function(idx){ dots[idx].addEventListener('click', function(){ go(idx); reset(); }); })(d);
+  }
+
+  /* autoplay — pauses on hover/touch, only runs on screen */
+  function start(){ stop(); timer = setInterval(function(){ if(!paused) go(i+1); }, 4000); }
+  function stop(){ if(timer){ clearInterval(timer); timer = null; } }
+  function reset(){ if(timer){ start(); } }
+
+  var stage = track.closest('.rhs-stage');
+  if(stage){
+    stage.addEventListener('mouseenter', function(){ paused = true; });
+    stage.addEventListener('mouseleave', function(){ paused = false; });
+  }
+
+  /* swipe */
+  var x0 = null;
+  track.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; paused = true; }, {passive:true});
+  track.addEventListener('touchend', function(e){
+    if(x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    if(Math.abs(dx) > 40) go(dx < 0 ? i+1 : i-1);
+    x0 = null; paused = false; reset();
+  }, {passive:true});
+
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ e.isIntersecting ? start() : stop(); });
+    }, {threshold:0.25}).observe(track);
+  } else { start(); }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "pro Split Hero",
+  "tag": "section",
+  "class": "pro-july4-split-hero-wrapper",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Independence Day" },
+    { "type": "text", "id": "title", "label": "Heading", "info": "HTML allowed: <br> for line breaks, <span class=\"r\"> for red, <span class=\"b\"> for navy.", "default": "Play Loud<br>This <span class=\"r\">4th</span> Of <span class=\"b\">July</span>" },
+    { "type": "textarea", "id": "subtext", "label": "Subtext", "default": "Stars, stripes, and showdowns. The pro Pack is the easy outdoor game built for backyard BBQs and 4th of July battles." },
+    { "type": "text", "id": "button_label", "label": "Primary button label", "default": "Shop The pro Pack" },
+    { "type": "url", "id": "button_link", "label": "Primary button link" },
+    { "type": "text", "id": "link_label", "label": "Secondary link label", "default": "Explore The Bundle" },
+    { "type": "url", "id": "link_url", "label": "Secondary link URL" }
+  ],
+  "presets": [
+    { "name": "pro Split Hero" }
+  ]
+}
+{% endschema %}

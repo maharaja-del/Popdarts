@@ -1,0 +1,155 @@
+<section class="pd-page home-collection" id="home-collection-{{ section.id }}" aria-labelledby="home-collection-title-{{ section.id }}">
+  <div class="pd-wrap">
+    <div class="home-collection__head">
+      <div>
+        <p class="products__eyebrow">{{ section.settings.eyebrow | default: 'Shop Popdarts' }}</p>
+        <h2 id="home-collection-title-{{ section.id }}" style="color: #0a0c10 !important;">{{ section.settings.heading | default: 'Everything you need to start a rivalry.' }}</h2>
+        <p>{{ section.settings.subheading | default: 'Rookie sets, tournament-weight Pro Packs, Elite gear for APL competitors, and the Swaptop board that plays a dozen different games.' }}</p>
+      </div>
+    </div>
+
+    <div class="home-collection__grid">
+      {%- assign products_to_show = section.settings.featured_products -%}
+      {%- if products_to_show == blank or products_to_show.size == 0 -%}
+        {%- assign home_collection = section.settings.collection | default: collections.all -%}
+        {%- assign products_to_show = home_collection.products -%}
+      {%- endif -%}
+      {%- assign product_limit = section.settings.product_limit | default: 4 -%}
+      {%- for product in products_to_show limit: product_limit -%}
+        <article class="collection-card">
+          <a class="collection-card__media" href="{{ product.url }}">
+            {%- if product.featured_image -%}
+              <img src="{{ product.featured_image | image_url: width: 700 }}" alt="{{ product.featured_image.alt | default: product.title | escape }}" loading="lazy" width="700" height="700">
+            {%- else -%}
+              <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/FlyingV-USA.jpg" alt="{{ product.title | escape }}" loading="lazy">
+            {%- endif -%}
+            {%- if product.compare_at_price > product.price -%}
+              <span class="collection-card__badge">Sale</span>
+            {%- endif -%}
+          </a>
+          <div class="collection-card__body">
+            <p class="collection-card__title">{{ product.title }}</p>
+            <div class="collection-card__price">
+              <span class="collection-card__price-now">{{ product.price | money }}</span>
+              {%- if product.compare_at_price > product.price -%}
+                <span class="collection-card__price-was">{{ product.compare_at_price | money }}</span>
+              {%- endif -%}
+            </div>
+          </div>
+        </article>
+      {%- else -%}
+        {%- for block in section.blocks -%}
+          <article class="collection-card">
+            <a class="collection-card__media" href="{{ block.settings.fallback_link | default: '/collections/all' }}">
+              <img src="{% if block.settings.image %}{{ block.settings.image | image_url: width: 700 }}{% elsif block.settings.fallback_image_url != blank %}{{ block.settings.fallback_image_url }}{% elsif block.settings.asset_filename != blank %}{{ block.settings.asset_filename | asset_url }}{% else %}https://cdn.shopify.com/s/files/1/0471/3375/3505/files/FlyingV-USA.jpg{% endif %}" alt="{{ block.settings.title | escape }}" loading="lazy">
+              {%- if block.settings.badge != blank -%}<span class="collection-card__badge">{{ block.settings.badge }}</span>{%- endif -%}
+            </a>
+            <div class="collection-card__body">
+              <p class="collection-card__title">{% if block.settings.title != blank %}{{ block.settings.title }}{% else %}Pro Pack{% endif %}</p>
+              <div class="collection-card__price">
+                <span class="collection-card__price-now">{{ block.settings.price | default: '$31.99' }}</span>
+                {%- if block.settings.price_was != blank -%}<span class="collection-card__price-was">{{ block.settings.price_was }}</span>{%- endif -%}
+              </div>
+            </div>
+          </article>
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="home-collection__cta">
+      <a class="btn btn--primary btn--lg" href="{{ section.settings.cta_link | default: '/collections/all' }}">{{ section.settings.cta_text | default: 'Shop All Products' }}</a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Home Collection Grid",
+  "tag": "section",
+  "class": "pd-section-home-collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Shop Popdarts"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Everything you need to start a rivalry."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Rookie sets, tournament-weight Pro Packs, Elite gear for APL competitors, and the Swaptop board that plays a dozen different games."
+    },
+    {
+      "type": "product_list",
+      "id": "featured_products",
+      "label": "Featured products",
+      "info": "Recommended: hand-pick the exact products to show here. Takes priority over Collection below — use this to keep unwanted variants (extra board skins, off-brand bundles, etc.) from ever surfacing."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection (used only if Featured products above is empty)",
+      "info": "Pulls dynamically from this collection, so anything added to it later shows up here too — including products you may not want featured. Fallback cards below are used only if the store has zero products yet."
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "label": "Products to show",
+      "min": 4,
+      "max": 12,
+      "step": 4,
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Shop All Products"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "fallback_card",
+      "name": "Fallback card",
+      "settings": [
+        { "type": "paragraph", "content": "Only shown if the collection above has zero products." },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "url", "id": "fallback_image_url", "label": "Fallback image URL" },
+        { "type": "text", "id": "asset_filename", "label": "Bundled theme asset filename", "info": "Used only if Image and Fallback image URL are both empty, e.g. pd-why-target-macro.jpg" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Pro Pack" },
+        { "type": "text", "id": "badge", "label": "Badge text" },
+        { "type": "text", "id": "price", "label": "Price", "default": "$31.99" },
+        { "type": "text", "id": "price_was", "label": "Compare-at price" },
+        { "type": "url", "id": "fallback_link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home Collection Grid",
+      "blocks": [
+        { "type": "fallback_card", "settings": { "fallback_image_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/FlyingV-USA.jpg", "title": "Rookie Pack", "price": "$24.99", "fallback_link": "/products/rookie-pack" } },
+        { "type": "fallback_card", "settings": { "fallback_image_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/FlyingV-USA.jpg", "title": "Pro Pack", "badge": "Sale", "price": "$31.99", "price_was": "$39.99", "fallback_link": "/products/pro-pack" } },
+        { "type": "fallback_card", "settings": { "fallback_image_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/FlyingV-USA.jpg", "title": "Elite Pack", "price": "$44.99", "fallback_link": "/products/elite-full-pack" } },
+        { "type": "fallback_card", "settings": { "fallback_image_url": "https://popdartsgame.com/cdn/shop/files/SwapTopKitHero.jpg?v=1763652488&width=1200", "title": "Swaptop Kit", "price": "$159.99", "price_was": "$179.99", "fallback_link": "/products/swaptop-kit" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

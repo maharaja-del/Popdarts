@@ -1,0 +1,34 @@
+{% render 'halloween-lp-head' %}
+{%- liquid
+  if section.settings.image
+    assign img_url = section.settings.image | image_url: width: 1200
+  else
+    assign img_url = 'pd-hw-platform.jpg' | asset_url
+  endif
+-%}
+<section class="hw hw-transition" id="hw-transition">
+  <div class="hw-container">
+    <span class="hw-eyebrow hw-eyebrow--center" data-hw-reveal>{{ section.settings.eyebrow }}</span>
+    <h2 class="hw-h2" data-hw-reveal="2">{{ section.settings.heading_1 }}<br>{{ section.settings.heading_2 }}</h2>
+    <p class="hw-sub" data-hw-reveal="3" style="margin-left:auto;margin-right:auto">{{ section.settings.subtext }}</p>
+  </div>
+  <div class="hw-transition__img" data-hw-reveal>
+    <img src="{{ img_url }}" alt="{{ section.settings.image_alt | escape }}" width="1080" height="1920" loading="lazy">
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HW Transition",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Needs a dark top and white bottom to blend. Leave empty for the built-in render." },
+    { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "The Halloween Pro Pack lineup stepping into the light" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Beneath the costume" },
+    { "type": "text", "id": "heading_1", "label": "Heading line 1", "default": "Possessed for October." },
+    { "type": "text", "id": "heading_2", "label": "Heading line 2", "default": "Legendary all year." },
+    { "type": "textarea", "id": "subtext", "label": "Subtext", "default": "Under the Halloween colors it's the same Pro Pack we make all year, so it stays in the game-night rotation long after October." }
+  ],
+  "presets": [{ "name": "HW Transition" }]
+}
+{% endschema %}

@@ -1,0 +1,579 @@
+{% comment %}
+  Swaptop — Video Gallery ("Over 1 Billion Views")
+  Standalone extraction of the video-wall block from swaptop-bundle-v4.liquid.
+  Self-contained: scoped by section id ({{ sid }}) so it never collides with other sections.
+  Drop into: sections/swaptop-video-gallery.liquid
+{% endcomment %}
+
+{% assign sid = section.id | replace: '-', '_' | replace: '.', '_' %}
+
+<style>
+
+  .sw2-cta-Key_features_old_lp span{
+              color: black;
+    font-size: 16px !important;
+    font-weight: 900;
+  
+  }
+  @import url('https://fonts.googleapis.com/css2?family=Russo+One&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap');
+
+  /* SHELL + HALFTONE BG */
+  .sw4-section-{{ sid }} {
+    --sw4-bg: #050505;
+    --sw4-bg-2: #0a0a0a;
+    --sw4-accent: #23ff53;
+    --sw4-accent-2: #1be047;
+    --sw4-fg: #ffffff;
+    --sw4-fg-mute: rgba(255,255,255,0.62);
+    --sw4-fg-low: rgba(255,255,255,0.35);
+    --sw4-border: rgba(255,255,255,0.08);
+    --sw4-border-2: rgba(255,255,255,0.16);
+    --sw4-display: 'Russo One', 'Impact', sans-serif;
+    --sw4-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --sw4-mono: 'JetBrains Mono', 'SF Mono', 'Roboto Mono', monospace;
+    position: relative;
+    background: var(--sw4-bg);
+    color: var(--sw4-fg);
+    overflow-x: clip;
+    isolation: isolate;
+    font-family: var(--sw4-body);
+  }
+  .sw4-section-{{ sid }} *,
+  .sw4-section-{{ sid }} *::before,
+  .sw4-section-{{ sid }} *::after { box-sizing: border-box; }
+  .sw4-section-{{ sid }}::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1.4px);
+    background-size: 16px 16px;
+    pointer-events: none;
+    z-index: 0;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
+  }
+  .sw4-section-{{ sid }}::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(800px 500px at 15% -5%,  rgba(35,255,83,0.10), transparent 60%),
+      radial-gradient(700px 500px at 92% 35%,  rgba(35,255,83,0.06), transparent 60%),
+      radial-gradient(600px 400px at 50% 110%, rgba(255,215,0,0.04), transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .sw4-section-{{ sid }}-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1380px;
+    margin: 0 auto;
+    padding: 28px 18px 52px;
+  }
+  .sw4-section-{{ sid }} button,
+  body > .sw4-modal-{{ sid }} button {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    border: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    line-height: 1 !important;
+    font: inherit !important;
+    color: inherit !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    cursor: pointer;
+    box-sizing: border-box !important;
+    box-shadow: none;
+    background: transparent;
+  }
+  .sw4-section-{{ sid }} button::before,
+  .sw4-section-{{ sid }} button::after,
+  body > .sw4-modal-{{ sid }} button::before,
+  body > .sw4-modal-{{ sid }} button::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  /* VIDEO WALL — OVER 1 BILLION VIEWS */
+  .sw4-vwall-{{ sid }} {
+    position: relative;
+  }
+  .sw4-vwall-head-{{ sid }} { text-align: center; margin-bottom: 32px; }
+  .sw4-vwall-title-{{ sid }} {
+    margin: 0 0 18px; font-family: var(--sw4-display); font-weight: 400;
+    font-size: clamp(44px, 9vw, 112px); line-height: 0.92;
+    letter-spacing: 0.01em; text-transform: uppercase; color: var(--sw4-fg);
+  }
+  .sw4-vwall-title-{{ sid }} em {
+    font-style: normal; color: var(--sw4-accent);
+    text-shadow: 0 0 32px rgba(35,255,83,0.4);
+  }
+  .sw4-vwall-sub-{{ sid }} {
+    margin: 0 auto 28px; max-width: 520px;
+    font-size: 14px; line-height: 1.55;
+    color: var(--sw4-fg-mute); font-weight: 500; padding: 0 10px;
+  }
+  .sw4-vwall-stats-{{ sid }} {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    border-top: 1px dashed var(--sw4-border-2);
+    border-bottom: 1px dashed var(--sw4-border-2);
+    max-width: 720px; margin: 0 auto;
+  }
+  .sw4-vwall-stat-{{ sid }} { padding: 18px 12px; text-align: center; }
+  .sw4-vwall-stat-{{ sid }} + .sw4-vwall-stat-{{ sid }} { border-left: 1px dashed var(--sw4-border); }
+  .sw4-vwall-stat-num-{{ sid }} {
+    display: block; font-family: var(--sw4-display);
+    font-size: clamp(28px, 5vw, 40px); line-height: 1;
+    color: var(--sw4-fg); letter-spacing: 0.02em;
+  }
+  .sw4-vwall-stat-label-{{ sid }} {
+    display: block; margin-top: 8px;
+    font-family: var(--sw4-mono); font-size: 9px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--sw4-fg-low);
+  }
+  .sw4-vwall-grid-{{ sid }} {
+    margin-top: 36px;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
+  }
+
+  /* REELS (used inside video wall) */
+  .sw4-reel-{{ sid }} {
+    position: relative; border-radius: 14px; overflow: hidden;
+    cursor: pointer; background: #0a0a0a;
+    aspect-ratio: 9 / 16;
+    border: 1px solid var(--sw4-border);
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+  .sw4-reel-{{ sid }}:hover { border-color: rgba(35,255,83,0.4); transform: translateY(-3px); }
+  .sw4-reel-{{ sid }} video {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; z-index: 0;
+  }
+  .sw4-reel-{{ sid }}::after {
+    content: ''; position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 38%, rgba(0,0,0,0) 65%);
+    pointer-events: none;
+  }
+  .sw4-reel-meta-{{ sid }} {
+    position: absolute; left: 10px; right: 10px; bottom: 10px;
+    z-index: 2; pointer-events: none;
+  }
+  .sw4-reel-tag-{{ sid }} {
+    display: inline-block; padding: 3px 8px; border-radius: 4px;
+    background: rgba(255,255,255,0.14);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.18);
+    font-family: var(--sw4-mono); font-size: 8px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--sw4-fg); margin-bottom: 6px;
+  }
+  .sw4-reel-title-{{ sid }} {
+    margin: 0; font-family: var(--sw4-display); font-size: 14px;
+    line-height: 1; letter-spacing: 0.04em; color: var(--sw4-fg);
+    text-transform: uppercase; text-shadow: 0 2px 14px rgba(0,0,0,0.55);
+  }
+  .sw4-reel-play-{{ sid }} {
+    position: absolute !important; top: 8px !important; right: 8px !important; z-index: 2;
+    width: 28px !important; height: 28px !important; aspect-ratio: 1 !important;
+    border-radius: 50% !important; background: rgba(0,0,0,0.55) !important;
+    backdrop-filter: blur(12px) !important; -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255,255,255,0.2) !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    transition: all 0.3s ease !important;
+  }
+  .sw4-reel-play-{{ sid }} svg { width: 10px; height: 10px; margin-left: 1px; }
+  .sw4-reel-{{ sid }}:hover .sw4-reel-play-{{ sid }} {
+    background: var(--sw4-accent) !important;
+    border-color: var(--sw4-accent) !important;
+    transform: scale(1.12);
+  }
+  .sw4-reel-{{ sid }}:hover .sw4-reel-play-{{ sid }} svg path { fill: #000 !important; }
+
+  /* REEL OVERLAY */
+  .sw4-reel-overlay-{{ sid }} {
+    display: none; position: fixed; inset: 0; z-index: 99999;
+    background: rgba(0,0,0,0.94);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    align-items: center; justify-content: center; padding: 20px;
+  }
+  .sw4-reel-overlay-{{ sid }}.active { display: flex; }
+  .sw4-reel-stage-{{ sid }} {
+    position: relative; width: min(420px, 88vw);
+    max-height: 92vh; aspect-ratio: 9 / 16;
+    border-radius: 14px; overflow: hidden;
+    background: #1a1a1a; flex-shrink: 0;
+    box-shadow: 0 30px 90px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.1);
+  }
+  .sw4-reel-stage-{{ sid }} video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .sw4-reel-overlay-title-{{ sid }} {
+    position: absolute; bottom: 64px; left: 0; right: 0;
+    text-align: center; font-family: var(--sw4-display);
+    color: var(--sw4-fg); font-size: 18px;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.8);
+    pointer-events: none; padding: 0 14px; z-index: 5;
+  }
+  button.sw4-reel-close-{{ sid }},
+  button.sw4-reel-mute-{{ sid }},
+  button.sw4-reel-prev-{{ sid }},
+  button.sw4-reel-next-{{ sid }} {
+    border-radius: 50% !important; background: #fff !important;
+    border: 0 !important; cursor: pointer !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    transition: background-color 0.25s ease, transform 0.25s ease !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5) !important; padding: 0 !important;
+  }
+  button.sw4-reel-close-{{ sid }} {
+    position: fixed !important; top: 20px !important; right: 20px !important;
+    width: 48px !important; height: 48px !important; aspect-ratio: 1 !important;
+    z-index: 100001 !important;
+  }
+  button.sw4-reel-close-{{ sid }}:hover { background: var(--sw4-accent) !important; transform: rotate(90deg) scale(1.05) !important; }
+  button.sw4-reel-mute-{{ sid }} {
+    position: absolute !important; bottom: 16px !important; right: 16px !important;
+    width: 44px !important; height: 44px !important; aspect-ratio: 1 !important;
+    z-index: 10 !important;
+  }
+  button.sw4-reel-mute-{{ sid }}:hover { background: var(--sw4-accent) !important; transform: scale(1.08) !important; }
+  button.sw4-reel-mute-{{ sid }} svg { width: 20px !important; height: 20px !important; }
+  button.sw4-reel-mute-{{ sid }} .icon-on { display: none !important; }
+  button.sw4-reel-mute-{{ sid }}.is-on .icon-off { display: none !important; }
+  button.sw4-reel-mute-{{ sid }}.is-on .icon-on  { display: block !important; }
+  button.sw4-reel-prev-{{ sid }},
+  button.sw4-reel-next-{{ sid }} {
+    position: fixed !important; top: 50% !important;
+    width: 52px !important; height: 52px !important; aspect-ratio: 1 !important;
+    transform: translateY(-50%) !important; z-index: 100001 !important;
+  }
+  button.sw4-reel-prev-{{ sid }}:hover:not(:disabled),
+  button.sw4-reel-next-{{ sid }}:hover:not(:disabled) {
+    background: var(--sw4-accent) !important;
+    transform: translateY(-50%) scale(1.08) !important;
+  }
+  button.sw4-reel-prev-{{ sid }}:disabled,
+  button.sw4-reel-next-{{ sid }}:disabled { opacity: 0.3 !important; cursor: not-allowed !important; }
+  button.sw4-reel-prev-{{ sid }} { left: 20px !important; }
+  button.sw4-reel-next-{{ sid }} { right: 20px !important; }
+  button.sw4-reel-close-{{ sid }} svg,
+  button.sw4-reel-prev-{{ sid }} svg,
+  button.sw4-reel-next-{{ sid }} svg { width: 22px !important; height: 22px !important; display: block !important; }
+  .sw4-reel-counter-{{ sid }} {
+    position: absolute; top: 14px; left: 14px; z-index: 5;
+    padding: 5px 10px; border-radius: 5px;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--sw4-border-2);
+    font-family: var(--sw4-mono); font-size: 10px; font-weight: 700;
+    letter-spacing: 0.12em; color: var(--sw4-fg);
+  }
+
+  /* RESPONSIVE */
+  @media (min-width: 480px) {
+    .sw4-section-{{ sid }}-inner { padding: 36px 22px 60px; }
+    .sw4-vwall-grid-{{ sid }} { gap: 10px; }
+    .sw4-reel-title-{{ sid }} { font-size: 16px; }
+    .sw4-reel-play-{{ sid }} { width: 32px !important; height: 32px !important; top: 10px !important; right: 10px !important; }
+    .sw4-reel-play-{{ sid }} svg { width: 11px; height: 11px; }
+    .sw4-reel-meta-{{ sid }} { left: 12px; right: 12px; bottom: 12px; }
+  }
+  @media (min-width: 640px) {
+    .sw4-vwall-grid-{{ sid }} { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (min-width: 768px) {
+    .sw4-section-{{ sid }}-inner { padding: 48px 32px 72px; }
+    .sw4-vwall-grid-{{ sid }} { grid-template-columns: repeat(4, 1fr); }
+  }
+  @media (min-width: 900px) {
+    .sw4-vwall-grid-{{ sid }} { grid-template-columns: repeat(5, 1fr); }
+  }
+  @media (min-width: 1100px) {
+    .sw4-section-{{ sid }}-inner { padding: 60px 48px 88px; }
+    .sw4-vwall-grid-{{ sid }} { grid-template-columns: repeat(5, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .sw4-reel-prev-{{ sid }}, .sw4-reel-next-{{ sid }} { display: none !important; }
+    .sw4-reel-stage-{{ sid }} { width: min(340px, 86vw); }
+    .sw4-vwall-grid-{{ sid }} { gap: 6px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sw4-section-{{ sid }} *,
+    .sw4-section-{{ sid }} *::before,
+    .sw4-section-{{ sid }} *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+
+<section class="sw4-section-{{ sid }}">
+  <div class="sw4-section-{{ sid }}-inner">
+
+    <!-- VIDEO WALL — OVER 1 BILLION VIEWS -->
+    <div class="sw4-vwall-{{ sid }}">
+      <div class="sw4-vwall-head-{{ sid }}">
+        <h2 class="sw4-vwall-title-{{ sid }}">{{ section.settings.title_pre | default: 'Over' }} <em>{{ section.settings.title_highlight | default: '1 Billion' }}</em> {{ section.settings.title_post | default: 'Views.' }}</h2>
+        <p class="sw4-vwall-sub-{{ sid }}">{{ section.settings.subheading | default: 'From SportsCenter to your For You Page — Popdarts™ moments that broke the internet.' }}</p>
+        <div class="sw4-vwall-stats-{{ sid }}">
+          <div class="sw4-vwall-stat-{{ sid }}">
+            <span class="sw4-vwall-stat-num-{{ sid }}">{{ section.settings.stat1_num | default: '1B+' }}</span>
+            <span class="sw4-vwall-stat-label-{{ sid }}">{{ section.settings.stat1_label | default: 'Total Views' }}</span>
+          </div>
+          <div class="sw4-vwall-stat-{{ sid }}">
+            <span class="sw4-vwall-stat-num-{{ sid }}">{{ section.settings.stat2_num | default: '1.8M' }}</span>
+            <span class="sw4-vwall-stat-label-{{ sid }}">{{ section.settings.stat2_label | default: 'TikTok Followers' }}</span>
+          </div>
+          <div class="sw4-vwall-stat-{{ sid }}">
+            <span class="sw4-vwall-stat-num-{{ sid }}">{{ section.settings.stat3_num | default: 'ESPN' }}</span>
+            <span class="sw4-vwall-stat-label-{{ sid }}">{{ section.settings.stat3_label | default: 'Top 10 Plays' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sw4-vwall-grid-{{ sid }}">
+        <div class="sw4-reel-{{ sid }}" data-reel-index="0">
+          <video class="sw4-reel-video-{{ sid }}" muted playsinline autoplay loop preload="metadata"></video>
+          <button type="button" class="sw4-reel-play-{{ sid }}" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="#fff"/></svg></button>
+          <div class="sw4-reel-meta-{{ sid }}"><span class="sw4-reel-tag-{{ sid }}">Watch</span><h4 class="sw4-reel-title-{{ sid }}">What's Swaptop?</h4></div>
+        </div>
+        <div class="sw4-reel-{{ sid }}" data-reel-index="1">
+          <video class="sw4-reel-video-{{ sid }}" muted playsinline autoplay loop preload="metadata"></video>
+          <button type="button" class="sw4-reel-play-{{ sid }}" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="#fff"/></svg></button>
+          <div class="sw4-reel-meta-{{ sid }}"><span class="sw4-reel-tag-{{ sid }}">Inside</span><h4 class="sw4-reel-title-{{ sid }}">What's Included</h4></div>
+        </div>
+        <div class="sw4-reel-{{ sid }}" data-reel-index="2">
+          <video class="sw4-reel-video-{{ sid }}" muted playsinline autoplay loop preload="metadata"></video>
+          <button type="button" class="sw4-reel-play-{{ sid }}" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="#fff"/></svg></button>
+          <div class="sw4-reel-meta-{{ sid }}"><span class="sw4-reel-tag-{{ sid }}">More</span><h4 class="sw4-reel-title-{{ sid }}">Other Tops</h4></div>
+        </div>
+        <div class="sw4-reel-{{ sid }}" data-reel-index="3">
+          <video class="sw4-reel-video-{{ sid }}" muted playsinline autoplay loop preload="metadata"></video>
+          <button type="button" class="sw4-reel-play-{{ sid }}" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="#fff"/></svg></button>
+          <div class="sw4-reel-meta-{{ sid }}"><span class="sw4-reel-tag-{{ sid }}">Viral</span><h4 class="sw4-reel-title-{{ sid }}">Top Play</h4></div>
+        </div>
+        <div class="sw4-reel-{{ sid }}" data-reel-index="4">
+          <video class="sw4-reel-video-{{ sid }}" muted playsinline autoplay loop preload="metadata"></video>
+          <button type="button" class="sw4-reel-play-{{ sid }}" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="#fff"/></svg></button>
+          <div class="sw4-reel-meta-{{ sid }}"><span class="sw4-reel-tag-{{ sid }}">TikTok</span><h4 class="sw4-reel-title-{{ sid }}">Going Viral</h4></div>
+        </div>
+        <div class="sw4-reel-{{ sid }}" data-reel-index="5">
+          <video class="sw4-reel-video-{{ sid }}" muted playsinline autoplay loop preload="metadata"></video>
+          <button type="button" class="sw4-reel-play-{{ sid }}" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="#fff"/></svg></button>
+          <div class="sw4-reel-meta-{{ sid }}"><span class="sw4-reel-tag-{{ sid }}">ESPN</span><h4 class="sw4-reel-title-{{ sid }}">Top 10 Plays</h4></div>
+        </div>
+        <div class="sw4-reel-{{ sid }}" data-reel-index="6">
+          <video class="sw4-reel-video-{{ sid }}" muted playsinline autoplay loop preload="metadata"></video>
+          <button type="button" class="sw4-reel-play-{{ sid }}" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="#fff"/></svg></button>
+          <div class="sw4-reel-meta-{{ sid }}"><span class="sw4-reel-tag-{{ sid }}">FYP</span><h4 class="sw4-reel-title-{{ sid }}">For You</h4></div>
+        </div>
+        <div class="sw4-reel-{{ sid }}" data-reel-index="7">
+          <video class="sw4-reel-video-{{ sid }}" muted playsinline autoplay loop preload="metadata"></video>
+          <button type="button" class="sw4-reel-play-{{ sid }}" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="#fff"/></svg></button>
+          <div class="sw4-reel-meta-{{ sid }}"><span class="sw4-reel-tag-{{ sid }}">Trend</span><h4 class="sw4-reel-title-{{ sid }}">Trending</h4></div>
+        </div>
+        <div class="sw4-reel-{{ sid }}" data-reel-index="8">
+          <video class="sw4-reel-video-{{ sid }}" muted playsinline autoplay loop preload="metadata"></video>
+          <button type="button" class="sw4-reel-play-{{ sid }}" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="#fff"/></svg></button>
+          <div class="sw4-reel-meta-{{ sid }}"><span class="sw4-reel-tag-{{ sid }}">Hot</span><h4 class="sw4-reel-title-{{ sid }}">Featured</h4></div>
+        </div>
+        <div class="sw4-reel-{{ sid }}" data-reel-index="9">
+          <video class="sw4-reel-video-{{ sid }}" muted playsinline autoplay loop preload="metadata"></video>
+          <button type="button" class="sw4-reel-play-{{ sid }}" tabindex="-1" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="#fff"/></svg></button>
+          <div class="sw4-reel-meta-{{ sid }}"><span class="sw4-reel-tag-{{ sid }}">Best</span><h4 class="sw4-reel-title-{{ sid }}">Top Play</h4></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- REEL OVERLAY -->
+<div class="sw4-reel-overlay-{{ sid }} sw4-modal-{{ sid }}" id="sw4-reel-overlay-{{ sid }}" role="dialog" aria-modal="true">
+  <button type="button" class="sw4-reel-close-{{ sid }}" id="sw4-reel-close-{{ sid }}" aria-label="Close video">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <button type="button" class="sw4-reel-prev-{{ sid }}" id="sw4-reel-prev-{{ sid }}" aria-label="Previous">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <div class="sw4-reel-stage-{{ sid }}">
+    <span class="sw4-reel-counter-{{ sid }}" id="sw4-reel-counter-{{ sid }}">1 / 10</span>
+    <video id="sw4-reel-video-{{ sid }}" playsinline loop webkit-playsinline></video>
+    <div class="sw4-reel-overlay-title-{{ sid }}" id="sw4-reel-overlay-title-{{ sid }}"></div>
+    <button type="button" class="sw4-reel-mute-{{ sid }}" id="sw4-reel-mute-{{ sid }}" aria-label="Toggle sound">
+      <svg class="icon-off" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+      <svg class="icon-on" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+    </button>
+  </div>
+  <button type="button" class="sw4-reel-next-{{ sid }}" id="sw4-reel-next-{{ sid }}" aria-label="Next">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+</div>
+
+<script>
+(function () {
+  var SW4_REELS = [
+    { title: "What's Swaptop?", url: 'https://cdn.shopify.com/videos/c/o/v/82b6e4e61510421e8d96ec8939aeb02f.mp4' },
+    { title: "What's Included",  url: 'https://cdn.shopify.com/videos/c/o/v/b163bf830556460ba6fa9ac912debc50.mp4' },
+    { title: 'Other Tops',       url: 'https://cdn.shopify.com/videos/c/o/v/c093e4799d554399a99542aa17674570.mp4' },
+    { title: 'Top Play',         url: 'https://cdn.shopify.com/videos/c/o/v/cc9422c39b584c8dbf1f4ae9b820e3d5.mov' },
+    { title: 'Going Viral',      url: 'https://cdn.shopify.com/videos/c/o/v/1a1715e31e1e40ddb96ac62140e7da3f.mov' },
+    { title: 'Top 10 Plays',     url: 'https://cdn.shopify.com/videos/c/o/v/2c5f3daa7fd5441fa4894acf42bd7f42.mp4' },
+    { title: 'For You',          url: 'https://cdn.shopify.com/videos/c/o/v/e56df60f0f1a45a194d7162f9faa6de8.mp4' },
+    { title: 'Trending',         url: 'https://cdn.shopify.com/videos/c/o/v/f472f1a577d644559bdffc425c7b1486.mp4' },
+    { title: 'Featured',         url: 'https://cdn.shopify.com/videos/c/o/v/e4fe806039a84e01a140b22b871be84d.mp4' },
+    { title: 'Top Play',         url: 'https://cdn.shopify.com/videos/c/o/v/16797c03207e49498c3466eed11b1694.mp4' }
+  ];
+
+  // INLINE REEL AUTOPLAY (via IntersectionObserver — battery + data friendly)
+  var reels = document.querySelectorAll('.sw4-reel-{{ sid }}');
+  reels.forEach(function (reel) {
+    var idx = parseInt(reel.dataset.reelIndex, 10);
+    var video = reel.querySelector('video');
+    if (!video || isNaN(idx) || !SW4_REELS[idx]) return;
+    video.src = SW4_REELS[idx].url;
+  });
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var v = entry.target.querySelector('video');
+        if (!v) return;
+        if (entry.isIntersecting) {
+          var playPromise = v.play();
+          if (playPromise && playPromise.catch) playPromise.catch(function(){});
+        } else {
+          v.pause();
+        }
+      });
+    }, { threshold: 0.25 });
+    reels.forEach(function (reel) { io.observe(reel); });
+  } else {
+    reels.forEach(function (reel) {
+      var v = reel.querySelector('video');
+      if (v) { var p = v.play(); if (p && p.catch) p.catch(function(){}); }
+    });
+  }
+
+  // FULL-SCREEN REEL OVERLAY
+  var overlay   = document.getElementById('sw4-reel-overlay-{{ sid }}');
+  var overlayV  = document.getElementById('sw4-reel-video-{{ sid }}');
+  var overlayT  = document.getElementById('sw4-reel-overlay-title-{{ sid }}');
+  var overlayC  = document.getElementById('sw4-reel-counter-{{ sid }}');
+  var muteBtn   = document.getElementById('sw4-reel-mute-{{ sid }}');
+  var closeBtn  = document.getElementById('sw4-reel-close-{{ sid }}');
+  var prevBtn   = document.getElementById('sw4-reel-prev-{{ sid }}');
+  var nextBtn   = document.getElementById('sw4-reel-next-{{ sid }}');
+
+  var currentReel  = 0;
+  var touchStartX  = 0;
+  var touchStartY  = 0;
+
+  function sw4OpenReel(i) {
+    if (!overlay || !overlayV) return;
+    if (i < 0 || i >= SW4_REELS.length) return;
+    currentReel = i;
+    var r = SW4_REELS[i];
+    overlayV.src = r.url;
+    overlayV.muted = false;
+    if (muteBtn) muteBtn.classList.add('is-on');
+    if (overlayT) overlayT.textContent = r.title;
+    if (overlayC) overlayC.textContent = (i + 1) + ' / ' + SW4_REELS.length;
+    if (prevBtn) prevBtn.disabled = i === 0;
+    if (nextBtn) nextBtn.disabled = i === SW4_REELS.length - 1;
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    var p = overlayV.play();
+    if (p && p.catch) p.catch(function () {
+      overlayV.muted = true;
+      if (muteBtn) muteBtn.classList.remove('is-on');
+      overlayV.play();
+    });
+  }
+  function sw4CloseReel() {
+    if (!overlay || !overlayV) return;
+    overlay.classList.remove('active');
+    overlayV.pause();
+    overlayV.removeAttribute('src');
+    overlayV.load();
+    document.body.style.overflow = '';
+  }
+  function sw4NavReel(dir) {
+    var n = currentReel + dir;
+    if (n < 0 || n >= SW4_REELS.length) return;
+    sw4OpenReel(n);
+  }
+
+  reels.forEach(function (reel) {
+    reel.addEventListener('click', function () {
+      var idx = parseInt(reel.dataset.reelIndex, 10);
+      if (!isNaN(idx)) sw4OpenReel(idx);
+    });
+  });
+
+  if (closeBtn) closeBtn.addEventListener('click', sw4CloseReel);
+  if (prevBtn)  prevBtn.addEventListener('click', function () { sw4NavReel(-1); });
+  if (nextBtn)  nextBtn.addEventListener('click', function () { sw4NavReel(1); });
+
+  if (muteBtn && overlayV) {
+    muteBtn.addEventListener('click', function () {
+      overlayV.muted = !overlayV.muted;
+      muteBtn.classList.toggle('is-on', !overlayV.muted);
+    });
+  }
+
+  if (overlay) {
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) sw4CloseReel();
+    });
+    overlay.addEventListener('touchstart', function (e) {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    overlay.addEventListener('touchend', function (e) {
+      if (!overlay.classList.contains('active')) return;
+      var dx = e.changedTouches[0].clientX - touchStartX;
+      var dy = e.changedTouches[0].clientY - touchStartY;
+      if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)) {
+        sw4NavReel(dx > 0 ? -1 : 1);
+      } else if (dy < -80 && Math.abs(dy) > Math.abs(dx)) {
+        sw4CloseReel();
+      }
+    }, { passive: true });
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (!overlay || !overlay.classList.contains('active')) return;
+    if (e.key === 'Escape')     sw4CloseReel();
+    if (e.key === 'ArrowLeft')  sw4NavReel(-1);
+    if (e.key === 'ArrowRight') sw4NavReel(1);
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Swaptop Video Gallery",
+  "tag": "section",
+  "class": "swaptop-video-gallery-wrapper",
+  "settings": [
+    { "type": "header", "content": "Heading" },
+    { "type": "text", "id": "title_pre", "label": "Title — before highlight", "default": "Over" },
+    { "type": "text", "id": "title_highlight", "label": "Title — highlighted word", "info": "Shown in the accent color.", "default": "1 Billion" },
+    { "type": "text", "id": "title_post", "label": "Title — after highlight", "default": "Views." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "From SportsCenter to your For You Page — Popdarts™ moments that broke the internet." },
+    { "type": "header", "content": "Stats Bar" },
+    { "type": "text", "id": "stat1_num", "label": "Stat 1 — number", "default": "1B+" },
+    { "type": "text", "id": "stat1_label", "label": "Stat 1 — label", "default": "Total Views" },
+    { "type": "text", "id": "stat2_num", "label": "Stat 2 — number", "default": "1.8M" },
+    { "type": "text", "id": "stat2_label", "label": "Stat 2 — label", "default": "TikTok Followers" },
+    { "type": "text", "id": "stat3_num", "label": "Stat 3 — number", "default": "ESPN" },
+    { "type": "text", "id": "stat3_label", "label": "Stat 3 — label", "default": "Top 10 Plays" }
+  ],
+  "presets": [
+    { "name": "Swaptop Video Gallery", "category": "Media" }
+  ]
+}
+{% endschema %}

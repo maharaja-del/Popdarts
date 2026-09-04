@@ -1,0 +1,418 @@
+{% comment %}
+  PopDarts Video Gallery Section
+  Drop into: sections/pd-video-gallery.liquid
+  { "type": "pd-video-gallery" }
+
+  Cards autoplay muted & looping on load.
+  Clicking opens the reel popup with sound on.
+{% endcomment %}
+
+<div class="pd-gallery-outer">
+
+  <div class="pd-video-gallery">
+
+    <div class="pd-video-card" data-index="0">
+      <div class="pd-thumb-wrap">
+        <video class="pd-card-video" muted playsinline autoplay loop preload="auto"></video>
+        <div class="pd-play-btn">
+          <svg viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="17" cy="17" r="17" fill="rgba(255,255,255,0.25)"/>
+            <polygon points="14,11 24,17 14,23" fill="white"/>
+          </svg>
+        </div>
+      </div>
+      <span class="pd-video-label">What's Swaptop?</span>
+    </div>
+
+    <div class="pd-video-card" data-index="1">
+      <div class="pd-thumb-wrap">
+        <video class="pd-card-video" muted playsinline autoplay loop preload="auto"></video>
+        <div class="pd-play-btn">
+          <svg viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="17" cy="17" r="17" fill="rgba(255,255,255,0.25)"/>
+            <polygon points="14,11 24,17 14,23" fill="white"/>
+          </svg>
+        </div>
+      </div>
+      <span class="pd-video-label">What's included?</span>
+    </div>
+
+    <div class="pd-video-card" data-index="2">
+      <div class="pd-thumb-wrap">
+        <video class="pd-card-video" muted playsinline autoplay loop preload="auto"></video>
+        <div class="pd-play-btn">
+          <svg viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="17" cy="17" r="17" fill="rgba(255,255,255,0.25)"/>
+            <polygon points="14,11 24,17 14,23" fill="white"/>
+          </svg>
+        </div>
+      </div>
+      <span class="pd-video-label">Check out other tops!</span>
+    </div>
+
+  </div>
+
+  <!-- OVERLAY -->
+  <div id="pd-overlay" role="dialog" aria-modal="true" aria-label="Video player">
+
+    <button id="pd-close-btn" aria-label="Close video">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+
+    <button class="pd-nav-btn" id="pd-prev-btn" aria-label="Previous video">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </button>
+
+    <div class="pd-reel-wrap">
+      <video id="pd-video" playsinline loop webkit-playsinline></video>
+      <div class="pd-reel-title" id="pd-reel-title"></div>
+      <button id="pd-mute-btn" aria-label="Toggle mute">
+        <svg id="pd-icon-sound" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+        </svg>
+        <svg id="pd-icon-mute" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+          <line x1="23" y1="9" x2="17" y2="15"/>
+          <line x1="17" y1="9" x2="23" y2="15"/>
+        </svg>
+      </button>
+    </div>
+
+    <button class="pd-nav-btn" id="pd-next-btn" aria-label="Next video">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </button>
+
+  </div>
+
+</div>
+
+<style>
+  .pd-gallery-outer *,
+  .pd-gallery-outer *::before,
+  .pd-gallery-outer *::after {
+    box-sizing: border-box;
+  }
+
+  .pd-video-gallery {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .pd-video-card {
+    flex: 1 1 0;
+    min-width: 0;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .pd-thumb-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #111;
+  }
+
+  .pd-card-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .pd-play-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .pd-play-btn svg {
+    width: 32px;
+    height: 32px;
+    filter: drop-shadow(0 1px 4px rgba(0,0,0,0.4));
+    transition: transform 0.2s;
+  }
+
+  .pd-video-card:hover .pd-play-btn svg {
+    transform: scale(1.12);
+  }
+
+  .pd-video-label {
+    text-align: center;
+    font-size: clamp(11px, 2.4vw, 14px);
+    color: #333;
+    font-weight: 500;
+    padding: 0 4px;
+    line-height: 1.3;
+  }
+
+  /* ── OVERLAY ── */
+  #pd-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(0, 0, 0, 0.86);
+    align-items: center;
+    justify-content: center;
+  }
+
+  #pd-overlay.active { display: flex; }
+
+  .pd-reel-wrap {
+    position: relative;
+    width: min(390px, 88vw);
+    max-height: 92vh;
+    aspect-ratio: 9 / 16;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #000;
+    flex-shrink: 0;
+  }
+
+  .pd-reel-wrap video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .pd-reel-title {
+    position: absolute;
+    bottom: 64px;
+    left: 0; right: 0;
+    text-align: center;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.8);
+    pointer-events: none;
+    padding: 0 14px;
+    z-index: 5;
+  }
+
+  #pd-mute-btn {
+    position: absolute;
+    bottom: 16px; right: 16px;
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: rgba(157,157,157,0.5);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    z-index: 10;
+    padding: 0;
+  }
+  #pd-mute-btn:hover { background: rgba(157,157,157,0.78); }
+  #pd-mute-btn svg   { width: 20px; height: 20px; display: block; }
+
+  #pd-close-btn {
+    position: fixed;
+    top: 16px; right: 16px;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: rgba(157,157,157,0.5);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100001;
+    transition: background 0.2s;
+    padding: 0;
+  }
+  #pd-close-btn:hover { background: rgba(157,157,157,0.8); }
+  #pd-close-btn svg   { width: 22px; height: 22px; display: block; }
+
+  .pd-nav-btn {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: rgba(157,157,157,0.5);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, opacity 0.2s;
+    padding: 0;
+    flex-shrink: 0;
+    margin: 0 10px;
+  }
+  .pd-nav-btn:hover  { background: rgba(157,157,157,0.8); }
+  .pd-nav-btn.pd-hidden { opacity: 0; pointer-events: none; }
+  .pd-nav-btn svg    { width: 22px; height: 22px; display: block; }
+
+  @media (max-width: 480px) {
+    .pd-nav-btn   { margin: 0 4px; }
+    .pd-reel-wrap { width: min(320px, 82vw); }
+  }
+</style>
+
+<script>
+(function () {
+
+  var PD_VIDEOS = [
+    {
+      src:   'https://cdn.shopify.com/videos/c/o/v/82b6e4e61510421e8d96ec8939aeb02f.mp4',
+      label: "What's Swaptop?"
+    },
+    {
+      src:   'https://cdn.shopify.com/videos/c/o/v/b163bf830556460ba6fa9ac912debc50.mp4',
+      label: "What's included?"
+    },
+    {
+      src:   'https://cdn.shopify.com/videos/c/o/v/c093e4799d554399a99542aa17674570.mp4',
+      label: 'Check out other tops!'
+    }
+  ];
+
+  var cards     = document.querySelectorAll('.pd-video-card');
+  var overlay   = document.getElementById('pd-overlay');
+  var reelVideo = document.getElementById('pd-video');
+  var reelTitle = document.getElementById('pd-reel-title');
+  var muteBtn   = document.getElementById('pd-mute-btn');
+  var iconSound = document.getElementById('pd-icon-sound');
+  var iconMute  = document.getElementById('pd-icon-mute');
+  var prevBtn   = document.getElementById('pd-prev-btn');
+  var nextBtn   = document.getElementById('pd-next-btn');
+  var closeBtn  = document.getElementById('pd-close-btn');
+
+  var currentIndex = 0;
+  var reelMuted    = false;
+
+  /* Assign src to each card's muted autoplay video */
+  cards.forEach(function (card, i) {
+    var vid = card.querySelector('.pd-card-video');
+    vid.src = PD_VIDEOS[i].src;
+    vid.play().catch(function () {});
+  });
+
+  /* ── HELPERS ── */
+  function updateNav() {
+    prevBtn.classList.toggle('pd-hidden', currentIndex === 0);
+    nextBtn.classList.toggle('pd-hidden', currentIndex === PD_VIDEOS.length - 1);
+  }
+
+  function syncMuteUI() {
+    iconSound.style.display = reelMuted ? 'none' : '';
+    iconMute.style.display  = reelMuted ? ''     : 'none';
+  }
+
+  /* ── LOAD REEL ── */
+  function loadReel(index) {
+    currentIndex          = index;
+    reelVideo.src         = PD_VIDEOS[index].src;
+    reelVideo.muted       = reelMuted;
+    reelTitle.textContent = PD_VIDEOS[index].label;
+    syncMuteUI();
+    reelVideo.load();
+    reelVideo.play().catch(function () {
+      /* Browser blocked unmuted autoplay — fall back to muted */
+      reelVideo.muted = true;
+      reelMuted       = true;
+      syncMuteUI();
+      reelVideo.play().catch(function () {});
+    });
+    updateNav();
+  }
+
+  /* ── OPEN / CLOSE ── */
+  function openOverlay(index) {
+    reelMuted = false;
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    loadReel(index);
+  }
+
+  function closeOverlay() {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    reelVideo.pause();
+    reelVideo.removeAttribute('src');
+    reelVideo.load();
+  }
+
+  /* ── CARD CLICKS ── */
+  cards.forEach(function (card) {
+    card.addEventListener('click', function () {
+      openOverlay(parseInt(card.dataset.index, 10));
+    });
+  });
+
+  closeBtn.addEventListener('click', closeOverlay);
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) closeOverlay();
+  });
+
+  prevBtn.addEventListener('click', function () {
+    if (currentIndex > 0) loadReel(currentIndex - 1);
+  });
+  nextBtn.addEventListener('click', function () {
+    if (currentIndex < PD_VIDEOS.length - 1) loadReel(currentIndex + 1);
+  });
+
+  muteBtn.addEventListener('click', function () {
+    reelMuted       = !reelMuted;
+    reelVideo.muted = reelMuted;
+    syncMuteUI();
+  });
+
+  /* ── KEYBOARD ── */
+  document.addEventListener('keydown', function (e) {
+    if (!overlay.classList.contains('active')) return;
+    if (e.key === 'Escape')     closeOverlay();
+    if (e.key === 'ArrowLeft'  && currentIndex > 0)                     loadReel(currentIndex - 1);
+    if (e.key === 'ArrowRight' && currentIndex < PD_VIDEOS.length - 1) loadReel(currentIndex + 1);
+  });
+
+  /* ── TOUCH SWIPE ── */
+  var touchStartX = 0;
+  overlay.addEventListener('touchstart', function (e) {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  overlay.addEventListener('touchend', function (e) {
+    var diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0 && currentIndex < PD_VIDEOS.length - 1) loadReel(currentIndex + 1);
+      if (diff < 0 && currentIndex > 0)                    loadReel(currentIndex - 1);
+    }
+  });
+
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Video Gallery",
+  "tag": "div",
+  "class": "pd-video-gallery-section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Video Gallery"
+    }
+  ]
+}
+{% endschema %}

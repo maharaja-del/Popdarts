@@ -1,0 +1,169 @@
+<section class="pd-page competition" id="competition-{{ section.id }}" aria-labelledby="competition-title-{{ section.id }}">
+  <div class="pd-wrap pd-wrap--bleed">
+    <div class="pd-wrap">
+      <div class="competition__head">
+        <h2 id="competition-title-{{ section.id }}">
+          <span class="c-green" style="color: #17c440;">{{ section.settings.heading_part1 | default: 'Over 1 Billion Views.' }}</span><br>
+          <span class="c-red" style="color: #ff3f3f;">{{ section.settings.heading_espn | default: 'ESPN' }}</span>
+          <span class="c-blue" style="color: #2b99ff;">{{ section.settings.heading_part2 | default: 'Tournament.' }}</span>
+        </h2>
+      </div>
+    </div>
+
+    <div class="slider" data-slider aria-roledescription="carousel" aria-label="Popdarts gameplay and community moments">
+      <div class="slider__track" data-slider-track tabindex="0" role="group" aria-label="Slides">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'video' -%}
+            <article class="slide slide--story" {{ block.shopify_attributes }}>
+              <video class="slide__media" src="{{ block.settings.video_url | default: 'https://cdn.shopify.com/videos/c/o/v/95bbe2abdb884992a8241d2f4dc69f0f.mp4' }}" muted loop playsinline preload="metadata" data-slide-video aria-label="{{ block.settings.label | escape }}"></video>
+              <button class="slide__play" type="button" data-slide-playbtn aria-label="Play video">▶</button>
+            </article>
+          {%- elsif block.type == 'photo' -%}
+            <article class="slide slide--story slide--photo" {{ block.shopify_attributes }}>
+              <img class="slide__media" src="{% if block.settings.image %}{{ block.settings.image | image_url: width: 800 }}{% elsif block.settings.fallback_url != blank %}{{ block.settings.fallback_url }}{% else %}{{ block.settings.asset_filename | asset_url }}{% endif %}" alt="{{ block.settings.label | escape }}" loading="lazy">
+            </article>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      <div class="slider__controls">
+        <button class="slider__arrow" type="button" data-slider-prev aria-label="Previous slide">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="slider__arrow" type="button" data-slider-next aria-label="Next slide">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="pd-wrap competition__cta">
+      <a class="btn btn--primary btn--lg" href="{{ section.settings.cta_link | default: '/products/pro-pack' }}">{{ section.settings.cta_text | default: 'Get Your Pro Pack' }}</a>
+    </div>
+
+    <div class="pd-wrap competition__reviews">
+      <p class="home-reviews__eyebrow">{{ section.settings.reviews_heading | default: 'What Players Are Saying' }}</p>
+      <div class="quote-carousel">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'review' -%}
+            <div class="quote-slide" {{ block.shopify_attributes }}>
+              <div class="quote-slide__stars" aria-hidden="true">
+                {%- for i in (1..5) -%}{%- if i <= block.settings.rating -%}&#9733;{%- else -%}&#9734;{%- endif -%}{%- endfor -%}
+              </div>
+              <p class="quote-slide__text">&ldquo;{{ block.settings.quote | default: 'Great game for the whole family.' }}&rdquo;</p>
+              <p class="quote-slide__name">{{ block.settings.reviewer | default: 'Verified Buyer' }}</p>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Gameplay + Community",
+  "tag": "section",
+  "class": "pd-section-competition",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading_part1",
+      "label": "Heading part 1 (green)",
+      "default": "Over 1 Billion Views."
+    },
+    {
+      "type": "text",
+      "id": "heading_espn",
+      "label": "Heading part 2 (red)",
+      "default": "ESPN"
+    },
+    {
+      "type": "text",
+      "id": "heading_part2",
+      "label": "Heading part 3 (blue)",
+      "default": "Tournament."
+    },
+    {
+      "type": "header",
+      "content": "Button below the slider"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Get Your Pro Pack"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Reviews"
+    },
+    {
+      "type": "text",
+      "id": "reviews_heading",
+      "label": "Reviews eyebrow",
+      "default": "What Players Are Saying"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "Video slide",
+      "settings": [
+        { "type": "url", "id": "video_url", "label": "Video file URL", "info": "Direct .mp4 URL from Settings > Files" },
+        { "type": "text", "id": "label", "label": "Accessible label", "default": "A moment from a Popdarts match." }
+      ]
+    },
+    {
+      "type": "photo",
+      "name": "Photo slide",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "url", "id": "fallback_url", "label": "Fallback image URL (used if no image chosen)" },
+        { "type": "text", "id": "asset_filename", "label": "Bundled theme asset filename", "info": "Used only if Image and Fallback URL are both empty, e.g. pd-marquee-example.jpg" },
+        { "type": "text", "id": "label", "label": "Accessible label", "default": "A photo from a Popdarts match." }
+      ]
+    },
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "Great game for the whole family." },
+        { "type": "text", "id": "reviewer", "label": "Reviewer label", "default": "Verified Buyer" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gameplay + Community",
+      "blocks": [
+        { "type": "video", "settings": { "video_url": "https://cdn.shopify.com/videos/c/o/v/95bbe2abdb884992a8241d2f4dc69f0f.mp4", "label": "The biggest steal of the round." } },
+        { "type": "photo", "settings": { "asset_filename": "pd-marquee-give-kiss-sign.jpg", "label": "A fan celebrating courtside." } },
+        { "type": "video", "settings": { "video_url": "https://cdn.shopify.com/videos/c/o/v/55983ee6e1554267aa8a6a644290022a.mp4", "label": "A player pulls off an unexpected win, broadcast live on ESPN." } },
+        { "type": "photo", "settings": { "asset_filename": "pd-marquee-glowstick-fan.jpg", "label": "A fan in the stands." } },
+        { "type": "video", "settings": { "video_url": "https://cdn.shopify.com/videos/c/o/v/b7eadc0e2ccf4158ab0b7e5e9036fde3.mp4", "label": "Confetti falls over the arena at the Popdarts Championship." } },
+        { "type": "photo", "settings": { "asset_filename": "pd-marquee-facepaint-crowd.jpg", "label": "The crowd at the Popdarts Championship." } },
+        { "type": "video", "settings": { "video_url": "https://cdn.shopify.com/videos/c/o/v/d0f3dd37a81e444a835ae51069650f36.mp4", "label": "A double doink finale moment at the Popdarts Championship." } },
+        { "type": "photo", "settings": { "asset_filename": "pd-marquee-court-cheer.jpg", "label": "Players celebrating on the court." } },
+        { "type": "photo", "settings": { "asset_filename": "pd-marquee-players-greet.jpg", "label": "Players greeting each other after a match." } },
+        { "type": "photo", "settings": { "asset_filename": "pd-marquee-celebration.jpg", "label": "A team celebrating a win." } },
+        { "type": "photo", "settings": { "asset_filename": "pd-marquee-family-group.jpg", "label": "A family at the Popdarts Championship." } },
+        { "type": "photo", "settings": { "asset_filename": "pd-marquee-espn8-ocho.jpg", "label": "Fans celebrating an ESPN8: The Ocho broadcast." } },
+        { "type": "review", "settings": { "rating": 5, "quote": "First game in years that gets my teenagers off their phones. We play every weekend now.", "reviewer": "Verified Buyer" } },
+        { "type": "review", "settings": { "rating": 5, "quote": "Bought the Pro Pack for a backyard party and it turned into a full tournament. Ten out of ten.", "reviewer": "Verified Buyer" } },
+        { "type": "review", "settings": { "rating": 5, "quote": "Swaptop replaced three other games in our garage. Easiest setup of any yard game we own.", "reviewer": "Verified Buyer" } },
+        { "type": "review", "settings": { "rating": 4, "quote": "Kids picked it up in one throw, I'm still working on my aim. Great for all ages.", "reviewer": "Verified Buyer" } },
+        { "type": "review", "settings": { "rating": 5, "quote": "Watched the Championship on ESPN and had a Pro Pack on my porch by the weekend.", "reviewer": "Verified Buyer" } },
+        { "type": "review", "settings": { "rating": 5, "quote": "Cancellation scoring took two minutes to learn and now every family gathering turns into a bracket.", "reviewer": "Verified Buyer" } },
+        { "type": "review", "settings": { "rating": 5, "quote": "The Elite Pack is legitimately tournament-weight. Big step up once you're hooked.", "reviewer": "Verified Buyer" } },
+        { "type": "review", "settings": { "rating": 4, "quote": "Ordered on a Tuesday, throwing by Wednesday. Shipping was faster than I expected.", "reviewer": "Verified Buyer" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

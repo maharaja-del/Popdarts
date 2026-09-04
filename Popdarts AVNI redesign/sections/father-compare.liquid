@@ -1,0 +1,792 @@
+{% comment %}
+  SS - Premium Video Showcase v5 — Father's Day edition
+  Background & accents restyled to match hero-fathers.liquid (warm cream / amber / teal).
+  Bulletproof button resets · No views numbers · Dark-fallback modal video
+{% endcomment %}
+
+<style>
+  /* ──────────────────────────────────────────────────────────
+     SHELL — warm Father's Day palette (matches hero-fathers.liquid)
+  ────────────────────────────────────────────────────────── */
+  .vshow-{{ section.id }} {
+    --ink:#0a0a0a; --ink-soft:#5d6b82; --amber:#2b99ff; --amber-2:#5cb3ff;
+    --teal:#2b99ff; --cream:#f4f9fd; --line:#e0ebf5;
+    position: relative;
+    background:
+      radial-gradient(50% 55% at 88% 8%, rgba(43,153,255,.20), transparent 60%),
+      radial-gradient(55% 60% at 4% 96%, rgba(43,153,255,.10), transparent 62%),
+      linear-gradient(165deg,#f4f9fd 0%,#e8f2fc 100%);
+    color: var(--ink);
+    overflow: hidden;
+    isolation: isolate;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+  /* Father's Day eyebrow pill */
+  .vshow-{{ section.id }}-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: linear-gradient(135deg, var(--amber-2), var(--amber));
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 7px 15px;
+    border-radius: 999px;
+    margin-bottom: 16px;
+    box-shadow: 0 6px 16px rgba(43,153,255,0.32);
+  }
+  .vshow-{{ section.id }}::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(10,15,25,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(10,15,25,0.035) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse at center, black 25%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 25%, transparent 75%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .vshow-{{ section.id }}-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1380px;
+    margin: 0 auto;
+    padding: 40px 18px 44px;
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     BULLETPROOF BUTTON RESET — overrides Shopify theme CSS
+  ────────────────────────────────────────────────────────── */
+  .vshow-{{ section.id }} button,
+  body > .vshow-{{ section.id }}-modal button {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    border: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    line-height: 1 !important;
+    font: inherit !important;
+    color: inherit !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    cursor: pointer;
+    box-sizing: border-box !important;
+    box-shadow: none;
+  }
+  .vshow-{{ section.id }} button::before,
+  .vshow-{{ section.id }} button::after,
+  body > .vshow-{{ section.id }}-modal button::before,
+  body > .vshow-{{ section.id }}-modal button::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     HEADER
+  ────────────────────────────────────────────────────────── */
+  .vshow-{{ section.id }}-header {
+    text-align: center;
+    margin-bottom: 22px;
+  }
+  .vshow-{{ section.id }}-headline {
+    margin: 0;
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+    color: var(--ink);
+  }
+  .vshow-{{ section.id }}-headline em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--amber), #1a7fe0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .vshow-{{ section.id }}-sub {
+    margin: 12px auto 0;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 520px;
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     STATS
+  ────────────────────────────────────────────────────────── */
+  .vshow-{{ section.id }}-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 22px auto 24px;
+    max-width: 720px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .vshow-{{ section.id }}-stat {
+    text-align: center;
+    padding: 14px 8px;
+  }
+  .vshow-{{ section.id }}-stat + .vshow-{{ section.id }}-stat {
+    border-left: 1px solid var(--line);
+  }
+  .vshow-{{ section.id }}-stat-num {
+    display: block;
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--ink);
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+  .vshow-{{ section.id }}-stat-label {
+    display: block;
+    margin-top: 6px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     GRID — 4 videos
+  ────────────────────────────────────────────────────────── */
+  .vshow-{{ section.id }}-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .vshow-{{ section.id }}-card {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #11161f;
+    aspect-ratio: 9/16;
+    transform: translateZ(0);
+    transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid var(--line);
+    box-shadow: 0 8px 22px rgba(10,20,30,0.10);
+  }
+  .vshow-{{ section.id }}-card video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+  .vshow-{{ section.id }}-card-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      to top,
+      rgba(0,0,0,0.85) 0%,
+      rgba(0,0,0,0.2) 38%,
+      rgba(0,0,0,0) 65%,
+      rgba(0,0,0,0.3) 100%
+    );
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  .vshow-{{ section.id }}-card:hover { border-color: var(--amber); box-shadow: 0 14px 30px rgba(43,153,255,0.22); }
+  .vshow-{{ section.id }}-card:hover .vshow-{{ section.id }}-card-gradient { opacity: 0.7; }
+
+  .vshow-{{ section.id }}-card-meta {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .vshow-{{ section.id }}-card-tag {
+    display: inline-block;
+    padding: 4px 9px;
+    border-radius: 5px;
+    background: rgba(255,255,255,0.14);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.18);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .vshow-{{ section.id }}-card-tag.tag-trending {
+    background: rgba(43,153,255,0.22);
+    border-color: rgba(43,153,255,0.55);
+    color: #cae6ff;
+  }
+  .vshow-{{ section.id }}-card-title {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 800;
+    line-height: 1.18;
+    color: #fff;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 14px rgba(0,0,0,0.55);
+  }
+
+  .vshow-{{ section.id }}-card-play {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    width: 34px !important;
+    height: 34px !important;
+    aspect-ratio: 1 !important;
+    border-radius: 50% !important;
+    background: rgba(0,0,0,0.55) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.2) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.3s ease;
+  }
+  .vshow-{{ section.id }}-card-play svg {
+    width: 11px;
+    height: 11px;
+    margin-left: 1px;
+    transition: fill 0.3s ease;
+  }
+  .vshow-{{ section.id }}-card:hover .vshow-{{ section.id }}-card-play {
+    background: var(--amber) !important;
+    border-color: var(--amber) !important;
+    transform: scale(1.12);
+    box-shadow: 0 0 24px rgba(43,153,255,0.45);
+  }
+  .vshow-{{ section.id }}-card:hover .vshow-{{ section.id }}-card-play svg path { fill: #000 !important; }
+
+  .vshow-{{ section.id }}-badge-espn {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+    padding: 4px 9px;
+    border-radius: 5px;
+    background: linear-gradient(135deg, var(--amber-2), var(--amber));
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(43,153,255,0.45);
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     PRESS
+  ────────────────────────────────────────────────────────── */
+  .vshow-{{ section.id }}-press {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    text-align: center;
+  }
+  .vshow-{{ section.id }}-press-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+  }
+  .vshow-{{ section.id }}-press-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 18px 32px;
+  }
+  .vshow-{{ section.id }}-press-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--ink);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    opacity: 0.7;
+    transition: opacity 0.25s ease;
+  }
+  .vshow-{{ section.id }}-press-item:hover { opacity: 1; }
+  .vshow-{{ section.id }}-press-espn {
+    background: linear-gradient(135deg, var(--amber-2), var(--amber));
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.08em;
+    font-size: 13px;
+    font-weight: 900;
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     MODAL — bulletproof
+  ────────────────────────────────────────────────────────── */
+  .vshow-{{ section.id }}-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(8,14,22,0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    z-index: -1;
+    padding: 20px;
+    transition: opacity 0.3s ease;
+  }
+  .vshow-{{ section.id }}-modal.is-open {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 9999;
+  }
+  .vshow-{{ section.id }}-modal-stage {
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+    aspect-ratio: 9/16;
+    max-height: calc(100vh - 130px);
+    border-radius: 18px;
+    overflow: hidden;
+    background: #11161f;
+    box-shadow: 0 30px 90px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1);
+  }
+  .vshow-{{ section.id }}-modal-stage video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+  }
+  .vshow-{{ section.id }}-modal-stage .vshow-{{ section.id }}-loader {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .vshow-{{ section.id }}-loader::before {
+    content: '';
+    width: 36px;
+    height: 36px;
+    border: 3px solid rgba(255,255,255,0.2);
+    border-top-color: var(--amber);
+    border-radius: 50%;
+    animation: vshow-spin-{{ section.id }} 0.8s linear infinite;
+  }
+  @keyframes vshow-spin-{{ section.id }} {
+    to { transform: rotate(360deg); }
+  }
+
+  /* === MODAL BUTTONS — bulletproof with !important === */
+  button.vshow-{{ section.id }}-modal-mute {
+    position: absolute !important;
+    bottom: 16px !important;
+    right: 16px !important;
+    z-index: 3 !important;
+    width: 44px !important;
+    height: 44px !important;
+    aspect-ratio: 1 !important;
+    border-radius: 50% !important;
+    background: #fff !important;
+    background-color: #fff !important;
+    border: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: background-color 0.25s ease, transform 0.25s ease !important;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.5) !important;
+  }
+  button.vshow-{{ section.id }}-modal-mute:hover { background: var(--amber) !important; background-color: var(--amber) !important; transform: scale(1.08) !important; }
+  button.vshow-{{ section.id }}-modal-mute svg { width: 20px !important; height: 20px !important; display: block !important; }
+  button.vshow-{{ section.id }}-modal-mute .icon-on { display: none !important; }
+  button.vshow-{{ section.id }}-modal-mute.is-on .icon-off { display: none !important; }
+  button.vshow-{{ section.id }}-modal-mute.is-on .icon-on { display: block !important; }
+
+  button.vshow-{{ section.id }}-modal-close {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    width: 48px !important;
+    height: 48px !important;
+    aspect-ratio: 1 !important;
+    border-radius: 50% !important;
+    background: #fff !important;
+    background-color: #fff !important;
+    border: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    z-index: 10001 !important;
+    transition: background-color 0.25s ease, transform 0.25s ease !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5) !important;
+  }
+  button.vshow-{{ section.id }}-modal-close:hover { background: var(--amber) !important; background-color: var(--amber) !important; transform: rotate(90deg) scale(1.05) !important; }
+  button.vshow-{{ section.id }}-modal-close svg { width: 18px !important; height: 18px !important; display: block !important; }
+
+  button.vshow-{{ section.id }}-modal-nav {
+    position: fixed !important;
+    top: 50% !important;
+    width: 52px !important;
+    height: 52px !important;
+    aspect-ratio: 1 !important;
+    border-radius: 50% !important;
+    background: #fff !important;
+    background-color: #fff !important;
+    border: 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    z-index: 10001 !important;
+    transition: background-color 0.25s ease, transform 0.25s ease !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5) !important;
+    transform: translateY(-50%) !important;
+  }
+  button.vshow-{{ section.id }}-modal-nav:hover:not(:disabled) {
+    background: var(--amber) !important;
+    background-color: var(--amber) !important;
+    transform: translateY(-50%) scale(1.08) !important;
+  }
+  button.vshow-{{ section.id }}-modal-nav:disabled { opacity: 0.3 !important; cursor: not-allowed !important; }
+  button.vshow-{{ section.id }}-modal-nav.prev { left: 20px !important; }
+  button.vshow-{{ section.id }}-modal-nav.next { right: 20px !important; }
+  button.vshow-{{ section.id }}-modal-nav svg { width: 22px !important; height: 22px !important; display: block !important; }
+
+  .vshow-{{ section.id }}-modal-counter {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 3;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.2);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     RESPONSIVE
+  ────────────────────────────────────────────────────────── */
+  @media (min-width: 480px) {
+    .vshow-{{ section.id }}-headline { font-size: 50px; }
+    .vshow-{{ section.id }}-stat-num { font-size: 28px; }
+    .vshow-{{ section.id }}-grid { gap: 12px; }
+    .vshow-{{ section.id }}-card-title { font-size: 16px; }
+  }
+  @media (min-width: 768px) {
+    .vshow-{{ section.id }}-inner { padding: 60px 32px 64px; }
+    .vshow-{{ section.id }}-header { margin-bottom: 26px; }
+    .vshow-{{ section.id }}-headline { font-size: 64px; }
+    .vshow-{{ section.id }}-stats { margin: 26px auto 28px; }
+    .vshow-{{ section.id }}-stat { padding: 18px 12px; }
+    .vshow-{{ section.id }}-stat-num { font-size: 34px; }
+    .vshow-{{ section.id }}-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+  }
+  @media (min-width: 1024px) {
+    .vshow-{{ section.id }}-inner { padding: 72px 48px 76px; }
+    .vshow-{{ section.id }}-headline { font-size: 80px; }
+    .vshow-{{ section.id }}-sub { font-size: 15px; max-width: 580px; }
+    .vshow-{{ section.id }}-grid { gap: 14px; }
+    .vshow-{{ section.id }}-card-title { font-size: 17px; }
+    .vshow-{{ section.id }}-press-row { gap: 24px 48px; }
+    .vshow-{{ section.id }}-press-item { font-size: 17px; }
+    .vshow-{{ section.id }}-press-espn { font-size: 15px; }
+  }
+</style>
+
+<section class="vshow-{{ section.id }}">
+  <div class="vshow-{{ section.id }}-inner">
+
+    <!-- HEADER -->
+    <div class="vshow-{{ section.id }}-header">
+      <span class="vshow-{{ section.id }}-eyebrow">🎁 Dad-Approved &amp; Going Viral 🏆</span>
+      <h2 class="vshow-{{ section.id }}-headline">
+        Over <em>1 Billion</em> Views.
+      </h2>
+      <p class="vshow-{{ section.id }}-sub">
+        From SportsCenter to your For You Page — the Popdarts™ moments that broke the internet. The backyard game the whole family can't put down. 🎯
+      </p>
+    </div>
+
+    <!-- STATS -->
+    <div class="vshow-{{ section.id }}-stats">
+      <div class="vshow-{{ section.id }}-stat">
+        <span class="vshow-{{ section.id }}-stat-num" data-count-to="1000000000" data-suffix="B+" data-divisor="1000000000">0</span>
+        <span class="vshow-{{ section.id }}-stat-label">Total Views</span>
+      </div>
+      <div class="vshow-{{ section.id }}-stat">
+        <span class="vshow-{{ section.id }}-stat-num" data-count-to="1800000" data-suffix="M" data-divisor="1000000" data-decimals="1">0</span>
+        <span class="vshow-{{ section.id }}-stat-label">TikTok Followers</span>
+      </div>
+      <div class="vshow-{{ section.id }}-stat">
+        <span class="vshow-{{ section.id }}-stat-num">ESPN</span>
+        <span class="vshow-{{ section.id }}-stat-label">Top 10 Plays</span>
+      </div>
+    </div>
+
+    <!-- GRID -->
+    <div class="vshow-{{ section.id }}-grid">
+
+      <div class="vshow-{{ section.id }}-card" data-video-index="0">
+        <video src="https://cdn.shopify.com/videos/c/o/v/cc9422c39b584c8dbf1f4ae9b820e3d5.mov" autoplay muted playsinline loop preload="metadata"></video>
+        <div class="vshow-{{ section.id }}-card-gradient"></div>
+        <span class="vshow-{{ section.id }}-badge-espn">As Seen On ESPN</span>
+        <button type="button" class="vshow-{{ section.id }}-card-play" tabindex="-1" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+        </button>
+        <div class="vshow-{{ section.id }}-card-meta">
+          <span class="vshow-{{ section.id }}-card-tag tag-trending">Featured Play</span>
+          <h3 class="vshow-{{ section.id }}-card-title">SportsCenter Top 10</h3>
+        </div>
+      </div>
+
+      <div class="vshow-{{ section.id }}-card" data-video-index="1">
+        <video src="https://cdn.shopify.com/videos/c/o/v/1a1715e31e1e40ddb96ac62140e7da3f.mov" autoplay muted playsinline loop preload="metadata"></video>
+        <div class="vshow-{{ section.id }}-card-gradient"></div>
+        <button type="button" class="vshow-{{ section.id }}-card-play" tabindex="-1" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+        </button>
+        <div class="vshow-{{ section.id }}-card-meta">
+          <span class="vshow-{{ section.id }}-card-tag tag-trending">Trending #1</span>
+          <h3 class="vshow-{{ section.id }}-card-title">He Sneaks It In 👀</h3>
+        </div>
+      </div>
+
+      <div class="vshow-{{ section.id }}-card" data-video-index="2">
+        <video src="https://cdn.shopify.com/videos/c/o/v/2c5f3daa7fd5441fa4894acf42bd7f42.mp4" autoplay muted playsinline loop preload="metadata"></video>
+        <div class="vshow-{{ section.id }}-card-gradient"></div>
+        <button type="button" class="vshow-{{ section.id }}-card-play" tabindex="-1" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+        </button>
+        <div class="vshow-{{ section.id }}-card-meta">
+          <span class="vshow-{{ section.id }}-card-tag">Viral Hit</span>
+          <h3 class="vshow-{{ section.id }}-card-title">On The Dot 🤯</h3>
+        </div>
+      </div>
+
+      <div class="vshow-{{ section.id }}-card" data-video-index="3">
+        <video src="https://cdn.shopify.com/videos/c/o/v/e56df60f0f1a45a194d7162f9faa6de8.mp4" autoplay muted playsinline loop preload="metadata"></video>
+        <div class="vshow-{{ section.id }}-card-gradient"></div>
+        <button type="button" class="vshow-{{ section.id }}-card-play" tabindex="-1" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+        </button>
+        <div class="vshow-{{ section.id }}-card-meta">
+          <span class="vshow-{{ section.id }}-card-tag">Fan Favorite</span>
+          <h3 class="vshow-{{ section.id }}-card-title">Game Day Hero</h3>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PRESS -->
+    <div class="vshow-{{ section.id }}-press">
+      <span class="vshow-{{ section.id }}-press-label">As Featured On</span>
+      <div class="vshow-{{ section.id }}-press-row">
+        <span class="vshow-{{ section.id }}-press-item">
+          <span class="vshow-{{ section.id }}-press-espn">ESPN</span>
+        </span>
+        <span class="vshow-{{ section.id }}-press-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.84-.1z"/></svg>
+          TikTok
+        </span>
+        <span class="vshow-{{ section.id }}-press-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.16c3.2 0 3.58 0 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s0 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.65.07-4.85.07s-3.58 0-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.65-.07-4.85s0-3.58.07-4.85C2.38 3.92 3.9 2.38 7.15 2.23 8.42 2.18 8.8 2.16 12 2.16zm0-2.16C8.74 0 8.33.01 7.05.07 2.7.27.27 2.69.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.2-4.35-2.62-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4zm6.41-11.85a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44z"/></svg>
+          Instagram
+        </span>
+        <span class="vshow-{{ section.id }}-press-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          YouTube
+        </span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MODAL -->
+  <div class="vshow-{{ section.id }}-modal" data-modal>
+    <button type="button" class="vshow-{{ section.id }}-modal-close" data-modal-close aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="#000" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="#000"/>
+      </svg>
+    </button>
+    <button type="button" class="vshow-{{ section.id }}-modal-nav prev" data-modal-prev aria-label="Previous">
+      <svg viewBox="0 0 24 24" fill="#000" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" fill="#000"/>
+      </svg>
+    </button>
+    <button type="button" class="vshow-{{ section.id }}-modal-nav next" data-modal-next aria-label="Next">
+      <svg viewBox="0 0 24 24" fill="#000" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z" fill="#000"/>
+      </svg>
+    </button>
+    <div class="vshow-{{ section.id }}-modal-stage">
+      <div class="vshow-{{ section.id }}-loader"></div>
+      <span class="vshow-{{ section.id }}-modal-counter" data-modal-counter>1 / 4</span>
+      <video data-modal-video muted playsinline loop></video>
+      <button type="button" class="vshow-{{ section.id }}-modal-mute" data-modal-mute aria-label="Toggle sound">
+        <svg class="icon-off" viewBox="0 0 24 24" fill="#000" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5.889 16H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h3.889l5.294-4.332a.5.5 0 0 1 .817.387v15.89a.5.5 0 0 1-.817.387L5.89 16zm14.525-4l3.536 3.536-1.414 1.414L19 13.414l-3.536 3.536-1.414-1.414L17.586 12 14.05 8.464l1.414-1.414L19 10.586l3.536-3.536 1.414 1.414L20.414 12z" fill="#000"/>
+        </svg>
+        <svg class="icon-on" viewBox="0 0 24 24" fill="#000" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5.889 16H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h3.889l5.294-4.332a.5.5 0 0 1 .817.387v15.89a.5.5 0 0 1-.817.387L5.89 16zm13.517 4.134l-1.416-1.416A8.978 8.978 0 0 0 21 12a8.982 8.982 0 0 0-3.304-6.968l1.42-1.42A10.976 10.976 0 0 1 23 12c0 3.223-1.386 6.122-3.594 8.134zm-3.543-3.543l-1.422-1.422A3.993 3.993 0 0 0 16 12c0-1.43-.75-2.685-1.88-3.392l1.439-1.439A5.991 5.991 0 0 1 18 12c0 1.842-.83 3.49-2.137 4.591z" fill="#000"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  const sectionId = '{{ section.id }}';
+  const root = document.querySelector('.vshow-' + sectionId);
+  if (!root) return;
+
+  const cards = root.querySelectorAll('[data-video-index]');
+  const cardVideos = root.querySelectorAll('.vshow-' + sectionId + '-card video');
+
+  const playObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const v = entry.target;
+      if (entry.isIntersecting) v.play().catch(() => {});
+      else v.pause();
+    });
+  }, { threshold: 0.1 });
+
+  cardVideos.forEach(v => {
+    playObserver.observe(v);
+    v.play().catch(() => {});
+  });
+
+  const stats = root.querySelectorAll('[data-count-to]');
+  const formatStat = (val, divisor, suffix, decimals) => {
+    const num = val / divisor;
+    return (decimals ? num.toFixed(decimals) : Math.round(num)) + suffix;
+  };
+  const animateCount = (el) => {
+    const target = parseFloat(el.dataset.countTo);
+    const divisor = parseFloat(el.dataset.divisor) || 1;
+    const suffix = el.dataset.suffix || '';
+    const decimals = parseInt(el.dataset.decimals || '0', 10);
+    const duration = 1800;
+    const start = performance.now();
+    const step = (now) => {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      el.textContent = formatStat(target * eased, divisor, suffix, decimals);
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  const statObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCount(entry.target);
+        statObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  stats.forEach(s => statObserver.observe(s));
+
+  const modal = root.querySelector('[data-modal]');
+  const modalVideo = root.querySelector('[data-modal-video]');
+  const modalMute = root.querySelector('[data-modal-mute]');
+  const modalClose = root.querySelector('[data-modal-close]');
+  const modalPrev = root.querySelector('[data-modal-prev]');
+  const modalNext = root.querySelector('[data-modal-next]');
+  const modalCounter = root.querySelector('[data-modal-counter]');
+
+  const videoSrcs = Array.from(cards).map(c => c.querySelector('video').src);
+  let currentIndex = 0;
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => openModal(parseInt(card.dataset.videoIndex, 10)));
+  });
+
+  function openModal(index) {
+    currentIndex = index;
+    loadModalVideo();
+    document.body.style.overflow = 'hidden';
+    modal.classList.add('is-open');
+  }
+  function closeModal() {
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+    modalVideo.pause();
+    modalVideo.removeAttribute('src');
+    modalVideo.load();
+  }
+  function loadModalVideo() {
+    modalVideo.src = videoSrcs[currentIndex];
+    modalVideo.muted = !modalMute.classList.contains('is-on');
+    modalVideo.load();
+    modalVideo.play().catch(() => {});
+    modalCounter.textContent = (currentIndex + 1) + ' / ' + videoSrcs.length;
+    modalPrev.disabled = currentIndex === 0;
+    modalNext.disabled = currentIndex === videoSrcs.length - 1;
+  }
+
+  modalClose.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+  modalPrev.addEventListener('click', () => { if (currentIndex > 0) { currentIndex--; loadModalVideo(); } });
+  modalNext.addEventListener('click', () => { if (currentIndex < videoSrcs.length - 1) { currentIndex++; loadModalVideo(); } });
+  modalMute.addEventListener('click', () => {
+    modalMute.classList.toggle('is-on');
+    modalVideo.muted = !modalMute.classList.contains('is-on');
+  });
+  document.addEventListener('keydown', (e) => {
+    if (!modal.classList.contains('is-open')) return;
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'ArrowLeft' && currentIndex > 0) { currentIndex--; loadModalVideo(); }
+    if (e.key === 'ArrowRight' && currentIndex < videoSrcs.length - 1) { currentIndex++; loadModalVideo(); }
+  });
+
+  // Move modal to body to escape any theme container constraints
+  if (modal && modal.parentElement !== document.body) {
+    document.body.appendChild(modal);
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Father Compare",
+  "settings": [],
+  "blocks": [],
+  "presets": [{ "name": "Father Compare" }]
+}
+{% endschema %}

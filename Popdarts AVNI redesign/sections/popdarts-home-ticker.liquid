@@ -1,0 +1,40 @@
+<section class="pd-page home-ticker" id="home-ticker-{{ section.id }}">
+  <p class="pd-sr-only">{%- for block in section.blocks -%}{{ block.settings.text | default: 'Three Darts' }}{%- unless forloop.last -%}, {%- endunless -%}{%- endfor -%}</p>
+  <div class="home-ticker__track" aria-hidden="true">
+    {%- for i in (1..2) -%}
+      {%- for block in section.blocks -%}
+        <span>{{ block.settings.text | default: 'Three Darts' }}</span><span class="dot" aria-hidden="true">&middot;</span>
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Home Ticker",
+  "tag": "section",
+  "class": "pd-section-home-ticker",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "phrase",
+      "name": "Phrase",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Phrase", "default": "Three Darts" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home Ticker",
+      "blocks": [
+        { "type": "phrase", "settings": { "text": "Three Darts" } },
+        { "type": "phrase", "settings": { "text": "One Target" } },
+        { "type": "phrase", "settings": { "text": "Endless Rivalries" } },
+        { "type": "phrase", "settings": { "text": "Ages 5 to 95" } },
+        { "type": "phrase", "settings": { "text": "Free Shipping $50+" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

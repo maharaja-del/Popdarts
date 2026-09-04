@@ -1,0 +1,66 @@
+{% render 'halloween-lp-head' %}
+{%- liquid
+  if section.settings.image
+    assign img_url = section.settings.image | image_url: width: 1600
+  else
+    assign img_url = 'pd-hw-lineup.png' | asset_url
+  endif
+-%}
+<section class="hw hw--night hw-section hw-colorways" id="hw-colorways">
+  <div class="hw-container">
+    <div class="hw-sechead">
+      <span class="hw-eyebrow hw-eyebrow--center" data-hw-reveal>{{ section.settings.eyebrow }}</span>
+      <h2 class="hw-h2" data-hw-reveal="2">{{ section.settings.heading_1 }}<br>{{ section.settings.heading_2 }}</h2>
+      <p class="hw-sub" data-hw-reveal="3">{{ section.settings.subtext }}</p>
+    </div>
+    <div class="hw-colorways__stage" data-hw-reveal>
+      <img src="{{ img_url }}" alt="{{ section.settings.image_alt | escape }}" width="1600" height="1038" loading="lazy">
+    </div>
+    <div class="hw-teams" data-hw-reveal>
+      <div class="hw-team hw-team--toxic">
+        <div class="hw-team__swatches">
+          <span class="hw-team__dot" style="background:#a8f321"></span>
+          <span class="hw-team__dot" style="background:#6a30d8"></span>
+        </div>
+        <span class="hw-team__player">{{ section.settings.team1_label }}</span>
+        <div class="hw-team__name">{{ section.settings.team1_name }}</div>
+        <p class="hw-team__desc">{{ section.settings.team1_desc }}</p>
+      </div>
+      <span class="hw-vs">VS</span>
+      <div class="hw-team hw-team--orange">
+        <div class="hw-team__swatches">
+          <span class="hw-team__dot" style="background:#ff8a1e"></span>
+          <span class="hw-team__dot" style="background:#4c1e9e"></span>
+        </div>
+        <span class="hw-team__player">{{ section.settings.team2_label }}</span>
+        <div class="hw-team__name">{{ section.settings.team2_name }}</div>
+        <p class="hw-team__desc">{{ section.settings.team2_desc }}</p>
+      </div>
+    </div>
+    <p class="hw-colorways__note" data-hw-reveal><b>{{ section.settings.note_bold }}</b> {{ section.settings.note_text }}</p>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "HW Colorways",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Lineup image", "info": "Leave empty to use the built-in lineup render" },
+    { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "The full Halloween Pro Pack lineup — Toxic Slime and Pumpkin Fright Popdarts" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The colorways" },
+    { "type": "text", "id": "heading_1", "label": "Heading line 1", "default": "Two possessed colorways." },
+    { "type": "text", "id": "heading_2", "label": "Heading line 2", "default": "One box." },
+    { "type": "textarea", "id": "subtext", "label": "Subtext", "default": "Every Halloween Pro Pack includes both colorways, three darts for each player." },
+    { "type": "text", "id": "team1_label", "label": "Team 1 label", "default": "Player one throws" },
+    { "type": "text", "id": "team1_name", "label": "Team 1 name", "default": "Toxic Slime" },
+    { "type": "text", "id": "team1_desc", "label": "Team 1 description", "default": "Bright toxic green swirled with deep witch purple." },
+    { "type": "text", "id": "team2_label", "label": "Team 2 label", "default": "Player two throws" },
+    { "type": "text", "id": "team2_name", "label": "Team 2 name", "default": "Pumpkin Fright" },
+    { "type": "text", "id": "team2_desc", "label": "Team 2 description", "default": "Burnt pumpkin orange swirled with deep midnight purple." },
+    { "type": "text", "id": "note_bold", "label": "Note (bold part)", "default": "3 darts each." },
+    { "type": "text", "id": "note_text", "label": "Note text", "default": "Pick a side and settle who owns Halloween." }
+  ],
+  "presets": [{ "name": "HW Colorways" }]
+}
+{% endschema %}

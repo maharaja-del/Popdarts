@@ -1,0 +1,46 @@
+<section class="pd-page final" id="final-{{ section.id }}" aria-labelledby="final-title-{{ section.id }}">
+  <div class="pd-texture" aria-hidden="true"></div>
+  <div class="pd-wrap final__inner">
+    <h2 id="final-title-{{ section.id }}" style="color: #fdfdfd;">{{ section.settings.heading | default: 'Your rival<br>is waiting.' }}</h2>
+    <p>{{ section.settings.body | default: "You've seen the shot. You know the rules. The only thing left is the throw." }}</p>
+    <a class="btn btn--primary btn--lg" href="{{ section.settings.cta_link | default: '/products/pro-pack' }}">{{ section.settings.cta_text | default: 'Get Your Pro Pack' }}</a>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Final CTA",
+  "tag": "section",
+  "class": "pd-section-final",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Your rival is waiting."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "You've seen the shot. You know the rules. The only thing left is the throw."
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Get Your Pro Pack"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Final CTA"
+    }
+  ]
+}
+{% endschema %}

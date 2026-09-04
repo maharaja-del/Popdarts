@@ -1,0 +1,80 @@
+<div
+  class="section section-{{ section.id }} section--padding section--custom-content page-width color-scheme-1"
+  style="--section-padding-top: 30px;--section-padding-bottom: 28px;"
+  data-id="{{ section.id }}"
+>
+  <div class="section__content f-grid--gap-medium">
+    <div class="f-flex f-grid--gap-medium f-grid--row-gap-large">
+
+      <!-- IMAGE BLOCK | width: 50% | alignment: center -->
+      <div
+        id="block-image_NEY7Ht"
+        class="f-column relative custom-content-block--image md:flex items-center w-full md:w-1/2 lg:w-1/2"
+        data-block-type="image"
+      >
+        <div class="custom__block custom__block--image w-full text-">
+          <div class="media-wrapper blocks-radius" style="--aspect-ratio: 1.024822695035461;">
+            <motion-element class="block" data-motion="zoom-out-sm">
+              <img
+                src="//popdartsgame.com/cdn/shop/files/Score_Keeper_Mobile_New.jpg?v=1738850041&width=1500"
+                srcset="//popdartsgame.com/cdn/shop/files/Score_Keeper_Mobile_New.jpg?v=1738850041&width=375 375w,
+                        //popdartsgame.com/cdn/shop/files/Score_Keeper_Mobile_New.jpg?v=1738850041&width=550 550w,
+                        //popdartsgame.com/cdn/shop/files/Score_Keeper_Mobile_New.jpg?v=1738850041&width=750 750w,
+                        //popdartsgame.com/cdn/shop/files/Score_Keeper_Mobile_New.jpg?v=1738850041&width=1100 1100w,
+                        //popdartsgame.com/cdn/shop/files/Score_Keeper_Mobile_New.jpg?v=1738850041&width=1500 1500w"
+                width="1500"
+                height="1464"
+                alt="{{ shop.name | escape }}"
+                loading="lazy"
+                fetchpriority="low"
+                class="motion-reduce"
+                is="image-lazy"
+              >
+            </motion-element>
+          </div>
+        </div>
+      </div>
+
+      <!-- TEXT BLOCK | width: 50% | alignment: center | content_alignment: center -->
+      <div
+        id="block-text_6WRi99"
+        class="f-column relative custom-content-block--text md:flex items-center w-full md:w-1/2 lg:w-1/2"
+        data-block-type="text"
+      >
+        <div class="custom__block custom__block--text w-full text-center">
+          <div class="rich-text">
+
+            <h2 class="rich-text__heading inline-richtext h1">
+              <motion-element class="block" data-motion="fade-up" data-motion-delay="50">
+                GET THE APP 📱
+              </motion-element>
+            </h2>
+
+            <motion-element
+              data-motion="fade-up"
+              data-motion-delay="100"
+              class="block rich-text__text rte text-base"
+            >
+              <p>Download our Score Keeper app to keep track of your scores and stats during matches.</p>
+            </motion-element>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "App Promo",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.overlay"]
+  },
+  "settings": [],
+  "presets": [
+    { "name": "App Promo" }
+  ]
+}
+{% endschema %}

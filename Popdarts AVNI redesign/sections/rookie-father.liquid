@@ -1,0 +1,3170 @@
+{% comment %}
+  Rookie Pack Bundle Purchase Section
+  Drop into: sections/rookie-fathers.liquid
+  { "type": "rookie-fathers" }
+{% endcomment %}
+
+{% assign main_product   = all_products['rookie-pack'] %}
+{% assign addon_mod = all_products['mod-twr'] %}
+{% assign addon_marker       = all_products['acc-tm'] %}
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  /* ── RESET ── */
+  .bnd-section *,
+  .bnd-section *::before,
+  .bnd-section *::after { box-sizing: border-box; }
+
+  .bnd-section {
+    font-family: 'Inter', sans-serif;
+    background: #fff;
+    padding: 32px 40px 0;
+  }
+
+  /* ── FATHERS DAY HEADER (top center) ── */
+  .bnd-jul4-head {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 4px 16px 30px;
+    text-align: center;
+  }
+  .bnd-jul4-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: linear-gradient(90deg, #1E5C97 0%, #C9882E 100%);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 7px 15px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+    box-shadow: 0 4px 14px rgba(30,92,151,0.28);
+  }
+  .bnd-jul4-title {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(26px, 4.4vw, 46px);
+    font-weight: 900;
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    color: #111;
+    margin: 0;
+    text-transform: uppercase;
+  }
+  .bnd-jul4-title .red  { color: #C9882E; }
+  .bnd-jul4-title .blue { color: #002868; }
+  .bnd-jul4-sub {
+    font-size: clamp(15px, 2vw, 18px);
+    line-height: 1.5;
+    color: #555;
+    margin: 12px auto 0;
+    max-width: 620px;
+  }
+  @media (max-width: 768px) {
+    .bnd-jul4-head { padding: 2px 12px 22px; }
+  }
+
+  .bnd-wrap {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 52% 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  /* ─────────────────────────────
+     LEFT — STICKY GALLERY
+  ───────────────────────────── */
+  .bnd-gallery {
+    position: sticky;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 40px;
+  }
+
+  .bnd-main-img-wrap {
+    border-radius: 16px;
+    overflow: hidden;
+    background: #f5f5f5;
+    aspect-ratio: 1 / 1;
+    cursor: pointer;
+  }
+
+  .bnd-main-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.25s ease;
+  }
+
+  .bnd-thumbs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .bnd-thumb {
+    width: calc(25% - 6px);
+    aspect-ratio: 1 / 1;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+    background: #f5f5f5;
+    flex-shrink: 0;
+  }
+
+  .bnd-thumb.active,
+  .bnd-thumb:hover { border-color: #1E5C97; }
+
+  .bnd-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ─────────────────────────────
+     RIGHT — INFO
+  ───────────────────────────── */
+  .bnd-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-bottom: 48px;
+  }
+
+  /* Title */
+  .bnd-title {
+    font-size: 38px;
+    font-weight: 800;
+    color: #111;
+    margin: 0 0 2px;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+    background: linear-gradient(135deg, #111 60%, #1E5C97 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── JUDGE.ME BADGE ── */
+  .bnd-judgeme {
+    margin-top: -2px;
+    margin-bottom: -2px;
+    line-height: 1;
+  }
+
+  .bnd-judgeme .jdgm-preview-badge { font-size: 15px !important; }
+
+  /* ── ACCORDION ── */
+  .bnd-accordion {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid #e5e7eb;
+    margin-top: 4px;
+  }
+
+  .bnd-acc-item {
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .bnd-acc-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    gap: 12px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .bnd-acc-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111;
+    letter-spacing: -0.01em;
+  }
+
+  .bnd-acc-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1.5px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s, background 0.2s, transform 0.3s;
+  }
+
+  .bnd-acc-icon svg {
+    width: 12px;
+    height: 12px;
+    transition: transform 0.3s ease;
+  }
+
+  .bnd-acc-item.open .bnd-acc-icon {
+    border-color: #1E5C97;
+    background: #1E5C97;
+  }
+
+  .bnd-acc-item.open .bnd-acc-icon svg {
+    transform: rotate(45deg);
+    color: #fff;
+  }
+
+  .bnd-acc-item.open .bnd-acc-icon path {
+    fill: #fff;
+  }
+
+  .bnd-acc-body {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+    padding-bottom: 0;
+  }
+
+  .bnd-acc-item.open .bnd-acc-body {
+    max-height: 600px;
+    padding-bottom: 16px;
+  }
+
+  .bnd-acc-content {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.75;
+    font-weight: 400;
+  }
+
+  .bnd-acc-content p { margin: 0 0 8px; }
+  .bnd-acc-content p:last-child { margin: 0; }
+  .bnd-acc-content ul { margin: 0 0 8px; padding-left: 18px; }
+  .bnd-acc-content li { margin-bottom: 4px; }
+
+  /* ── PRICE ROW ── */
+  .bnd-price-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .bnd-price-original {
+    font-size: 20px;
+    color: #aaa;
+    text-decoration: line-through;
+    font-weight: 500;
+  }
+
+  .bnd-price-sale {
+    font-size: 34px;
+    font-weight: 800;
+    color: #111;
+    letter-spacing: -0.03em;
+  }
+
+  .bnd-price-badge {
+    background: #dcebf8;
+    color: #143C63;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 20px;
+  }
+
+  /* ── VARIANT SELECTOR ── */
+  .bnd-variant-select { margin: 14px 0 4px; }
+  .bnd-variant-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111;
+    margin: 0 0 8px;
+  }
+  .bnd-variant-current { color: #143C63; font-weight: 700; }
+  .bnd-variant-opts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .bnd-variant-opt {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #111;
+    background: #fff;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 9px 16px;
+    cursor: pointer;
+    transition: border-color 0.18s, background 0.18s, color 0.18s, box-shadow 0.18s;
+    white-space: nowrap;
+  }
+  .bnd-variant-opt:hover { border-color: #1E5C97; }
+  .bnd-variant-opt.selected {
+    border-color: #1E5C97;
+    background: #eef5fc;
+    color: #143C63;
+    box-shadow: 0 0 0 1px #1E5C97 inset;
+  }
+  .bnd-variant-opt.soldout {
+    opacity: 0.4;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+
+  /* ── FREE SHIPPING TAG ── */
+  .bnd-shipping-tag {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #111;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    padding: 11px 16px;
+    border-radius: 8px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    width: 100%;
+  }
+
+  .bnd-shipping-tag svg {
+    width: 17px;
+    height: 17px;
+    stroke: white;
+    flex-shrink: 0;
+  }
+
+  .bnd-shipping-free {
+    color: white;
+  }
+
+  /* Bundle heading */
+  .bnd-bundle-label {
+    font-size: 13px;
+    font-weight: 800;
+    color: black;
+    margin: 4px 0 2px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 9px 0;
+    border-radius: 8px;
+    display: inline-block;
+  }
+
+  /* ── ADDON SLIDER WRAPPER ── */
+  .bnd-addons-outer {
+    position: relative;
+    overflow: visible;
+  }
+
+  /* ── ADDON GRID ── */
+  .bnd-addons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .bnd-addons .bnd-addon-card {
+    min-width: 0;
+  }
+
+  /* ── ADDON CARD: image top, info+toggle bottom ── */
+  .bnd-addon-card {
+    border: 2px solid #e5e7eb;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: border-color 0.25s, box-shadow 0.25s;
+    height: 100%;
+  }
+
+  .bnd-addon-card.selected {
+    border-color: #1E5C97;
+    box-shadow: 0 0 0 1px #1E5C97, 0 4px 16px rgba(30,92,151,0.14);
+  }
+
+  .bnd-addon-card.locked { pointer-events: none; }
+
+  /* Image zone — clicking opens fullscreen */
+  .bnd-addon-img-zone {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  /* Bottom info + toggle row */
+  .bnd-addon-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 12px;
+    border-top: 1px solid #f0f0f0;
+    cursor: pointer;
+    background: #fff;
+    transition: background 0.2s;
+  }
+
+  .bnd-addon-card.selected .bnd-addon-footer { background: #eef5fc; }
+  .bnd-addon-card:not(.locked) .bnd-addon-footer:hover { background: #f9fafb; }
+  .bnd-addon-card.selected .bnd-addon-footer:hover { background: #dcebf8; }
+
+  .bnd-addon-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .bnd-addon-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: #111;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .bnd-addon-price {
+    font-size: 12px;
+    color: black;
+    font-weight: 900;
+    margin: 0;
+  }
+
+  .bnd-addon-price.included { color: #143C63; font-weight: 600; }
+
+  /* Custom toggle switch */
+  .bnd-toggle {
+    flex-shrink: 0;
+    width: 38px;
+    height: 22px;
+    border-radius: 11px;
+    background: #e5e7eb;
+    position: relative;
+    transition: background 0.25s;
+    pointer-events: none;
+  }
+
+  .bnd-toggle::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    transition: transform 0.25s;
+  }
+
+  .bnd-addon-card.selected .bnd-toggle {
+    background: #1E5C97;
+  }
+
+  .bnd-addon-card.selected .bnd-toggle::after {
+    transform: translateX(16px);
+  }
+
+  /* ── TOTAL ROW ── */
+  .bnd-total-row {
+    background: #f9fafb;
+    border-radius: 12px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .bnd-total-label {
+    font-size: 16px;
+    font-weight: 700;
+    color: #111;
+    flex-shrink: 0;
+  }
+
+  .bnd-total-prices {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .bnd-total-compare {
+    font-size: 16px;
+    color: #aaa;
+    text-decoration: line-through;
+    font-weight: 500;
+  }
+
+  .bnd-total-amount {
+    font-size: 24px;
+    font-weight: 800;
+    color: #111;
+    letter-spacing: -0.03em;
+    transition: transform 0.25s ease, color 0.25s ease;
+  }
+
+  .bnd-total-amount.bump {
+    transform: scale(1.1);
+    color: #1E5C97;
+  }
+
+  .bnd-total-savings {
+    font-size: 11px;
+    font-weight: 800;
+    color: #fff;
+    background: linear-gradient(135deg, #143C63, #1E5C97);
+    padding: 5px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    box-shadow: 0 2px 6px rgba(30,92,151,0.3);
+  }
+
+  /* ── BUTTONS ── */
+  .bnd-btn-atc {
+    width: 100%;
+    padding: 16px;
+    border-radius: 10px;
+    background: #1E5C97;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .bnd-btn-atc:hover { background: #143C63; transform: translateY(-1px); }
+  .bnd-btn-atc:active { transform: translateY(0); }
+  .bnd-btn-atc.loading { opacity: 0.7; pointer-events: none; }
+
+  .bnd-btn-buynow {
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    background: #fff;
+    color: #1E5C97;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 2px solid #1E5C97;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .bnd-btn-buynow:hover { background: #eef5fc; transform: translateY(-1px); }
+
+  /* ─────────────────────────────
+     VIDEO SECTION (below buttons)
+  ───────────────────────────── */
+  .bnd-video-section {
+    margin-top: 8px;
+    padding-top: 24px;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  .pd-gallery-outer *,
+  .pd-gallery-outer *::before,
+  .pd-gallery-outer *::after { box-sizing: border-box; }
+
+  .pd-video-gallery {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .pd-video-card {
+    flex: 1 1 0;
+    min-width: 0;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .pd-thumb-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #111;
+  }
+
+  .pd-card-video {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .pd-play-btn {
+    position: absolute;
+    bottom: 10px; right: 10px;
+    width: 32px; height: 32px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .pd-play-btn svg {
+    width: 32px; height: 32px;
+    filter: drop-shadow(0 1px 4px rgba(0,0,0,0.4));
+    transition: transform 0.2s;
+  }
+  .pd-video-card:hover .pd-play-btn svg { transform: scale(1.12); }
+
+  .pd-video-label {
+    text-align: center;
+    font-size: clamp(12px, 2.4vw, 14px);
+    color: #111;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    padding: 0 4px;
+    line-height: 1.3;
+  }
+
+  /* ── VIDEO OVERLAY ── */
+  #pd-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(0,0,0,0.86);
+    align-items: center;
+    justify-content: center;
+  }
+  #pd-overlay.active { display: flex; }
+
+  .pd-reel-wrap {
+    position: relative;
+    width: min(390px, 88vw);
+    max-height: 92vh;
+    aspect-ratio: 9 / 16;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #000;
+    flex-shrink: 0;
+  }
+  .pd-reel-wrap video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .pd-reel-title {
+    position: absolute;
+    bottom: 64px; left: 0; right: 0;
+    text-align: center;
+    color: #fff;
+    font-size: 13px; font-weight: 600;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.8);
+    pointer-events: none;
+    padding: 0 14px;
+    z-index: 5;
+  }
+
+  #pd-mute-btn {
+    position: absolute;
+    bottom: 16px; right: 16px;
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: rgba(157,157,157,0.5);
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+    z-index: 10; padding: 0;
+  }
+  #pd-mute-btn:hover { background: rgba(157,157,157,0.78); }
+  #pd-mute-btn svg   { width: 20px; height: 20px; display: block; }
+
+  #pd-close-btn {
+    position: fixed;
+    top: 16px; right: 16px;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: rgba(157,157,157,0.5);
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 100001;
+    transition: background 0.2s; padding: 0;
+  }
+  #pd-close-btn:hover { background: rgba(157,157,157,0.8); }
+  #pd-close-btn svg   { width: 22px; height: 22px; display: block; }
+
+  .pd-nav-btn {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: rgba(157,157,157,0.5);
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, opacity 0.2s;
+    padding: 0; flex-shrink: 0; margin: 0 10px;
+  }
+  .pd-nav-btn:hover { background: rgba(157,157,157,0.8); }
+  .pd-nav-btn.pd-hidden { opacity: 0; pointer-events: none; }
+  .pd-nav-btn svg { width: 22px; height: 22px; display: block; }
+
+  /* ─────────────────────────────
+     RESPONSIVE
+  ───────────────────────────── */
+  @media (max-width: 768px) {
+    .bnd-section { padding: 32px 16px 0; }
+
+    .bnd-wrap {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    /* Un-stick gallery on mobile */
+    .bnd-gallery { position: static; }
+
+    .bnd-title      { font-size: 26px; }
+    .bnd-price-sale { font-size: 26px; }
+
+    .bnd-addons .bnd-addon-card { flex: unset; }
+    .bnd-addon-name { font-size: 11px; }
+    .bnd-addon-price { font-size: 11px; }
+
+    .bnd-info { padding-bottom: 32px; }
+  }
+
+  @media (max-width: 480px) {
+    .pd-nav-btn   { margin: 0 4px; }
+    .pd-reel-wrap { width: min(320px, 82vw); }
+  }
+
+  /* ── LIGHTBOX ── */
+  .bnd-lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    background: rgba(0,0,0,0.94);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .bnd-lightbox.active {
+    display: flex;
+  }
+
+  .bnd-lightbox-img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 12px;
+    display: block;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+  }
+
+  .bnd-lightbox-close {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    z-index: 10;
+    padding: 0;
+  }
+
+  .bnd-lightbox-close:hover { background: rgba(255,255,255,0.22); }
+  .bnd-lightbox-close svg { width: 20px; height: 20px; stroke: #fff; display: block; flex-shrink: 0; }
+
+  .bnd-lightbox-prev,
+  .bnd-lightbox-next {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, opacity 0.2s;
+    z-index: 10;
+    padding: 0;
+  }
+
+  .bnd-lightbox-prev { left: 20px; }
+  .bnd-lightbox-next { right: 20px; }
+  .bnd-lightbox-prev:hover,
+  .bnd-lightbox-next:hover { background: rgba(255,255,255,0.22); }
+  .bnd-lightbox-prev svg,
+  .bnd-lightbox-next svg { width: 22px; height: 22px; stroke: #fff; display: block; flex-shrink: 0; }
+
+  .bnd-lightbox-prev.disabled,
+  .bnd-lightbox-next.disabled { opacity: 0.2; pointer-events: none; }
+
+  .bnd-lightbox-counter {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.06em;
+  }
+
+  /* ── ADDON IMAGE SLIDER ── */
+  .bnd-addon-slider {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    background: #f5f5f5;
+  }
+
+  .bnd-addon-slides {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease;
+  }
+
+  .bnd-addon-slide {
+    min-width: 100%;
+    height: 100%;
+    flex-shrink: 0;
+  }
+
+  .bnd-addon-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 0;
+  }
+
+  .bnd-slide-arrow svg {
+    stroke: white !important;
+  }
+  .bnd-slide-dot.active {
+    background: #C9882E !important;
+  }
+
+  /* Arrows */
+  .bnd-slide-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #C9882E !important;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 4;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.15);
+    transition: background 0.2s, opacity 0.2s;
+    padding: 0;
+  }
+
+  .bnd-slide-arrow:hover { background: #fff; }
+  .bnd-slide-arrow.hidden { opacity: 0; pointer-events: none; }
+  .bnd-slide-arrow svg { width: 13px; height: 13px; stroke: #111; }
+
+  .bnd-slide-arrow--prev { left: 5px; }
+  .bnd-slide-arrow--next { right: 5px; }
+
+  /* Dot indicators */
+  .bnd-slide-dots {
+    position: absolute;
+    bottom: 5px;
+    left: 0; right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    z-index: 4;
+  }
+
+  .bnd-slide-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    transition: background 0.2s, transform 0.2s;
+    cursor: pointer;
+  }
+
+  .bnd-slide-dot.active {
+    background: #fff;
+    transform: scale(1.3);
+  }
+
+  /* ── STAR RATING ROW ── */
+  .bnd-stars-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    text-align: left;
+    width: fit-content;
+  }
+
+  .bnd-stars-icons {
+    display: flex;
+    gap: 1px;
+  }
+
+  .bnd-star {
+    color: #f59e0b;
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  .bnd-stars-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #555;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .bnd-stars-row:hover .bnd-stars-label { color: #1E5C97; }
+
+  /* ── ADD TOP BUTTON (top-right of card image) ── */
+  .bnd-add-top-btn {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    background: #1E5C97;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 5px 10px 5px 8px;
+    border-radius: 20px;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    z-index: 8;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.22);
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    min-height: 30px;
+  }
+
+  .bnd-add-top-btn:hover {
+    background: #143C63;
+    transform: scale(1.06);
+    box-shadow: 0 4px 14px rgba(30,92,151,0.4);
+  }
+
+  /* Prevent hover effects on touch devices */
+  @media (hover: none) {
+    .bnd-add-top-btn:hover {
+      transform: none;
+      background: #1E5C97;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.22);
+    }
+    .bnd-addon-card.selected .bnd-add-top-btn:hover {
+      background: #143C63;
+    }
+    .bnd-add-top-btn:active {
+      transform: scale(0.94);
+      background: #143C63;
+    }
+  }
+
+  .bnd-add-top-btn svg {
+    width: 11px;
+    height: 11px;
+    stroke: #fff;
+    flex-shrink: 0;
+  }
+
+  /* ── CHANGE 1: When card is selected — inert "Added" badge, no interaction ── */
+  .bnd-addon-card.selected .bnd-add-top-btn {
+    background: #143C63;
+    color: #fff;
+    pointer-events: none;
+    cursor: default;
+  }
+
+  .bnd-addon-card.selected .bnd-add-top-btn svg {
+    stroke: #fff;
+  }
+
+  .bnd-add-top-btn .bnd-icon-plus  { display: block; }
+  .bnd-add-top-btn .bnd-icon-check { display: none; }
+
+  .bnd-addon-card.selected .bnd-add-top-btn .bnd-icon-plus  { display: none; }
+  .bnd-addon-card.selected .bnd-add-top-btn .bnd-icon-check { display: block; }
+
+  /* ── Mobile: larger tap target ── */
+  @media (max-width: 768px) {
+    .bnd-add-top-btn {
+      top: 6px;
+      right: 6px;
+      padding: 7px 11px 7px 9px;
+      min-height: 34px;
+      gap: 5px;
+      font-size: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.28), 0 0 0 1.5px rgba(255,255,255,0.25);
+    }
+
+    .bnd-add-top-btn svg {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  /* ── Very small cards ── */
+  @media (max-width: 380px) {
+    .bnd-add-top-btn {
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      min-height: 32px;
+      border-radius: 50%;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .bnd-add-top-btn .bnd-add-top-label {
+      display: none;
+    }
+
+    .bnd-add-top-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  /* Included badge (locked main card) */
+  .bnd-included-badge {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    background: #fff;
+    color: #143C63;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 9px;
+    border-radius: 20px;
+    border: 1.5px solid #1E5C97;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    z-index: 8;
+    pointer-events: none;
+    min-height: 26px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.12);
+  }
+
+  .bnd-included-badge svg {
+    width: 10px;
+    height: 10px;
+    stroke: #143C63;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 380px) {
+    .bnd-included-badge {
+      padding: 4px 8px;
+      font-size: 9px;
+    }
+  }
+
+  /* ── KIT "ALWAYS INCLUDED" BAR ── */
+  .bnd-kit-included-bar {
+    width: 100%;
+    padding: 13px 14px;
+    background: #eef5fc;
+    border-top: 1px solid #bcd6f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #143C63;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-radius: 0 0 12px 12px;
+  }
+
+  .bnd-kit-included-bar svg {
+    width: 14px;
+    height: 14px;
+    stroke: #143C63;
+    flex-shrink: 0;
+  }
+
+  /* ── QUICK VIEW BUTTON on each addon card ── */
+  .bnd-qv-btn {
+    width: 100%;
+    padding: 13px 14px;
+    background: #1E5C97;
+    border: none;
+    border-top: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 4px 14px rgba(30,92,151, 0.35);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    animation: bndQvPulse 2.5s ease-in-out infinite;
+  }
+  @keyframes bndQvPulse {
+    0%, 100% { box-shadow: 0 4px 14px rgba(30,92,151, 0.35); }
+    50% { box-shadow: 0 6px 24px rgba(30,92,151, 0.55); }
+  }
+  .bnd-qv-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+    box-shadow: 0 8px 28px rgba(30,92,151, 0.5);
+    animation: none;
+  }
+  .bnd-qv-btn:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(30,92,151, 0.3); }
+  .bnd-qv-btn svg { width: 14px; height: 14px; stroke: #fff; flex-shrink: 0; display: block; }
+
+  /* ── QUICK VIEW MODAL ── */
+  .bnd-qv-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999999;
+    background: rgba(0,0,0,0.72);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .bnd-qv-panel {
+    background: #fff;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 940px;
+    max-height: 92vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.35);
+    animation: bndQvIn 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+  @keyframes bndQvIn {
+    from { opacity: 0; transform: scale(0.93) translateY(12px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .bnd-qv-close {
+    position: absolute;
+    top: 14px; right: 14px;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: #f3f4f6;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: background 0.2s;
+    padding: 0;
+  }
+  .bnd-qv-close:hover { background: #e5e7eb; }
+  .bnd-qv-close svg { width: 16px; height: 16px; stroke: #111; display: block; }
+
+  .bnd-qv-body {
+    display: grid;
+    grid-template-columns: 54% 1fr;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* LEFT gallery */
+  .bnd-qv-gallery { background: #f5f5f5; display: flex; flex-direction: column; overflow: hidden; }
+
+  .bnd-qv-img-wrap {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    min-height: 300px;
+  }
+
+  .bnd-qv-main-img {
+    max-width: 100%;
+    max-height: 420px;
+    object-fit: contain;
+    display: block;
+    border-radius: 8px;
+    transition: opacity 0.2s ease;
+  }
+
+  .bnd-qv-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.92);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.14);
+    transition: background 0.2s, opacity 0.2s;
+    padding: 0; z-index: 4;
+  }
+  .bnd-qv-nav:hover { background: #fff; }
+  .bnd-qv-nav.off   { opacity: 0; pointer-events: none; }
+  .bnd-qv-nav svg   { width: 18px; height: 18px; stroke: #111; display: block; }
+  .bnd-qv-nav--prev { left: 10px; }
+  .bnd-qv-nav--next { right: 10px; }
+
+  .bnd-qv-img-count {
+    position: absolute;
+    bottom: 10px; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Inter', sans-serif;
+    font-size: 11px; font-weight: 600;
+    color: rgba(255,255,255,0.9);
+    background: rgba(0,0,0,0.42);
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  .bnd-qv-thumbs {
+    display: flex;
+    gap: 6px;
+    padding: 10px 14px;
+    overflow-x: auto;
+    background: #f5f5f5;
+    scrollbar-width: none;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .bnd-qv-thumbs::-webkit-scrollbar { display: none; }
+
+  .bnd-qv-thumb {
+    width: 58px; height: 58px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+    background: #eee;
+  }
+  .bnd-qv-thumb.active { border-color: #1E5C97; }
+  .bnd-qv-thumb:hover  { border-color: #9cc0e6; }
+  .bnd-qv-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .bnd-qv-info {
+    padding: 24px 26px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow: hidden;
+  }
+
+  .bnd-qv-title {
+    font-size: 22px; font-weight: 800;
+    color: #111; line-height: 1.15;
+    letter-spacing: -0.03em; margin: 0;
+  }
+
+  .bnd-qv-price-row {
+    display: flex; align-items: center;
+    gap: 10px; flex-wrap: wrap;
+  }
+
+  .bnd-qv-price-sale { font-size: 26px; font-weight: 800; color: #111; letter-spacing: -0.03em; }
+  .bnd-qv-price-compare { font-size: 16px; color: #aaa; text-decoration: line-through; font-weight: 500; }
+  .bnd-qv-price-badge { font-size: 11px; font-weight: 700; color: #143C63; background: #dcebf8; padding: 3px 10px; border-radius: 20px; }
+
+  .bnd-qv-divider { height: 1px; background: #f0f0f0; flex-shrink: 0; }
+
+  /* ── Description accordion inside quick view ── */
+  .bnd-qv-acc {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .bnd-qv-acc-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    background: #f9fafb;
+    border: none;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    text-align: left;
+    gap: 10px;
+  }
+  .bnd-qv-acc-trigger:hover { background: #f3f4f6; }
+
+  .bnd-qv-acc-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #111;
+    letter-spacing: -0.01em;
+  }
+
+  .bnd-qv-acc-icon {
+    flex-shrink: 0;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 1.5px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .bnd-qv-acc-icon svg {
+    width: 12px; height: 12px;
+    transition: transform 0.3s ease;
+  }
+
+  .bnd-qv-acc.open .bnd-qv-acc-icon {
+    border-color: #1E5C97;
+    background: #1E5C97;
+  }
+
+  .bnd-qv-acc.open .bnd-qv-acc-icon svg {
+    transform: rotate(45deg);
+    color: #fff;
+  }
+
+  .bnd-qv-acc.open .bnd-qv-acc-icon path { fill: #fff; }
+
+  .bnd-qv-acc-body {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.32s ease;
+    background: #fff;
+  }
+
+  .bnd-qv-acc.open .bnd-qv-acc-body {
+    max-height: 260px;
+  }
+
+  .bnd-qv-desc {
+    font-size: 13px; color: #555; line-height: 1.7;
+    padding: 12px 14px;
+    overflow-y: auto;
+    max-height: 220px;
+    scrollbar-width: thin;
+  }
+  .bnd-qv-desc p { margin: 0 0 8px; }
+  .bnd-qv-desc p:last-child { margin: 0; }
+  .bnd-qv-desc ul { margin: 0 0 8px; padding-left: 18px; }
+  .bnd-qv-desc li { margin-bottom: 4px; }
+
+  /* CTA — outside scroll area */
+  .bnd-qv-cta {
+    flex-shrink: 0;
+    padding: 14px 28px 22px;
+    background: #fff;
+    border-top: 1px solid #f0f0f0;
+    margin-left: 54%;
+  }
+
+  .bnd-qv-add-btn {
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    background: #1E5C97;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    border: none; cursor: pointer;
+    display: flex; align-items: center;
+    justify-content: center; gap: 8px;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .bnd-qv-add-btn:hover  { background: #143C63; transform: translateY(-1px); }
+  .bnd-qv-add-btn:active { transform: translateY(0); }
+
+  /* ── CHANGE 2: in-bundle state is now a static "Added" badge ── */
+  .bnd-qv-add-btn.in-bundle {
+    background: #143C63;
+    color: #fff;
+    pointer-events: none;
+    cursor: default;
+  }
+
+  .bnd-qv-add-btn svg { width: 16px; height: 16px; stroke: currentColor; flex-shrink: 0; display: block; }
+
+  /* ── Kit description section ── */
+  .bnd-kit-desc-section {
+    font-family: 'Inter', sans-serif;
+    background: #fff;
+    padding: 60px 40px;
+    border-top: 1px solid #f0f0f0;
+  }
+  .bnd-kit-desc-inner {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  .bnd-kit-desc-heading {
+    font-size: 28px;
+    font-weight: 800;
+    color: #111;
+    letter-spacing: -0.03em;
+    margin: 0 0 20px;
+  }
+  .bnd-kit-desc-content {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.8;
+  }
+  .bnd-kit-desc-content p  { margin: 0 0 12px; }
+  .bnd-kit-desc-content ul { padding-left: 20px; margin: 0 0 12px; }
+  .bnd-kit-desc-content li { margin-bottom: 6px; }
+
+  @media (max-width: 768px) {
+    .bnd-kit-desc-section { padding: 40px 20px; }
+    .bnd-kit-desc-heading  { font-size: 22px; }
+  }
+
+  /* ── Mobile Quick View — full screen ── */
+  @media (max-width: 640px) {
+    .bnd-qv-overlay {
+      padding: 0;
+      align-items: stretch;
+    }
+
+    .bnd-qv-panel {
+      border-radius: 0;
+      max-height: 100%;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      animation: bndQvInMobile 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @keyframes bndQvInMobile {
+      from { transform: translateY(40px); opacity: 0.7; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+
+    .bnd-qv-panel::before { display: none; }
+
+    .bnd-qv-close {
+      top: 14px;
+      right: 14px;
+      width: 32px;
+      height: 32px;
+      background: #f3f4f6;
+      z-index: 20;
+    }
+
+    .bnd-qv-body {
+      grid-template-columns: 1fr;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .bnd-qv-gallery {
+      flex-shrink: 0;
+      height: 300px;
+      min-height: 300px;
+    }
+
+    .bnd-qv-img-wrap { min-height: 0; flex: 1; }
+
+    .bnd-qv-main-img {
+      max-height: 230px;
+      width: auto;
+      max-width: 100%;
+    }
+
+    .bnd-qv-nav { width: 32px; height: 32px; }
+    .bnd-qv-nav svg { width: 14px; height: 14px; }
+
+    .bnd-qv-thumbs { padding: 8px 14px; }
+    .bnd-qv-thumb  { width: 46px; height: 46px; }
+
+    .bnd-qv-info {
+      padding: 18px 20px 8px;
+      gap: 12px;
+      overflow-y: auto;
+      flex: 1;
+      min-height: 0;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .bnd-qv-title         { font-size: 18px; }
+    .bnd-qv-price-sale    { font-size: 22px; }
+    .bnd-qv-price-compare { font-size: 14px; }
+
+    .bnd-qv-acc.open .bnd-qv-acc-body { max-height: 160px; }
+
+    .bnd-qv-cta {
+      flex-shrink: 0;
+      padding: 12px 20px 24px;
+      background: #fff;
+      border-top: 1px solid #f0f0f0;
+      margin-top: 0;
+    }
+
+    .bnd-qv-cta {
+      margin-left: 0;
+      padding: 12px 20px 28px;
+      width: 100%;
+    }
+
+    .bnd-qv-add-btn { padding: 16px; font-size: 14px; border-radius: 12px; }
+  }
+
+  /* ── BROWSE BUTTONS (bottom-right of footer) ── */
+  .bnd-browse-btns {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+
+  .bnd-browse-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: background 0.15s, border-color 0.15s;
+    flex-shrink: 0;
+  }
+
+  .bnd-browse-btn:hover {
+    background: #e5e7eb;
+    border-color: #d1d5db;
+  }
+
+  .bnd-browse-btn svg {
+    width: 13px;
+    height: 13px;
+    stroke: #555;
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    button.bnd-browse-btn {
+      display: none;
+    }
+  }
+
+  button#bnd-atc-btn {
+    font-weight: 900;
+  }
+
+  /* ══════════════════════════════════════
+     ✓ ADDED POPUP OVERLAY — DRAMATIC
+  ══════════════════════════════════════ */
+  .bnd-added-popup {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    pointer-events: none;
+    opacity: 0;
+    background: rgba(0, 0, 0, 0);
+    transition: opacity 0.2s ease, background 0.2s ease;
+    border-radius: 8px;
+  }
+
+  .bnd-added-popup.show {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.42);
+  }
+
+  .bnd-added-popup-badge {
+    background: #1E5C97;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 14px 26px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    box-shadow:
+      0 0 0 4px rgba(30,92,151,0.3),
+      0 8px 32px rgba(0,0,0,0.45),
+      0 0 60px rgba(30,92,151,0.4);
+    transform: scale(0.6) rotate(-4deg);
+    transition: transform 0.4s cubic-bezier(0.34, 1.7, 0.64, 1);
+  }
+
+  .bnd-added-popup.show .bnd-added-popup-badge {
+    transform: scale(1) rotate(0deg);
+  }
+
+  .bnd-added-popup-badge svg {
+    width: 18px;
+    height: 18px;
+    stroke: #fff;
+    flex-shrink: 0;
+  }
+</style>
+
+
+
+<!-- ═══════════════════════════════════════
+     SECTION HTML
+═══════════════════════════════════════ -->
+<div class="bnd-section">
+
+  <!-- ── FATHER'S DAY HEADER ── -->
+  <div class="bnd-jul4-head">
+    <span class="bnd-jul4-eyebrow">🎁 Father’s Day Sale 🏆</span>
+    <h2 class="bnd-jul4-title">Game On, <span class="red">Dad</span></h2>
+    <p class="bnd-jul4-sub">This Father’s Day, give Dad the easiest way to get the whole family off their phones and into the fun. Cousin showdowns, backyard BBQs, family game night — the Rookie Pack is fun for every age and skill level. Learn it in seconds, play all day.</p>
+  </div>
+
+  <div class="bnd-wrap">
+
+    <!-- ── LEFT: STICKY GALLERY ── -->
+    <div class="bnd-gallery">
+      <div class="bnd-main-img-wrap" onclick="bndOpenLightbox()">
+        <img
+          id="bnd-main-img"
+          class="bnd-main-img"
+          src="{{ main_product.featured_image | image_url: width: 800 }}"
+          alt="{{ main_product.title }}"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        >
+      </div>
+      <div class="bnd-thumbs">
+        {% comment %} First product image {% endcomment %}
+        {% assign first_img = main_product.images | first %}
+        <div class="bnd-thumb active" data-src="{{ first_img | image_url: width: 800 }}">
+          <img src="{{ first_img | image_url: width: 200 }}" alt="{{ main_product.title }} 1" loading="eager" fetchpriority="high">
+        </div>
+
+        <div class="bnd-thumb" data-src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Group_1484581343.png?v=1778015640">
+          <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Group_1484581343.png?v=1778015640" alt="{{ main_product.title }} bundle" loading="eager">
+        </div>
+
+        {% comment %} Remaining product images (skip first, show up to 2 more) {% endcomment %}
+        {% for image in main_product.images limit: 3 %}
+          {% unless forloop.first %}
+            <div class="bnd-thumb" data-src="{{ image | image_url: width: 800 }}">
+              <img src="{{ image | image_url: width: 200 }}" alt="{{ main_product.title }} {{ forloop.index }}" loading="eager">
+            </div>
+          {% endunless %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- ── RIGHT: INFO + VIDEO ── -->
+    <div class="bnd-info">
+
+      <h1 class="bnd-title">{{ main_product.title }}</h1>
+
+      <!-- Star rating → scrolls to Judge.me review section -->
+      <button class="bnd-stars-row" onclick="bndScrollToReviews()" aria-label="Read 17 reviews">
+        <span class="bnd-stars-icons">
+          <span class="bnd-star">★</span>
+          <span class="bnd-star">★</span>
+          <span class="bnd-star">★</span>
+          <span class="bnd-star">★</span>
+          <span class="bnd-star">★</span>
+        </span>
+        <span id="goti" class="bnd-stars-label">(17) Reviews</span>
+      </button>
+
+      {% assign bnd_default_variant = main_product.first_available_variant | default: main_product.variants.first %}
+      <div class="bnd-price-row">
+        <span class="bnd-price-original" id="bnd-main-price-orig" {% if bnd_default_variant.compare_at_price <= bnd_default_variant.price %}style="display:none"{% endif %}>{{ bnd_default_variant.compare_at_price | money }}</span>
+        <span class="bnd-price-sale" id="bnd-main-price-sale">{{ bnd_default_variant.price | money }}</span>
+        {% if bnd_default_variant.compare_at_price > bnd_default_variant.price %}
+          {% assign savings = bnd_default_variant.compare_at_price | minus: bnd_default_variant.price %}
+          <span class="bnd-price-badge">Save {{ savings | money }}</span>
+        {% endif %}
+      </div>
+
+      {% if main_product.variants.size > 1 %}
+        <!-- Variant selector (Rookie Pack colors) -->
+        <div class="bnd-variant-select">
+          <p class="bnd-variant-label">
+            {{ main_product.options.first | default: 'Option' }}:
+            <span class="bnd-variant-current" id="bnd-variant-current">{{ bnd_default_variant.title }}</span>
+          </p>
+          <div class="bnd-variant-opts" id="bnd-variant-opts" role="radiogroup" aria-label="Choose {{ main_product.options.first | default: 'option' | escape }}">
+            {% for v in main_product.variants %}
+              <button
+                type="button"
+                class="bnd-variant-opt{% if v.id == bnd_default_variant.id %} selected{% endif %}{% unless v.available %} soldout{% endunless %}"
+                data-vid="{{ v.id }}"
+                data-price="{{ v.price }}"
+                data-compare="{{ v.compare_at_price | default: v.price }}"
+                data-title="{{ v.title | escape }}"
+                {% unless v.available %}disabled aria-disabled="true"{% endunless %}
+                onclick="bndSelectVariant(this)"
+                aria-label="{{ v.title | escape }}"
+              >{{ v.title }}</button>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- Free Shipping Tag -->
+      <div class="bnd-shipping-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="1" y="3" width="15" height="13" rx="1"/>
+          <path d="M16 8h4l3 5v5h-7V8z"/>
+          <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+        </svg>
+        <span><span class="bnd-shipping-free">Free</span> Shipping in the USA</span>
+      </div>
+
+      <!-- Bundle -->
+      <p class="bnd-bundle-label">Complete Dad’s Set</p>
+
+      <div class="bnd-addons-outer">
+      <div class="bnd-addons" id="bnd-addons-track">
+
+        <!-- Main — always selected, locked -->
+        <div class="bnd-addon-card selected locked" id="bnd-card-main">
+          <div class="bnd-included-badge">
+            <svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg>
+            Included
+          </div>
+          <div class="bnd-addon-img-zone" onclick="bndImgZoneClick(event,this)">
+            <div class="bnd-addon-slider" data-idx="0">
+              <div class="bnd-addon-slides">
+                {% for img in main_product.images limit: 4 %}
+                  <div class="bnd-addon-slide"><img src="{{ img | image_url: width: 600 }}" alt="{{ main_product.title }} {{ forloop.index }}" loading="eager" fetchpriority="high"></div>
+                {% endfor %}
+              </div>
+              <div class="bnd-slide-pills">
+                {% for img in main_product.images limit: 4 %}
+                  <span class="bnd-slide-pill {% if forloop.first %}active{% endif %}"></span>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="bnd-addon-footer" style="pointer-events:none">
+            <div class="bnd-addon-text">
+              <p class="bnd-addon-name">{{ main_product.title }}</p>
+              <p class="bnd-addon-price included">Included</p>
+            </div>
+            <div class="bnd-browse-btns">
+              <button class="bnd-browse-btn" onclick="bndFooterNav(event,this,-1)" aria-label="Previous image">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <button class="bnd-browse-btn" onclick="bndFooterNav(event,this,1)" aria-label="Next image">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+            <div class="bnd-toggle"></div>
+          </div>
+          <div class="bnd-kit-included-bar">
+            <svg viewBox="0 0 16 16" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,8 6,12 14,4"/></svg>
+            Included
+          </div>
+        </div>
+
+        <!-- Tower Shot MOD -->
+        <div
+          class="bnd-addon-card"
+          id="bnd-card-mod"
+          data-variant="{{addon_mod.first_available_variant.id}}"
+          data-price="{{addon_mod.price}}"
+          data-compare="{{addon_mod.compare_at_price | default: addon_mod.price}}"
+        >
+          <button class="bnd-add-top-btn" onclick="event.stopPropagation(); bndToggleAddon(this.closest('.bnd-addon-card'))" aria-label="Add top to bundle">
+            <svg class="bnd-icon-plus" viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg>
+            <svg class="bnd-icon-check" viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg>
+            <span class="bnd-add-top-label">Add</span>
+          </button>
+          <div class="bnd-addon-img-zone" onclick="bndImgZoneClick(event,this)">
+            <div class="bnd-added-popup">
+              <div class="bnd-added-popup-badge">
+                <svg viewBox="0 0 16 16" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,8 6,12 14,4"/></svg>
+                Added
+              </div>
+            </div>
+            <div class="bnd-addon-slider" data-idx="0">
+              <div class="bnd-addon-slides">
+                {% for img in addon_mod.images limit: 4 %}
+                  <div class="bnd-addon-slide"><img src="{{ img | image_url: width: 600 }}" alt="{{addon_mod.title}} {{ forloop.index }}" loading="eager"></div>
+                {% endfor %}
+              </div>
+              <div class="bnd-slide-pills">
+                {% for img in addon_mod.images limit: 4 %}
+                  <span class="bnd-slide-pill {% if forloop.first %}active{% endif %}"></span>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="bnd-addon-footer" onclick="bndToggleAddon(this.closest('.bnd-addon-card'))">
+            <div class="bnd-addon-text">
+              <p class="bnd-addon-name">{{addon_mod.title}}</p>
+              <p class="bnd-addon-price">+ {{ addon_mod.price | money_without_trailing_zeros }}</p>
+            </div>
+            <div class="bnd-browse-btns">
+              <button class="bnd-browse-btn" onclick="bndFooterNav(event,this,-1)" aria-label="Previous image">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <button class="bnd-browse-btn" onclick="bndFooterNav(event,this,1)" aria-label="Next image">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+            <div class="bnd-toggle"></div>
+          </div>
+          <button class="bnd-qv-btn" onclick="bndQvOpen('bnd-card-mod')" aria-label="Quick view {{addon_mod.title}}">
+            More Details
+          </button>
+        </div>
+
+        <!-- Pro Glow Target Marker -->
+        <div
+          class="bnd-addon-card"
+          id="bnd-card-marker"
+          data-variant="{{addon_marker.first_available_variant.id}}"
+          data-price="{{addon_marker.price}}"
+          data-compare="{{addon_marker.compare_at_price | default: addon_marker.price}}"
+        >
+          <button class="bnd-add-top-btn" onclick="event.stopPropagation(); bndToggleAddon(this.closest('.bnd-addon-card'))" aria-label="Add top to bundle">
+            <svg class="bnd-icon-plus" viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="6" y1="1" x2="6" y2="11"/><line x1="1" y1="6" x2="11" y2="6"/></svg>
+            <svg class="bnd-icon-check" viewBox="0 0 12 12" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg>
+            <span class="bnd-add-top-label">Add</span>
+          </button>
+          <div class="bnd-addon-img-zone" onclick="bndImgZoneClick(event,this)">
+            <div class="bnd-added-popup">
+              <div class="bnd-added-popup-badge">
+                <svg viewBox="0 0 16 16" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,8 6,12 14,4"/></svg>
+                Added
+              </div>
+            </div>
+            <div class="bnd-addon-slider" data-idx="0">
+              <div class="bnd-addon-slides">
+                {% for img in addon_marker.images limit: 4 %}
+                  <div class="bnd-addon-slide"><img src="{{ img | image_url: width: 600 }}" alt="{{addon_marker.title}} {{ forloop.index }}" loading="eager"></div>
+                {% endfor %}
+              </div>
+              <div class="bnd-slide-pills">
+                {% for img in addon_marker.images limit: 4 %}
+                  <span class="bnd-slide-pill {% if forloop.first %}active{% endif %}"></span>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="bnd-addon-footer" onclick="bndToggleAddon(this.closest('.bnd-addon-card'))">
+            <div class="bnd-addon-text">
+              <p class="bnd-addon-name">{{addon_marker.title}}</p>
+              <p class="bnd-addon-price">+ {{ addon_marker.price | money_without_trailing_zeros }}</p>
+            </div>
+            <div class="bnd-browse-btns">
+              <button class="bnd-browse-btn" onclick="bndFooterNav(event,this,-1)" aria-label="Previous image">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <button class="bnd-browse-btn" onclick="bndFooterNav(event,this,1)" aria-label="Next image">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+            <div class="bnd-toggle"></div>
+          </div>
+          <button class="bnd-qv-btn" onclick="bndQvOpen('bnd-card-marker')" aria-label="Quick view {{addon_marker.title}}">
+            More Details
+          </button>
+        </div>
+      </div><!-- /bnd-addons -->
+      </div><!-- /bnd-addons-outer -->
+
+      <!-- Total row with compare price -->
+      <div class="bnd-total-row">
+        <span class="bnd-total-label">Total:</span>
+        <div class="bnd-total-prices">
+          <span class="bnd-total-compare" id="bnd-total-compare"></span>
+          <span class="bnd-total-amount" id="bnd-total">{{ bnd_default_variant.price | money }}</span>
+          {% comment %} <span class="bnd-total-savings" id="bnd-total-savings" style="display:none"></span> {% endcomment %}
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <button class="bnd-btn-atc" id="bnd-atc-btn" onclick="bndAddToCart()">Add To Cart</button>
+
+      <!-- ── VIDEO SECTION ── -->
+      <div class="bnd-video-section">
+        <div class="pd-gallery-outer">
+
+          <div class="pd-video-gallery">
+            <div class="pd-video-card" data-index="0">
+              <div class="pd-thumb-wrap">
+                <video class="pd-card-video" muted playsinline autoplay loop preload="auto"></video>
+                <div class="pd-play-btn">
+                  <svg viewBox="0 0 34 34" fill="none"><circle cx="17" cy="17" r="17" fill="rgba(255,255,255,0.25)"/><polygon points="14,11 24,17 14,23" fill="white"/></svg>
+                </div>
+              </div>
+            </div>
+
+            <div class="pd-video-card" data-index="1">
+              <div class="pd-thumb-wrap">
+                <video class="pd-card-video" muted playsinline autoplay loop preload="auto"></video>
+                <div class="pd-play-btn">
+                  <svg viewBox="0 0 34 34" fill="none"><circle cx="17" cy="17" r="17" fill="rgba(255,255,255,0.25)"/><polygon points="14,11 24,17 14,23" fill="white"/></svg>
+                </div>
+              </div>
+            </div>
+
+            <div class="pd-video-card" data-index="2">
+              <div class="pd-thumb-wrap">
+                <video class="pd-card-video" muted playsinline autoplay loop preload="auto"></video>
+                <div class="pd-play-btn">
+                  <svg viewBox="0 0 34 34" fill="none"><circle cx="17" cy="17" r="17" fill="rgba(255,255,255,0.25)"/><polygon points="14,11 24,17 14,23" fill="white"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- VIDEO OVERLAY -->
+          <div id="pd-overlay" role="dialog" aria-modal="true" aria-label="Video player">
+            <button id="pd-close-btn" aria-label="Close video">
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+            <button class="pd-nav-btn" id="pd-prev-btn" aria-label="Previous video">
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <div class="pd-reel-wrap">
+              <video id="pd-video" playsinline loop webkit-playsinline></video>
+              <div class="pd-reel-title" id="pd-reel-title"></div>
+              <button id="pd-mute-btn" aria-label="Toggle mute">
+                <svg id="pd-icon-sound" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                </svg>
+                <svg id="pd-icon-mute" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                  <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+                </svg>
+              </button>
+            </div>
+            <button class="pd-nav-btn" id="pd-next-btn" aria-label="Next video">
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          </div>
+
+        </div>
+      </div>
+      <!-- /VIDEO SECTION -->
+
+      <!-- ── ACCORDION ── -->
+      <div class="bnd-accordion">
+
+        <div class="bnd-acc-item">
+          <button class="bnd-acc-trigger" aria-expanded="false">
+            <span class="bnd-acc-title">Detailed Description</span>
+            <span class="bnd-acc-icon">
+              <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+              </svg>
+            </span>
+          </button>
+          <div class="bnd-acc-body">
+            <div class="bnd-acc-content">
+  Meet Popdarts' most accessible packs — the Rookie and Pro Packs. Toss, stick, and score: it takes ten seconds to learn and the whole family is instantly hooked. It's the boredom buster that gets the cousins competing at every family gathering, gets the kids off their phones, and turns any backyard, driveway, or living room into game-night central. Easy enough for the little ones, competitive enough to start a friendly family rivalry — fun for absolutely everyone.
+</div>
+          </div>
+        </div>
+
+        <div class="bnd-acc-item">
+          <button class="bnd-acc-trigger" aria-expanded="false">
+            <span class="bnd-acc-title">What's Included</span>
+            <span class="bnd-acc-icon">
+              <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+              </svg>
+            </span>
+          </button>
+          <div class="bnd-acc-body">
+            <div class="bnd-acc-content">
+  <ul>
+    <li>6 Rookie Popdarts — 2 sets of 3 darts (one per team)</li>
+    <li>1 Rookie Target Marker</li>
+    <li>1 carrying bag with built-in ruler &amp; easy-to-follow rules</li>
+    <li>2 Popdarts® Rookie Crew stickers</li>
+    <li>Game rules &amp; simple how-to instructions</li>
+    <li>BONUS: Pro Popdart for when you're ready to level up</li>
+  </ul>
+</div>
+          </div>
+        </div>
+
+        <div class="bnd-acc-item">
+          <button class="bnd-acc-trigger" aria-expanded="false">
+            <span class="bnd-acc-title">Shipping &amp; Returns</span>
+            <span class="bnd-acc-icon">
+              <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+              </svg>
+            </span>
+          </button>
+          <div class="bnd-acc-body">
+            <div class="bnd-acc-content">
+  <ul>
+    <li>All Popdarts&reg; orders ship next business day.</li>
+    <li>Standard shipping in the USA takes 3&ndash;5 business days.</li>
+    <li>Returns are easy. Simply contact us at <a href="mailto:support@popdartsgame.com">support@popdartsgame.com</a>.</li>
+  </ul>
+</div>
+          </div>
+        </div>
+
+      </div>
+      <!-- /ACCORDION -->
+
+    </div>
+    <!-- /bnd-info -->
+
+  </div>
+
+<script>
+/* ── ACCORDION ── */
+document.querySelectorAll('.bnd-accordion .bnd-acc-trigger').forEach(function (trigger) {
+  trigger.addEventListener('click', function () {
+    var item   = trigger.closest('.bnd-acc-item');
+    var isOpen = item.classList.contains('open');
+    document.querySelectorAll('.bnd-accordion .bnd-acc-item').forEach(function (i) {
+      i.classList.remove('open');
+      i.querySelector('.bnd-acc-trigger').setAttribute('aria-expanded', 'false');
+    });
+    if (!isOpen) {
+      item.classList.add('open');
+      trigger.setAttribute('aria-expanded', 'true');
+    }
+  });
+});
+</script>
+
+<!-- ── LIGHTBOX ── -->
+<div class="bnd-lightbox" id="bnd-lightbox">
+  <button class="bnd-lightbox-close" onclick="bndCloseLightbox()" aria-label="Close">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </button>
+  <button class="bnd-lightbox-prev" id="bnd-lb-prev" onclick="bndLightboxNav(-1)" aria-label="Previous">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </button>
+  <img class="bnd-lightbox-img" id="bnd-lb-img" src="" alt="">
+  <button class="bnd-lightbox-next" id="bnd-lb-next" onclick="bndLightboxNav(1)" aria-label="Next">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="9 18 15 12 9 6"/>
+    </svg>
+  </button>
+  <span class="bnd-lightbox-counter" id="bnd-lb-counter"></span>
+</div>
+
+<!-- ── QUICK VIEW MODAL ── -->
+<div class="bnd-qv-overlay" id="bnd-qv-overlay" role="dialog" aria-modal="true" aria-label="Product quick view">
+  <div class="bnd-qv-panel" id="bnd-qv-panel">
+
+    <button class="bnd-qv-close" onclick="bndQvClose()" aria-label="Close quick view">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+
+    <div class="bnd-qv-body">
+
+      <!-- LEFT: Image Gallery -->
+      <div class="bnd-qv-gallery">
+        <div class="bnd-qv-img-wrap">
+          <button class="bnd-qv-nav bnd-qv-nav--prev off" id="bnd-qv-prev" onclick="bndQvNav(-1)" aria-label="Previous image">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <img class="bnd-qv-main-img" id="bnd-qv-main-img" src="" alt="">
+          <button class="bnd-qv-nav bnd-qv-nav--next off" id="bnd-qv-next" onclick="bndQvNav(1)" aria-label="Next image">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+          <span class="bnd-qv-img-count" id="bnd-qv-count"></span>
+        </div>
+        <div class="bnd-qv-thumbs" id="bnd-qv-thumbs"></div>
+      </div>
+
+      <!-- RIGHT: Product Info -->
+      <div class="bnd-qv-info">
+        <h2 class="bnd-qv-title" id="bnd-qv-title"></h2>
+        <div class="bnd-qv-price-row">
+          <span class="bnd-qv-price-compare" id="bnd-qv-price-compare" style="display:none"></span>
+          <span class="bnd-qv-price-sale" id="bnd-qv-price-sale"></span>
+          <span class="bnd-qv-price-badge" id="bnd-qv-price-badge" style="display:none"></span>
+        </div>
+        <div class="bnd-qv-divider"></div>
+        <!-- Accordions -->
+        <div class="bnd-qv-acc" id="bnd-qv-acc-desc">
+          <button class="bnd-qv-acc-trigger" onclick="bndQvAccToggle(this)" aria-expanded="false">
+            <span class="bnd-qv-acc-label">Detailed Description</span>
+            <span class="bnd-qv-acc-icon">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/></svg>
+            </span>
+          </button>
+          <div class="bnd-qv-acc-body">
+            <div class="bnd-qv-desc" id="bnd-qv-desc"></div>
+          </div>
+        </div>
+
+        <div class="bnd-qv-acc" id="bnd-qv-acc-included">
+          <button class="bnd-qv-acc-trigger" onclick="bndQvAccToggle(this)" aria-expanded="false">
+            <span class="bnd-qv-acc-label">What's Included</span>
+            <span class="bnd-qv-acc-icon">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/></svg>
+            </span>
+          </button>
+          <div class="bnd-qv-acc-body">
+            <div class="bnd-qv-desc">
+  <ul>
+    <li>6 Rookie Popdarts — 2 sets of 3 darts (one per team)</li>
+    <li>1 Rookie Target Marker</li>
+    <li>1 carrying bag with built-in ruler &amp; easy-to-follow rules</li>
+    <li>2 Popdarts® Rookie Crew stickers</li>
+    <li>Game rules &amp; simple how-to instructions</li>
+    <li>BONUS: Pro Popdart for when you're ready to level up</li>
+  </ul>
+</div>
+          </div>
+        </div>
+
+        <div class="bnd-qv-acc" id="bnd-qv-acc-shipping">
+          <button class="bnd-qv-acc-trigger" onclick="bndQvAccToggle(this)" aria-expanded="false">
+            <span class="bnd-qv-acc-label">Shipping &amp; Returns</span>
+            <span class="bnd-qv-acc-icon">
+              <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/></svg>
+            </span>
+          </button>
+          <div class="bnd-qv-acc-body">
+            <div class="bnd-qv-desc">
+  <ul>
+    <li>All Popdarts&reg; orders ship next business day.</li>
+    <li>Standard shipping in the USA takes 3&ndash;5 business days.</li>
+    <li>Returns are easy. Simply contact us at <a href="mailto:support@popdartsgame.com">support@popdartsgame.com</a>.</li>
+  </ul>
+</div>
+          </div>
+        </div>
+      </div><!-- /bnd-qv-info -->
+
+    </div><!-- /bnd-qv-body -->
+
+    <!-- Sticky CTA -->
+    <div class="bnd-qv-cta">
+      <button class="bnd-qv-add-btn" id="bnd-qv-add-btn" onclick="bndQvCtaClick()">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <span id="bnd-qv-add-label">Add</span>
+      </button>
+    </div>
+
+  </div><!-- /bnd-qv-panel -->
+</div><!-- /bnd-qv-overlay -->
+
+</div><!-- /bnd-section -->
+
+
+<script>
+(function () {
+
+  /* ── PRICES (cents from Liquid) ── */
+  /* These three track the currently selected Rookie Pack variant; bndSelectVariant() reassigns them. */
+  var BND_BASE_PRICE   = {{ bnd_default_variant.price }};
+  var BND_BASE_COMPARE = {{ bnd_default_variant.compare_at_price | default: bnd_default_variant.price }};
+  var BND_MAIN_VARIANT = {{ bnd_default_variant.id }};
+
+  /* ══════════════════════════════════════
+     ✓ ADDED POPUP — shows on the card image
+     when a top is added to the bundle
+  ══════════════════════════════════════ */
+  function bndShowAddedPopup(card) {
+    var overlay = card && card.querySelector('.bnd-added-popup');
+    if (!overlay) return;
+    /* Clear any existing timer so rapid clicks don't stack */
+    if (overlay._hideTimer) clearTimeout(overlay._hideTimer);
+    overlay.classList.add('show');
+    overlay._hideTimer = setTimeout(function () {
+      overlay.classList.remove('show');
+    }, 1500);
+  }
+
+  /* ── THUMBNAIL SWITCHING ── */
+  var mainImg = document.getElementById('bnd-main-img');
+  document.querySelectorAll('.bnd-thumb').forEach(function (t) {
+    t.addEventListener('click', function () {
+      document.querySelectorAll('.bnd-thumb').forEach(function (x) { x.classList.remove('active'); });
+      t.classList.add('active');
+      mainImg.style.opacity = '0';
+      setTimeout(function () { mainImg.src = t.dataset.src; mainImg.style.opacity = '1'; }, 180);
+    });
+  });
+
+  /* ── SHARED HELPERS ── */
+  function bndOpenCartDrawer() {
+    var btn = document.querySelector('[data-cart-toggle],.cart-toggle,#cart-toggle,.js-cart-open');
+    if (btn) { btn.click(); return; }
+    document.dispatchEvent(new CustomEvent('cart:open'));
+    document.dispatchEvent(new CustomEvent('theme:cart:open'));
+  }
+
+  function bndRefreshCart() {
+    fetch('/cart.js')
+      .then(function(r){ return r.json(); })
+      .then(function(cart){
+        var n = cart.item_count;
+        document.querySelectorAll(
+          '[data-cart-count],[data-cart-item-count],.cart-count,.cart__count,#CartCount,.header__cart-count,.cart-count-bubble [aria-hidden]'
+        ).forEach(function(el){ el.textContent = n; });
+      }).catch(function(){});
+
+    fetch('/?sections=cart-drawer,cart-icon-bubble')
+      .then(function(r){ return r.json(); })
+      .then(function(sections){
+        if (sections['cart-drawer']) {
+          var liveDrawer  = document.querySelector('cart-drawer');
+          var sectionWrap = liveDrawer && liveDrawer.closest('[id^="shopify-section-"]');
+          if (sectionWrap) {
+            sectionWrap.innerHTML = sections['cart-drawer'];
+          } else if (liveDrawer) {
+            var doc = new DOMParser().parseFromString(sections['cart-drawer'], 'text/html');
+            var fd  = doc.querySelector('cart-drawer');
+            if (fd) liveDrawer.outerHTML = fd.outerHTML;
+          }
+        }
+        if (sections['cart-icon-bubble']) {
+          var countEl  = document.querySelector('[data-cart-count],[data-cart-item-count],.cart-count,.cart__count,.cart-count-bubble');
+          var iconWrap = countEl && countEl.closest('[id^="shopify-section-"]');
+          if (iconWrap) iconWrap.innerHTML = sections['cart-icon-bubble'];
+        }
+      }).catch(function(){});
+  }
+
+  function bndEnforceKitQty() {
+    fetch('/cart.js').then(function(r){ return r.json(); }).then(function(cart){
+      for (var i = 0; i < cart.items.length; i++) {
+        if (cart.items[i].variant_id === BND_MAIN_VARIANT && cart.items[i].quantity > 1) {
+          fetch('/cart/change.js', {
+            method:'POST', headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest'},
+            body: JSON.stringify({ id: cart.items[i].key, quantity: 1 })
+          }).then(function(r){ return r.json(); }).then(bndRefreshCart).catch(function(){});
+          break;
+        }
+      }
+    }).catch(function(){});
+  }
+
+  /* ── APPLY SELECTED STATE TO A CARD ── */
+  function bndApplySelected(card, selected) {
+    card.classList.toggle('selected', selected);
+    var btn = card.querySelector('.bnd-add-top-btn');
+    if (btn) {
+      var lbl = btn.querySelector('.bnd-add-top-label');
+      if (lbl) lbl.textContent = selected ? 'Added' : 'Add';
+    }
+  }
+
+  /* ── SYNC BUNDLE UI FROM CART ON LOAD ── */
+  function bndSyncFromCart() {
+    fetch('/cart.js').then(function(r){ return r.json(); }).then(function(cart){
+      var inCart = cart.items.map(function(i){ return i.variant_id; });
+      document.querySelectorAll('.bnd-addon-card:not(.locked)').forEach(function(card){
+        var v = parseInt(card.dataset.variant, 10);
+        if (v && inCart.indexOf(v) !== -1) bndApplySelected(card, true);
+      });
+      bndUpdateTotal();
+    }).catch(function(){});
+  }
+
+  /* ── TOGGLE ADDON — syncs both UI and cart ── */
+  window.bndToggleAddon = function(card) {
+    if (!card || card.classList.contains('locked')) return;
+
+    var selecting    = !card.classList.contains('selected');
+    var addonVariant = parseInt(card.dataset.variant, 10);
+
+    bndApplySelected(card, selecting);
+    bndUpdateTotal();
+
+    /* ✨ ADDED POPUP when toggling on ✨ */
+    if (selecting) bndShowAddedPopup(card);
+
+    if (!addonVariant) return;
+
+    if (selecting) {
+      /* ── ADD ── */
+      fetch('/cart.js')
+        .then(function(r){ return r.json(); })
+        .then(function(cart){
+          var inCart = cart.items.map(function(i){ return i.variant_id; });
+          var items  = [];
+          if (BND_MAIN_VARIANT && inCart.indexOf(BND_MAIN_VARIANT) === -1)
+            items.push({ id: BND_MAIN_VARIANT, quantity: 1 });
+          if (inCart.indexOf(addonVariant) === -1)
+            items.push({ id: addonVariant, quantity: 1 });
+          if (!items.length) { bndOpenCartDrawer(); return null; }
+          return fetch('/cart/add.js', {
+            method:'POST', headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest'},
+            body: JSON.stringify({ items: items })
+          }).then(function(r){ return r.json(); });
+        })
+        .then(function(result){
+          if (!result) return;
+          bndEnforceKitQty();
+          bndRefreshCart();
+          bndOpenCartDrawer();
+        })
+        .catch(function(){ bndApplySelected(card, false); bndUpdateTotal(); });
+
+    } else {
+      /* ── REMOVE ── */
+      fetch('/cart.js')
+        .then(function(r){ return r.json(); })
+        .then(function(cart){
+          var addonKey = null;
+          var kitKeys  = [];
+          cart.items.forEach(function(item){
+            if (String(item.variant_id) === String(addonVariant)) addonKey = item.key;
+            if (item.variant_id === BND_MAIN_VARIANT)             kitKeys.push(item.key);
+          });
+          var toRemove = kitKeys.slice();
+          if (addonKey) toRemove.push(addonKey);
+          if (!toRemove.length) return null;
+          return Promise.all(toRemove.map(function(key){
+            return fetch('/cart/change.js', {
+              method:'POST',
+              headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest'},
+              body: JSON.stringify({ id: key, quantity: 0 })
+            }).then(function(r){ return r.json(); });
+          }));
+        })
+        .then(function(result){
+          if (result === null) return null;
+          return fetch('/cart.js').then(function(r){ return r.json(); });
+        })
+        .then(function(cart){
+          if (!cart) return null;
+          var remaining = cart.items.filter(function(i){ return i.variant_id === BND_MAIN_VARIANT; });
+          if (!remaining.length) return true;
+          return Promise.all(remaining.map(function(item){
+            return fetch('/cart/change.js', {
+              method:'POST',
+              headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest'},
+              body: JSON.stringify({ id: item.key, quantity: 0 })
+            }).then(function(r){ return r.json(); });
+          })).then(function(){ return true; });
+        })
+        .then(function(ok){
+          if (!ok) return null;
+          return fetch('/cart/add.js', {
+            method:'POST',
+            headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest'},
+            body: JSON.stringify({ items: [{ id: BND_MAIN_VARIANT, quantity: 1 }] })
+          }).then(function(r){ return r.json(); });
+        })
+        .then(function(result){
+          if (!result) return;
+          bndRefreshCart();
+        })
+        .catch(function(){
+          bndApplySelected(card, true);
+          bndUpdateTotal();
+        });
+    }
+  };
+
+  /* ── FORMAT MONEY ── */
+  function bndMoney(cents) {
+    return '$' + (cents / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  /* ── UPDATE TOTAL ── */
+  function bndUpdateTotal() {
+    var total   = BND_BASE_PRICE;
+    var compare = BND_BASE_COMPARE;
+
+    document.querySelectorAll('.bnd-addon-card:not(.locked).selected').forEach(function (card) {
+      var p = parseInt(card.dataset.price,   10) || 0;
+      var c = parseInt(card.dataset.compare, 10) || 0;
+      total   += p;
+      compare += (c > 0 ? c : p);
+    });
+
+    var amountEl  = document.getElementById('bnd-total');
+    var compareEl = document.getElementById('bnd-total-compare');
+    var savingsEl = document.getElementById('bnd-total-savings');
+
+    amountEl.textContent = bndMoney(total);
+
+    var saved = compare - total;
+    if (saved > 0) {
+      compareEl.textContent   = bndMoney(compare);
+      compareEl.style.cssText = 'display:inline;';
+      if (savingsEl) {
+        savingsEl.textContent   = 'Save ' + bndMoney(saved);
+        savingsEl.style.cssText = 'display:inline-flex;';
+      }
+    } else {
+      compareEl.style.cssText = 'display:none;';
+      if (savingsEl) savingsEl.style.cssText = 'display:none;';
+    }
+
+    amountEl.classList.remove('bump');
+    void amountEl.offsetWidth;
+    amountEl.classList.add('bump');
+    setTimeout(function () { amountEl.classList.remove('bump'); }, 300);
+  }
+
+  /* ── VARIANT SELECTION (Rookie Pack colors) ── */
+  window.bndSelectVariant = function (btn) {
+    if (!btn || btn.disabled) return;
+    document.querySelectorAll('#bnd-variant-opts .bnd-variant-opt').forEach(function (b) {
+      b.classList.remove('selected');
+    });
+    btn.classList.add('selected');
+
+    BND_MAIN_VARIANT = parseInt(btn.dataset.vid, 10);
+    BND_BASE_PRICE   = parseInt(btn.dataset.price, 10) || BND_BASE_PRICE;
+    var cmp          = parseInt(btn.dataset.compare, 10) || 0;
+    BND_BASE_COMPARE = cmp > 0 ? cmp : BND_BASE_PRICE;
+
+    var curEl = document.getElementById('bnd-variant-current');
+    if (curEl) curEl.textContent = btn.dataset.title;
+
+    var saleEl = document.getElementById('bnd-main-price-sale');
+    if (saleEl) saleEl.textContent = bndMoney(BND_BASE_PRICE);
+
+    var origEl = document.getElementById('bnd-main-price-orig');
+    if (origEl) {
+      if (BND_BASE_COMPARE > BND_BASE_PRICE) {
+        origEl.textContent   = bndMoney(BND_BASE_COMPARE);
+        origEl.style.display = 'inline';
+      } else {
+        origEl.style.display = 'none';
+      }
+    }
+
+    bndUpdateTotal();
+  };
+
+  /* ── COLLECT CART ITEMS ── */
+  function bndGetItems() {
+    var items = [{ id: BND_MAIN_VARIANT, quantity: 1 }];
+    document.querySelectorAll('.bnd-addon-card:not(.locked).selected').forEach(function (card) {
+      if (card.dataset.variant) items.push({ id: parseInt(card.dataset.variant, 10), quantity: 1 });
+    });
+    return items;
+  }
+
+  /* ── ADD TO CART (main button) ── */
+  window.bndAddToCart = function () {
+    var btn = document.getElementById('bnd-atc-btn');
+    if (btn.classList.contains('loading')) return;
+    btn.classList.add('loading');
+    btn.textContent = 'Adding...';
+
+    /* ✨ ADDED POPUP on every selected addon card ✨ */
+    document.querySelectorAll('.bnd-addon-card:not(.locked).selected').forEach(function(card, i) {
+      setTimeout(function(){ bndShowAddedPopup(card); }, i * 120);
+    });
+
+    fetch('/cart.js')
+      .then(function (r) { return r.json(); })
+      .then(function (cart) {
+        var inCart   = cart.items.map(function (i) { return i.variant_id; });
+        var allItems = bndGetItems();
+        var toAdd    = allItems.filter(function (item) { return inCart.indexOf(item.id) === -1; });
+        bndOpenCartDrawer();
+        if (!toAdd.length) {
+          btn.classList.remove('loading');
+          btn.textContent = 'Added ✓';
+          setTimeout(function () { btn.textContent = 'Add To Cart'; }, 2000);
+          return null;
+        }
+        return fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+          body: JSON.stringify({ items: toAdd })
+        }).then(function (r) { return r.json(); });
+      })
+      .then(function (data) {
+        if (!data) return;
+        if (data.status && data.status >= 400) throw new Error(data.description || 'Cart error');
+        bndEnforceKitQty();
+        bndRefreshCart();
+        btn.classList.remove('loading');
+        btn.textContent = 'Added ✓';
+        setTimeout(function () { btn.textContent = 'Add To Cart'; }, 2000);
+      })
+      .catch(function () {
+        btn.classList.remove('loading');
+        btn.textContent = 'Try Again';
+        setTimeout(function () { btn.textContent = 'Add To Cart'; }, 2500);
+      });
+  };
+
+  /* ── BUY NOW ── */
+  window.bndBuyNow = function () {
+    var ids = bndGetItems().map(function (i) { return i.id + ':' + i.quantity; }).join(',');
+    window.location.href = '/checkout?items=' + ids;
+  };
+
+  /* ────────────────────────────────
+     VIDEO SECTION
+  ──────────────────────────────── */
+  var PD_VIDEOS = [
+    { src: 'https://cdn.shopify.com/videos/c/o/v/ba3fa92e0dc048f1a50333e006a7e6e1.mp4',  label: '' },
+    { src: 'https://cdn.shopify.com/videos/c/o/v/b1e839ae42544baeaf3c62cb0299c025.mp4',  label: '' },
+    { src: 'https://cdn.shopify.com/videos/c/o/v/144f512dd8534fed87ceebfa45ca02f4.mp4',  label: '' }
+  ];
+
+  var pdCards     = document.querySelectorAll('.pd-video-card');
+  var pdOverlay   = document.getElementById('pd-overlay');
+  var pdReelVideo = document.getElementById('pd-video');
+  var pdReelTitle = document.getElementById('pd-reel-title');
+  var pdMuteBtn   = document.getElementById('pd-mute-btn');
+  var pdIconSound = document.getElementById('pd-icon-sound');
+  var pdIconMute  = document.getElementById('pd-icon-mute');
+  var pdPrevBtn   = document.getElementById('pd-prev-btn');
+  var pdNextBtn   = document.getElementById('pd-next-btn');
+  var pdCloseBtn  = document.getElementById('pd-close-btn');
+  var pdIndex     = 0;
+  var pdMuted     = false;
+
+  pdCards.forEach(function (card, i) {
+    var vid = card.querySelector('.pd-card-video');
+    vid.src = PD_VIDEOS[i].src;
+    vid.play().catch(function () {});
+  });
+
+  function pdUpdateNav() {
+    pdPrevBtn.classList.toggle('pd-hidden', pdIndex === 0);
+    pdNextBtn.classList.toggle('pd-hidden', pdIndex === PD_VIDEOS.length - 1);
+  }
+
+  function pdSyncMute() {
+    pdIconSound.style.display = pdMuted ? 'none' : '';
+    pdIconMute.style.display  = pdMuted ? ''     : 'none';
+  }
+
+  function pdLoadReel(i) {
+    pdIndex = i;
+    pdReelVideo.src = PD_VIDEOS[i].src;
+    pdReelVideo.muted = pdMuted;
+    pdReelTitle.textContent = PD_VIDEOS[i].label;
+    pdSyncMute();
+    pdReelVideo.load();
+    pdReelVideo.play().catch(function () {
+      pdReelVideo.muted = true; pdMuted = true; pdSyncMute();
+      pdReelVideo.play().catch(function () {});
+    });
+    pdUpdateNav();
+  }
+
+  function pdOpen(i) { pdMuted = false; pdOverlay.classList.add('active'); document.body.style.overflow = 'hidden'; pdLoadReel(i); }
+  function pdClose() { pdOverlay.classList.remove('active'); document.body.style.overflow = ''; pdReelVideo.pause(); pdReelVideo.removeAttribute('src'); pdReelVideo.load(); }
+
+  pdCards.forEach(function (card) {
+    card.addEventListener('click', function () { pdOpen(parseInt(card.dataset.index, 10)); });
+  });
+
+  pdCloseBtn.addEventListener('click', pdClose);
+  pdOverlay.addEventListener('click', function (e) { if (e.target === pdOverlay) pdClose(); });
+  pdPrevBtn.addEventListener('click', function () { if (pdIndex > 0) pdLoadReel(pdIndex - 1); });
+  pdNextBtn.addEventListener('click', function () { if (pdIndex < PD_VIDEOS.length - 1) pdLoadReel(pdIndex + 1); });
+  pdMuteBtn.addEventListener('click', function () { pdMuted = !pdMuted; pdReelVideo.muted = pdMuted; pdSyncMute(); });
+
+  document.addEventListener('keydown', function (e) {
+    if (!pdOverlay.classList.contains('active')) return;
+    if (e.key === 'Escape') pdClose();
+    if (e.key === 'ArrowLeft'  && pdIndex > 0)                     pdLoadReel(pdIndex - 1);
+    if (e.key === 'ArrowRight' && pdIndex < PD_VIDEOS.length - 1) pdLoadReel(pdIndex + 1);
+  });
+
+  var pdTouchX = 0;
+  pdOverlay.addEventListener('touchstart', function (e) { pdTouchX = e.touches[0].clientX; }, { passive: true });
+  pdOverlay.addEventListener('touchend',   function (e) {
+    var diff = pdTouchX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0 && pdIndex < PD_VIDEOS.length - 1) pdLoadReel(pdIndex + 1);
+      if (diff < 0 && pdIndex > 0)                    pdLoadReel(pdIndex - 1);
+    }
+  });
+
+  /* ── LIGHTBOX ── */
+  var BND_IMAGES = [
+    {% comment %} First product image {% endcomment %}
+    {% assign first_img = main_product.images | first %}
+    '{{ first_img | image_url: width: 1600 }}',
+    'https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Group_1484581343.png?v=1778015640'
+    {% comment %} Remaining product images {% endcomment %}
+    {% for image in main_product.images limit: 8 %}
+      {% unless forloop.first %},
+      '{{ image | image_url: width: 1600 }}'
+      {% endunless %}
+    {% endfor %}
+  ];
+  var BND_IMAGES_DEFAULT = BND_IMAGES.slice();
+  var bndLbIndex = 0;
+
+  function bndLbRender() {
+    document.getElementById('bnd-lb-img').src = BND_IMAGES[bndLbIndex];
+    document.getElementById('bnd-lb-counter').textContent = (bndLbIndex + 1) + ' / ' + BND_IMAGES.length;
+    document.getElementById('bnd-lb-prev').classList.toggle('disabled', bndLbIndex === 0);
+    document.getElementById('bnd-lb-next').classList.toggle('disabled', bndLbIndex === BND_IMAGES.length - 1);
+  }
+
+  window.bndOpenLightbox = function () {
+    BND_IMAGES = BND_IMAGES_DEFAULT.slice();
+    var currentSrc = document.getElementById('bnd-main-img').src;
+    bndLbIndex = 0;
+    BND_IMAGES.forEach(function(src, i) {
+      if (currentSrc.indexOf(src.split('?')[0].split('/').pop().split('.')[0]) > -1) bndLbIndex = i;
+    });
+    bndLbIndex = Math.max(0, bndLbIndex);
+    bndLbRender();
+    document.getElementById('bnd-lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.bndOpenLightboxWith = function (imgs, startIdx) {
+    BND_IMAGES = imgs;
+    bndLbIndex = Math.max(0, Math.min(imgs.length - 1, startIdx || 0));
+    bndLbRender();
+    document.getElementById('bnd-lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.bndCloseLightbox = function () {
+    document.getElementById('bnd-lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  window.bndLightboxNav = function (dir) {
+    bndLbIndex = Math.max(0, Math.min(BND_IMAGES.length - 1, bndLbIndex + dir));
+    bndLbRender();
+  };
+
+  document.getElementById('bnd-lightbox').addEventListener('click', function (e) {
+    if (e.target === this) bndCloseLightbox();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (!document.getElementById('bnd-lightbox').classList.contains('active')) return;
+    if (e.key === 'Escape') bndCloseLightbox();
+    if (e.key === 'ArrowLeft') bndLightboxNav(-1);
+    if (e.key === 'ArrowRight') bndLightboxNav(1);
+  });
+
+  var bndLbTouchX = 0;
+  var bndLbEl = document.getElementById('bnd-lightbox');
+  bndLbEl.addEventListener('touchstart', function (e) { bndLbTouchX = e.touches[0].clientX; }, { passive: true });
+  bndLbEl.addEventListener('touchend', function (e) {
+    var diff = bndLbTouchX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) bndLightboxNav(diff > 0 ? 1 : -1);
+  });
+
+  /* ── ADDON IMAGE SLIDER ── */
+  window.bndSliderNav = function (e, btn, dir) {
+    e.stopPropagation();
+    var slider = btn.closest('.bnd-addon-slider');
+    var total  = slider.querySelectorAll('.bnd-addon-slide').length;
+    var idx    = parseInt(slider.dataset.idx, 10) + dir;
+    idx = Math.max(0, Math.min(total - 1, idx));
+    bndSliderGo(slider, idx);
+  };
+
+  window.bndSliderDot = function (e, dot) {
+    e.stopPropagation();
+    var slider = dot.closest('.bnd-addon-slider');
+    var dots   = slider.querySelectorAll('.bnd-slide-dot');
+    var idx    = Array.prototype.indexOf.call(dots, dot);
+    bndSliderGo(slider, idx);
+  };
+
+  function bndSliderGo(slider, idx) {
+    var total = slider.querySelectorAll('.bnd-addon-slide').length;
+    idx = Math.max(0, Math.min(total - 1, idx));
+    slider.dataset.idx = idx;
+    slider.querySelector('.bnd-addon-slides').style.transform = 'translateX(-' + (idx * 100) + '%)';
+    slider.querySelectorAll('.bnd-slide-pill').forEach(function (p, i) {
+      p.classList.toggle('active', i === idx);
+    });
+  }
+
+  document.querySelectorAll('.bnd-addon-slider').forEach(function (slider) {
+    var total   = slider.querySelectorAll('.bnd-addon-slide').length;
+    var pillWrap = slider.querySelector('.bnd-slide-pills');
+    if (total <= 1 && pillWrap) pillWrap.style.display = 'none';
+
+    var tx = 0;
+    slider.addEventListener('touchstart', function (e) { tx = e.touches[0].clientX; }, { passive: true });
+    slider.addEventListener('touchend', function (e) {
+      var diff = tx - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) {
+        var idx = parseInt(slider.dataset.idx, 10) || 0;
+        bndSliderGo(slider, idx + (diff > 0 ? 1 : -1));
+      }
+    });
+
+    var mx = 0, dragging = false;
+    slider.addEventListener('mousedown', function (e) { mx = e.clientX; dragging = true; });
+    slider.addEventListener('mouseup', function (e) {
+      if (!dragging) return;
+      dragging = false;
+      var diff = mx - e.clientX;
+      if (Math.abs(diff) > 40) {
+        var idx = parseInt(slider.dataset.idx, 10) || 0;
+        bndSliderGo(slider, idx + (diff > 0 ? 1 : -1));
+      }
+    });
+    slider.addEventListener('mouseleave', function () { dragging = false; });
+  });
+
+  /* ── IMAGE ZONE CLICK → OPEN LIGHTBOX ── */
+  window.bndImgZoneClick = function (e, zone) {
+    var card = zone.closest('.bnd-addon-card');
+    if (!card) return;
+    var slides = card.querySelectorAll('.bnd-addon-slide img');
+    var imgs = [];
+    slides.forEach(function (img) { imgs.push(img.src); });
+    if (!imgs.length) return;
+    var slider   = card.querySelector('.bnd-addon-slider');
+    var startIdx = slider ? parseInt(slider.dataset.idx, 10) || 0 : 0;
+    bndOpenLightboxWith(imgs, startIdx);
+  };
+
+  /* ── FOOTER BROWSE BUTTONS ── */
+  window.bndFooterNav = function (e, btn, dir) {
+    e.stopPropagation();
+    var card   = btn.closest('.bnd-addon-card');
+    var slider = card.querySelector('.bnd-addon-slider');
+    if (!slider) return;
+    var idx = parseInt(slider.dataset.idx, 10) || 0;
+    bndSliderGo(slider, idx + dir);
+  };
+
+  /* ── SCROLL TO REVIEWS ── */
+  window.bndScrollToReviews = function () {
+    var target = document.querySelector('.jdgm-rev-widg__header');
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  /* ── QUICK VIEW MODAL ── */
+  var BND_QV_DATA = {
+    'bnd-card-mod': {
+      title:   '{{ addon_mod.title | escape }}',
+      desc:    {{ addon_mod.description | json | replace: '</script>', '<\/script>' }},
+      price:   {{ addon_mod.price }},
+      compare: {{ addon_mod.compare_at_price | default: 0 }},
+      images:  [{% for img in addon_mod.images %}'{{ img | image_url: width: 1200 }}'{% unless forloop.last %},{% endunless %}{% endfor %}],
+      thumbs:  [{% for img in addon_mod.images %}'{{ img | image_url: width: 120 }}'{% unless forloop.last %},{% endunless %}{% endfor %}]
+    },
+    'bnd-card-marker': {
+      title:   '{{ addon_marker.title | escape }}',
+      desc:    {{ addon_marker.description | json | replace: '</script>', '<\/script>' }},
+      price:   {{ addon_marker.price }},
+      compare: {{ addon_marker.compare_at_price | default: 0 }},
+      images:  [{% for img in addon_marker.images %}'{{ img | image_url: width: 1200 }}'{% unless forloop.last %},{% endunless %}{% endfor %}],
+      thumbs:  [{% for img in addon_marker.images %}'{{ img | image_url: width: 120 }}'{% unless forloop.last %},{% endunless %}{% endfor %}]
+    },
+  };
+
+  var bndQvCurrentId  = null;
+  var bndQvImgIdx     = 0;
+  var bndQvOverlay    = document.getElementById('bnd-qv-overlay');
+  var bndQvMainImg    = document.getElementById('bnd-qv-main-img');
+  var bndQvPrev       = document.getElementById('bnd-qv-prev');
+  var bndQvNext       = document.getElementById('bnd-qv-next');
+  var bndQvCount      = document.getElementById('bnd-qv-count');
+  var bndQvThumbsEl   = document.getElementById('bnd-qv-thumbs');
+  var bndQvTitleEl    = document.getElementById('bnd-qv-title');
+  var bndQvPriceSale  = document.getElementById('bnd-qv-price-sale');
+  var bndQvPriceComp  = document.getElementById('bnd-qv-price-compare');
+  var bndQvPriceBadge = document.getElementById('bnd-qv-price-badge');
+  var bndQvDescEl     = document.getElementById('bnd-qv-desc');
+  var bndQvAddBtn     = document.getElementById('bnd-qv-add-btn');
+  var bndQvAddLabel   = document.getElementById('bnd-qv-add-label');
+
+  function bndQvMoney(cents) {
+    return '$' + (cents / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  function bndQvRenderImg() {
+    var data = BND_QV_DATA[bndQvCurrentId];
+    bndQvMainImg.style.opacity = '0';
+    setTimeout(function () {
+      bndQvMainImg.src = data.images[bndQvImgIdx];
+      bndQvMainImg.style.opacity = '1';
+    }, 120);
+    bndQvCount.textContent = (bndQvImgIdx + 1) + ' / ' + data.images.length;
+    bndQvPrev.classList.toggle('off', bndQvImgIdx === 0);
+    bndQvNext.classList.toggle('off', bndQvImgIdx === data.images.length - 1);
+    bndQvThumbsEl.querySelectorAll('.bnd-qv-thumb').forEach(function (t, i) {
+      t.classList.toggle('active', i === bndQvImgIdx);
+    });
+  }
+
+  /* ── CHANGE 2: in-bundle = static "Added" badge, not a remove button ── */
+  function bndQvSyncBtn() {
+    var card     = document.getElementById(bndQvCurrentId);
+    var inBundle = card && card.classList.contains('selected');
+    if (inBundle) {
+      bndQvAddBtn.classList.add('in-bundle');
+      bndQvAddBtn.style.pointerEvents = 'none';
+      bndQvAddBtn.style.cursor        = 'default';
+      bndQvAddBtn.querySelector('svg').setAttribute('viewBox', '0 0 24 24');
+      bndQvAddBtn.querySelector('svg').innerHTML = '<polyline points="4,12 9,17 20,6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
+      bndQvAddLabel.textContent = 'Added';
+    } else {
+      bndQvAddBtn.classList.remove('in-bundle');
+      bndQvAddBtn.style.pointerEvents = '';
+      bndQvAddBtn.style.cursor        = '';
+      bndQvAddBtn.querySelector('svg').setAttribute('viewBox', '0 0 24 24');
+      bndQvAddBtn.querySelector('svg').innerHTML = '<line x1="12" y1="5" x2="12" y2="19" stroke-width="2.2" stroke-linecap="round"/><line x1="5" y1="12" x2="19" y2="12" stroke-width="2.2" stroke-linecap="round"/>';
+      bndQvAddLabel.textContent = 'Add';
+    }
+  }
+
+  /* Description accordion inside quick view */
+  window.bndQvAccToggle = function (trigger) {
+    var acc    = trigger.closest('.bnd-qv-acc');
+    var isOpen = acc.classList.contains('open');
+    document.querySelectorAll('#bnd-qv-panel .bnd-qv-acc').forEach(function (a) { a.classList.remove('open'); });
+    if (!isOpen) acc.classList.add('open');
+  };
+
+  function bndQvAccReset() {
+    document.querySelectorAll('#bnd-qv-panel .bnd-qv-acc').forEach(function (a) { a.classList.remove('open'); });
+  }
+
+  window.bndQvOpen = function (cardId) {
+    var data = BND_QV_DATA[cardId];
+    if (!data || !data.images.length) return;
+    bndQvCurrentId = cardId;
+    bndQvImgIdx    = 0;
+
+    bndQvAccReset();
+    bndQvTitleEl.textContent = data.title;
+    bndQvDescEl.innerHTML    = data.desc || '<p>No description available.</p>';
+
+    bndQvPriceSale.textContent = bndQvMoney(data.price);
+    if (data.compare && data.compare > data.price) {
+      var saved = data.compare - data.price;
+      bndQvPriceComp.textContent   = bndQvMoney(data.compare);
+      bndQvPriceComp.style.display  = '';
+      bndQvPriceBadge.textContent  = 'Save ' + bndQvMoney(saved);
+      bndQvPriceBadge.style.display = '';
+    } else {
+      bndQvPriceComp.style.display  = 'none';
+      bndQvPriceBadge.style.display = 'none';
+    }
+
+    bndQvThumbsEl.innerHTML = '';
+    data.thumbs.forEach(function (src, i) {
+      var t = document.createElement('div');
+      t.className = 'bnd-qv-thumb' + (i === 0 ? ' active' : '');
+      t.innerHTML = '<img src="' + src + '" alt="">';
+      t.addEventListener('click', function () { bndQvImgIdx = i; bndQvRenderImg(); });
+      bndQvThumbsEl.appendChild(t);
+    });
+
+    bndQvMainImg.src = data.images[0];
+    bndQvMainImg.style.opacity = '1';
+    bndQvCount.textContent = '1 / ' + data.images.length;
+    bndQvPrev.classList.add('off');
+    bndQvNext.classList.toggle('off', data.images.length <= 1);
+
+    bndQvSyncBtn();
+
+    var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
+    document.documentElement.style.overflow      = 'hidden';
+    document.documentElement.style.paddingRight  = scrollbarW + 'px';
+    document.body.style.overflow                 = 'hidden';
+    document.body.style.paddingRight             = scrollbarW + 'px';
+    bndQvOverlay.style.display = 'flex';
+  };
+
+  window.bndQvClose = function () {
+    bndQvOverlay.style.display               = 'none';
+    document.documentElement.style.overflow  = '';
+    document.documentElement.style.paddingRight = '';
+    document.body.style.overflow             = '';
+    document.body.style.paddingRight         = '';
+    bndQvCurrentId = null;
+  };
+
+  window.bndQvNav = function (dir) {
+    var data = BND_QV_DATA[bndQvCurrentId];
+    bndQvImgIdx = Math.max(0, Math.min(data.images.length - 1, bndQvImgIdx + dir));
+    bndQvRenderImg();
+  };
+
+  /* ── CHANGE 3: CTA click — only adds, never removes; ignores if already selected ── */
+  window.bndQvCtaClick = function () {
+    if (!bndQvCurrentId) return;
+    var card = document.getElementById(bndQvCurrentId);
+    if (!card || card.classList.contains('locked')) return;
+    /* Already in bundle — do nothing */
+    if (card.classList.contains('selected')) return;
+    /* ✨ ADDED POPUP from the card ✨ */
+    bndShowAddedPopup(card);
+    /* Close modal, then add */
+    bndQvClose();
+    bndToggleAddon(card);
+  };
+
+  /* Close on backdrop */
+  bndQvOverlay.addEventListener('click', function (e) {
+    if (e.target === bndQvOverlay) bndQvClose();
+  });
+
+  /* Keyboard navigation */
+  document.addEventListener('keydown', function (e) {
+    if (bndQvOverlay.style.display !== 'flex') return;
+    if (e.key === 'Escape')     bndQvClose();
+    if (e.key === 'ArrowLeft')  bndQvNav(-1);
+    if (e.key === 'ArrowRight') bndQvNav(1);
+  });
+
+  /* Touch swipe on quick view */
+  var bndQvTouchX = 0;
+  bndQvOverlay.addEventListener('touchstart', function (e) { bndQvTouchX = e.touches[0].clientX; }, { passive: true });
+  bndQvOverlay.addEventListener('touchend', function (e) {
+    var diff = bndQvTouchX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) bndQvNav(diff > 0 ? 1 : -1);
+  });
+
+  /* ── KEEP UI IN SYNC WITH CART ── */
+  var bndLastCartToken = null;
+
+  function bndPollCart() {
+    fetch('/cart.js')
+      .then(function (r) { return r.json(); })
+      .then(function (cart) {
+        var fingerprint = cart.token + '|' + cart.item_count + '|' +
+          cart.items.map(function (i) { return i.variant_id + 'x' + i.quantity; }).join(',');
+
+        if (fingerprint !== bndLastCartToken) {
+          bndLastCartToken = fingerprint;
+          document.querySelectorAll('.bnd-addon-card:not(.locked)').forEach(function (card) {
+            bndApplySelected(card, false);
+          });
+          var inCart = cart.items.map(function (i) { return i.variant_id; });
+          document.querySelectorAll('.bnd-addon-card:not(.locked)').forEach(function (card) {
+            var v = parseInt(card.dataset.variant, 10);
+            if (v && inCart.indexOf(v) !== -1) bndApplySelected(card, true);
+          });
+          bndUpdateTotal();
+        }
+      })
+      .catch(function () {});
+  }
+
+  setInterval(bndPollCart, 1500);
+
+  bndSyncFromCart();
+  bndUpdateTotal();
+
+})();
+</script>
+
+
+{% comment %} ── UPCART STYLES — injected via JS so they load after UpCart and always win ── {% endcomment %}
+<script>
+(function() {
+  var css = [
+    '#CartPopup,#CartPopup *{font-family:"Inter",sans-serif!important;box-sizing:border-box!important}',
+
+    /* HEADER */
+    '#CartPopup .upcart-header{background:#000!important;padding:16px 22px!important;border-bottom:2px solid #1E5C97!important}',
+    '#CartPopup .upcart-header-text{color:#fff!important;font-size:13px!important;font-weight:800!important;letter-spacing:.12em!important}',
+    '#CartPopup .upcart-header-close-button svg path{fill:#fff!important}',
+
+    /* ANNOUNCEMENT */
+    '#CartPopup .upcart-announcement{background:#eef5fc!important;border-color:#bcd6f0!important;font-size:13px!important;font-weight:600!important;color:#143C63!important;text-align:center!important}',
+    '#CartPopup .upcart-announcement strong{color:#111!important}',
+
+    /* PROGRESS BAR */
+    '#CartPopup [class*="segmented-progress-bar__segment-fill"]{background:#1E5C97!important}',
+    '#CartPopup [class*="segmented-progress-bar__segment"]{background:#e5e7eb!important;border-radius:4px!important}',
+    '#CartPopup [class*="segmented-progress-bar__milestone-icon"]{background:#1E5C97!important;border-radius:50%!important;border:2px solid #1E5C97!important;padding:3px!important}',
+    '#CartPopup [class*="segmented-progress-bar__milestone-icon"] svg path{fill:#000!important}',
+    '#CartPopup [class*="segmented-progress-bar__milestone-label"]{font-size:10px!important;font-weight:700!important;color:#555!important}',
+    '#CartPopup .upcart-internal-rewards__message p{font-size:13px!important;font-weight:700!important;color:#143C63!important;text-align:center!important}',
+
+    /* PRODUCT ROWS */
+    '#CartPopup .upcart-product-item{padding:14px 18px!important;border-bottom:1px solid #f0f0f0!important}',
+    '#CartPopup .upcart-product-item:has(.upcart-item-compare-price){background:#eef5fc!important;border-left:3px solid #1E5C97!important;padding-left:15px!important}',
+    '#CartPopup .upcart-product-image-wrapper{width:74px!important;height:74px!important;border-radius:10px!important;overflow:hidden!important;border:1.5px solid #f0f0f0!important;flex-shrink:0!important}',
+    '#CartPopup .upcart-product-image-wrapper img{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important}',
+    '#CartPopup .upcart-product-title a,#CartPopup .upcart-product-title{font-size:13px!important;font-weight:700!important;color:#111!important;text-decoration:none!important}',
+    '#CartPopup .upcart-item-price{font-size:14px!important;font-weight:800!important;color:#111!important}',
+    '#CartPopup .upcart-item-compare-price{font-size:12px!important;color:#aaa!important;text-decoration:line-through!important}',
+    '#CartPopup .upcart-product-savings{font-size:11px!important;font-weight:800!important;color:#143C63!important}',
+
+    /* QUANTITY STEPPER */
+    '#CartPopup [class*="QuantityField"]{border:1.5px solid #e5e7eb!important;border-radius:8px!important;overflow:hidden!important;background:#fff!important;display:flex!important;align-items:center!important}',
+    '#CartPopup .upcart-product-quantity-minus,#CartPopup .upcart-product-quantity-plus{background:#f9fafb!important;width:30px!important;min-width:30px!important;height:30px!important;border:none!important;display:flex!important;align-items:center!important;justify-content:center!important;cursor:pointer!important}',
+    '#CartPopup .upcart-product-quantity-input{font-size:13px!important;font-weight:700!important;color:#111!important;width:36px!important;text-align:center!important;border:none!important;background:#fff!important}',
+    '#CartPopup .upcart-product-quantity-minus svg path,#CartPopup .upcart-product-quantity-plus svg path{fill:#111!important}',
+
+    /* TRASH */
+    '#CartPopup [class*="TrashButton"]{opacity:.35!important;cursor:pointer!important}',
+    '#CartPopup [class*="TrashButton"] svg path{stroke:#ef4444!important}',
+
+    /* DISCOUNT BADGE */
+    '#CartPopup .upcart-discount-code-badge{background:#eef5fc!important;border:1px solid #bcd6f0!important;border-radius:20px!important;padding:3px 8px 3px 6px!important;display:inline-flex!important;align-items:center!important;gap:4px!important;margin-top:4px!important}',
+    '#CartPopup .upcart-discount-code-text{font-size:10px!important;font-weight:700!important;color:#143C63!important;letter-spacing:.04em!important;text-transform:uppercase!important}',
+    '#CartPopup .upcart-discount-code-icon svg path{fill:#143C63!important}',
+
+    /* FOOTER */
+    '#CartPopup .upcart-footer{background:#fff!important;border-top:1px solid #e5e7eb!important;padding:14px 18px!important}',
+    '#CartPopup .upcart-savings-amount{font-size:15px!important;font-weight:900!important;color:#143C63!important}',
+
+    /* CHECKOUT BUTTON */
+    '#CartPopup .upcart-checkout-button{background:#1E5C97!important;color:#fff!important;font-family:"Inter",sans-serif!important;font-size:15px!important;font-weight:900!important;letter-spacing:.07em!important;text-transform:uppercase!important;border-radius:10px!important;padding:16px 20px!important;border:none!important;width:100%!important;display:block!important;text-align:center!important;text-decoration:none!important;box-shadow:0 4px 18px rgba(30,92,151,.4)!important}'
+  ].join('');
+
+  /* Inject hover rules separately (can't use !important on pseudo-classes directly) */
+  var hoverCss = [
+    '#CartPopup .upcart-product-quantity-minus:hover,#CartPopup .upcart-product-quantity-plus:hover{background:#1E5C97!important}',
+    '#CartPopup [class*="TrashButton"]:hover{opacity:1!important}',
+    '#CartPopup .upcart-checkout-button:hover{background:#143C63!important;color:#fff!important;transform:translateY(-1px)!important;box-shadow:0 8px 28px rgba(20,60,99,.45)!important}',
+    '#CartPopup .upcart-checkout-button:active{transform:translateY(0)!important}'
+  ].join('');
+
+  function injectStyles() {
+    /* Remove old injection if re-running */
+    var old = document.getElementById('popdarts-upcart-css');
+    if (old) old.remove();
+
+    var s = document.createElement('style');
+    s.id = 'popdarts-upcart-css';
+    s.textContent = css + hoverCss;
+    /* Append to <head> so it loads after UpCart's own injected styles */
+    document.head.appendChild(s);
+  }
+
+  /* Run immediately */
+  injectStyles();
+
+  /* Re-run whenever UpCart opens the cart (it re-renders on open) */
+  var observer = new MutationObserver(function(mutations) {
+    for (var i = 0; i < mutations.length; i++) {
+      var el = mutations[i].target;
+      if (el.id === 'CartPopup' || (el.classList && el.classList.contains('upcart-internal-cart-preview__container'))) {
+        injectStyles();
+        break;
+      }
+    }
+  });
+
+  observer.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class', 'style'] });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Rookie Father",
+  "tag": "section",
+  "class": "rookie-fathers-wrapper",
+  "settings": [],
+  "presets": [
+    { "name": "Rookie Father" }
+  ]
+}
+{% endschema %}

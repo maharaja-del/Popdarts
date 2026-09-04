@@ -1,0 +1,91 @@
+{{ 'section-image-gallery.css' | asset_url | stylesheet_tag }}
+
+<div
+  class="section section-image-gallery section-header-vertical section--padding page-width color-scheme-1"
+  style="--section-padding-top: 0px;--section-padding-bottom: 50px;"
+>
+  <grid-list class="block ">
+    <div class="f-grid f-grid-2-cols md:f-grid-2-cols lg:f-grid-2-cols f-grid--gap-extra-small f-grid--row-gap-inherit">
+
+      <!-- BLOCK 1: App Store -->
+      <div class="f-column">
+        <a
+          href="https://apps.apple.com/tr/app/popdarts-score-keeper/id6499262827?uo=2"
+          aria-label="image-gallery-image-1"
+          class="hover-wrapper blocks-radius media-wrapper"
+        >
+          <motion-element class="block" data-motion="zoom-out-sm" style="--aspect-ratio: 2.6009174311926606;">
+            <img
+              src="//popdartsgame.com/cdn/shop/files/App_Store_Button_New_1ffd538f-fc86-47d8-b774-06ed84ac8641.svg?v=1738852373&width=567"
+              srcset="//popdartsgame.com/cdn/shop/files/App_Store_Button_New_1ffd538f-fc86-47d8-b774-06ed84ac8641.svg?v=1738852373&width=165 165w,
+                      //popdartsgame.com/cdn/shop/files/App_Store_Button_New_1ffd538f-fc86-47d8-b774-06ed84ac8641.svg?v=1738852373&width=355 355w,
+                      //popdartsgame.com/cdn/shop/files/App_Store_Button_New_1ffd538f-fc86-47d8-b774-06ed84ac8641.svg?v=1738852373&width=450 450w,
+                      //popdartsgame.com/cdn/shop/files/App_Store_Button_New_1ffd538f-fc86-47d8-b774-06ed84ac8641.svg?v=1738852373&width=535 535w"
+              width="567"
+              height="218"
+              alt=""
+              loading="lazy"
+              fetchpriority="low"
+              class="motion-reduce hover-scale-up"
+              is="image-lazy"
+              sizes="(max-width: 767px) calc((100vw - 30px) / 2),
+(max-width: 1023px) calc((100vw - 30px) / 2),
+705px"
+            >
+          </motion-element>
+          <div class="content-overlay content-overlay--middle-center">
+            <div class="bg-overlay" style="--color-overlay-alpha: 20"></div>
+            <div class="btn btn--icon-circle social-icon"></div>
+          </div>
+        </a>
+      </div>
+
+      <!-- BLOCK 2: Play Store -->
+      <div class="f-column">
+        <a
+          href="https://play.google.com/store/apps/details?id=com.firebase.popdarts&pli=1"
+          aria-label="image-gallery-image-2"
+          class="hover-wrapper blocks-radius media-wrapper"
+        >
+          <motion-element class="block" data-motion="zoom-out-sm" style="--aspect-ratio: 2.6009174311926606;">
+            <img
+              src="//popdartsgame.com/cdn/shop/files/Play_Store_Button_New_94f7ef86-25ac-4e39-b5d4-3809da05312a.svg?v=1738852373&width=567"
+              srcset="//popdartsgame.com/cdn/shop/files/Play_Store_Button_New_94f7ef86-25ac-4e39-b5d4-3809da05312a.svg?v=1738852373&width=165 165w,
+                      //popdartsgame.com/cdn/shop/files/Play_Store_Button_New_94f7ef86-25ac-4e39-b5d4-3809da05312a.svg?v=1738852373&width=355 355w,
+                      //popdartsgame.com/cdn/shop/files/Play_Store_Button_New_94f7ef86-25ac-4e39-b5d4-3809da05312a.svg?v=1738852373&width=450 450w,
+                      //popdartsgame.com/cdn/shop/files/Play_Store_Button_New_94f7ef86-25ac-4e39-b5d4-3809da05312a.svg?v=1738852373&width=535 535w"
+              width="567"
+              height="218"
+              alt=""
+              loading="lazy"
+              fetchpriority="low"
+              class="motion-reduce hover-scale-up"
+              is="image-lazy"
+              sizes="(max-width: 767px) calc((100vw - 30px) / 2),
+(max-width: 1023px) calc((100vw - 30px) / 2),
+705px"
+            >
+          </motion-element>
+          <div class="content-overlay content-overlay--middle-center">
+            <div class="bg-overlay" style="--color-overlay-alpha: 20"></div>
+            <div class="btn btn--icon-circle social-icon"></div>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </grid-list>
+</div>
+
+{% schema %}
+{
+  "name": "App Store Buttons",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.overlay"]
+  },
+  "settings": [],
+  "presets": [
+    { "name": "App Store Buttons" }
+  ]
+}
+{% endschema %}

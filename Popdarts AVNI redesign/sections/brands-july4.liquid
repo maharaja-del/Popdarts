@@ -1,0 +1,345 @@
+{% comment %}
+  Popdarts® — July 4th As Seen On / Brands Marquee
+  Drop into: sections/brands-july4.liquid
+{% endcomment %}
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap');
+
+  .b4-section {
+    background: #010A1E;
+    padding: 64px 0 72px;
+    position: relative;
+    overflow: hidden;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .b4-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #B22234 33%, #fff 33%, #fff 66%, #002868 66%);
+    z-index: 2;
+  }
+
+  .b4-section::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .b4-header {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    margin-bottom: 48px;
+    padding: 0 20px;
+  }
+
+  .b4-eyebrow-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+  .b4-eyebrow-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #8B0000, #B22234 50%, #8B0000);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    padding: 7px 18px;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(178,34,52,0.4);
+  }
+  .b4-eyebrow-badge::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    animation: b4Sheen 3s ease-in-out infinite;
+  }
+  @keyframes b4Sheen { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+  .b4-eyebrow-star { color: #FFD60A; font-size: 12px; filter: drop-shadow(0 0 4px rgba(255,215,0,0.8)); }
+
+  .b4-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(44px, 8vw, 80px);
+    color: #fff;
+    margin: 0;
+    line-height: 0.95;
+    letter-spacing: 0.02em;
+  }
+  .b4-title .b4-accent { color: #B22234; }
+
+  .b4-subtitle {
+    font-size: 15px;
+    color: rgba(255,255,255,0.45);
+    margin: 12px 0 0;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+
+  .b4-stats {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin: 0 auto 40px;
+    max-width: 600px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 0 20px;
+  }
+  .b4-stat {
+    flex: 1;
+    text-align: center;
+    padding: 18px 12px;
+    position: relative;
+  }
+  .b4-stat + .b4-stat { border-left: 1px solid rgba(255,255,255,0.07); }
+  .b4-stat:nth-child(1)::before { content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:32px; height:2px; background:#B22234; border-radius:0 0 2px 2px; }
+  .b4-stat:nth-child(2)::before { content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:32px; height:2px; background:#fff; border-radius:0 0 2px 2px; }
+  .b4-stat:nth-child(3)::before { content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:32px; height:2px; background:#002868; border-radius:0 0 2px 2px; }
+  .b4-stat-num {
+    display: block;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: #fff;
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+  .b4-stat-label {
+    display: block;
+    margin-top: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.38);
+  }
+
+  .b4-ticker-outer {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+  }
+  .b4-ticker-outer::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    width: 160px;
+    background: linear-gradient(to right, #010A1E 0%, transparent 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .b4-ticker-outer::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0; right: 0;
+    width: 160px;
+    background: linear-gradient(to left, #010A1E 0%, transparent 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .b4-ticker-bar {
+    border-top: 1px solid rgba(178,34,52,0.3);
+    border-bottom: 1px solid rgba(0,40,104,0.5);
+    padding: 28px 0;
+    position: relative;
+  }
+  .b4-ticker-bar::before {
+    content: '';
+    position: absolute;
+    top: -5px; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg,
+      #B22234 0%, #B22234 25%,
+      #fff 25%, #fff 50%,
+      #002868 50%, #002868 75%,
+      #B22234 75%, #B22234 100%
+    );
+    opacity: 0.5;
+  }
+
+  .b4-ticker-track {
+    display: flex;
+    width: max-content;
+    animation: b4Scroll 38s linear infinite;
+  }
+  .b4-ticker-track:hover { animation-play-state: paused; }
+  @keyframes b4Scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .b4-ticker-set {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .b4-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 52px;
+    position: relative;
+    transition: opacity 0.3s;
+  }
+  .b4-item::after {
+    content: '★';
+    position: absolute;
+    right: -4px;
+    font-size: 9px;
+    color: #FFD60A;
+    opacity: 0.45;
+    filter: drop-shadow(0 0 3px rgba(255,215,0,0.4));
+  }
+  .b4-ticker-track:hover .b4-item { opacity: 0.4; }
+  .b4-ticker-track:hover .b4-item:hover { opacity: 1; }
+
+  .b4-logo-img {
+    height: 48px;
+    width: auto;
+    max-width: 160px;
+    object-fit: contain;
+    display: block;
+    transition: filter 0.3s, transform 0.3s;
+  }
+  .b4-item:hover .b4-logo-img {
+    filter: drop-shadow(0 0 10px rgba(178,34,52,0.55));
+    transform: scale(1.06);
+  }
+
+  .b4-trust {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    margin-top: 36px;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  .b4-trust-line {
+    flex: 1;
+    max-width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(178,34,52,0.5));
+  }
+  .b4-trust-line.right {
+    background: linear-gradient(270deg, transparent, rgba(178,34,52,0.5));
+  }
+  .b4-trust-text {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.28);
+  }
+  .b4-trust-star { color: #FFD60A; font-size: 10px; margin: 0 4px; }
+
+  @media (max-width: 640px) {
+    .b4-section  { padding: 48px 0 56px; }
+    .b4-item     { padding: 0 32px; }
+    .b4-ticker-outer::before,
+    .b4-ticker-outer::after { width: 60px; }
+    .b4-logo-img { height: 36px; }
+    .b4-stats    { margin: 0 16px 32px; }
+    .b4-stat-num { font-size: 22px; }
+    .b4-eyebrow-badge { font-size: 9px; padding: 6px 12px; letter-spacing: 0.2em; }
+    .b4-trust    { margin-top: 28px; }
+  }
+</style>
+
+<section class="b4-section">
+
+  <div class="b4-header">
+    <div class="b4-eyebrow-wrap">
+      <div class="b4-eyebrow-badge">
+        <span class="b4-eyebrow-star">★</span>
+        July 4th · America's Game
+        <span class="b4-eyebrow-star">★</span>
+      </div>
+    </div>
+    <h2 class="b4-title">As Seen <span class="b4-accent">On</span></h2>
+    <p class="b4-subtitle">Trusted by the world's biggest sports &amp; entertainment brands</p>
+  </div>
+
+
+
+  <div class="b4-ticker-outer">
+    <div class="b4-ticker-bar">
+      <div class="b4-ticker-track">
+
+        <div class="b4-ticker-set">
+          <div class="b4-item"><img class="b4-logo-img" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/BuzzFeed.svg_1.png?v=1774991458" alt="BuzzFeed"></div>
+          <div class="b4-item"><img class="b4-logo-img" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ESPN_wordmark_svg.png?v=1774991116" alt="ESPN"></div>
+          <div class="b4-item"><img class="b4-logo-img" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/logo-white.png?v=1774991205" alt="Barstool Sports"></div>
+          <div class="b4-item"><img class="b4-logo-img" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/SportsIllustratedLogo_svg.png?v=1774991245" alt="Sports Illustrated"></div>
+        </div>
+
+        <div class="b4-ticker-set">
+          <div class="b4-item"><img class="b4-logo-img" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/BuzzFeed.svg_1.png?v=1774991458" alt="BuzzFeed"></div>
+          <div class="b4-item"><img class="b4-logo-img" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ESPN_wordmark_svg.png?v=1774991116" alt="ESPN"></div>
+          <div class="b4-item"><img class="b4-logo-img" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/logo-white.png?v=1774991205" alt="Barstool Sports"></div>
+          <div class="b4-item"><img class="b4-logo-img" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/SportsIllustratedLogo_svg.png?v=1774991245" alt="Sports Illustrated"></div>
+        </div>
+
+        <div class="b4-ticker-set">
+          <div class="b4-item"><img class="b4-logo-img" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/BuzzFeed.svg_1.png?v=1774991458" alt="BuzzFeed"></div>
+          <div class="b4-item"><img class="b4-logo-img" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ESPN_wordmark_svg.png?v=1774991116" alt="ESPN"></div>
+          <div class="b4-item"><img class="b4-logo-img" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/logo-white.png?v=1774991205" alt="Barstool Sports"></div>
+          <div class="b4-item"><img class="b4-logo-img" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/SportsIllustratedLogo_svg.png?v=1774991245" alt="Sports Illustrated"></div>
+        </div>
+
+        <div class="b4-ticker-set">
+          <div class="b4-item"><img class="b4-logo-img" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/BuzzFeed.svg_1.png?v=1774991458" alt="BuzzFeed"></div>
+          <div class="b4-item"><img class="b4-logo-img" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ESPN_wordmark_svg.png?v=1774991116" alt="ESPN"></div>
+          <div class="b4-item"><img class="b4-logo-img" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/logo-white.png?v=1774991205" alt="Barstool Sports"></div>
+          <div class="b4-item"><img class="b4-logo-img" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/SportsIllustratedLogo_svg.png?v=1774991245" alt="Sports Illustrated"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="b4-trust">
+    <div class="b4-trust-line"></div>
+    <span class="b4-trust-text">
+      <span class="b4-trust-star">★</span>
+      America's Viral Game of Summer
+      <span class="b4-trust-star">★</span>
+    </span>
+    <div class="b4-trust-line right"></div>
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "July 4th As Seen On",
+  "tag": "section",
+  "class": "brands-july4-wrapper",
+  "settings": [],
+  "presets": [
+    { "name": "July 4th As Seen On" }
+  ]
+}
+{% endschema %}

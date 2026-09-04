@@ -1,0 +1,117 @@
+{% render 'popdarts-assets' %}
+
+<section class="pd-page home-hero" id="home-hero-{{ section.id }}" aria-label="Popdarts">
+  <div class="home-hero__media" aria-hidden="true">
+    <video autoplay muted loop playsinline preload="auto"
+      poster="{% if section.settings.poster_image %}{{ section.settings.poster_image | image_url: width: 1920 }}{% else %}{{ 'pd-home-hero-poster.jpg' | asset_url }}{% endif %}">
+      <source src="{{ section.settings.video_url | default: 'https://cdn.shopify.com/videos/c/o/v/b7eadc0e2ccf4158ab0b7e5e9036fde3.mp4' }}" type="video/mp4">
+    </video>
+    <div class="home-hero__scrim"></div>
+  </div>
+
+  <div class="pd-wrap">
+    <div class="home-hero__inner">
+      <p class="home-hero__eyebrow">{{ section.settings.eyebrow | default: 'Welcome to Popdarts' }}</p>
+      <h1 class="home-hero__title" style="color: #fdfdfd;">
+        {{ section.settings.heading_line1 | default: 'Three darts.' }}<br>
+        <span style="color: #fdfdfd;">{{ section.settings.heading_line2 | default: 'One target.' }}</span><br>
+        <span class="c-blue" style="color: #2b99ff;">{{ section.settings.heading_line3 | default: 'Endless rivalries.' }}</span>
+      </h1>
+      <p class="home-hero__sub">{{ section.settings.subheading | default: "The backyard game that filled a stadium. Grab a set, pick a target, and find out who really has the aim in your crew." }}</p>
+      <div class="home-hero__actions">
+        <a class="btn btn--primary btn--lg" href="{{ section.settings.cta_primary_link | default: '/collections/all' }}">{{ section.settings.cta_primary_text | default: 'Shop Popdarts' }}</a>
+        <a class="hero__more" href="{{ section.settings.cta_secondary_anchor | default: '#home-community' }}">
+          <span>{{ section.settings.cta_secondary_text | default: 'Watch Highlights' }}</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 4v14m0 0-6-6m6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Home Hero (Video)",
+  "tag": "section",
+  "class": "pd-section-home-hero",
+  "settings": [
+    {
+      "type": "url",
+      "id": "video_url",
+      "label": "Background video file URL",
+      "info": "Direct .mp4 URL from Settings > Files. Defaults to the Championship confetti moment."
+    },
+    {
+      "type": "image_picker",
+      "id": "poster_image",
+      "label": "Poster / fallback image"
+    },
+    {
+      "type": "header",
+      "content": "Headline"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Welcome to Popdarts"
+    },
+    {
+      "type": "text",
+      "id": "heading_line1",
+      "label": "Headline line 1",
+      "default": "Three darts."
+    },
+    {
+      "type": "text",
+      "id": "heading_line2",
+      "label": "Headline line 2 (white)",
+      "default": "One target."
+    },
+    {
+      "type": "text",
+      "id": "heading_line3",
+      "label": "Headline line 3 (blue)",
+      "default": "Endless rivalries."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "The backyard game that filled a stadium. Grab a set, pick a target, and find out who really has the aim in your crew."
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "cta_primary_text",
+      "label": "Primary button text",
+      "default": "Shop Popdarts"
+    },
+    {
+      "type": "url",
+      "id": "cta_primary_link",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "cta_secondary_text",
+      "label": "Secondary link text",
+      "default": "Watch Highlights"
+    },
+    {
+      "type": "text",
+      "id": "cta_secondary_anchor",
+      "label": "Secondary link anchor",
+      "default": "#home-community"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home Hero (Video)"
+    }
+  ]
+}
+{% endschema %}

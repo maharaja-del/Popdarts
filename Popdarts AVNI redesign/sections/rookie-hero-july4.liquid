@@ -1,0 +1,235 @@
+{% comment %}
+  Rookie Pack — Independence Day Hero
+  Responsive portrait (9:16) ad-creative slider. Patriotic red/white/navy theme.
+  Scoped to section.id so multiple instances won't collide.
+{% endcomment %}
+
+{%- assign default_slides = "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/I136_9x16_26_5-PD_4thJuly_08.jpg?v=1780512495,https://cdn.shopify.com/s/files/1/0471/3375/3505/files/I132_9x16_26_5-PD_4thJuly_02.jpg?v=1780512493,https://cdn.shopify.com/s/files/1/0471/3375/3505/files/I138_9x16_26_5-PD_4thJuly_12.jpg?v=1780512494,https://cdn.shopify.com/s/files/1/0471/3375/3505/files/26_5_PD_4thJuly_15.jpg?v=1780512494,https://cdn.shopify.com/s/files/1/0471/3375/3505/files/I131_9x16_26_5-PD_4thJuly_01.jpg?v=1780512494,https://cdn.shopify.com/s/files/1/0471/3375/3505/files/I133_9x16_26_5-PD_4thJuly_03.jpg?v=1780512495,https://cdn.shopify.com/s/files/1/0471/3375/3505/files/I134_9x16_26_5-PD_4thJuly_06.jpg?v=1780512495" | split: "," -%}
+
+<style>
+  .j4h-{{ section.id }} {
+    --red:#C8102E; --red-d:#8B0000; --navy:#002868; --gold:#FFD60A;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    position:relative;
+    overflow:hidden;
+    background:
+      radial-gradient(70% 50% at 18% 0%, rgba(200,16,46,.20), transparent 60%),
+      radial-gradient(70% 55% at 82% 8%, rgba(0,40,104,.45), transparent 62%),
+      #06080f;
+    padding:0 0 56px;
+  }
+  /* tricolor top stripe */
+  .j4h-{{ section.id }}::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:5px;z-index:4;pointer-events:none;
+    background:linear-gradient(90deg,var(--red) 0 33.34%,#fff 33.34% 66.67%,var(--navy) 66.67% 100%);
+  }
+  /* faint star grid */
+  .j4h-{{ section.id }}::after{
+    content:'';position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.5;
+    background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1.4px);
+    background-size:34px 34px;
+    -webkit-mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 75%);
+            mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 75%);
+  }
+
+  /* ── HEADER ── */
+  .j4h-{{ section.id }} .j4h-head{
+    position:relative;z-index:2;
+    max-width:760px;margin:0 auto;
+    padding:46px 20px 30px;text-align:center;
+  }
+  .j4h-{{ section.id }} .j4h-eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    background:linear-gradient(90deg,var(--red),var(--navy));
+    color:#fff;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+    padding:7px 16px;border-radius:999px;margin-bottom:16px;
+    box-shadow:0 6px 20px rgba(200,16,46,.45);
+  }
+  .j4h-{{ section.id }} .j4h-title{
+    margin:0;color:#fff;font-weight:900;text-transform:uppercase;
+    font-size:clamp(30px,6vw,58px);line-height:.98;letter-spacing:-.03em;
+    text-shadow:0 4px 30px rgba(0,0,0,.5);
+  }
+  .j4h-{{ section.id }} .j4h-title .r{color:#ff4d4d}
+  .j4h-{{ section.id }} .j4h-title .b{color:#5b8def}
+  .j4h-{{ section.id }} .j4h-sub{
+    margin:14px auto 0;max-width:560px;
+    color:rgba(255,255,255,.62);font-size:clamp(14px,2vw,17px);line-height:1.5;
+  }
+
+  /* ── SLIDER ── */
+  .j4h-{{ section.id }} .j4h-slider{position:relative;z-index:2;}
+  .j4h-{{ section.id }} .j4h-track{
+    display:flex;gap:16px;
+    overflow-x:auto;scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;scroll-behavior:smooth;
+    padding:6px 20px 18px;
+    scrollbar-width:none;
+  }
+  .j4h-{{ section.id }} .j4h-track::-webkit-scrollbar{display:none}
+  .j4h-{{ section.id }} .j4h-slide{
+    flex:0 0 auto;
+    width:min(74vw,280px);
+    aspect-ratio:9/16;
+    border-radius:16px;overflow:hidden;
+    scroll-snap-align:center;
+    position:relative;
+    background:#0c1020;
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow:0 14px 34px rgba(0,0,0,.5);
+    transition:transform .35s cubic-bezier(.16,1,.3,1),border-color .35s,box-shadow .35s;
+  }
+  .j4h-{{ section.id }} .j4h-slide:hover{
+    transform:translateY(-6px);
+    border-color:rgba(200,16,46,.6);
+    box-shadow:0 22px 48px rgba(200,16,46,.28);
+  }
+  .j4h-{{ section.id }} .j4h-slide img{
+    width:100%;height:100%;object-fit:cover;display:block;
+  }
+
+  /* arrows */
+  .j4h-{{ section.id }} .j4h-arrow{
+    position:absolute;top:50%;transform:translateY(-50%);z-index:5;
+    width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;
+    background:var(--red);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 20px rgba(200,16,46,.5);
+    transition:background .2s,transform .2s,opacity .2s;
+  }
+  .j4h-{{ section.id }} .j4h-arrow:hover{background:var(--red-d);transform:translateY(-50%) scale(1.08)}
+  .j4h-{{ section.id }} .j4h-arrow svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+  .j4h-{{ section.id }} .j4h-arrow--prev{left:14px}
+  .j4h-{{ section.id }} .j4h-arrow--next{right:14px}
+  .j4h-{{ section.id }} .j4h-arrow.is-off{opacity:0;pointer-events:none}
+
+  /* CTA */
+  .j4h-{{ section.id }} .j4h-cta-wrap{position:relative;z-index:2;text-align:center;margin-top:14px}
+  .j4h-{{ section.id }} .j4h-cta{
+    display:inline-flex;align-items:center;gap:10px;
+    background:var(--red);color:#fff;text-decoration:none;
+    font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+    padding:16px 34px;border-radius:10px;
+    box-shadow:0 8px 26px rgba(200,16,46,.4);
+    transition:background .2s,transform .2s;
+  }
+  .j4h-{{ section.id }} .j4h-cta:hover{background:var(--red-d);transform:translateY(-2px)}
+
+  @media (max-width:768px){
+    .j4h-{{ section.id }} .j4h-head{padding:34px 18px 22px}
+    .j4h-{{ section.id }} .j4h-arrow{display:none}      /* swipe on mobile */
+    .j4h-{{ section.id }} .j4h-track{gap:12px;padding:6px 16px 16px}
+  }
+  @media (min-width:1024px){
+    .j4h-{{ section.id }} .j4h-slide{width:248px}
+    .j4h-{{ section.id }} .j4h-track{padding:8px 64px 22px;justify-content:flex-start}
+  }
+</style>
+
+<section class="j4h-{{ section.id }}" aria-label="{{ section.settings.title | default: 'Independence Day' | escape }}">
+
+  <div class="j4h-head">
+    <span class="j4h-eyebrow">🎆 {{ section.settings.eyebrow | default: 'Independence Day' }} 🇺🇸</span>
+    <h2 class="j4h-title">{{ section.settings.title | default: 'Celebrate The 4th, Popdarts Style' }}</h2>
+    {%- if section.settings.subtext != blank -%}
+      <p class="j4h-sub">{{ section.settings.subtext }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="j4h-slider">
+    <button class="j4h-arrow j4h-arrow--prev is-off" id="j4h-prev-{{ section.id }}" aria-label="Previous">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+
+    <div class="j4h-track" id="j4h-track-{{ section.id }}">
+      {%- for slide in default_slides -%}
+        <div class="j4h-slide">
+          <img src="{{ slide }}" alt="Popdarts 4th of July {{ forloop.index }}" loading="lazy" decoding="async">
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <button class="j4h-arrow j4h-arrow--next" id="j4h-next-{{ section.id }}" aria-label="Next">
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+
+  {%- if section.settings.button_label != blank -%}
+    <div class="j4h-cta-wrap">
+      <a class="j4h-cta" href="{{ section.settings.button_link | default: '#goti' }}">
+        {{ section.settings.button_label }}
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  {%- endif -%}
+
+</section>
+
+<script>
+(function(){
+  var track = document.getElementById('j4h-track-{{ section.id }}');
+  var prev  = document.getElementById('j4h-prev-{{ section.id }}');
+  var next  = document.getElementById('j4h-next-{{ section.id }}');
+  if(!track) return;
+
+  function step(){
+    var slide = track.querySelector('.j4h-slide');
+    if(!slide) return track.clientWidth * 0.8;
+    var gap = parseInt(getComputedStyle(track).columnGap || getComputedStyle(track).gap || 16, 10) || 16;
+    return slide.getBoundingClientRect().width + gap;
+  }
+
+  function syncArrows(){
+    if(!prev || !next) return;
+    prev.classList.toggle('is-off', track.scrollLeft <= 4);
+    next.classList.toggle('is-off', track.scrollLeft + track.clientWidth >= track.scrollWidth - 4);
+  }
+
+  if(prev) prev.addEventListener('click', function(){ track.scrollBy({left:-step(), behavior:'smooth'}); });
+  if(next) next.addEventListener('click', function(){ track.scrollBy({left:step(), behavior:'smooth'}); });
+  track.addEventListener('scroll', syncArrows, {passive:true});
+  window.addEventListener('resize', syncArrows);
+  syncArrows();
+
+  /* Auto-advance — pauses on hover / touch, loops back at the end */
+  var paused = false, timer = null;
+  function start(){ stop(); timer = setInterval(function(){
+    if(paused) return;
+    if(track.scrollLeft + track.clientWidth >= track.scrollWidth - 4){
+      track.scrollTo({left:0, behavior:'smooth'});
+    } else {
+      track.scrollBy({left:step(), behavior:'smooth'});
+    }
+  }, 3500); }
+  function stop(){ if(timer) clearInterval(timer); }
+
+  track.addEventListener('mouseenter', function(){ paused = true; });
+  track.addEventListener('mouseleave', function(){ paused = false; });
+  track.addEventListener('touchstart', function(){ paused = true; }, {passive:true});
+
+  /* Only autoplay when the section is on screen */
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ e.isIntersecting ? start() : stop(); });
+    }, {threshold:0.2}).observe(track);
+  } else { start(); }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Rookie 4th July Hero",
+  "tag": "section",
+  "class": "rookie-july4-hero-wrapper",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Independence Day" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Celebrate The 4th, Popdarts Style" },
+    { "type": "textarea", "id": "subtext", "label": "Subtext", "default": "Backyard battles, beach days, and fireworks — see how Popdarts lights up the 4th." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop The Rookie Pack" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "presets": [
+    { "name": "Rookie 4th July Hero" }
+  ]
+}
+{% endschema %}

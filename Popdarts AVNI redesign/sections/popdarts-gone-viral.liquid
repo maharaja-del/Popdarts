@@ -1,0 +1,954 @@
+{% comment %}
+  All section.settings values hardcoded from JSON config.
+  section.id kept as Liquid — required for scoped CSS & JS.
+  Products accessed via all_products by handle.
+  Video URLs hardcoded from browser-inspected sources.
+{% endcomment %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
+
+{%- style -%}
+
+  .section-{{ section.id }} {
+    border-top: solid #fdfdfd 0px;
+    border-bottom: solid #fdfdfd 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  .section-{{ section.id }}-settings {
+    margin: 0 auto;
+    max-width: 140rem;
+    padding-top: 27px;
+    padding-bottom: 27px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .video-heading-{{ section.id }} {
+    text-align: center;
+  }
+
+  .video-heading-{{ section.id }} * {
+    margin: 0;
+    font-size: 28px;
+    color: #0a0a0a;
+    line-height: 120%;
+    text-transform: unset;
+  }
+
+  .video-slider-{{ section.id }} {
+    margin-top: 15px;
+  }
+
+  .video-slider-{{ section.id }} .swiper-wrapper {
+    align-items: stretch !important;
+  }
+
+  .video-slide-{{ section.id }} {
+    display: block;
+    border-radius: 10px;
+    border: 0px solid #000000;
+    background-color: #ffffff;
+    box-sizing: border-box !important;
+    height: auto !important;
+    text-decoration: none;
+    overflow: hidden;
+    will-change: transform;
+  }
+
+  .video-top-{{ section.id }} {
+    overflow: hidden;
+    position: relative;
+    z-index: 0;
+    cursor: pointer;
+    background-image: linear-gradient(to top, #000000, #252525, #444444, #676767, #8b8b8b, #9e9e9e, #b1b1b1, #c5c5c5, #cbcbcb, #d0d0d0, #d6d6d6, #dcdcdc);
+    aspect-ratio: 9.6/16;
+  }
+
+  @keyframes pulse {
+    0% { background-size: 100% 100%; }
+    100% { background-size: 120% 120%; }
+  }
+
+  .video-top-{{ section.id }}::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    cursor: pointer;
+    background-color: rgba(0,0,0,0);
+  }
+
+  .video-top-{{ section.id }} video,
+  .video-top-{{ section.id }} iframe {
+    display: block;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
+    border: 0px;
+  }
+
+  .video-bottom-{{ section.id }} {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .video-bottom-{{ section.id }} .form {
+    flex: 1 1 auto;
+  }
+
+  .video-add-{{ section.id }} {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #ffffff;
+    text-align: center;
+    text-transform: unset;
+    text-decoration: none;
+    padding: 10px 30px;
+    background-color: #2b99ff;
+    border: 0px;
+    transition: all 0.25s ease 0s;
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .video-add-{{ section.id }}:hover {
+    color: #2b99ff;
+    background-color: #fdfdfd;
+    transition: all 0.25s ease 0s;
+  }
+
+  .video-arrow-{{ section.id }} {
+    flex: 0 0 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2b99ff;
+    border-radius: 0px;
+    border: 0px;
+    box-shadow: none;
+    cursor: pointer;
+    border-left: 1px solid #2b99ff;
+  }
+
+  .video-arrow-{{ section.id }} svg {
+    display: block;
+    width: 24px;
+    height: 24px;
+  }
+
+  .video-arrow-{{ section.id }} svg path {
+    fill: #fdfdfd;
+  }
+
+  .video-product-{{ section.id }} {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px;
+    will-change: transform;
+  }
+
+  .video-product-image-{{ section.id }} {
+    flex: 0 0 60px;
+    height: 60px;
+    border-radius: 10px;
+    border: 0px solid #000000;
+    overflow: hidden;
+  }
+
+  .video-product-image-{{ section.id }} img {
+    display: block;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+
+  .video-product-title-{{ section.id }} {
+    margin: 0px;
+    font-size: 14px;
+    color: #ffffff;
+    line-height: 100%;
+    text-transform: unset;
+    will-change: transform;
+  }
+
+  .video-product-price-{{ section.id }} {
+    margin: 0px;
+    font-size: 14px;
+    color: #ffffff;
+    line-height: 150%;
+    text-transform: uppercase;
+    margin-top: 3px;
+    will-change: transform;
+  }
+
+  .video-variants-{{ section.id }} {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 16px 12px;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    z-index: -1;
+    opacity: 0;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+  .video-variants-{{ section.id }}.active {
+    z-index: 1;
+    opacity: 1;
+  }
+
+  .video-modal-{{ section.id }} {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    overflow-y: scroll;
+    pointer-events: none;
+    background: rgba(0, 0, 0, 1);
+    padding: 10px;
+  }
+
+  .video-modal-{{ section.id }}.active {
+    opacity: 1;
+    z-index: 100;
+    pointer-events: all;
+    transition: all 250ms ease-in 0s;
+  }
+
+  .video-modal-inner-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    max-height: 95vh;
+  }
+
+  .video-modal-slide-{{ section.id }} {
+    display: grid !important;
+    grid-template-columns: repeat(1, 1fr);
+    overflow: hidden;
+    border: 0px solid #2b99ff;
+    background-color: #2b99ff;
+    border-radius: 16px;
+    box-sizing: border-box !important;
+  }
+
+  .video-modal-close-{{ section.id }} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 42px;
+    height: 42px;
+    top: 10px !important;
+    right: 10px !important;
+    padding: 6px;
+    background-color: rgba(43,153,255,0.2);
+    backdrop-filter: blur(100px);
+    -webkit-backdrop-filter: blur(100px);
+    border-radius: 8px;
+    border: 0px solid #2b99ff;
+    cursor: pointer;
+    z-index: 99;
+    position: fixed;
+    margin: 0px;
+  }
+
+  .video-modal-close-{{ section.id }} svg {
+    fill: #ffffff;
+  }
+
+  .video-modal-prev-{{ section.id }},
+  .video-modal-next-{{ section.id }} {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    z-index: 99;
+    position: fixed;
+    margin: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 6px;
+    background-color: rgba(255,255,255,0.2);
+    backdrop-filter: blur(100px);
+    -webkit-backdrop-filter: blur(100px);
+    border-radius: 10px;
+    border: 0px solid #2b99ff;
+  }
+
+  .video-modal-prev-{{ section.id }}.swiper-button-disabled,
+  .video-modal-next-{{ section.id }}.swiper-button-disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .video-modal-prev-{{ section.id }} { left: 20px; }
+  .video-modal-next-{{ section.id }} { right: 20px; }
+
+  .video-modal-prev-{{ section.id }} svg,
+  .video-modal-next-{{ section.id }} svg {
+    width: 75%;
+    height: 75%;
+    fill: #fdfdfd;
+  }
+
+  .video-modal-left-{{ section.id }} {
+    width: 100%;
+    border-radius: 0px;
+    border: 0px solid #2b99ff;
+    overflow: hidden;
+    max-height: 75vh;
+    position: relative;
+    aspect-ratio: 9.6/16;
+  }
+
+  .video-modal-left-{{ section.id }} video,
+  .video-modal-left-{{ section.id }} iframe {
+    display: block;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
+    border: 0px;
+  }
+
+  .video-modal-left-{{ section.id }}:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  .video-modal-right-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 16px;
+    background-color: #fdfdfd;
+    overflow-y: auto;
+  }
+
+  .video-modal-heading-{{ section.id }} { text-align: center; }
+  .video-modal-heading-{{ section.id }} * {
+    margin: 0;
+    font-size: 0px;
+    color: #2b99ff;
+    line-height: 50%;
+    text-transform: unset;
+  }
+
+  .video-modal-text-{{ section.id }} { text-align: center; margin-top: 0px; }
+  .video-modal-text-{{ section.id }} * {
+    margin: 0;
+    font-size: 0px;
+    color: #2b99ff;
+    line-height: 50%;
+    text-transform: unset;
+  }
+
+  .video-modal-add-{{ section.id }} {
+    margin: 0px;
+    margin-top: 16px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #ffffff;
+    text-align: center;
+    text-transform: unset;
+    text-decoration: none;
+    padding: 12px;
+    border-radius: 8px;
+    border: 3px solid #2b99ff;
+    background-color: #2b99ff;
+    transition: all 0.25s ease 0s;
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+  }
+
+  .video-modal-add-{{ section.id }}:hover {
+    border: 3px solid #2b99ff;
+    background-color: #ffffff;
+    color: #2b99ff;
+    transition: all 0.25s ease 0s;
+  }
+
+  .video-modal-product-{{ section.id }} {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .video-modal-product-image-{{ section.id }} {
+    flex: 0 0 84px;
+    height: 84px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .video-modal-product-image-{{ section.id }} img {
+    display: block;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+
+  .video-modal-product-title-{{ section.id }} {
+    margin: 0px;
+    font-size: 16px;
+    color: #2b99ff;
+    line-height: 130%;
+    text-transform: unset;
+  }
+
+  .video-modal-product-price-{{ section.id }} {
+    margin: 0px;
+    margin-top: 6px;
+    font-size: 16px;
+    color: #2b99ff;
+    line-height: 150%;
+    text-transform: uppercase;
+  }
+
+  .video-modal-action-{{ section.id }} {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: rgba(157,157,157,.5);
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .video-modal-action-{{ section.id }} svg { height: 20px; width: 20px; fill: #FFFFFF; }
+  .video-modal-action-{{ section.id }} .video-modal-unmute-{{ section.id }} { display: none; }
+  .video-modal-action-{{ section.id }}.active .video-modal-unmute-{{ section.id }} { display: block; }
+  .video-modal-action-{{ section.id }}.active .video-modal-mute-{{ section.id }} { display: none; }
+
+  @media(min-width: 1024px) {
+    .section-{{ section.id }} { margin-top: 0px; margin-bottom: 0px; }
+
+    .section-{{ section.id }}-settings {
+      padding-top: 36px;
+      padding-bottom: 36px;
+      padding-left: 5rem;
+      padding-right: 5rem;
+    }
+
+    .video-heading-{{ section.id }} { text-align: center; }
+    .video-heading-{{ section.id }} * { font-size: 60px; }
+
+    .video-slider-{{ section.id }} { margin-top: 20px; }
+
+    .video-add-{{ section.id }} {
+      font-size: 16px;
+      padding: 10px 9px;
+    }
+
+    .video-product-image-{{ section.id }} { flex: 0 0 60px; height: 60px; }
+    .video-product-title-{{ section.id }} { font-size: 14px; }
+    .video-product-price-{{ section.id }} { font-size: 14px; }
+
+    .video-modal-{{ section.id }} { padding: 100px; }
+    .video-modal-inner-{{ section.id }} { max-width: 740px; }
+    .video-modal-slide-{{ section.id }} { grid-template-columns: repeat(2, 1fr); }
+
+    .video-modal-close-{{ section.id }} {
+      width: 42px;
+      height: 42px;
+      top: 20px !important;
+      right: 20px !important;
+    }
+
+    .video-modal-prev-{{ section.id }},
+    .video-modal-next-{{ section.id }} { width: 48px; height: 48px; }
+
+    .video-modal-left-{{ section.id }} {
+      max-height: calc(95vh - 100px);
+      aspect-ratio: 9.6/16;
+    }
+
+    .video-modal-heading-{{ section.id }} { text-align: center; }
+    .video-modal-heading-{{ section.id }} * { font-size: 28px; }
+
+    .video-modal-text-{{ section.id }} { text-align: center; margin-top: 0px; }
+    .video-modal-text-{{ section.id }} * { font-size: 16px; }
+
+    .video-modal-product-image-{{ section.id }} { flex: 0 0 70px; height: 70px; }
+    .video-modal-product-title-{{ section.id }} { font-size: 16px; }
+    .video-modal-product-price-{{ section.id }} { font-size: 14px; }
+    .video-modal-add-{{ section.id }} { margin-top: 16px; font-size: 16px; }
+  }
+
+{%- endstyle -%}
+
+{%- liquid
+  assign p1 = all_products['pro-pack']
+  assign p2 = all_products['sb-glf']
+  assign p3 = all_products['tourney-boards']
+
+  assign v1_url = '//popdartsgame.com/cdn/shop/videos/c/vp/05912d60b8f8466d84b905281384de8f/05912d60b8f8466d84b905281384de8f.HD-1080p-7.2Mbps-9697503.mp4?v=0'
+  assign v2_url = '//popdartsgame.com/cdn/shop/videos/c/vp/4a6a5966e8f24754993ecc7f323fcadd/4a6a5966e8f24754993ecc7f323fcadd.HD-1080p-2.5Mbps-41681909.mp4?v=0'
+  assign v3_url = '//popdartsgame.com/cdn/shop/videos/c/vp/b1cf3caa927648d59c939bbd85cbc300/b1cf3caa927648d59c939bbd85cbc300.HD-1080p-7.2Mbps-42265483.mp4?v=0'
+-%}
+
+<div class="section-{{ section.id }} video-{{ section.id }}" style="background-color:#fdfdfd; background-image: ;">
+  <div class="section-{{ section.id }}-settings">
+
+    <div class="video-heading-{{ section.id }}"><h4>POPDARTS GONE VIRAL 🔥</h4></div>
+
+    <div class="video-slider-{{ section.id }} swiper preview">
+      <div class="swiper-wrapper">
+
+        <!-- SLIDE 1: Pro Pack -->
+        <div class="video-slide-{{ section.id }} swiper-slide">
+          <div class="video-top-{{ section.id }}" id="{{ section.id }}">
+            <video data-src="{{ v1_url }}" muted playsinline autoplay preload="none" class="lazy" loop poster=""></video>
+            <div class="video-product-{{ section.id }}">
+              <div class="video-product-image-{{ section.id }}">
+                <img src="{{ p1.selected_or_first_available_variant.featured_image | image_url | default: p1.featured_image | image_url }}" alt="{{ p1.title }}" lazy="loading" data-shoppable-image--1>
+              </div>
+              <div clas="video-product-info-{{ section.id }}">
+                <p class="video-product-title-{{ section.id }}">{{ p1.title }}</p>
+                <p class="video-product-price-{{ section.id }}" data-shoppable-price--1>{{ p1.price | money }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="video-bottom-{{ section.id }}">
+            {%- form 'product', p1, id: 'quick-add-item_TPwKdf', class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form', is: 'product-form' -%}
+              <input type="hidden" name="id" value="{{ p1.selected_or_first_available_variant.id }}" data-shoppable-input--1 class="product-variant-id">
+              <button id="quick-add-item_TPwKdf-submit" type="submit" name="add" class="video-add-{{ section.id }}" data-shoppable-button--1>
+                {% if p1.selected_or_first_available_variant.available %}ADD TO CART{% else %}SOLD OUT{% endif %}
+              </button>
+            {%- endform -%}
+          </div>
+        </div>
+
+        <!-- SLIDE 2: PopGolf Board Set -->
+        <div class="video-slide-{{ section.id }} swiper-slide">
+          <div class="video-top-{{ section.id }}" id="{{ section.id }}">
+            <video data-src="{{ v2_url }}" muted playsinline autoplay preload="none" class="lazy" loop poster=""></video>
+            <div class="video-product-{{ section.id }}">
+              <div class="video-product-image-{{ section.id }}">
+                <img src="{{ p2.selected_or_first_available_variant.featured_image | image_url | default: p2.featured_image | image_url }}" alt="{{ p2.title }}" lazy="loading" data-shoppable-image--2>
+              </div>
+              <div clas="video-product-info-{{ section.id }}">
+                <p class="video-product-title-{{ section.id }}">{{ p2.title }}</p>
+                <p class="video-product-price-{{ section.id }}" data-shoppable-price--2>{{ p2.price | money }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="video-bottom-{{ section.id }}">
+            {%- form 'product', p2, id: 'quick-add-item_AymCWr', class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form', is: 'product-form' -%}
+              <input type="hidden" name="id" value="{{ p2.selected_or_first_available_variant.id }}" data-shoppable-input--2 class="product-variant-id">
+              <button id="quick-add-item_AymCWr-submit" type="submit" name="add" class="video-add-{{ section.id }}" data-shoppable-button--2>
+                {% if p2.selected_or_first_available_variant.available %}ADD TO CART{% else %}SOLD OUT{% endif %}
+              </button>
+            {%- endform -%}
+          </div>
+        </div>
+
+        <!-- SLIDE 3: Tourney Boards Set -->
+        <div class="video-slide-{{ section.id }} swiper-slide">
+          <div class="video-top-{{ section.id }}" id="{{ section.id }}">
+            <video data-src="{{ v3_url }}" muted playsinline autoplay preload="none" class="lazy" loop poster=""></video>
+            <div class="video-product-{{ section.id }}">
+              <div class="video-product-image-{{ section.id }}">
+                <img src="{{ p3.selected_or_first_available_variant.featured_image | image_url | default: p3.featured_image | image_url }}" alt="{{ p3.title }}" lazy="loading" data-shoppable-image--3>
+              </div>
+              <div clas="video-product-info-{{ section.id }}">
+                <p class="video-product-title-{{ section.id }}">{{ p3.title }}</p>
+                <p class="video-product-price-{{ section.id }}" data-shoppable-price--3>{{ p3.price | money }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="video-bottom-{{ section.id }}">
+            {%- form 'product', p3, id: 'quick-add-item_4HWbyp', class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form', is: 'product-form' -%}
+              <input type="hidden" name="id" value="{{ p3.selected_or_first_available_variant.id }}" data-shoppable-input--3 class="product-variant-id">
+              <button id="quick-add-item_4HWbyp-submit" type="submit" name="add" class="video-add-{{ section.id }}" data-shoppable-button--3>
+                {% if p3.selected_or_first_available_variant.available %}ADD TO CART{% else %}SOLD OUT{% endif %}
+              </button>
+            {%- endform -%}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="video-modal-{{ section.id }}">
+  <div class="video-modal-inner-{{ section.id }}">
+    <div class="video-modal-slider-{{ section.id }} swiper">
+      <div class="swiper-wrapper">
+
+        <!-- Modal Slide 1 -->
+        <div class="video-modal-slide-{{ section.id }} swiper-slide">
+          <div class="video-modal-left-{{ section.id }}" data-video-src="{{ v1_url }}">
+            <video data-src="{{ v1_url }}" muted playsinline autoplay preload="none" loop class="lazy" poster=""></video>
+            <div class="video-modal-action-{{ section.id }}">
+              <svg class="video-modal-mute-{{ section.id }}" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"></path><path d="M5.889 16H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h3.889l5.294-4.332a.5.5 0 0 1 .817.387v15.89a.5.5 0 0 1-.817.387L5.89 16zm14.525-4l3.536 3.536-1.414 1.414L19 13.414l-3.536 3.536-1.414-1.414L17.586 12 14.05 8.464l1.414-1.414L19 10.586l3.536-3.536 1.414 1.414L20.414 12z"></path></svg>
+              <svg class="video-modal-unmute-{{ section.id }}" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"></path><path d="M5.889 16H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h3.889l5.294-4.332a.5.5 0 0 1 .817.387v15.89a.5.5 0 0 1-.817.387L5.89 16zm13.517 4.134l-1.416-1.416A8.978 8.978 0 0 0 21 12a8.982 8.982 0 0 0-3.304-6.968l1.42-1.42A10.976 10.976 0 0 1 23 12c0 3.223-1.386 6.122-3.594 8.134zm-3.543-3.543l-1.422-1.422A3.993 3.993 0 0 0 16 12c0-1.43-.75-2.685-1.88-3.392l1.439-1.439A5.991 5.991 0 0 1 18 12c0 1.842-.83 3.49-2.137 4.591z"></path></svg>
+            </div>
+          </div>
+          <div class="video-modal-right-{{ section.id }}">
+            <div class="video-modal-right-info"></div>
+            <div class="video-modal-right-bottom-{{ section.id }}">
+              <div class="video-modal-product-{{ section.id }}">
+                <div class="video-modal-product-image-{{ section.id }}">
+                  <img src="{{ p1.featured_image | image_url }}" alt="{{ p1.title }}" lazy="loading" data-shoppable-modal-image--1>
+                </div>
+                <div clas="video-modal-product-info-{{ section.id }}">
+                  <p class="video-modal-product-title-{{ section.id }}">{{ p1.title }}</p>
+                  <p class="video-modal-product-price-{{ section.id }}" data-shoppable-modal-price--1>{{ p1.price | money }}</p>
+                </div>
+              </div>
+              {%- form 'product', p1, id: 'product-modal-form-item_TPwKdf', class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+                <input type="hidden" name="id" value="{{ p1.selected_or_first_available_variant.id }}" data-shoppable-modal-input--1>
+                <button type="submit" class="video-modal-add-{{ section.id }}" data-shoppable-modal-button--1>
+                  {% if p1.selected_or_first_available_variant.available %}Add To Cart{% else %}Sold Out{% endif %}
+                </button>
+              {%- endform -%}
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Slide 2 -->
+        <div class="video-modal-slide-{{ section.id }} swiper-slide">
+          <div class="video-modal-left-{{ section.id }}" data-video-src="{{ v2_url }}">
+            <video data-src="{{ v2_url }}" muted playsinline autoplay preload="none" loop class="lazy" poster=""></video>
+            <div class="video-modal-action-{{ section.id }}">
+              <svg class="video-modal-mute-{{ section.id }}" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"></path><path d="M5.889 16H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h3.889l5.294-4.332a.5.5 0 0 1 .817.387v15.89a.5.5 0 0 1-.817.387L5.89 16zm14.525-4l3.536 3.536-1.414 1.414L19 13.414l-3.536 3.536-1.414-1.414L17.586 12 14.05 8.464l1.414-1.414L19 10.586l3.536-3.536 1.414 1.414L20.414 12z"></path></svg>
+              <svg class="video-modal-unmute-{{ section.id }}" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"></path><path d="M5.889 16H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h3.889l5.294-4.332a.5.5 0 0 1 .817.387v15.89a.5.5 0 0 1-.817.387L5.89 16zm13.517 4.134l-1.416-1.416A8.978 8.978 0 0 0 21 12a8.982 8.982 0 0 0-3.304-6.968l1.42-1.42A10.976 10.976 0 0 1 23 12c0 3.223-1.386 6.122-3.594 8.134zm-3.543-3.543l-1.422-1.422A3.993 3.993 0 0 0 16 12c0-1.43-.75-2.685-1.88-3.392l1.439-1.439A5.991 5.991 0 0 1 18 12c0 1.842-.83 3.49-2.137 4.591z"></path></svg>
+            </div>
+          </div>
+          <div class="video-modal-right-{{ section.id }}">
+            <div class="video-modal-right-info">
+              <div class="video-modal-heading-{{ section.id }}"><h4>Modal Heading</h4></div>
+              <div class="video-modal-text-{{ section.id }}"><p>Modal Text</p></div>
+            </div>
+            <div class="video-modal-right-bottom-{{ section.id }}">
+              <div class="video-modal-product-{{ section.id }}">
+                <div class="video-modal-product-image-{{ section.id }}">
+                  <img src="{{ p2.featured_image | image_url }}" alt="{{ p2.title }}" lazy="loading" data-shoppable-modal-image--2>
+                </div>
+                <div clas="video-modal-product-info-{{ section.id }}">
+                  <p class="video-modal-product-title-{{ section.id }}">{{ p2.title }}</p>
+                  <p class="video-modal-product-price-{{ section.id }}" data-shoppable-modal-price--2>{{ p2.price | money }}</p>
+                </div>
+              </div>
+              {%- form 'product', p2, id: 'product-modal-form-item_AymCWr', class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+                <input type="hidden" name="id" value="{{ p2.selected_or_first_available_variant.id }}" data-shoppable-modal-input--2>
+                <button type="submit" class="video-modal-add-{{ section.id }}" data-shoppable-modal-button--2>
+                  {% if p2.selected_or_first_available_variant.available %}Add To Cart{% else %}Sold Out{% endif %}
+                </button>
+              {%- endform -%}
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal Slide 3 -->
+        <div class="video-modal-slide-{{ section.id }} swiper-slide">
+          <div class="video-modal-left-{{ section.id }}" data-video-src="{{ v3_url }}">
+            <video data-src="{{ v3_url }}" muted playsinline autoplay preload="none" loop class="lazy" poster=""></video>
+            <div class="video-modal-action-{{ section.id }}">
+              <svg class="video-modal-mute-{{ section.id }}" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"></path><path d="M5.889 16H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h3.889l5.294-4.332a.5.5 0 0 1 .817.387v15.89a.5.5 0 0 1-.817.387L5.89 16zm14.525-4l3.536 3.536-1.414 1.414L19 13.414l-3.536 3.536-1.414-1.414L17.586 12 14.05 8.464l1.414-1.414L19 10.586l3.536-3.536 1.414 1.414L20.414 12z"></path></svg>
+              <svg class="video-modal-unmute-{{ section.id }}" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"></path><path d="M5.889 16H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h3.889l5.294-4.332a.5.5 0 0 1 .817.387v15.89a.5.5 0 0 1-.817.387L5.89 16zm13.517 4.134l-1.416-1.416A8.978 8.978 0 0 0 21 12a8.982 8.982 0 0 0-3.304-6.968l1.42-1.42A10.976 10.976 0 0 1 23 12c0 3.223-1.386 6.122-3.594 8.134zm-3.543-3.543l-1.422-1.422A3.993 3.993 0 0 0 16 12c0-1.43-.75-2.685-1.88-3.392l1.439-1.439A5.991 5.991 0 0 1 18 12c0 1.842-.83 3.49-2.137 4.591z"></path></svg>
+            </div>
+          </div>
+          <div class="video-modal-right-{{ section.id }}">
+            <div class="video-modal-right-info">
+              <div class="video-modal-heading-{{ section.id }}"><h4>Modal Heading</h4></div>
+              <div class="video-modal-text-{{ section.id }}"><p>Modal Text</p></div>
+            </div>
+            <div class="video-modal-right-bottom-{{ section.id }}">
+              <div class="video-modal-product-{{ section.id }}">
+                <div class="video-modal-product-image-{{ section.id }}">
+                  <img src="{{ p3.featured_image | image_url }}" alt="{{ p3.title }}" lazy="loading" data-shoppable-modal-image--3>
+                </div>
+                <div clas="video-modal-product-info-{{ section.id }}">
+                  <p class="video-modal-product-title-{{ section.id }}">{{ p3.title }}</p>
+                  <p class="video-modal-product-price-{{ section.id }}" data-shoppable-modal-price--3>{{ p3.price | money }}</p>
+                </div>
+              </div>
+              {%- form 'product', p3, id: 'product-modal-form-item_4HWbyp', class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+                <input type="hidden" name="id" value="{{ p3.selected_or_first_available_variant.id }}" data-shoppable-modal-input--3>
+                <button type="submit" class="video-modal-add-{{ section.id }}" data-shoppable-modal-button--3>
+                  {% if p3.selected_or_first_available_variant.available %}Add To Cart{% else %}Sold Out{% endif %}
+                </button>
+              {%- endform -%}
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <button class="video-modal-close-{{ section.id }}">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.0002 10.586L4.70718 3.29297L3.29297 4.70718L10.586 12.0002L3.29297 19.2933L4.70718 20.7075L12.0002 13.4145L19.2933 20.7075L20.7075 19.2933L13.4145 12.0002L20.7075 4.70723L19.2933 3.29302L12.0002 10.586Z" fill="white"></path></svg>
+  </button>
+  <button class="video-modal-prev-{{ section.id }}">
+    <svg viewBox="0 0 24 24"><path d="m8.5 12.8 5.7 5.6c.4.4 1 .4 1.4 0 .4-.4.4-1 0-1.4l-4.9-5 4.9-5c.4-.4.4-1 0-1.4-.2-.2-.4-.3-.7-.3-.3 0-.5.1-.7.3l-5.7 5.6c-.4.5-.4 1.1 0 1.6 0-.1 0-.1 0 0z"></path></svg>
+  </button>
+  <button class="video-modal-next-{{ section.id }}">
+    <svg viewBox="0 0 24 24"><path d="M15.54,11.29,9.88,5.64a1,1,0,0,0-1.42,0,1,1,0,0,0,0,1.41l4.95,5L8.46,17a1,1,0,0,0,0,1.41,1,1,0,0,0,.71.3,1,1,0,0,0,.71-.3l5.66-5.65A1,1,0,0,0,15.54,11.29Z"></path></svg>
+  </button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@19.1.3/dist/lazyload.min.js"></script>
+
+<script>
+  function loadSwiper(callback) {
+    if (window.Swiper) {
+      callback();
+    } else {
+      const script = document.createElement('script');
+      script.src = "https://cdn.jsdelivr.net/npm/swiper@8.4.7/swiper-bundle.min.js";
+      script.onload = callback;
+      document.head.appendChild(script);
+    }
+  }
+
+  var formayMoneyForBuyItWith = function(cents, format) {
+    if (typeof cents == 'string') { cents = cents.replace('.',''); }
+    var value = '';
+    var placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
+    var formatString = (format || this.money_format);
+    function defaultOption(opt, def) { return (typeof opt == 'undefined' ? def : opt); }
+    function formatWithDelimiters(number, precision, thousands, decimal) {
+      precision = defaultOption(precision, 2);
+      thousands = defaultOption(thousands, ',');
+      decimal = defaultOption(decimal, '.');
+      if (isNaN(number) || number == null) { return 0; }
+      number = (number/100.0).toFixed(precision);
+      var parts = number.split('.'),
+          dollars = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands),
+          cents = parts[1] ? (decimal + parts[1]) : '';
+      return dollars + cents;
+    }
+    switch(formatString.match(placeholderRegex)[1]) {
+      case 'amount': value = formatWithDelimiters(cents, 2); break;
+      case 'amount_no_decimals': value = formatWithDelimiters(cents, 0); break;
+      case 'amount_with_comma_separator': value = formatWithDelimiters(cents, 2, '.', ','); break;
+      case 'amount_no_decimals_with_comma_separator': value = formatWithDelimiters(cents, 0, '.', ','); break;
+    }
+    return formatString.replace(placeholderRegex, value);
+  };
+
+  function initShoppableVideo(sectionId) {
+    document.querySelector(`.video-slider-${sectionId}`).classList.remove('preview');
+
+    const slider = new Swiper(`.video-slider-${sectionId}`, {
+      speed: 300,
+      navigation: {
+        nextEl: `.video-btn-next-${sectionId}`,
+        prevEl: `.video-btn-prev-${sectionId}`
+      },
+      breakpoints: {
+        320: { spaceBetween: 14, slidesPerView: 1.3 },
+        768: { spaceBetween: 14, slidesPerView: 2 },
+        1024: { spaceBetween: 16, slidesPerView: 3 }
+      }
+    });
+
+    const slider2 = new Swiper(`.video-modal-slider-${sectionId}`, {
+      speed: 300,
+      slidesPerView: 1,
+      spaceBetween: 20,
+      allowTouchMove: false,
+      navigation: {
+        nextEl: `.video-modal-next-${sectionId}`,
+        prevEl: `.video-modal-prev-${sectionId}`
+      },
+      on: {
+        slideChange: function () {
+          const slides = this.slides;
+          for (let i = 0; i < slides.length; i++) {
+            let video = slides[i].querySelector('video');
+            if (i === this.activeIndex) {
+              if (video) { video.play(); video.muted = false; }
+            } else {
+              if (video) { video.pause(); }
+            }
+          }
+        },
+      },
+    });
+
+    // Add-to-cart forms (no reload)
+    [
+      { formId: 'quick-add-item_TPwKdf', btnIndex: 1 },
+      { formId: 'quick-add-item_AymCWr', btnIndex: 2 },
+      { formId: 'quick-add-item_4HWbyp', btnIndex: 3 }
+    ].forEach(({ formId, btnIndex }) => {
+      const form = document.getElementById(formId);
+      const btn = document.querySelector(`[data-shoppable-button--${btnIndex}]`);
+      if (form && btn) {
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          await fetch('/cart/add', { method: 'post', body: new FormData(form) });
+          const res = await fetch("/cart.json");
+          const cart = await res.json();
+          const bubble = document.querySelector('.cart-count-bubble span');
+          if (bubble) bubble.textContent = cart.item_count;
+          setTimeout(() => { btn.innerText = "Added"; }, 300);
+          setTimeout(() => { btn.innerText = "ADD TO CART"; }, 2000);
+        });
+      }
+    });
+
+    // Modal forms (no reload)
+    [
+      { formId: 'product-modal-form-item_TPwKdf', btnIndex: 1 },
+      { formId: 'product-modal-form-item_AymCWr', btnIndex: 2 },
+      { formId: 'product-modal-form-item_4HWbyp', btnIndex: 3 }
+    ].forEach(({ formId, btnIndex }) => {
+      const form = document.getElementById(formId);
+      const btn = document.querySelector(`[data-shoppable-modal-button--${btnIndex}]`);
+      if (form && btn) {
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          await fetch('/cart/add', { method: 'post', body: new FormData(form) });
+          const res = await fetch("/cart.json");
+          const cart = await res.json();
+          const bubble = document.querySelector('.cart-count-bubble span');
+          if (bubble) bubble.textContent = cart.item_count;
+          setTimeout(() => { btn.innerText = "Added"; }, 300);
+          setTimeout(() => { btn.innerText = "Add To Cart"; }, 2000);
+        });
+      }
+    });
+
+    const toggles = document.querySelectorAll(`.video-top-${sectionId}`);
+    const modal = document.querySelector(`.video-modal-${sectionId}`);
+    const close = document.querySelector(`.video-modal-close-${sectionId}`);
+
+    toggles.forEach((el, index) => {
+      el.addEventListener('click', (e) => {
+        if (e.target.id == `${sectionId}`) {
+          slider2.slideTo(index);
+          const activeSlide = slider2.slides[index];
+          const video = activeSlide.querySelector('video');
+          const btn = activeSlide.querySelector(`.video-modal-action-${sectionId}`);
+          setTimeout(() => {
+            document.body.style.overflow = 'hidden';
+            modal.classList.add('active');
+            if (video) { video.play(); video.muted = false; }
+            if (btn) { btn.classList.add('active'); }
+          }, 200);
+        }
+      });
+    });
+
+    close.addEventListener('click', () => {
+      document.body.style.overflow = '';
+      modal.classList.remove('active');
+      modal.querySelectorAll('video').forEach(v => v.pause());
+    });
+
+    document.addEventListener('click', (e) => {
+      if (e.target == modal) {
+        document.body.style.overflow = '';
+        modal.classList.remove('active');
+        modal.querySelectorAll('video').forEach(v => v.pause());
+      }
+    });
+
+    document.querySelectorAll(`.video-modal-slide-${sectionId}`).forEach(el => {
+      const btn = el.querySelector(`.video-modal-action-${sectionId}`);
+      const video = el.querySelector('video');
+      if (btn) {
+        btn.addEventListener('click', () => {
+          btn.classList.toggle('active');
+          if (video) { video.muted = !btn.classList.contains('active'); }
+        });
+      }
+    });
+
+    var lazyLoadInstance = new LazyLoad();
+    window.addEventListener("LazyLoad::Initialized", function(event) {
+      window.lazyLoadInstance = event.detail.instance;
+    }, false);
+  }
+
+  function initializeAllShoppableVideoSections() {
+    const sections = document.querySelectorAll('[id^="shopify-section-"]');
+    sections.forEach(section => {
+      if (section.querySelector('.video-{{ section.id }}')) {
+        const sectionId = section.id.replace('shopify-section-', '');
+        loadSwiper(() => initShoppableVideo(sectionId));
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeAllShoppableVideoSections);
+  } else {
+    initializeAllShoppableVideoSections();
+  }
+
+  if (Shopify.designMode) {
+    document.addEventListener('shopify:section:load', (event) => {
+      const sectionId = event.detail.sectionId;
+      if (event.target.querySelector('.video-{{ section.id }}')) {
+        loadSwiper(() => initShoppableVideo(sectionId));
+      }
+    });
+  }
+</script>
+
+{% schema %}
+{
+  "name": "SS - Shoppable Video",
+  "settings": [],
+  "blocks": [],
+  "presets": [
+    { "name": "SS - Shoppable Video" }
+  ]
+}
+{% endschema %}

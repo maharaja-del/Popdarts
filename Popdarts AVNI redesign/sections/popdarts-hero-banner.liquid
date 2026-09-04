@@ -1,0 +1,1093 @@
+ 
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+:root{
+    --inter: "Inter", sans-serif;
+      {% comment %} font-family: var(--inter); {% endcomment %}
+}
+</style>
+
+{% liquid
+  assign laptop_padding_top = section.settings.laptop_top
+  assign laptop_padding_bottom = section.settings.laptop_bottom
+  assign mobail_padding_top = section.settings.mobail_top
+  assign mobail_padding_bottom = section.settings.mobail_bottom
+  assign bgcolor = section.settings.bgcolor
+%}
+
+<style>
+
+  img{
+    display: block;
+    max-width:100%;
+  }
+  a{
+   text-decoration: none;
+  }
+  
+  .id_{{ section.id}}{
+    background-color: {{bgcolor}};
+    padding-top:{{laptop_padding_top}}px;
+    padding-bottom:{{laptop_padding_bottom}}px;
+    position: relative;
+  }
+ .id_{{ section.id}} .container{
+   width:100%;
+   margin:0px auto;
+   box-sizing: border-box;
+ }
+  
+  {% if section.settings.container == "container" %}
+      .id_{{ section.id}} .container{
+      max-width:1200px;    
+    }
+  {% elsif  section.settings.container == "container-full" %}
+    .id_{{ section.id}} .container{
+      max-width:100%;
+      padding:0px 5%;
+    }
+  {% endif %}
+
+
+  .id_{{ section.id}} .container .row{
+    margin:-40px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .id_{{ section.id}} .container .row .col{
+   width:50%;
+  box-sizing: border-box;
+  padding:40px
+  }
+  
+  .id_{{ section.id}} .img_right{
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    box-sizing: border-box;
+    height: 100%;
+    max-width:550px;
+  }
+  .top_mobail_image{
+   display: none;
+  }
+  
+  @media(max-width:767px){
+      .id_{{ section.id}}{
+        padding-left:20px;
+        padding-right:20px;
+        padding-top:{{mobail_padding_top}}px;
+        padding-bottom:{{mobail_padding_bottom}}px;
+      }
+   .id_{{ section.id}} .container{
+      max-width:100%;
+      padding:0px;
+    }
+
+   .id_{{ section.id}} .img_right{
+        display: none;
+    }
+    .top_mobail_image{
+    display: block;
+    }
+
+
+
+
+    
+    .id_{{ section.id}} .container .row{
+    margin:0px;
+  }
+  .id_{{ section.id}} .container .row .col{
+     width:100%;
+    padding:0px
+  }
+
+  }
+</style>
+
+
+{% if section.settings.mobail_image != blank %}
+                <div class="top_mobail_image"> 
+                <img class=""
+                  src="{{ section.settings.mobail_image | image_url }}"
+                  alt="{{ section.settings.mobail_image.alt }}"
+                  width="100%"
+                  height="100%"
+                >
+                </div>
+              {% endif %}
+
+
+<section class="id_{{ section.id }}">
+              {% if section.settings.image != blank %}
+                <div class="img_right"> 
+                <img class=""
+                  src="{{ section.settings.image | image_url }}"
+                  alt="{{ section.settings.image.alt }}"
+                  width="100%"
+                  height="100%"
+                >
+                </div>
+              {% endif %}
+  
+  <div class="container">
+    <div class="row flex wrap">
+      <div class="col">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'rating' %}
+             <style>
+               .{{block.id}}{
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  margin-bottom: {{block.settings.margin_bottom}}px;
+               }
+              .{{ block.id }} .rating{
+                    position: relative;
+                    display: inline-block;
+                  }
+              .{{ block.id }}  .rating::before{
+                  display: block;
+                  content: '★★★★★';
+                  color:{{block.settings.emptystarcolor}};
+                  font-size: {{block.settings.font_size}}px;
+                  }
+             .{{ block.id }}  .rating::after {
+              position: absolute;
+              top: 0;
+              content: '★★★★★';
+              width: calc({{ block.settings.star }}*20%);
+              color:{{block.settings.starcolor}};
+              overflow: hidden;
+              height: 100%;
+              display: flex;
+              font-size: {{block.settings.font_size}}px;
+              }
+           .{{ block.id }} p{
+             margin:0;
+             font-size: {{block.settings.font_size}}px;
+             line-height:{{block.settings.font_size}}px;
+             font-weight: 400;
+             color:{{block.settings.textcolor}};
+      font-family: var(--inter);
+          }
+               
+          @media(max-width:767px){
+               .{{block.id}}{
+                  margin-bottom: {{block.settings.mobail_margin_bottom}}px;
+                 justify-content:center;
+               }
+             .{{ block.id }}  .rating::before{
+                  font-size: {{block.settings.mobail_font_size}}px;
+                  }
+             .{{ block.id }}  .rating::after {
+              font-size: {{block.settings.mobail_font_size}}px;
+              }
+           .{{ block.id }} p{
+             font-size: {{block.settings.mobail_font_size}}px;
+             line-height:{{block.settings.mobail_font_size}}px;
+          }
+            
+          }
+
+               
+                </style>
+
+              <div class="{{ block.id }}">
+               <div class="rating"></div>
+                <p>{{ block.settings.star }} out of 5 Stars</p>
+              </div>
+            {% when 'title' %}
+              <style>
+                .{{block.id}}.title{
+                  font-size:{{block.settings.font_size}}px;
+                  font-weight:{{block.settings.font_weight}};
+                  line-height:{{block.settings.line_height}}px;
+                  color:{{block.settings.textcolor}};
+                  margin-bottom:{{block.settings.margin_bottom}}px;
+                  margin:0px;
+      font-family: var(--inter);
+                }
+                 @media(max-width:767px){
+                 .{{block.id}}.title{
+                  font-size:{{block.settings.mobail_font_size}}px;
+                  line-height:{{block.settings.mobail_line_height}}px;
+                  margin-bottom:{{block.settings.mobail_margin_bottom}}px;
+                    text-align: center;
+                }
+                 }
+              </style>
+
+              <h3 class="title {{ block.id }}">{{ block.settings.title }}</h3>
+
+            {% when 'richtext' %}
+              <style>
+                 .{{block.id}}{
+                   font-size:{{block.settings.font_size}}px;
+                   font-weight:{{block.settings.font_weight}};
+                   line-height:{{block.settings.line_height}}px;
+                   color:{{block.settings.textcolor}};
+                   margin-bottom:{{block.settings.margin_bottom}}px;
+                   margin-top:10px;
+                 }
+
+                 .{{block.id}} h3{
+                   color:{{block.settings.textcolor}};
+      font-family: var(--inter);
+                }
+                    .{{block.id}} ul{
+                             padding-inline-start: 0;
+                       margin-block: 0;
+                       }
+                       .{{block.id}} ul li{
+                          list-style: none;
+                         margin-bottom:10px;
+                          display: block;
+                          text-align: left;
+      font-family: var(--inter);
+                       }
+                 .{{block.id}} ul li::before{
+
+                   content: "\2713";
+                   font-size:{{block.settings.font_size}}px;
+                   font-weight:{{block.settings.font_weight}};
+                   margin-right: 10px;
+
+
+                   }
+                  @media(max-width:767px){
+                  .{{block.id}}{
+                   font-size:{{block.settings.mobail_font_size}}px;
+                   line-height:{{block.settings.mobail_line_height}}px;
+                   margin-bottom:{{block.settings.mobail_margin_bottom}}px;
+                    text-align: center;
+                 }
+                .{{block.id}} ul li::before{
+                      font-size:{{block.settings.mobail_font_size}}px;
+                     }
+                  }
+              </style>
+              <div class="{{ block.id }}">{{ block.settings.text }}</div>
+
+            {% when 'button' %}
+              <style>
+                .{{block.id}} .btn{
+                  font-size:{{block.settings.font_size}}px;
+                  font-weight:{{block.settings.font_weight}};
+                  line-height:{{block.settings.font_size}}px;
+                  color:{{block.settings.text_color}};
+                  border-color:{{block.settings.border_color}};
+                  border-width:{{block.settings.border_width}}px;
+                  border-style:solid;
+                  border-radius:{{block.settings.border_radius}}px;
+                  background-color: {{block.settings.btn_color}};
+                  margin-bottom:{{block.settings.margin_bottom}}px;
+                  padding:{{block.settings.padding}};
+                  text-align: center;
+                  text-decoration: none;
+                  display: inline-block;
+                  transition-duration: .3s;
+                  position: relative;
+                  font-family: var(--inter);
+                text-transform: uppercase;
+                }
+                 .{{block.id}} .btn:hover{
+                    background-color: {{block.settings.btn_color_hover}};
+                    color:{{block.settings.btn_text_hover}};
+                    border-color:{{block.settings.border_color_hover}};
+                 }
+                
+               {% if block.settings.btnafter != blank %}
+                .{{block.id}} .btn::after{
+                    content: "{{ block.settings.btnafter }}";
+                    width: 100%;
+                    position: absolute;
+                    left: 0;
+                    top: 120%;
+                   text-align: left;
+                   font-size: 14px;
+                   line-height:18px;
+                   font-weight: 400;
+                 color:{{block.settings.text_bottom_color}};
+                }
+                  {% endif %}
+              
+
+                 @media(max-width:767px){
+                 .{{block.id}} .btn{
+                  font-size:{{block.settings.mobail_font_size}}px;
+                  line-height:{{block.settings.mobail_font_size}}px;
+                  margin-bottom:{{block.settings.mobail_margin_bottom}}px;
+                  padding:{{block.settings.mobail_padding}};
+                }
+                   .{{ block.id }}{
+                   text-align: center;
+                 }
+                .{{block.id}} .btn::after{
+                    text-align: center; 
+                }
+
+                 }
+              </style>
+
+              {% if block.settings.btnlink != blank %}
+                <div class="{{ block.id }}">
+                <a class="btn " href="{{ block.settings.btnlink }}">{{ block.settings.btntext }}</a>
+                </div>
+              {% endif %}
+          {% endcase %}
+        {% endfor %}
+      </div>
+       
+
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'image' %}
+                  <div class="col">
+            <style>
+              .{{ block.id }}{
+                 aspect-ratio: {{block.settings.aspect_ratio}};
+                 object-fit: {{block.settings.object_fit}};
+                 border-radius:{{block.settings.border_radius}}{{block.settings.border_px}};
+              }
+            </style>
+            
+              {% if block.settings.img != blank %}
+                <img class="{{ block.id }}"
+                  src="{{ block.settings.img | image_url }}"
+                  alt="{{ block.settings.img.alt }}"
+                  width="100"
+                  height="100"
+                >
+              {% endif %}
+                </div>
+          {% endcase %}
+        {% endfor %}
+    
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "PopDarts Hero Banner",
+    "settings": [
+       {
+        "type": "select",
+         "id": "container",
+            "label": "Container Width",
+            "default": "container",
+            "options": [
+              {
+                "label": "Container",
+                "value": "container"
+              },
+              {
+                "value": "container-full",
+                "label": "Container Full"
+              }
+            ]
+          },
+          {
+  "type": "color",
+   "label": "Background Color",
+   "id": "bgcolor",
+    "default":"#0078e2"
+ },
+  {
+  "type": "image_picker",
+   "label": "Background Right Laptop",
+   "id": "image"
+ },
+  {
+  "type": "image_picker",
+   "label": "Mobail Image",
+   "id": "mobail_image"
+ },
+      
+ {
+   "type": "header",
+   "content": "Laptop Padding"
+ },
+
+ {
+       "type": "range",
+          "id": "laptop_top",
+          "label": "Top",
+          "min":0,
+          "max":100,
+          "step": 1,
+        "unit": "px",
+        "default":80
+      },
+      {
+       "type": "range",
+          "id": "laptop_bottom",
+          "label": "Bottom",
+          "min":0,
+          "max":100,
+        "unit": "px",
+          "default":80,
+          "step": 1
+      },
+
+       {
+        "type": "header",
+        "content": "Mobail Padding"
+      },
+      {
+       "type": "range",
+          "id": "mobail_top",
+          "label": "Top",
+          "min":0,
+          "max":80,
+          "step": 1,
+        "unit": "px",
+        "default":30
+      },
+      {
+       "type": "range",
+          "id": "mobail_bottom",
+          "label": "Bottom",
+          "min":0,
+          "max":80,
+        "unit": "px",
+          "default":30,
+          "step": 1
+      }
+
+    ],
+    "blocks": [
+{
+  "type": "image",
+  "name": "Image",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "img",
+      "label": "Select Image"
+    },
+    {
+      "type": "text",
+      "id": "aspect_ratio",
+      "label": "Aspect Ratio(1/1)"
+    },
+       {
+        "type": "select",
+         "id": "object_fit",
+            "label": "Object fit",
+            "options": [
+              {
+                "label": "fill",
+                "value": "fill"
+              },
+              {
+                "label": "cover",
+                "value": "cover"
+              },
+              {
+                "value": "contain",
+                "label": "contain"
+              }
+            ],
+          "default": "fill"
+          },      {
+        "type": "header",
+        "content": "Border Radius"
+      },       {
+        "type": "select",
+         "id": "border_px",
+            "label": "Border Radius(px / %)",
+            "options": [
+              {
+                "label": "px",
+                "value": "px"
+              },
+              {
+                "label": "%",
+                "value": "%"
+              }
+            ],
+          "default": "px"
+          },
+    {
+      "type": "range",
+      "label": "Border Radius Range",
+        "id": "border_radius",
+          "min":0,
+          "max":100,
+        "unit": "px",
+          "default":0,
+          "step": 1
+      }
+  ]
+},
+{
+  "type": "button",
+  "name": "Button",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "url",
+      "id": "btnlink",
+      "label": "Button Link"
+    },
+    {
+      "type": "text",
+      "id": "btntext",
+      "label": "Button Text",
+      "default":"Customize Your Pop!"
+    },
+      {
+      "type": "text",
+      "id": "btnafter",
+      "label": "Button Bottom Text",
+      "default":"FREE Shipping on Orders of 65+"
+    },
+      {
+        "type": "header",
+        "content": "Button Style"
+      },
+      {
+        "type": "text",
+        "id": "padding",
+        "label": "Border Padding ( 10px 45px)",
+        "default":"10px 45px"
+      },
+        {
+       "type": "range",
+          "id": "font_size",
+          "label": "Font Size",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":18,
+          "step": 1
+      },
+    {
+        "type": "select",
+         "id": "font_weight",
+            "label": "Font Weight",
+            "default": "500",
+            "options": [
+              {
+                "label": "100",
+                "value": "100"
+              },
+              {
+                "value": "200",
+                "label": "200"
+              },
+                {
+                "label": "300",
+                "value": "300"
+              },
+              {
+                "value": "400",
+                "label": "400"
+              },
+                  {
+                "label": "500",
+                "value": "500"
+              },
+              {
+                "value": "600",
+                "label": "600"
+              },
+              {
+                "label": "700",
+                "value": "700"
+              },
+              {
+                "label": "800",
+                "value": "800"
+              },
+               {
+                "label": "900",
+                "value": "900"
+              },
+               {
+                "label": "Bold",
+                "value": "bold"
+              }
+            ]
+          },
+
+    {
+      "type": "range",
+      "label": "Border Width",
+        "id": "border_width",
+          "min":0,
+          "max":10,
+        "unit": "px",
+          "default":1,
+          "step": 1
+      },
+        {
+      "type": "range",
+      "label": "Border Radius",
+        "id": "border_radius",
+          "min":0,
+          "max":100,
+        "unit": "px",
+          "default":0,
+          "step": 1
+      },
+         {
+        "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin Bottom",
+          "min":0,
+          "max":50,
+           "unit": "px",
+          "default":0,
+          "step": 1
+    },
+     {
+        "type": "header",
+        "content": "Mobail Button Style"
+      },
+     {
+        "type": "text",
+        "id": "mobail_padding",
+        "label": "Border Width ( 10px 45px)",
+        "default":"10px 45px"
+      },
+        {
+       "type": "range",
+          "id": "mobaile_font_size",
+          "label": "Font Size",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":17,
+          "step": 1
+      },          {
+        "type": "range",
+          "id": "mobail_margin_bottom",
+          "label": "Margin Bottom",
+          "min":0,
+          "max":50,
+           "unit": "px",
+          "default":0,
+          "step": 1
+    },
+        {
+        "type": "header",
+        "content": "Button Color"
+      },
+               {
+            "type": "color",
+            "id": "text_color",
+            "label": "Text Color",
+             "default":"#ffffff"
+          },
+          {
+            "type": "color",
+            "id": "btn_color",
+            "label": "Button Color",
+             "default":"#FFB70B"
+          },
+    {
+            "type": "color",
+            "id": "border_color",
+            "label": "Border Color",
+             "default":"#FFB70B"
+          },
+             {
+            "type": "color",
+            "id": "text_bottom_color",
+            "label": "Text Bottom Color",
+             "default":"#000"
+          },
+            {
+        "type": "header",
+        "content": "Button Hover Color"
+      },
+            {
+            "type": "color",
+            "id": "btn_text_hover",
+            "label": "Text",
+            "default":"#ffffff"
+          },
+          {
+            "type": "color",
+            "id": "btn_color_hover",
+            "label": "Button Color",
+             "default":"#0078e2"
+          },
+          {
+            "type": "color",
+            "id": "border_color_hover",
+            "label": "Border Color",
+             "default":"#FFB70B"
+          }
+  ]
+},
+{
+  "type": "title",
+  "name": "Title",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default":"Unleash Your Inner Pop Star!"
+    },
+    {
+      "type": "color",
+      "id": "textcolor",
+      "label": "Color",
+      "default":"#ffffff"
+    },
+     {
+   "type": "header",
+   "content": "Laptop Typography"
+    },
+    {
+       "type": "range",
+          "id": "font_size",
+          "label": "Font Size",
+          "min":0,
+          "max":100,
+        "unit": "px",
+          "default":60,
+          "step": 1
+      },
+        {
+       "type": "range",
+          "id": "line_height",
+          "label": "Line Height",
+          "min":0,
+          "max":100,
+        "unit": "px",
+          "default":60,
+          "step": 1
+      },
+
+    {
+        "type": "select",
+         "id": "font_weight",
+            "label": "Font Weight",
+            "default": "700",
+            "options": [
+              {
+                "label": "100",
+                "value": "100"
+              },
+              {
+                "value": "200",
+                "label": "200"
+              },
+                {
+                "label": "300",
+                "value": "300"
+              },
+              {
+                "value": "400",
+                "label": "400"
+              },
+                  {
+                "label": "500",
+                "value": "500"
+              },
+              {
+                "value": "600",
+                "label": "600"
+              },
+              {
+                "label": "700",
+                "value": "700"
+              },
+              {
+                "label": "800",
+                "value": "800"
+              },
+               {
+                "label": "900",
+                "value": "900"
+              },
+               {
+                "label": "Bold",
+                "value": "bold"
+              }
+            ]
+          },
+          {
+        "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin Bottom",
+          "min":0,
+          "max":100,
+           "unit": "px",
+          "default":30,
+          "step": 1
+    },
+         {
+   "type": "header",
+   "content": "Mobail Typography"
+    },
+    {
+       "type": "range",
+          "id": "mobail_font_size",
+          "label": "Font Size",
+          "min":0,
+          "max":100,
+        "unit": "px",
+          "default":36,
+          "step": 1
+      },
+        {
+       "type": "range",
+          "id": "mobail_line_height",
+          "label": "Line Height",
+          "min":0,
+          "max":100,
+        "unit": "px",
+          "default":42,
+          "step": 1
+      },
+          {
+        "type": "range",
+          "id": "mobail_margin_bottom",
+          "label": "Margin Bottom",
+          "min":0,
+          "max":100,
+           "unit": "px",
+          "default":20,
+          "step": 1
+    }
+  ]
+},
+{
+  "type": "richtext",
+  "name":"Rich Text",
+  "settings": [
+    {
+      "type": "richtext",
+      "label": "Content",
+      "id": "text",
+      "default":"<p>Welcome to Pop! Yourself online. In a world full of Pop! abilities, PopDarts now offers the opportunity to create online custom collectibles and order them right to your door.</p>"
+    },
+     {
+      "type": "color",
+      "id": "textcolor",
+      "label": "Color",
+      "default":"#ffffff"
+    },
+     {
+   "type": "header",
+   "content": "Laptop Typography"
+    },
+    {
+       "type": "range",
+          "id": "font_size",
+          "label": "Font Size",
+          "min":0,
+          "max":30,
+        "unit": "px",
+          "default":16,
+          "step": 1
+      },
+        {
+       "type": "range",
+          "id": "line_height",
+          "label": "Line Height",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":27,
+          "step": 1
+      },
+
+    {
+        "type": "select",
+         "id": "font_weight",
+            "label": "Font Weight",
+            "default": "400",
+            "options": [
+              {
+                "label": "100",
+                "value": "100"
+              },
+              {
+                "value": "200",
+                "label": "200"
+              },
+                {
+                "label": "300",
+                "value": "300"
+              },
+              {
+                "value": "400",
+                "label": "400"
+              },
+                  {
+                "label": "500",
+                "value": "500"
+              },
+              {
+                "value": "600",
+                "label": "600"
+              },
+              {
+                "label": "700",
+                "value": "700"
+              },
+              {
+                "label": "800",
+                "value": "800"
+              },
+               {
+                "label": "900",
+                "value": "900"
+              },
+               {
+                "label": "Bold",
+                "value": "bold"
+              }
+            ]
+          },
+          {
+        "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin Bottom",
+          "min":0,
+          "max":100,
+           "unit": "px",
+          "default":20,
+          "step": 1
+    },
+         {
+   "type": "header",
+   "content": "Mobail Typography"
+    },
+    {
+       "type": "range",
+          "id": "mobail_font_size",
+          "label": "Font Size",
+          "min":0,
+          "max":30,
+        "unit": "px",
+          "default":14,
+          "step": 1
+      },
+        {
+       "type": "range",
+          "id": "mobail_line_height",
+          "label": "Line Height",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":20,
+          "step": 1
+      },
+          {
+        "type": "range",
+          "id": "mobail_margin_bottom",
+          "label": "Margin Bottom",
+          "min":0,
+          "max":100,
+           "unit": "px",
+          "default":20,
+          "step": 1
+    }
+  ]
+},
+{
+  "type": "rating",
+  "name": "Rating",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "text",
+      "id": "star",
+      "label": "out of 5 Stars",
+       "default":"4.7"
+    },
+      {
+   "type": "header",
+   "content": "Laptop Typography"
+    },
+    {
+       "type": "range",
+          "id": "font_size",
+          "label": "Font Size",
+          "min":0,
+          "max":30,
+        "unit": "px",
+          "default":20,
+          "step": 1
+      },
+    {
+        "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin Bottom",
+          "min":0,
+          "max":100,
+           "unit": "px",
+          "default":10,
+          "step": 1
+    },
+          {
+   "type": "header",
+   "content": "Mobail Typography"
+    },
+    {
+       "type": "range",
+          "id": "mobail_font_size",
+          "label": "Font Size",
+          "min":0,
+          "max":30,
+        "unit": "px",
+          "default":16,
+          "step": 1
+      },
+    {
+        "type": "range",
+          "id": "mobail_margin_bottom",
+          "label": "Margin Bottom",
+          "min":0,
+          "max":100,
+           "unit": "px",
+          "default":10,
+          "step": 1
+    },
+    {
+        "type": "color",
+          "id": "starcolor",
+          "label": "Star Color",
+          "default":"#ffa500"
+    },
+    {
+        "type": "color",
+          "id": "emptystarcolor",
+          "label": "Empty Star Color",
+          "default":"#dddddd"
+    },
+      {
+        "type": "color",
+          "id": "textcolor",
+          "label": "Text Color",
+          "default":"#ffffff"
+    }
+
+ 
+  ]
+}
+],
+"presets": [
+      {
+        "name":"PopDarts Hero Banner"
+      }
+    ]
+
+
+  }
+{% endschema %}

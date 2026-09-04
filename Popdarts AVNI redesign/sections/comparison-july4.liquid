@@ -1,0 +1,457 @@
+{% comment %} POPDARTS — Quality Materials · July 4th Edition {% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════
+   SHELL
+═══════════════════════════════ */
+.qj4 {
+  background: #010A1E !important;
+  padding: 100px 0 120px;
+  font-family: 'Inter', sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Red/White/Blue top stripe */
+.qj4::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #B22234 33%, #fff 33%, #fff 66%, #002868 66%);
+  z-index: 2;
+}
+
+/* Patriotic radial glow — replaces green */
+.qj4-bg-accent {
+  position: absolute;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 900px;
+  background:
+    radial-gradient(ellipse at 40% 50%, rgba(178,34,52,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 60% 50%, rgba(0,40,104,0.08) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.qj4-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════
+   EYEBROW BADGE
+═══════════════════════════════ */
+.qj4-eyebrow-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+.qj4-eyebrow-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #8B0000, #B22234 50%, #8B0000);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  padding: 7px 18px;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(178,34,52,0.4);
+}
+.qj4-eyebrow-badge::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  animation: qj4Sheen 3s ease-in-out infinite;
+}
+@keyframes qj4Sheen { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+.qj4-eyebrow-star { color: #FFD60A; font-size: 12px; filter: drop-shadow(0 0 4px rgba(255,215,0,0.8)); }
+
+/* ═══════════════════════════════
+   HEADLINE
+═══════════════════════════════ */
+.qj4-headline {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(32px, 4.5vw, 56px);
+  letter-spacing: .03em;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  margin: 0 0 52px;
+}
+.qj4-headline mark {
+  background: none;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-image: linear-gradient(130deg, #B22234, #ff6b7a);
+}
+
+/* ═══════════════════════════════
+   3-COLUMN INNER GRID
+═══════════════════════════════ */
+.qj4-inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 40px;
+}
+
+/* ═══════════════════════════════
+   SIDE DECORATIVE PANELS
+═══════════════════════════════ */
+.qj4-side {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 340px;
+}
+.qj4-side svg {
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+  opacity: 0;
+  transition: opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1);
+}
+.qj4-side--left svg  { transform: translateX(-20px); }
+.qj4-side--right svg { transform: translateX(20px); }
+.qj4-side.qj4-in svg { opacity: 1; transform: translateX(0); }
+
+@media (max-width: 767px) {
+  .qj4-inner { grid-template-columns: 1fr; }
+  .qj4-side  { display: none; }
+}
+
+/* ═══════════════════════════════
+   IMAGE STAGE
+═══════════════════════════════ */
+.qj4-stage {
+  position: relative;
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+.qj4-shadow-blob {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 75%;
+  height: 60px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.35) 0%, transparent 70%);
+  filter: blur(18px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Dashed ring — navy/red instead of green */
+.qj4-ring {
+  position: absolute;
+  inset: -18px;
+  border-radius: 28px;
+  border: 1px dashed rgba(178,34,52,0.28);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Left accent stripe — red */
+.qj4-stripe {
+  position: absolute;
+  left: -4px;
+  top: 18%;
+  bottom: 18%;
+  width: 4px;
+  background: linear-gradient(to bottom, transparent, #B22234, transparent);
+  border-radius: 4px;
+  z-index: 3;
+}
+
+/* Corner brackets — patriotic red */
+.qj4-bracket {
+  position: absolute;
+  width: 20px; height: 20px;
+  z-index: 3;
+  pointer-events: none;
+}
+.qj4-bracket::before,
+.qj4-bracket::after {
+  content: '';
+  position: absolute;
+  background: #B22234;
+}
+.qj4-bracket--tl { top: -1px; left: -1px; }
+.qj4-bracket--tl::before { top:0; left:0; width:20px; height:2px; }
+.qj4-bracket--tl::after  { top:0; left:0; width:2px; height:20px; }
+.qj4-bracket--tr { top: -1px; right: -1px; }
+.qj4-bracket--tr::before { top:0; right:0; width:20px; height:2px; }
+.qj4-bracket--tr::after  { top:0; right:0; width:2px; height:20px; }
+.qj4-bracket--bl { bottom: -1px; left: -1px; }
+.qj4-bracket--bl::before { bottom:0; left:0; width:20px; height:2px; }
+.qj4-bracket--bl::after  { bottom:0; left:0; width:2px; height:20px; }
+.qj4-bracket--br { bottom: -1px; right: -1px; }
+.qj4-bracket--br::before { bottom:0; right:0; width:20px; height:2px; }
+.qj4-bracket--br::after  { bottom:0; right:0; width:2px; height:20px; }
+
+/* Image frame */
+.qj4-frame {
+  position: relative;
+  z-index: 1;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(178,34,52,0.18);
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.2),
+    0 8px 24px rgba(0,0,0,0.35),
+    0 32px 72px rgba(0,0,0,0.4),
+    0 0 0 1px rgba(255,255,255,0.04);
+  transition: transform 0.8s cubic-bezier(.16,1,.3,1), box-shadow 0.8s cubic-bezier(.16,1,.3,1);
+}
+.qj4-stage:hover .qj4-frame {
+  transform: translateY(-6px);
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.25),
+    0 16px 40px rgba(178,34,52,0.15),
+    0 48px 96px rgba(0,0,0,0.45);
+}
+
+.qj4-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 1.6s cubic-bezier(.16,1,.3,1);
+}
+.qj4-stage:hover .qj4-frame img {
+  transform: scale(1.03);
+}
+
+/* Bottom shimmer — R/W/B tricolor */
+.qj4-frame::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(to right,
+    transparent 0%,
+    #B22234 20%, #B22234 35%,
+    #ffffff 45%, #ffffff 55%,
+    #002868 65%, #002868 80%,
+    transparent 100%
+  );
+  z-index: 2;
+}
+
+/* Floating POPDARTS® badge */
+.qj4-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 4;
+  background: rgba(1,10,30,0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(178,34,52,0.4);
+  border-radius: 100px;
+  padding: 7px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+/* Badge dot — gold star */
+.qj4-badge-dot {
+  color: #FFD60A;
+  font-size: 10px;
+  line-height: 1;
+  filter: drop-shadow(0 0 3px rgba(255,215,0,0.7));
+}
+
+/* ═══════════════════════════════
+   ANIMATIONS
+═══════════════════════════════ */
+@keyframes qj4-spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes qj4-spin-rev  { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+.qj4-spin     { animation: qj4-spin-slow 18s linear infinite; transform-origin: center; }
+.qj4-spin-rev { animation: qj4-spin-rev  22s linear infinite; transform-origin: center; }
+.qj4-float    { animation: qj4-float-y 4s ease-in-out infinite; }
+@keyframes qj4-float-y { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+/* Scroll reveal */
+.qj4-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
+}
+.qj4-reveal.qj4-in { opacity: 1; transform: translateY(0); }
+.qj4-d1 { transition-delay: .1s }
+.qj4-d2 { transition-delay: .2s }
+.qj4-d3 { transition-delay: .3s }
+
+/* ═══════════════════════════════
+   RESPONSIVE
+═══════════════════════════════ */
+@media (max-width: 639px) {
+  .qj4        { padding: 60px 0 80px; }
+  .qj4-wrap   { padding: 0 20px; }
+  .qj4-ring   { display: none; }
+  .qj4-headline { margin-bottom: 40px; }
+}
+@media (min-width: 1024px) {
+  .qj4 { padding: 120px 0 140px; }
+}
+</style>
+
+<section class="qj4" aria-label="Quality Materials">
+  <div class="qj4-bg-accent" aria-hidden="true"></div>
+
+  <div class="qj4-wrap">
+
+    <!-- Eyebrow badge -->
+    <div class="qj4-eyebrow-wrap qj4-reveal">
+      <div class="qj4-eyebrow-badge">
+        <span class="qj4-eyebrow-star">★</span>
+        July 4th · Independence Day
+        <span class="qj4-eyebrow-star">★</span>
+      </div>
+    </div>
+
+    <!-- Headline -->
+    <h2 class="qj4-headline qj4-reveal qj4-d1">
+      Quality <mark>Materials</mark>
+    </h2>
+
+    <div class="qj4-inner">
+
+      <!-- LEFT — American flag-themed target rings SVG -->
+      <div class="qj4-side qj4-side--left qj4-reveal">
+        <svg viewBox="0 0 220 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g class="qj4-float">
+            <!-- Concentric rings in R/W/B -->
+            <circle cx="110" cy="118" r="96" stroke="rgba(178,34,52,0.15)" stroke-width="1.5"/>
+            <circle cx="110" cy="118" r="76" stroke="rgba(255,255,255,0.1)"  stroke-width="1.5"/>
+            <circle cx="110" cy="118" r="56" stroke="rgba(178,34,52,0.3)"    stroke-width="1.5"/>
+            <circle cx="110" cy="118" r="36" stroke="rgba(255,255,255,0.18)" stroke-width="2"/>
+            <circle cx="110" cy="118" r="18" stroke="#B22234"                stroke-width="2.5" opacity="0.8"/>
+            <circle cx="110" cy="118" r="6"  fill="#B22234" opacity="0.9"/>
+            <!-- Crosshairs -->
+            <line x1="110" y1="22"  x2="110" y2="214" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="4 6"/>
+            <line x1="14"  y1="118" x2="206" y2="118" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="4 6"/>
+          </g>
+          <!-- Dart silhouette — gold tip -->
+          <g class="qj4-float" style="animation-delay:.8s">
+            <line x1="158" y1="60" x2="122" y2="96" stroke="rgba(255,255,255,0.7)" stroke-width="2.5" stroke-linecap="round"/>
+            <polygon points="122,96 115,103 128,90" fill="#FFD60A"/>
+            <line x1="158" y1="60" x2="168" y2="50" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linecap="round"/>
+            <line x1="168" y1="50" x2="172" y2="42" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" stroke-linecap="round"/>
+          </g>
+          <!-- Orbit star dot -->
+          <circle class="qj4-spin" cx="110" cy="22" r="4" fill="#FFD60A" opacity="0.7" style="transform-box:fill-box"/>
+          <!-- Mini stars scattered -->
+          <text x="52"  y="52"  font-size="8" fill="rgba(255,255,255,0.2)" text-anchor="middle">★</text>
+          <text x="168" y="52"  font-size="8" fill="rgba(255,255,255,0.2)" text-anchor="middle">★</text>
+          <text x="52"  y="195" font-size="8" fill="rgba(255,255,255,0.2)" text-anchor="middle">★</text>
+          <text x="168" y="195" font-size="8" fill="rgba(255,255,255,0.2)" text-anchor="middle">★</text>
+        </svg>
+      </div>
+
+      <!-- CENTER — product image -->
+      <div class="qj4-stage qj4-reveal qj4-d3">
+        <div class="qj4-ring" aria-hidden="true"></div>
+        <div class="qj4-shadow-blob" aria-hidden="true"></div>
+        <div class="qj4-stripe" aria-hidden="true"></div>
+        <div class="qj4-bracket qj4-bracket--tl" aria-hidden="true"></div>
+        <div class="qj4-bracket qj4-bracket--tr" aria-hidden="true"></div>
+        <div class="qj4-bracket qj4-bracket--bl" aria-hidden="true"></div>
+        <div class="qj4-bracket qj4-bracket--br" aria-hidden="true"></div>
+        <div class="qj4-frame">
+          <img
+            src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/image_2.png?v=1775689851"
+            alt="POPDARTS Quality Materials"
+            width="1200"
+            height="900">
+          <div class="qj4-badge">
+            <span class="qj4-badge-dot">★</span>
+            POPDARTS®
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT — flag stripe / suction cup SVG -->
+      <div class="qj4-side qj4-side--right qj4-reveal">
+        <svg viewBox="0 0 220 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g class="qj4-float" style="animation-delay:.4s">
+            <!-- Flag stripes as horizontal bars -->
+            <rect x="38" y="60"  width="144" height="10" rx="2" fill="rgba(178,34,52,0.55)"/>
+            <rect x="38" y="76"  width="144" height="10" rx="2" fill="rgba(255,255,255,0.12)"/>
+            <rect x="38" y="92"  width="144" height="10" rx="2" fill="rgba(178,34,52,0.45)"/>
+            <rect x="38" y="108" width="144" height="10" rx="2" fill="rgba(255,255,255,0.10)"/>
+            <rect x="38" y="124" width="144" height="10" rx="2" fill="rgba(178,34,52,0.35)"/>
+            <rect x="38" y="140" width="144" height="10" rx="2" fill="rgba(255,255,255,0.08)"/>
+            <rect x="38" y="156" width="144" height="10" rx="2" fill="rgba(178,34,52,0.25)"/>
+            <!-- Canton blue field -->
+            <rect x="38" y="60" width="58" height="50" rx="2" fill="rgba(0,40,104,0.65)"/>
+            <!-- Stars in canton -->
+            <text x="57"  y="80"  font-size="7" fill="rgba(255,255,255,0.7)" text-anchor="middle">★</text>
+            <text x="71"  y="80"  font-size="7" fill="rgba(255,255,255,0.7)" text-anchor="middle">★</text>
+            <text x="85"  y="80"  font-size="7" fill="rgba(255,255,255,0.7)" text-anchor="middle">★</text>
+            <text x="64"  y="92"  font-size="7" fill="rgba(255,255,255,0.7)" text-anchor="middle">★</text>
+            <text x="78"  y="92"  font-size="7" fill="rgba(255,255,255,0.7)" text-anchor="middle">★</text>
+            <text x="57"  y="104" font-size="7" fill="rgba(255,255,255,0.7)" text-anchor="middle">★</text>
+            <text x="71"  y="104" font-size="7" fill="rgba(255,255,255,0.7)" text-anchor="middle">★</text>
+            <text x="85"  y="104" font-size="7" fill="rgba(255,255,255,0.7)" text-anchor="middle">★</text>
+            <!-- Suction cup circle below -->
+            <circle cx="110" cy="200" r="28" stroke="rgba(178,34,52,0.5)"    stroke-width="2"/>
+            <circle cx="110" cy="200" r="19" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+            <circle cx="110" cy="200" r="10" fill="rgba(178,34,52,0.2)"      stroke="#B22234" stroke-width="1.5"/>
+            <circle cx="110" cy="200" r="4"  fill="#B22234" opacity="0.8"/>
+          </g>
+          <!-- Orbit star dot -->
+          <circle class="qj4-spin-rev" cx="110" cy="32" r="4" fill="#FFD60A" opacity="0.6" style="transform-box:fill-box"/>
+        </svg>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var els = document.querySelectorAll('.qj4-reveal, .qj4-side');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.classList.add('qj4-in');
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+  els.forEach(function(el){ io.observe(el); });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "July 4th Materials",
+  "settings": [],
+  "presets": [{ "name": "July 4th Materials" }]
+}
+{% endschema %}

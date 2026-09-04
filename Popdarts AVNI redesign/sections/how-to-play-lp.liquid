@@ -1,0 +1,656 @@
+{% comment %} POPDARTS vs Traditional — Premium Comparison Section v3 {% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --g:#23FF53;
+  --g2:#00E040;
+  --red:#FF3B3B;
+  --bg:#060606;
+  --e:cubic-bezier(.16,1,.3,1);
+}
+
+.vsc{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  padding:80px 0 96px;
+  position:relative;
+  overflow:hidden;
+}
+.vsc::before{
+  content:'';
+  position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;
+}
+.vsc-glow-red{
+  position:absolute;top:10%;left:-8%;
+  width:500px;height:500px;
+  background:radial-gradient(circle,rgba(255,59,59,.055) 0%,transparent 65%);
+  pointer-events:none;z-index:0;
+}
+.vsc-glow-green{
+  position:absolute;bottom:-5%;right:-5%;
+  width:600px;height:600px;
+  background:radial-gradient(circle,rgba(35,255,83,.065) 0%,transparent 60%);
+  pointer-events:none;z-index:0;
+}
+.vsc-wrap{
+  max-width:1220px;
+  margin:0 auto;
+  padding:0 28px;
+  position:relative;z-index:1;
+}
+
+/* ── HEADER ── */
+.vsc-header{text-align:center;margin-bottom:56px}
+.vsc-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:10px;font-weight:600;letter-spacing:.28em;
+  text-transform:uppercase;color:var(--g);margin-bottom:18px;
+}
+.vsc-eyebrow-line{width:24px;height:1px}
+.vsc-eyebrow-line:first-child{background:linear-gradient(to right,transparent,var(--g))}
+.vsc-eyebrow-line:last-child{background:linear-gradient(to left,transparent,var(--g))}
+.vsc-title{
+  font-size:clamp(36px,6.5vw,68px);
+  font-weight:900;line-height:.9;
+  letter-spacing:-.04em;color:#fff;
+  text-transform:uppercase;margin:0 0 6px;
+}
+.vsc-title em{
+  font-style:normal;
+  background:linear-gradient(135deg,var(--g) 0%,#8BFFAA 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.vsc-subtitle{
+  font-size:14px;color:rgba(255,255,255,.32);
+  margin:14px 0 0;font-weight:400;letter-spacing:.01em;
+}
+
+/* ─────────────────────────────────────────
+   UNIFIED GRID
+───────────────────────────────────────── */
+.vsc-split{
+  display:grid;
+  grid-template-columns:1fr 72px 1fr;
+  position:relative;
+}
+
+.vsc-col-bg{
+  grid-row:1 / -1;
+  z-index:0;
+  pointer-events:none;
+  position:relative;
+}
+.vsc-col-bg--l{
+  grid-column:1;
+  background:#0c0c0c;
+  border:1px solid rgba(255,59,59,.12);
+  border-radius:20px 0 0 20px;
+  transition:border-color .4s var(--e),box-shadow .4s var(--e);
+}
+.vsc-col-bg--r{
+  grid-column:3;
+  background:#090e09;
+  border:1px solid rgba(35,255,83,.15);
+  border-radius:0 20px 20px 0;
+  transition:border-color .4s var(--e),box-shadow .4s var(--e);
+  overflow:hidden;
+}
+.vsc-col-bg--r::before{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(105deg,transparent 30%,rgba(35,255,83,.03) 50%,transparent 70%);
+  background-size:200% 100%;
+  animation:shimmer 5s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes shimmer{
+  0%{background-position:200% 0}
+  100%{background-position:-200% 0}
+}
+
+.vsc-divider{
+  grid-column:2;
+  grid-row:1 / -1;
+  z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.vsc-divider::before{
+  content:'';
+  position:absolute;top:0;bottom:0;left:50%;
+  transform:translateX(-50%);
+  width:1px;
+  background:linear-gradient(to bottom,
+    transparent 0%,rgba(255,255,255,.06) 25%,rgba(255,255,255,.06) 75%,transparent 100%);
+}
+.vsc-vs{
+  width:56px;height:56px;border-radius:50%;
+  background:var(--bg);
+  border:1px solid rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:900;
+  color:rgba(255,255,255,.5);letter-spacing:.1em;
+  box-shadow:0 0 0 6px var(--bg),0 0 0 7px rgba(255,255,255,.06);
+}
+
+.vl{grid-column:1;position:relative;z-index:1}
+.vr{grid-column:3;position:relative;z-index:1}
+
+.r1{grid-row:1}
+.r2{grid-row:2}
+.r3{grid-row:3}
+.r4{grid-row:4}
+.r5{grid-row:5}
+
+.vsc-col-bg--l,
+.vl{opacity:0;transform:translateX(-28px);transition:opacity .75s var(--e),transform .75s var(--e)}
+.vsc-col-bg--r,
+.vr{opacity:0;transform:translateX(28px);transition:opacity .75s var(--e),transform .75s var(--e)}
+.vsc-split.vsc-in .vsc-col-bg--l,
+.vsc-split.vsc-in .vl{opacity:1;transform:translateX(0)}
+.vsc-split.vsc-in .vsc-col-bg--r,
+.vsc-split.vsc-in .vr{opacity:1;transform:translateX(0);transition-delay:.07s}
+
+/* ── IMAGE CELLS ── */
+.vsc-img-cell{padding:0;overflow:hidden}
+.vsc-img-cell.vl{border-radius:19px 0 0 0}
+.vsc-img-cell.vr{border-radius:0 19px 0 0}
+.vsc-img{
+  width:100%;aspect-ratio:16/9;
+  position:relative;overflow:hidden;
+}
+.vsc-img img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform 1.2s var(--e);
+}
+.vsc-split:hover .vsc-img-cell.vl .vsc-img img,
+.vsc-split:hover .vsc-img-cell.vr .vsc-img img{transform:scale(1.04)}
+.vsc-img-cell.vl .vsc-img img{filter:brightness(.6) saturate(.5) contrast(1.1)}
+.vsc-img-cell.vr .vsc-img img{filter:brightness(.82) saturate(1.15) contrast(1.05)}
+.vsc-img::after{content:'';position:absolute;inset:0}
+.vsc-img-cell.vl .vsc-img::after{background:linear-gradient(to bottom,transparent 30%,rgba(12,12,12,.9) 100%)}
+.vsc-img-cell.vr .vsc-img::after{background:linear-gradient(to bottom,transparent 30%,rgba(9,14,9,.9) 100%)}
+.vsc-img-bar{position:absolute;bottom:0;left:0;right:0;height:2px;z-index:1}
+.vsc-img-cell.vl .vsc-img-bar{background:linear-gradient(to right,transparent,var(--red),transparent)}
+.vsc-img-cell.vr .vsc-img-bar{background:linear-gradient(to right,transparent,var(--g),transparent)}
+
+/* ── HEADER CELLS ── */
+.vsc-head{
+  padding:24px 32px 20px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.vsc-lbl{
+  font-size:9px;font-weight:600;letter-spacing:.26em;
+  text-transform:uppercase;margin:0 0 6px;
+  display:flex;align-items:center;gap:6px;
+}
+.vsc-lbl::before{content:'';display:block;width:14px;height:1px}
+.vl .vsc-lbl{color:rgba(255,59,59,.45)}
+.vl .vsc-lbl::before{background:rgba(255,59,59,.4)}
+.vr .vsc-lbl{color:rgba(35,255,83,.65)}
+.vr .vsc-lbl::before{background:var(--g)}
+.vsc-name{
+  font-size:clamp(20px,2.6vw,32px);
+  font-weight:900;color:#fff;
+  letter-spacing:-.04em;text-transform:uppercase;
+  line-height:1;margin:0;
+}
+.vr .vsc-name em{
+  font-style:normal;
+  background:linear-gradient(135deg,var(--g),#8BFFAA);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* ── ITEM CELLS ── */
+.vsc-item{
+  display:flex;align-items:center;gap:16px;
+  padding:18px 32px;
+  border-bottom:1px solid rgba(255,255,255,.045);
+  opacity:0;transform:translateY(10px);
+  transition:opacity .5s var(--e),transform .5s var(--e);
+}
+.vsc-item.vsc-item-in{opacity:1;transform:translateY(0)}
+.r5.vsc-item{border-bottom:none;padding-bottom:32px}
+
+/* ── ICONS ── */
+.vsc-ico{flex-shrink:0;width:38px;height:38px;display:flex;align-items:center;justify-content:center}
+.vsc-ico--x .vsc-ico-shell{
+  width:38px;height:38px;
+  clip-path:polygon(30% 0%,70% 0%,100% 30%,100% 70%,70% 100%,30% 100%,0% 70%,0% 30%);
+  background:rgba(255,59,59,.08);
+  display:flex;align-items:center;justify-content:center;position:relative;
+}
+.vsc-ico--x .vsc-ico-shell::before{
+  content:'';position:absolute;inset:1px;
+  clip-path:polygon(30% 0%,70% 0%,100% 30%,100% 70%,70% 100%,30% 100%,0% 70%,0% 30%);
+  background:rgba(255,59,59,.06);
+}
+.vsc-ico--x svg{width:13px;height:13px;fill:none;stroke:var(--red);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;position:relative;z-index:1}
+.vsc-ico--ok .vsc-ico-shell{
+  width:38px;height:38px;
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  background:rgba(35,255,83,.1);
+  display:flex;align-items:center;justify-content:center;position:relative;
+}
+.vsc-ico--ok .vsc-ico-shell::before{
+  content:'';position:absolute;inset:1.5px;
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  background:rgba(35,255,83,.07);
+}
+.vsc-ico--ok svg{width:14px;height:14px;fill:none;stroke:var(--g);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;position:relative;z-index:1;filter:drop-shadow(0 0 4px rgba(35,255,83,.4))}
+
+/* ── ITEM TEXT ── */
+.vsc-item-text{font-size:15px;font-weight:500;color:rgba(255,255,255,.85);line-height:1.35;margin:0;letter-spacing:-.01em}
+.vl .vsc-item-text{color:rgba(255,255,255,.55)}
+
+/* ── CTA ── */
+.vsc-cta-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  margin-top:44px;
+  opacity:0;
+  transform:translateY(14px);
+  transition:opacity .55s .4s var(--e), transform .55s .4s var(--e);
+}
+.vsc-split.vsc-in ~ .vsc-cta-wrap{
+  opacity:1;
+  transform:translateY(0);
+}
+.vsc-cta{
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  background:var(--g);
+  color:#000;
+  font-family:'Inter',sans-serif;
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  border:none;
+  border-radius:8px;
+  padding:0 36px;
+  height:56px;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  transition:background .2s, transform .2s, box-shadow .2s;
+  animation:vsc-pulse 3.2s ease-in-out infinite;
+}
+@keyframes vsc-pulse{
+  0%  { box-shadow:0 0 0 0 rgba(35,255,83,.6), 0 0 0 0 rgba(35,255,83,.3); }
+  60% { box-shadow:0 0 0 10px rgba(35,255,83,0), 0 0 0 22px rgba(35,255,83,0); }
+  100%{ box-shadow:0 0 0 0 rgba(35,255,83,0), 0 0 0 0 rgba(35,255,83,0); }
+}
+.vsc-cta::before{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.25) 50%,transparent 70%);
+  transform:translateX(-100%);
+  transition:transform .55s var(--e);
+}
+.vsc-cta:hover::before{ transform:translateX(100%); }
+.vsc-cta:hover{
+  background:#1de849;
+  transform:translateY(-2px);
+  box-shadow:0 8px 28px rgba(35,255,83,.35);
+  animation:none;
+}
+.vsc-cta:active{ transform:translateY(0); }
+
+.vsc-cta__icon{
+  display:flex;align-items:center;justify-content:center;
+  width:28px;height:28px;
+  background:#000;border-radius:5px;
+  flex-shrink:0;
+  transition:transform .3s var(--e);
+}
+.vsc-cta:hover .vsc-cta__icon{ transform:rotate(-8deg) scale(1.1); }
+.vsc-cta__icon svg{
+  width:14px;height:14px;
+  fill:none;stroke:var(--g);
+  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+}
+/* loading */
+.vsc-cta.is-loading .vsc-cta__icon svg{ display:none; }
+.vsc-cta.is-loading .vsc-cta__icon::after{
+  content:'';display:block;
+  width:14px;height:14px;
+  border:2px solid rgba(35,255,83,.3);
+  border-top-color:var(--g);
+  border-radius:50%;
+  animation:vsc-spin .6s linear infinite;
+}
+@keyframes vsc-spin{ to{ transform:rotate(360deg); } }
+/* success */
+.vsc-cta.is-added{
+  background:#0a0a0a;
+  color:var(--g);
+  border:1px solid rgba(35,255,83,.25);
+  animation:none;
+  box-shadow:none;
+}
+.vsc-cta.is-added .vsc-cta__icon{ background:var(--g); }
+.vsc-cta.is-added .vsc-cta__icon svg{ stroke:#000; }
+
+.vsc-cta-note{
+  font-size:11px;
+  color:rgba(255,255,255,.25);
+  font-weight:500;
+  letter-spacing:.04em;
+}
+
+/* ───────────────────────
+   MOBILE  < 640px
+─────────────────────── */
+@media(max-width:639px){
+  .vsc{padding:48px 0 56px}
+  .vsc-wrap{padding:0 18px}
+  .vsc-header{margin-bottom:32px}
+
+  .vsc-split{grid-template-columns:1fr}
+
+  .vsc-col-bg--l{grid-column:1;grid-row:1 / 6;border-radius:16px 16px 0 0;border-bottom:none}
+  .vsc-col-bg--r{grid-column:1;grid-row:7 / 12;border-radius:0 0 16px 16px;border-top:none}
+
+  .vsc-divider{grid-column:1;grid-row:6;height:52px}
+  .vsc-divider::before{
+    top:50%;bottom:auto;left:0;right:0;
+    width:100%;height:1px;transform:none;
+    background:linear-gradient(to right,transparent,rgba(255,255,255,.07) 25%,rgba(255,255,255,.07) 75%,transparent);
+  }
+  .vsc-vs{width:46px;height:46px;font-size:10px}
+
+  .vl.r1{grid-column:1;grid-row:1}
+  .vl.r2{grid-column:1;grid-row:2}
+  .vl.r3{grid-column:1;grid-row:3}
+  .vl.r4{grid-column:1;grid-row:4}
+  .vl.r5{grid-column:1;grid-row:5}
+
+  .vr.r1{grid-column:1;grid-row:7}
+  .vr.r2{grid-column:1;grid-row:8}
+  .vr.r3{grid-column:1;grid-row:9}
+  .vr.r4{grid-column:1;grid-row:10}
+  .vr.r5{grid-column:1;grid-row:11}
+
+  .vsc-img-cell.vl{border-radius:15px 15px 0 0}
+  .vsc-img-cell.vr{border-radius:0}
+
+  .vsc-head{padding:16px 20px 14px}
+  .vsc-item{padding:14px 20px;gap:13px}
+  .r5.vsc-item{padding-bottom:22px}
+  .vsc-ico{width:32px;height:32px}
+  .vsc-ico--x .vsc-ico-shell,.vsc-ico--ok .vsc-ico-shell{width:32px;height:32px}
+  .vsc-ico--x svg,.vsc-ico--ok svg{width:11px;height:11px}
+  .vsc-item-text{font-size:13px}
+  .vsc-name{font-size:18px}
+  .vsc-cta-wrap{margin-top:32px}
+  .vsc-cta{height:50px;padding:0 24px;font-size:12px}
+}
+
+/* ───────────────────────
+   TABLET  640-1023
+─────────────────────── */
+@media(min-width:640px) and (max-width:1023px){
+  .vsc-wrap{padding:0 36px}
+  .vsc-head{padding:22px 26px 18px}
+  .vsc-item{padding:18px 26px}
+  .r5.vsc-item{padding-bottom:28px}
+  .vsc-item-text{font-size:14px}
+}
+
+/* ───────────────────────
+   DESKTOP  1024px+
+─────────────────────── */
+@media(min-width:1024px){
+  .vsc{padding:100px 0 112px}
+  .vsc-wrap{padding:0 48px}
+  .vsc-split{grid-template-columns:1fr 80px 1fr}
+  .vsc-vs{width:62px;height:62px;font-size:11px}
+  .vsc-head{padding:30px 36px 24px}
+  .vsc-item{padding:20px 36px;gap:18px}
+  .r5.vsc-item{padding-bottom:40px}
+  .vsc-ico{width:42px;height:42px}
+  .vsc-ico--x .vsc-ico-shell,.vsc-ico--ok .vsc-ico-shell{width:42px;height:42px}
+  .vsc-ico--x svg{width:14px;height:14px}
+  .vsc-ico--ok svg{width:15px;height:15px}
+  .vsc-item-text{font-size:16px}
+  .vsc-name{font-size:32px}
+  .vsc-img{aspect-ratio:16/8}
+}
+</style>
+
+<section class="vsc" aria-label="POPDARTS vs Traditional Games">
+  <div class="vsc-glow-red"></div>
+  <div class="vsc-glow-green"></div>
+
+  <div class="vsc-wrap">
+
+    <div class="vsc-header">
+      <div class="vsc-eyebrow">
+        <span class="vsc-eyebrow-line"></span>
+        Why POPDARTS
+        <span class="vsc-eyebrow-line"></span>
+      </div>
+      <h2 class="vsc-title">Stop Playing <em>Average</em></h2>
+      <p class="vsc-subtitle">See what sets POPDARTS apart from everything else on the market.</p>
+    </div>
+
+    <div class="vsc-split">
+
+      <!-- Panel background layers -->
+      <div class="vsc-col-bg vsc-col-bg--l" aria-hidden="true"></div>
+      <div class="vsc-col-bg vsc-col-bg--r" aria-hidden="true"></div>
+
+      <!-- Divider -->
+      <div class="vsc-divider">
+        <div class="vsc-vs">VS</div>
+      </div>
+
+      <!-- ROW 1 — Images -->
+      <div class="vl r1 vsc-img-cell">
+        <div class="vsc-img">
+          <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/pexels-cottonbro-4691593.jpg?v=1775501156"
+            alt="Traditional Games" width="900" height="500" loading="lazy">
+          <div class="vsc-img-bar"></div>
+        </div>
+      </div>
+      <div class="vr r1 vsc-img-cell">
+        <div class="vsc-img">
+          <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/SwaptopGIF-ezgif.com-webp-to-gif-converter_2.gif?v=1775452040"
+            alt="POPDARTS SWAPTOP" width="900" height="500" loading="lazy">
+          <div class="vsc-img-bar"></div>
+        </div>
+      </div>
+
+      <!-- ROW 2 — Headers -->
+      <div class="vl r2 vsc-head">
+        <p class="vsc-lbl">The Old Way</p>
+        <h3 class="vsc-name">Traditional Games</h3>
+      </div>
+      <div class="vr r2 vsc-head">
+        <p class="vsc-lbl">POPDARTS®</p>
+        <h3 class="vsc-name"><em>Swaptop</em></h3>
+      </div>
+
+      <!-- ROW 3 — Item 1 -->
+      <div class="vl r3 vsc-item">
+        <div class="vsc-ico vsc-ico--x"><div class="vsc-ico-shell">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><line x1="6.3" y1="6.3" x2="17.7" y2="17.7"/></svg>
+        </div></div>
+        <p class="vsc-item-text">Hard to store &amp; take with you</p>
+      </div>
+      <div class="vr r3 vsc-item">
+        <div class="vsc-ico vsc-ico--ok"><div class="vsc-ico-shell">
+          <svg viewBox="0 0 24 24"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17" y1="15" x2="9" y2="15"/></svg>
+        </div></div>
+        <p class="vsc-item-text">Easy to bring &amp; store</p>
+      </div>
+
+      <!-- ROW 4 — Item 2 -->
+      <div class="vl r4 vsc-item">
+        <div class="vsc-ico vsc-ico--x"><div class="vsc-ico-shell">
+          <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        </div></div>
+        <p class="vsc-item-text">Only offer one game type</p>
+      </div>
+      <div class="vr r4 vsc-item">
+        <div class="vsc-ico vsc-ico--ok"><div class="vsc-ico-shell">
+          <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        </div></div>
+        <p class="vsc-item-text">Swappable boards with different game play</p>
+      </div>
+
+      <!-- ROW 5 — Item 3 -->
+      <div class="vl r5 vsc-item">
+        <div class="vsc-ico vsc-ico--x"><div class="vsc-ico-shell">
+          <svg viewBox="0 0 24 24"><path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"/><line x1="8" y1="19" x2="8" y2="21"/><line x1="12" y1="19" x2="12" y2="21"/><line x1="16" y1="19" x2="16" y2="21"/></svg>
+        </div></div>
+        <p class="vsc-item-text">Only made for indoor or outdoor play</p>
+      </div>
+      <div class="vr r5 vsc-item">
+        <div class="vsc-ico vsc-ico--ok"><div class="vsc-ico-shell">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </div></div>
+        <p class="vsc-item-text">Great for indoors or outdoors</p>
+      </div>
+
+    </div>
+
+    <!-- ── CTA ── -->
+    <div class="vsc-cta-wrap">
+      <button class="vsc-cta" id="vsc-add-btn" aria-label="Add Swaptop Kit to cart">
+        <span class="vsc-cta__icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+        </span>
+        <span class="vsc-cta__label">Add Swaptop Kit to Cart</span>
+      </button>
+      <span class="vsc-cta-note">Free shipping in the USA &nbsp;·&nbsp; Free gift card over $210</span>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function(){
+  var split = document.querySelector('.vsc-split');
+  var items = document.querySelectorAll('.vsc-item');
+
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.classList.add('vsc-in');
+      obs.unobserve(e.target);
+    });
+  },{threshold:0.08, rootMargin:'0px 0px -32px 0px'});
+
+  if(split) obs.observe(split);
+
+  var iObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var el = e.target;
+      setTimeout(function(){ el.classList.add('vsc-item-in'); }, parseInt(el.dataset.idx) * 80);
+      iObs.unobserve(el);
+    });
+  },{threshold:0.1});
+
+  items.forEach(function(el, i){ el.dataset.idx = i; iObs.observe(el); });
+
+  /* ── Add to Cart ── */
+  var btn = document.getElementById('vsc-add-btn');
+  var label = btn && btn.querySelector('.vsc-cta__label');
+  if(!btn) return;
+
+  function openCart(){
+    document.dispatchEvent(new CustomEvent('cart:open'));
+    document.dispatchEvent(new CustomEvent('theme:cart:open'));
+    var d = document.querySelector('cart-drawer');
+    if(d && typeof d.open==='function') d.open();
+  }
+
+  function doAdd(vid){
+    btn.classList.add('is-loading');
+    label.textContent = 'Adding…';
+    fetch('/cart/add.js',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({id:vid, quantity:1})
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      btn.classList.remove('is-loading');
+      if(data.id){
+        btn.classList.add('is-added');
+        label.textContent = '✓ Added to Cart!';
+        openCart();
+        setTimeout(function(){
+          btn.classList.remove('is-added');
+          label.textContent = 'Add Swaptop Kit to Cart';
+        }, 3000);
+      } else {
+        label.textContent = 'Try Again';
+        setTimeout(function(){ label.textContent = 'Add Swaptop Kit to Cart'; }, 2000);
+      }
+    })
+    .catch(function(){
+      btn.classList.remove('is-loading');
+      label.textContent = 'Error — Try Again';
+      setTimeout(function(){ label.textContent = 'Add Swaptop Kit to Cart'; }, 2000);
+    });
+  }
+
+  btn.addEventListener('click', function(){
+    if(btn.classList.contains('is-loading') || btn.classList.contains('is-added')) return;
+    var vid = {{ section.settings.variant_id | default: 'null' }};
+    if(vid){
+      doAdd(vid);
+    } else {
+      fetch('/products/swaptop-kit.js')
+        .then(function(r){ return r.json(); })
+        .then(function(p){
+          var id = p.variants && p.variants[0] && p.variants[0].id;
+          if(id){ doAdd(id); }
+          else {
+            label.textContent = 'Product Not Found';
+            setTimeout(function(){ label.textContent = 'Add Swaptop Kit to Cart'; }, 2000);
+          }
+        })
+        .catch(function(){
+          btn.classList.remove('is-loading');
+          label.textContent = 'Error — Try Again';
+          setTimeout(function(){ label.textContent = 'Add Swaptop Kit to Cart'; }, 2000);
+        });
+    }
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "VS Comparison",
+  "settings": [
+    {"type":"image_picker","id":"traditional_img","label":"Traditional Games Image"},
+    {"type":"image_picker","id":"popdarts_img","label":"POPDARTS SWAPTOP Image"},
+    {
+      "type":"text",
+      "id":"variant_id",
+      "label":"Swaptop Kit Variant ID",
+      "info":"Optional. Paste the exact variant ID. If blank, auto-discovers from the product handle 'swaptop-kit'."
+    }
+  ],
+  "presets":[{"name":"VS Comparison"}]
+}
+{% endschema %}

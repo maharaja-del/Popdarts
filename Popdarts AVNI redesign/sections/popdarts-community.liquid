@@ -1,0 +1,131 @@
+<section class="pd-page community" id="community-{{ section.id }}" aria-labelledby="community-title-{{ section.id }}">
+  <div class="pd-wrap">
+    <div class="community__head">
+      <h2 id="community-title-{{ section.id }}">
+        <span class="c-green" style="color: #17c440;">{{ section.settings.heading_part1 | default: 'Over 1 Billion Views.' }}</span><br>
+        <span class="c-red" style="color: #ff3f3f;">{{ section.settings.heading_espn | default: 'ESPN' }}</span>
+        <span class="c-blue" style="color: #2b99ff;">{{ section.settings.heading_part2 | default: 'Tournament.' }}</span>
+      </h2>
+    </div>
+  </div>
+
+  <p class="pd-sr-only">A scrolling gallery of photos showing Popdarts players and games.</p>
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      {%- assign photo_blocks = section.blocks | where: "type", "photo" -%}
+      {%- for block in photo_blocks -%}
+        <div class="marquee__card">
+          <img src="{% if block.settings.image %}{{ block.settings.image | image_url: width: 500 }}{% elsif block.settings.fallback_url != blank %}{{ block.settings.fallback_url }}{% else %}{{ block.settings.asset_filename | asset_url }}{% endif %}" alt="" loading="lazy">
+        </div>
+      {%- endfor -%}
+      {%- for block in photo_blocks -%}
+        <div class="marquee__card">
+          <img src="{% if block.settings.image %}{{ block.settings.image | image_url: width: 500 }}{% elsif block.settings.fallback_url != blank %}{{ block.settings.fallback_url }}{% else %}{{ block.settings.asset_filename | asset_url }}{% endif %}" alt="" loading="lazy">
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <div class="pd-wrap reviews">
+    <div class="reviews__head">
+      <h3 style="color: #0a0c10 !important;">{{ section.settings.reviews_heading | default: 'What players are saying' }}</h3>
+      <span class="reviews__score">★★★★★ <strong>{{ section.settings.reviews_score | default: '4.9' }}</strong> average rating</span>
+    </div>
+    <div class="reviews__grid">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'review' -%}
+          <article class="review-card" {{ block.shopify_attributes }}>
+            <div class="review-card__stars" aria-hidden="true">
+              {%- for i in (1..5) -%}{%- if i <= block.settings.rating -%}★{%- else -%}☆{%- endif -%}{%- endfor -%}
+            </div>
+            <p class="review-card__quote">&ldquo;{{ block.settings.quote | default: 'Great game for the whole family.' }}&rdquo;</p>
+            <p class="review-card__name">{{ block.settings.reviewer | default: 'Verified Buyer' }}</p>
+          </article>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Community + Reviews",
+  "tag": "section",
+  "class": "pd-section-community",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading_part1",
+      "label": "Heading part 1 (green)",
+      "default": "Over 1 Billion Views."
+    },
+    {
+      "type": "text",
+      "id": "heading_espn",
+      "label": "Heading part 2 (red)",
+      "default": "ESPN"
+    },
+    {
+      "type": "text",
+      "id": "heading_part2",
+      "label": "Heading part 3 (blue)",
+      "default": "Tournament."
+    },
+    {
+      "type": "header",
+      "content": "Reviews"
+    },
+    {
+      "type": "text",
+      "id": "reviews_heading",
+      "label": "Reviews heading",
+      "default": "What players are saying"
+    },
+    {
+      "type": "text",
+      "id": "reviews_score",
+      "label": "Average rating",
+      "default": "4.9"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "Marquee photo",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "url", "id": "fallback_url", "label": "Fallback image URL (used if no image chosen)" },
+        { "type": "text", "id": "asset_filename", "label": "Bundled theme asset filename", "info": "Used only if Image and Fallback URL are both empty, e.g. pd-marquee-example.jpg" }
+      ]
+    },
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "range", "id": "rating", "label": "Rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "Great game for the whole family." },
+        { "type": "text", "id": "reviewer", "label": "Reviewer label", "default": "Verified Buyer" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Community + Reviews",
+      "blocks": [
+        { "type": "photo", "settings": { "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_11_08_2026_14_15_01.png?v=1786637627" } },
+        { "type": "photo", "settings": { "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_10_08_2026_14_14_41_1.png?v=1786637626" } },
+        { "type": "photo", "settings": { "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_11_08_2026_11_28_24.png?v=1786637627" } },
+        { "type": "photo", "settings": { "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_10_08_2026_14_14_41.png?v=1786637626" } },
+        { "type": "photo", "settings": { "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_11_08_2026_11_28_24_1.png?v=1786637626" } },
+        { "type": "photo", "settings": { "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_10_08_2026_12_10_18.png?v=1786637626" } },
+        { "type": "photo", "settings": { "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_10_08_2026_13_16_18_1.png?v=1786637626" } },
+        { "type": "photo", "settings": { "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_10_08_2026_13_16_18.png?v=1786637626" } },
+        { "type": "review", "settings": { "rating": 5, "quote": "First game in years that gets my teenagers off their phones. We play every weekend now.", "reviewer": "Verified Buyer" } },
+        { "type": "review", "settings": { "rating": 5, "quote": "Bought the Pro Pack for a backyard party and it turned into a full tournament. Ten out of ten.", "reviewer": "Verified Buyer" } },
+        { "type": "review", "settings": { "rating": 5, "quote": "Swaptop replaced three other games in our garage. Easiest setup of any yard game we own.", "reviewer": "Verified Buyer" } },
+        { "type": "review", "settings": { "rating": 4, "quote": "Kids picked it up in one throw, I'm still working on my aim. Great for all ages.", "reviewer": "Verified Buyer" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

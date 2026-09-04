@@ -1,0 +1,676 @@
+{% comment %}
+  POPDARTS vs Traditional — Father's Day Comparison Section
+  Warm cream / amber / teal palette matched to hero-fathers.liquid.
+  Scoped with the .vsf prefix so it never collides with the dark .vsc rookie section.
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --vsf-amber:#2b99ff;
+  --vsf-amber-2:#5cb3ff;
+  --vsf-teal:#2b99ff;
+  --vsf-ink:#0a0a0a;
+  --vsf-ink-soft:#5d6b82;
+  --vsf-cream:#f4f9fd;
+  --vsf-line:#e0ebf5;
+  --vsf-bad:#1a7fe0;
+  --vsf-e:cubic-bezier(.16,1,.3,1);
+}
+
+.vsf{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  /* warm Father's Day background — matches hero-fathers.liquid */
+  background:
+    radial-gradient(50% 55% at 88% 8%, rgba(43,153,255,.20), transparent 60%),
+    radial-gradient(55% 60% at 4% 96%, rgba(43,153,255,.10), transparent 62%),
+    linear-gradient(165deg,#f4f9fd 0%,#e8f2fc 100%);
+  color:var(--vsf-ink);
+  padding:80px 0 96px;
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+}
+/* faint grid overlay, fades at edges — same motif as father-compare.liquid */
+.vsf::before{
+  content:'';
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(10,15,25,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10,15,25,0.035) 1px, transparent 1px);
+  background-size:64px 64px;
+  -webkit-mask-image:radial-gradient(ellipse at center, black 25%, transparent 75%);
+  mask-image:radial-gradient(ellipse at center, black 25%, transparent 75%);
+  pointer-events:none;z-index:0;
+}
+.vsf-glow-amber{
+  position:absolute;top:8%;right:-6%;
+  width:560px;height:560px;
+  background:radial-gradient(circle,rgba(43,153,255,.16) 0%,transparent 62%);
+  pointer-events:none;z-index:0;
+}
+.vsf-glow-teal{
+  position:absolute;bottom:-5%;left:-6%;
+  width:600px;height:600px;
+  background:radial-gradient(circle,rgba(43,153,255,.10) 0%,transparent 62%);
+  pointer-events:none;z-index:0;
+}
+.vsf-wrap{
+  max-width:1220px;
+  margin:0 auto;
+  padding:0 28px;
+  position:relative;z-index:1;
+}
+
+/* ── HEADER ── */
+.vsf-header{text-align:center;margin-bottom:56px}
+.vsf-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  background:linear-gradient(135deg,var(--vsf-amber-2),var(--vsf-amber));
+  color:#fff;font-size:12px;font-weight:800;letter-spacing:.14em;
+  text-transform:uppercase;padding:7px 15px;border-radius:999px;margin-bottom:18px;
+  box-shadow:0 6px 16px rgba(43,153,255,.32);
+}
+.vsf-title{
+  font-size:clamp(36px,6.5vw,68px);
+  font-weight:900;line-height:.9;
+  letter-spacing:-.04em;color:var(--vsf-ink);
+  text-transform:uppercase;margin:0 0 6px;
+}
+.vsf-title em{
+  font-style:normal;
+  background:linear-gradient(135deg,var(--vsf-amber),#1a7fe0);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.vsf-subtitle{
+  font-size:14px;color:var(--vsf-ink-soft);
+  margin:14px 0 0;font-weight:400;letter-spacing:.01em;
+}
+
+/* ─────────────────────────────────────────
+   UNIFIED GRID
+───────────────────────────────────────── */
+.vsf-split{
+  display:grid;
+  grid-template-columns:1fr 72px 1fr;
+  position:relative;
+}
+
+.vsf-col-bg{
+  grid-row:1 / -1;
+  z-index:0;
+  pointer-events:none;
+  position:relative;
+}
+.vsf-col-bg--l{
+  grid-column:1;
+  background:#fdfdfd;
+  border:1px solid rgba(26,127,224,.16);
+  border-radius:20px 0 0 20px;
+  transition:border-color .4s var(--vsf-e),box-shadow .4s var(--vsf-e);
+}
+.vsf-col-bg--r{
+  grid-column:3;
+  background:linear-gradient(180deg,#eef6fe 0%,#e8f2fc 100%);
+  border:1px solid rgba(43,153,255,.28);
+  border-radius:0 20px 20px 0;
+  box-shadow:0 18px 40px rgba(43,153,255,.12);
+  transition:border-color .4s var(--vsf-e),box-shadow .4s var(--vsf-e);
+  overflow:hidden;
+}
+.vsf-col-bg--r::before{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(105deg,transparent 30%,rgba(43,153,255,.10) 50%,transparent 70%);
+  background-size:200% 100%;
+  animation:vsf-shimmer 5s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes vsf-shimmer{
+  0%{background-position:200% 0}
+  100%{background-position:-200% 0}
+}
+
+.vsf-divider{
+  grid-column:2;
+  grid-row:1 / -1;
+  z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.vsf-divider::before{
+  content:'';
+  position:absolute;top:0;bottom:0;left:50%;
+  transform:translateX(-50%);
+  width:1px;
+  background:linear-gradient(to bottom,
+    transparent 0%,rgba(10,15,25,.10) 25%,rgba(10,15,25,.10) 75%,transparent 100%);
+}
+.vsf-vs{
+  width:56px;height:56px;border-radius:50%;
+  background:var(--vsf-cream);
+  border:1px solid var(--vsf-line);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:900;
+  color:var(--vsf-ink-soft);letter-spacing:.1em;
+  box-shadow:0 0 0 6px #eef6fe,0 6px 16px rgba(10,20,30,.12);
+}
+
+.vfl{grid-column:1;position:relative;z-index:1}
+.vfr{grid-column:3;position:relative;z-index:1}
+
+.r1{grid-row:1}
+.r2{grid-row:2}
+.r3{grid-row:3}
+.r4{grid-row:4}
+.r5{grid-row:5}
+
+.vsf-col-bg--l,
+.vfl{opacity:0;transform:translateX(-28px);transition:opacity .75s var(--vsf-e),transform .75s var(--vsf-e)}
+.vsf-col-bg--r,
+.vfr{opacity:0;transform:translateX(28px);transition:opacity .75s var(--vsf-e),transform .75s var(--vsf-e)}
+.vsf-split.vsf-in .vsf-col-bg--l,
+.vsf-split.vsf-in .vfl{opacity:1;transform:translateX(0)}
+.vsf-split.vsf-in .vsf-col-bg--r,
+.vsf-split.vsf-in .vfr{opacity:1;transform:translateX(0);transition-delay:.07s}
+
+/* ── IMAGE CELLS ── */
+.vsf-img-cell{padding:0;overflow:hidden}
+.vsf-img-cell.vfl{border-radius:19px 0 0 0}
+.vsf-img-cell.vfr{border-radius:0 19px 0 0}
+.vsf-img{
+  width:100%;aspect-ratio:16/9;
+  position:relative;overflow:hidden;
+}
+.vsf-img img,
+.vsf-img video{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform 1.2s var(--vsf-e);
+}
+.vsf-split:hover .vsf-img-cell.vfl .vsf-img img,
+.vsf-split:hover .vsf-img-cell.vfr .vsf-img img,
+.vsf-split:hover .vsf-img-cell.vfr .vsf-img video{transform:scale(1.04)}
+.vsf-img-cell.vfl .vsf-img img{filter:brightness(.78) saturate(.7) contrast(1.02)}
+.vsf-img-cell.vfr .vsf-img img,
+.vsf-img-cell.vfr .vsf-img video{filter:brightness(1.02) saturate(1.08) contrast(1.02)}
+.vsf-img::after{content:'';position:absolute;inset:0}
+.vsf-img-cell.vfl .vsf-img::after{background:linear-gradient(to bottom,transparent 30%,rgba(255,255,255,.9) 100%)}
+.vsf-img-cell.vfr .vsf-img::after{background:linear-gradient(to bottom,transparent 30%,rgba(234,244,255,.9) 100%)}
+.vsf-img-bar{position:absolute;bottom:0;left:0;right:0;height:2px;z-index:1}
+.vsf-img-cell.vfl .vsf-img-bar{background:linear-gradient(to right,transparent,var(--vsf-bad),transparent)}
+.vsf-img-cell.vfr .vsf-img-bar{background:linear-gradient(to right,transparent,var(--vsf-amber),transparent)}
+
+/* ── HEADER CELLS ── */
+.vsf-head{
+  padding:24px 32px 20px;
+  border-bottom:1px solid rgba(10,15,25,.07);
+}
+.vsf-lbl{
+  font-size:9px;font-weight:700;letter-spacing:.26em;
+  text-transform:uppercase;margin:0 0 6px;
+  display:flex;align-items:center;gap:6px;
+}
+.vsf-lbl::before{content:'';display:block;width:14px;height:1px}
+.vfl .vsf-lbl{color:rgba(26,127,224,.85)}
+.vfl .vsf-lbl::before{background:rgba(26,127,224,.7)}
+.vfr .vsf-lbl{color:var(--vsf-amber)}
+.vfr .vsf-lbl::before{background:var(--vsf-amber)}
+.vsf-name{
+  font-size:clamp(20px,2.6vw,32px);
+  font-weight:900;color:var(--vsf-ink);
+  letter-spacing:-.04em;text-transform:uppercase;
+  line-height:1;margin:0;
+}
+.vfr .vsf-name em{
+  font-style:normal;
+  background:linear-gradient(135deg,var(--vsf-amber),#1a7fe0);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* ── ITEM CELLS ── */
+.vsf-item{
+  display:flex;align-items:center;gap:16px;
+  padding:18px 32px;
+  border-bottom:1px solid rgba(10,15,25,.06);
+  opacity:0;transform:translateY(10px);
+  transition:opacity .5s var(--vsf-e),transform .5s var(--vsf-e);
+}
+.vsf-item.vsf-item-in{opacity:1;transform:translateY(0)}
+.r5.vsf-item{border-bottom:none;padding-bottom:32px}
+
+/* ── ICONS ── */
+.vsf-ico{flex-shrink:0;width:38px;height:38px;display:flex;align-items:center;justify-content:center}
+.vsf-ico--x .vsf-ico-shell{
+  width:38px;height:38px;
+  clip-path:polygon(30% 0%,70% 0%,100% 30%,100% 70%,70% 100%,30% 100%,0% 70%,0% 30%);
+  background:rgba(26,127,224,.12);
+  display:flex;align-items:center;justify-content:center;position:relative;
+}
+.vsf-ico--x .vsf-ico-shell::before{
+  content:'';position:absolute;inset:1px;
+  clip-path:polygon(30% 0%,70% 0%,100% 30%,100% 70%,70% 100%,30% 100%,0% 70%,0% 30%);
+  background:rgba(26,127,224,.08);
+}
+.vsf-ico--x svg{width:13px;height:13px;fill:none;stroke:var(--vsf-bad);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;position:relative;z-index:1}
+.vsf-ico--ok .vsf-ico-shell{
+  width:38px;height:38px;
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  background:rgba(43,153,255,.16);
+  display:flex;align-items:center;justify-content:center;position:relative;
+}
+.vsf-ico--ok .vsf-ico-shell::before{
+  content:'';position:absolute;inset:1.5px;
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  background:rgba(43,153,255,.1);
+}
+.vsf-ico--ok svg{width:14px;height:14px;fill:none;stroke:var(--vsf-amber);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;position:relative;z-index:1;filter:drop-shadow(0 0 4px rgba(43,153,255,.4))}
+
+/* ── ITEM TEXT ── */
+.vsf-item-text{font-size:15px;font-weight:600;color:var(--vsf-ink);line-height:1.35;margin:0;letter-spacing:-.01em}
+.vfl .vsf-item-text{color:var(--vsf-ink-soft);font-weight:500}
+
+/* ── CTA ── */
+.vsf-cta-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  margin-top:44px;
+  opacity:0;
+  transform:translateY(14px);
+  transition:opacity .55s .4s var(--vsf-e), transform .55s .4s var(--vsf-e);
+}
+.vsf-split.vsf-in ~ .vsf-cta-wrap{
+  opacity:1;
+  transform:translateY(0);
+}
+.vsf-cta{
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  background:linear-gradient(135deg,var(--vsf-amber-2),var(--vsf-amber));
+  color:#ffffff;
+  font-family:'Inter',sans-serif;
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  border:none;
+  border-radius:11px;
+  padding:0 36px;
+  height:56px;
+  cursor:pointer;
+  position:relative;
+  overflow:hidden;
+  transition:filter .2s, transform .2s, box-shadow .2s;
+  animation:vsf-pulse 3.2s ease-in-out infinite;
+}
+@keyframes vsf-pulse{
+  0%  { box-shadow:0 0 0 0 rgba(43,153,255,.55), 0 0 0 0 rgba(43,153,255,.28); }
+  60% { box-shadow:0 0 0 10px rgba(43,153,255,0), 0 0 0 22px rgba(43,153,255,0); }
+  100%{ box-shadow:0 0 0 0 rgba(43,153,255,0), 0 0 0 0 rgba(43,153,255,0); }
+}
+.vsf-cta::before{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);
+  transform:translateX(-100%);
+  transition:transform .55s var(--vsf-e);
+}
+.vsf-cta:hover::before{ transform:translateX(100%); }
+.vsf-cta:hover{
+  filter:brightness(1.05);
+  transform:translateY(-2px);
+  box-shadow:0 12px 30px rgba(43,153,255,.4);
+  animation:none;
+}
+.vsf-cta:active{ transform:translateY(0); }
+
+.vsf-cta__icon{
+  display:flex;align-items:center;justify-content:center;
+  width:28px;height:28px;
+  background:#ffffff;border-radius:5px;
+  flex-shrink:0;
+  transition:transform .3s var(--vsf-e);
+}
+.vsf-cta:hover .vsf-cta__icon{ transform:rotate(-8deg) scale(1.1); }
+.vsf-cta__icon svg{
+  width:14px;height:14px;
+  fill:none;stroke:var(--vsf-amber-2);
+  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+}
+/* loading */
+.vsf-cta.is-loading .vsf-cta__icon svg{ display:none; }
+.vsf-cta.is-loading .vsf-cta__icon::after{
+  content:'';display:block;
+  width:14px;height:14px;
+  border:2px solid rgba(43,153,255,.4);
+  border-top-color:var(--vsf-amber-2);
+  border-radius:50%;
+  animation:vsf-spin .6s linear infinite;
+}
+@keyframes vsf-spin{ to{ transform:rotate(360deg); } }
+/* success */
+.vsf-cta.is-added{
+  background:#fdfdfd;
+  color:var(--vsf-amber);
+  border:1px solid rgba(43,153,255,.4);
+  animation:none;
+  box-shadow:0 6px 18px rgba(43,153,255,.18);
+}
+.vsf-cta.is-added .vsf-cta__icon{ background:var(--vsf-amber); }
+.vsf-cta.is-added .vsf-cta__icon svg{ stroke:#fdfdfd; }
+
+.vsf-cta-note{
+  font-size:11px;
+  color:var(--vsf-ink-soft);
+  font-weight:500;
+  letter-spacing:.04em;
+}
+
+/* ───────────────────────
+   MOBILE  < 640px
+─────────────────────── */
+@media(max-width:639px){
+  .vsf{padding:48px 0 56px}
+  .vsf-wrap{padding:0 18px}
+  .vsf-header{margin-bottom:32px}
+
+  .vsf-split{grid-template-columns:1fr}
+
+  .vsf-col-bg--l{grid-column:1;grid-row:1 / 6;border-radius:16px 16px 0 0;border-bottom:none}
+  .vsf-col-bg--r{grid-column:1;grid-row:7 / 12;border-radius:0 0 16px 16px;border-top:none}
+
+  .vsf-divider{grid-column:1;grid-row:6;height:52px}
+  .vsf-divider::before{
+    top:50%;bottom:auto;left:0;right:0;
+    width:100%;height:1px;transform:none;
+    background:linear-gradient(to right,transparent,rgba(10,15,25,.12) 25%,rgba(10,15,25,.12) 75%,transparent);
+  }
+  .vsf-vs{width:46px;height:46px;font-size:10px}
+
+  .vfl.r1{grid-column:1;grid-row:1}
+  .vfl.r2{grid-column:1;grid-row:2}
+  .vfl.r3{grid-column:1;grid-row:3}
+  .vfl.r4{grid-column:1;grid-row:4}
+  .vfl.r5{grid-column:1;grid-row:5}
+
+  .vfr.r1{grid-column:1;grid-row:7}
+  .vfr.r2{grid-column:1;grid-row:8}
+  .vfr.r3{grid-column:1;grid-row:9}
+  .vfr.r4{grid-column:1;grid-row:10}
+  .vfr.r5{grid-column:1;grid-row:11}
+
+  .vsf-img-cell.vfl{border-radius:15px 15px 0 0}
+  .vsf-img-cell.vfr{border-radius:0}
+
+  .vsf-head{padding:16px 20px 14px}
+  .vsf-item{padding:14px 20px;gap:13px}
+  .r5.vsf-item{padding-bottom:22px}
+  .vsf-ico{width:32px;height:32px}
+  .vsf-ico--x .vsf-ico-shell,.vsf-ico--ok .vsf-ico-shell{width:32px;height:32px}
+  .vsf-ico--x svg,.vsf-ico--ok svg{width:11px;height:11px}
+  .vsf-item-text{font-size:13px}
+  .vsf-name{font-size:18px}
+  .vsf-cta-wrap{margin-top:32px}
+  .vsf-cta{height:50px;padding:0 24px;font-size:12px}
+}
+
+/* ───────────────────────
+   TABLET  640-1023
+─────────────────────── */
+@media(min-width:640px) and (max-width:1023px){
+  .vsf-wrap{padding:0 36px}
+  .vsf-head{padding:22px 26px 18px}
+  .vsf-item{padding:18px 26px}
+  .r5.vsf-item{padding-bottom:28px}
+  .vsf-item-text{font-size:14px}
+}
+
+/* ───────────────────────
+   DESKTOP  1024px+
+─────────────────────── */
+@media(min-width:1024px){
+  .vsf{padding:100px 0 112px}
+  .vsf-wrap{padding:0 48px}
+  .vsf-split{grid-template-columns:1fr 80px 1fr}
+  .vsf-vs{width:62px;height:62px;font-size:11px}
+  .vsf-head{padding:30px 36px 24px}
+  .vsf-item{padding:20px 36px;gap:18px}
+  .r5.vsf-item{padding-bottom:40px}
+  .vsf-ico{width:42px;height:42px}
+  .vsf-ico--x .vsf-ico-shell,.vsf-ico--ok .vsf-ico-shell{width:42px;height:42px}
+  .vsf-ico--x svg{width:14px;height:14px}
+  .vsf-ico--ok svg{width:15px;height:15px}
+  .vsf-item-text{font-size:16px}
+  .vsf-name{font-size:32px}
+  .vsf-img{aspect-ratio:16/8}
+}
+</style>
+
+<section class="vsf" aria-label="POPDARTS vs Traditional Games">
+  <div class="vsf-glow-amber"></div>
+  <div class="vsf-glow-teal"></div>
+
+  <div class="vsf-wrap">
+
+    <div class="vsf-header">
+      <span class="vsf-eyebrow">🎁 Father's Day Pick 🏆</span>
+      <h2 class="vsf-title">The Gift Dad <em>Actually</em> Plays</h2>
+      <p class="vsf-subtitle">See what sets POPDARTS apart from everything else under the tree.</p>
+    </div>
+
+    <div class="vsf-split">
+
+      <!-- Panel background layers -->
+      <div class="vsf-col-bg vsf-col-bg--l" aria-hidden="true"></div>
+      <div class="vsf-col-bg vsf-col-bg--r" aria-hidden="true"></div>
+
+      <!-- Divider -->
+      <div class="vsf-divider">
+        <div class="vsf-vs">VS</div>
+      </div>
+
+      <!-- ROW 1 — Images -->
+      <div class="vfl r1 vsf-img-cell">
+        <div class="vsf-img">
+          <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/pexels-cottonbro-4691593.jpg?v=1775501156"
+            alt="Traditional Games" width="900" height="500" loading="lazy">
+          <div class="vsf-img-bar"></div>
+        </div>
+      </div>
+      <div class="vfr r1 vsf-img-cell">
+        <div class="vsf-img">
+          <video src="https://cdn.shopify.com/videos/c/o/v/cf7934cf5e5c41f19cf7a6425f6f7a84.mp4"
+            autoplay muted loop playsinline preload="metadata"
+            width="900" height="500" aria-label="POPDARTS ROOKIE PACK"></video>
+          <div class="vsf-img-bar"></div>
+        </div>
+      </div>
+
+      <!-- ROW 2 — Headers -->
+      <div class="vfl r2 vsf-head">
+        <p class="vsf-lbl">The Old Way</p>
+        <h3 class="vsf-name">Traditional Games</h3>
+      </div>
+      <div class="vfr r2 vsf-head">
+        <p class="vsf-lbl">POPDARTS®</p>
+        <h3 class="vsf-name"><em>Rookie Pack</em></h3>
+      </div>
+
+      <!-- ROW 3 — Item 1 -->
+      <div class="vfl r3 vsf-item">
+        <div class="vsf-ico vsf-ico--x"><div class="vsf-ico-shell">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><line x1="6.3" y1="6.3" x2="17.7" y2="17.7"/></svg>
+        </div></div>
+        <p class="vsf-item-text">Hard to store &amp; take with you</p>
+      </div>
+      <div class="vfr r3 vsf-item">
+        <div class="vsf-ico vsf-ico--ok"><div class="vsf-ico-shell">
+          <svg viewBox="0 0 24 24"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17" y1="15" x2="9" y2="15"/></svg>
+        </div></div>
+        <p class="vsf-item-text">Easy to bring &amp; store</p>
+      </div>
+
+      <!-- ROW 4 — Item 2 -->
+      <div class="vfl r4 vsf-item">
+        <div class="vsf-ico vsf-ico--x"><div class="vsf-ico-shell">
+          <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        </div></div>
+        <p class="vsf-item-text">Same old game — gets boring fast</p>
+      </div>
+      <div class="vfr r4 vsf-item">
+        <div class="vsf-ico vsf-ico--ok"><div class="vsf-ico-shell">
+          <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        </div></div>
+        <p class="vsf-item-text">Quick rounds, endless rematches</p>
+      </div>
+
+      <!-- ROW 5 — Item 3 -->
+      <div class="vfl r5 vsf-item">
+        <div class="vsf-ico vsf-ico--x"><div class="vsf-ico-shell">
+          <svg viewBox="0 0 24 24"><path d="M20 17.58A5 5 0 0 0 18 8h-1.26A8 8 0 1 0 4 16.25"/><line x1="8" y1="19" x2="8" y2="21"/><line x1="12" y1="19" x2="12" y2="21"/><line x1="16" y1="19" x2="16" y2="21"/></svg>
+        </div></div>
+        <p class="vsf-item-text">Only made for indoor or outdoor play</p>
+      </div>
+      <div class="vfr r5 vsf-item">
+        <div class="vsf-ico vsf-ico--ok"><div class="vsf-ico-shell">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </div></div>
+        <p class="vsf-item-text">Great for indoors or outdoors</p>
+      </div>
+
+    </div>
+
+    <!-- ── CTA ── -->
+    <div class="vsf-cta-wrap">
+      <button class="vsf-cta" id="vsf-add-btn" aria-label="Add Rookie Pack to cart">
+        <span class="vsf-cta__icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+        </span>
+        <span class="vsf-cta__label">Add Rookie Pack to Cart</span>
+      </button>
+      <span class="vsf-cta-note">Free shipping in the USA &nbsp;·&nbsp; Free gift card over $210</span>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function(){
+  var split = document.querySelector('.vsf-split');
+  var items = document.querySelectorAll('.vsf-item');
+
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.classList.add('vsf-in');
+      obs.unobserve(e.target);
+    });
+  },{threshold:0.08, rootMargin:'0px 0px -32px 0px'});
+
+  if(split) obs.observe(split);
+
+  var iObs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var el = e.target;
+      setTimeout(function(){ el.classList.add('vsf-item-in'); }, parseInt(el.dataset.idx) * 80);
+      iObs.unobserve(el);
+    });
+  },{threshold:0.1});
+
+  items.forEach(function(el, i){ el.dataset.idx = i; iObs.observe(el); });
+
+  /* ── Add to Cart ── */
+  var btn = document.getElementById('vsf-add-btn');
+  var label = btn && btn.querySelector('.vsf-cta__label');
+  if(!btn) return;
+
+  function openCart(){
+    document.dispatchEvent(new CustomEvent('cart:open'));
+    document.dispatchEvent(new CustomEvent('theme:cart:open'));
+    var d = document.querySelector('cart-drawer');
+    if(d && typeof d.open==='function') d.open();
+  }
+
+  function doAdd(vid){
+    btn.classList.add('is-loading');
+    label.textContent = 'Adding…';
+    fetch('/cart/add.js',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({id:vid, quantity:1})
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      btn.classList.remove('is-loading');
+      if(data.id){
+        btn.classList.add('is-added');
+        label.textContent = '✓ Added to Cart!';
+        openCart();
+        setTimeout(function(){
+          btn.classList.remove('is-added');
+          label.textContent = 'Add Rookie Pack to Cart';
+        }, 3000);
+      } else {
+        label.textContent = 'Try Again';
+        setTimeout(function(){ label.textContent = 'Add Rookie Pack to Cart'; }, 2000);
+      }
+    })
+    .catch(function(){
+      btn.classList.remove('is-loading');
+      label.textContent = 'Error — Try Again';
+      setTimeout(function(){ label.textContent = 'Add Rookie Pack to Cart'; }, 2000);
+    });
+  }
+
+  btn.addEventListener('click', function(){
+    if(btn.classList.contains('is-loading') || btn.classList.contains('is-added')) return;
+    var vid = {{ section.settings.variant_id | default: 'null' }};
+    if(vid){
+      doAdd(vid);
+    } else {
+      fetch('/products/rookie-pack.js')
+        .then(function(r){ return r.json(); })
+        .then(function(p){
+          var id = p.variants && p.variants[0] && p.variants[0].id;
+          if(id){ doAdd(id); }
+          else {
+            label.textContent = 'Product Not Found';
+            setTimeout(function(){ label.textContent = 'Add Rookie Pack to Cart'; }, 2000);
+          }
+        })
+        .catch(function(){
+          btn.classList.remove('is-loading');
+          label.textContent = 'Error — Try Again';
+          setTimeout(function(){ label.textContent = 'Add Rookie Pack to Cart'; }, 2000);
+        });
+    }
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "VS Comparison (Father)",
+  "settings": [
+    {"type":"image_picker","id":"traditional_img","label":"Traditional Games Image"},
+    {"type":"image_picker","id":"popdarts_img","label":"POPDARTS ROOKIE PACK Image"},
+    {
+      "type":"text",
+      "id":"variant_id",
+      "label":"Rookie Pack Variant ID",
+      "info":"Optional. Paste the exact variant ID. If blank, auto-discovers from the product handle 'rookie-pack'."
+    }
+  ],
+  "presets":[{"name":"VS Comparison (Father)"}]
+}
+{% endschema %}

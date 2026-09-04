@@ -1,0 +1,1079 @@
+
+
+{% liquid
+  assign laptop_padding_top = section.settings.laptop_top
+  assign laptop_padding_bottom = section.settings.laptop_bottom
+  assign mobail_padding_top = section.settings.mobail_top
+  assign mobail_padding_bottom = section.settings.mobail_bottom
+  assign bgcolor = section.settings.bgcolor
+%}
+
+<style>
+  .id_{{ section.id}}{
+    background-color: {{bgcolor}};
+    padding-top:{{laptop_padding_top}}px;
+    padding-bottom:{{laptop_padding_bottom}}px;
+  }
+
+ .id_{{ section.id}} .container{
+   width:100%;
+   margin:0px auto;
+   box-sizing: border-box;
+ }
+  
+  {% if section.settings.container == "container" %}
+      .id_{{ section.id}} .container{
+      max-width:1200px;    
+    }
+  {% elsif  section.settings.container == "container-full" %}
+    .id_{{ section.id}} .container{
+      max-width:100%;
+      padding:0px 5%;
+    }
+  {% endif %}
+
+.id_{{ section.id}} .row{
+    display: flex;
+    flex-wrap: wrap;
+  margin:-{{section.settings.box_gap}}px;
+ 
+  
+}
+ .id_{{ section.id}} .row .col{
+   max-width:33.33%;
+   width:100%;
+   padding:{{section.settings.box_gap}}px;
+   box-sizing: border-box;
+ } 
+
+.id_{{ section.id}}  blockquote{
+  border:none;
+  padding:0;
+  margin:0;
+}
+
+
+
+
+  @media(max-width:767px){
+      .id_{{ section.id}}{
+       padding-left:20px;
+       padding-right:20px;
+      padding-top:{{mobail_padding_top}}px;
+      padding-bottom:{{mobail_padding_bottom}}px;
+      }
+    .id_{{ section.id}} .container{
+      max-width:100%;
+      padding:0px;
+    }
+    .id_{{ section.id}} .row{
+     margin:-{{section.settings.mobail_box_gap}}px;
+    
+}
+ .id_{{ section.id}} .row .col{
+   max-width:100%;
+   padding:{{section.settings.mobail_box_gap}}px;
+ } 
+
+
+
+
+
+  }
+</style>
+
+<section class="id_{{ section.id }}">
+  <div class="container">
+        {% for block in section.blocks %}
+          {% case block.type %}
+                {% when 'title' %}
+              <style>
+                .{{block.id}}.title{
+                  font-size:{{block.settings.font_size}}px;
+                  font-weight:{{block.settings.font_weight}};
+                  line-height:{{block.settings.line_height}}px;
+                  color:{{block.settings.textcolor}};
+                  margin-bottom:{{block.settings.margin_bottom}}px !important;
+                  text-align: {{block.settings.text_align}};
+                  width:{{block.settings.width}}%;
+                  margin:{{block.settings.align_content}}
+                }
+                 @media(max-width:767px){
+                 .{{block.id}}.title{
+                  font-size:{{block.settings.mobail_font_size}}px;
+                  line-height:{{block.settings.mobail_line_height}}px;
+                  margin-bottom:{{block.settings.mobail_margin_bottom}}px !important;
+                  text-align: {{block.settings.mobail_text_align}};
+                  width:{{block.settings.mobail_width}}%;
+                  margin:{{block.settings.mobail_align_content}}
+                }
+                 }
+              </style>
+              <h3 class="title {{ block.id }}">{{ block.settings.title }}</h3>
+              {% when 'richtext' %}
+              <style>
+                 .{{block.id}}{
+                   font-size:{{block.settings.font_size}}px;
+                   font-weight:{{block.settings.font_weight}};
+                   line-height:{{block.settings.line_height}}px;
+                   color:{{block.settings.textcolor}};
+                   margin-bottom:{{block.settings.margin_bottom}}px !important;
+                  text-align: {{block.settings.text_align}};
+                  width:{{block.settings.width}}%;
+                  margin:{{block.settings.align_content}}
+                 }
+                    .{{block.id}} ul{
+                             padding-inline-start: 0;
+                       margin-block: 0;
+                       }
+                       .{{block.id}} ul li{
+                          list-style: none;
+                         margin-bottom:10px;
+                          display: flex;
+                       }
+                 .{{block.id}} ul li::before{
+
+                   content: "\2713";
+                   font-size:{{block.settings.font_size}}px;
+                   font-weight:{{block.settings.font_weight}};
+                   margin-right: 10px;
+                   }
+                  @media(max-width:767px){
+                  .{{block.id}}{
+                   font-size:{{block.settings.mobail_font_size}}px;
+                   line-height:{{block.settings.mobail_line_height}}px;
+                   margin-bottom:{{block.settings.mobail_margin_bottom}}px !important;
+                  text-align: {{block.settings.mobail_text_align}};
+                  width:{{block.settings.mobail_width}}%;
+                  margin:{{block.settings.mobail_align_content}}
+                 }
+                .{{block.id}} ul li::before{
+                      font-size:{{block.settings.mobail_font_size}}px;
+                     }
+                  }
+              </style>
+              <div class="{{ block.id }}">{{ block.settings.text }}</div>
+             
+          {% endcase %}
+      {% endfor %} 
+
+    <div class="row">
+              {% for block in section.blocks %}
+          {% case block.type %}
+                {% when 'instagram' %}
+                    <div class="col {{ block.id }}">
+                      {{ block.settings.embed }}
+             </div>
+                {% endcase %}
+      {% endfor %} 
+    </div>
+                  {% for block in section.blocks %}
+          {% case block.type %}
+
+                 {% when 'button' %}
+              <style>
+                    .id_{{ section.id}} .row{
+                       margin-bottom: 30px !important;
+                    }
+                .{{block.id}} .btn{
+                  font-size:{{block.settings.font_size}}px;
+                  font-weight:{{block.settings.font_weight}};
+                  line-height:{{block.settings.font_size}}px;
+                  color:{{block.settings.text_color}};
+                  border-color:{{block.settings.border_color}};
+                  border-width:{{block.settings.border_width}}px;
+                  border-style:{{block.settings.border_style}};
+                  border-radius:{{block.settings.border_radius}}px;
+                  background-color: {{block.settings.btn_color}};
+                  margin-bottom:{{block.settings.margin_bottom}}px;
+                  padding:{{block.settings.padding}};
+                  transition-duration: .5s;
+                  text-align: center;
+                 text-decoration: none;
+                 display: inline-block;
+                }
+                 .{{block.id}} .btn:hover{
+                    background-color: {{block.settings.btn_color_hover}};
+                    color:{{block.settings.text_color_hover}};
+                    border-color:{{block.settings.border_color_hover}};
+                 }
+                 .{{block.id}}{
+                    text-align: {{block.settings.text_align}};
+                 }
+                 @media(max-width:767px){
+                        .id_{{ section.id}} .row{
+                       margin-bottom: 10px !important;
+                    }
+                 .{{block.id}} .btn{
+                  font-size:{{block.settings.mobail_font_size}}px;
+                  line-height:{{block.settings.mobail_font_size}}px;
+                  margin-bottom:{{block.settings.mobail_margin_bottom}}px;
+                  padding:{{block.settings.mobail_padding}};
+                }
+                .{{block.id}}{
+                    text-align: {{block.settings.mobail_text_align}};
+                 }
+                 }
+              </style>
+
+              {% if block.settings.btnlink != blank %}
+                <div class="{{ block.id }}">
+                <a class="btn" href="{{ block.settings.btnlink }}">{{ block.settings.btntext }}</a>
+                </div>
+              {% endif %}
+                {% endcase %}
+      {% endfor %} 
+    
+    
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+{% schema %}
+  {
+     "name": "PopDarts Instagram",
+    "settings": [
+             {
+        "type": "select",
+         "id": "container",
+            "label": "Container Width",
+            "default": "container",
+            "options": [
+              {
+                "label": "Container",
+                "value": "container"
+              },
+              {
+                "value": "container-full",
+                "label": "Container Full"
+              }
+            ]
+          },
+
+      {
+  "type": "color",
+   "label": "Background Color",
+   "id": "bgcolor"
+ },
+ {
+   "type": "header",
+   "content": "Laptop Style"
+ },
+
+ {
+       "type": "range",
+          "id": "laptop_top",
+          "label": "Section Top Padding",
+          "min":0,
+          "max":150,
+          "step": 2,
+        "unit": "px",
+        "default":112
+      },
+      {
+       "type": "range",
+          "id": "laptop_bottom",
+          "label": "Section Bottom Padding",
+          "min":0,
+          "max":150,
+        "unit": "px",
+          "default":112,
+          "step": 2
+      },
+      {
+       "type": "range",
+          "id": "box_gap",
+          "label": "Box Gap",
+          "min":0,
+          "max":50,
+          "unit": "px",
+          "default":15,
+          "step": 1
+      },
+
+       {
+        "type": "header",
+        "content": "Mobail Style"
+      },
+      {
+       "type": "range",
+          "id": "mobail_top",
+          "label": "Section Padding Top",
+          "min":0,
+          "max":80,
+          "step": 1,
+        "unit": "px",
+        "default":64
+      },
+      {
+       "type": "range",
+          "id": "mobail_bottom",
+          "label": "Section Padding Bottom",
+          "min":0,
+          "max":80,
+        "unit": "px",
+          "default":64,
+          "step": 1
+      },
+            {
+       "type": "range",
+          "id": "mobail_box_gap",
+          "label": "Box Gap",
+          "min":0,
+          "max":50,
+          "unit": "px",
+          "default":15,
+          "step": 1
+      }
+      
+     
+    ],
+    "blocks": [ 
+      {
+        "type":"instagram",
+        "name":"Instagram",
+        "settings":[
+
+          {
+            "type":"textarea",
+            "id":"embed",
+            "label":"Embed Code"
+          }
+        ]
+      },
+      {
+  "type": "title",
+  "name": "Title",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default":"The ShopLandingAI Solution"
+    },
+    {
+      "type": "color",
+      "id": "textcolor",
+      "label": "Color",
+      "default":"#000000"
+    },
+     {
+   "type": "header",
+   "content": "Laptop Typography"
+    },
+     {
+        "type": "select",
+         "id": "text_align",
+            "label": "Text Align",
+            "default": "left",
+            "options": [
+              {
+                "label": "left",
+                "value": "left"
+              },
+              {
+                "value": "center",
+                "label": "center"
+              },
+              {
+                "label": "right",
+                "value": "right"
+              }
+            ]
+          },
+        {
+       "type": "range",
+          "id": "width",
+          "label": "Width",
+          "min":0,
+          "max":100,
+          "unit": "%",
+          "default":100,
+          "step": 1
+      },     {
+        "type": "select",
+         "id": "align_content",
+            "label": "Align Content",
+            "default": "0px auto 0px 0px",
+            "options": [
+              {
+                "label": "left",
+                "value": "0px auto 0px 0px"
+              },
+              {
+                "value": "0px auto",
+                "label": "center"
+              },
+              {
+                "label": "right",
+                "value": "0px 0px 0px auto"
+              }
+            ]
+          },
+    {
+       "type": "range",
+          "id": "font_size",
+          "label": "Font Size",
+          "min":0,
+          "max":100,
+        "unit": "px",
+          "default":50,
+          "step": 1
+      },
+        {
+       "type": "range",
+          "id": "line_height",
+          "label": "Line Height",
+          "min":0,
+          "max":100,
+        "unit": "px",
+          "default":60,
+          "step": 1
+      },
+
+    {
+        "type": "select",
+         "id": "font_weight",
+            "label": "Font Weight",
+            "default": "500",
+            "options": [
+              {
+                "label": "100",
+                "value": "100"
+              },
+              {
+                "value": "200",
+                "label": "200"
+              },
+                {
+                "label": "300",
+                "value": "300"
+              },
+              {
+                "value": "400",
+                "label": "400"
+              },
+                  {
+                "label": "500",
+                "value": "500"
+              },
+              {
+                "value": "600",
+                "label": "600"
+              },
+              {
+                "label": "700",
+                "value": "700"
+              },
+              {
+                "label": "800",
+                "value": "800"
+              },
+               {
+                "label": "900",
+                "value": "900"
+              },
+               {
+                "label": "Bold",
+                "value": "bold"
+              }
+            ]
+          },
+          {
+        "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin Bottom",
+          "min":0,
+          "max":100,
+           "unit": "px",
+          "default":8,
+          "step": 1
+    },
+         {
+   "type": "header",
+   "content": "Mobail Typography"
+    },
+    {
+        "type": "select",
+         "id": "mobail_text_align",
+            "label": "Text Align",
+            "default": "left",
+            "options": [
+              {
+                "label": "left",
+                "value": "left"
+              },
+              {
+                "value": "center",
+                "label": "center"
+              },
+              {
+                "label": "right",
+                "value": "right"
+              }
+            ]
+          },
+        {
+       "type": "range",
+          "id": "mobail_width",
+          "label": "Width",
+          "min":0,
+          "max":100,
+          "unit": "%",
+          "default":100,
+          "step": 1
+      },     {
+        "type": "select",
+         "id": "mobail_align_content",
+            "label": "Align Content",
+            "default": "0px auto 0px 0px",
+            "options": [
+              {
+                "label": "left",
+                "value": "0px auto 0px 0px"
+              },
+              {
+                "value": "0px auto",
+                "label": "center"
+              },
+              {
+                "label": "right",
+                "value": "0px 0px 0px auto"
+              }
+            ]
+          },
+    {
+       "type": "range",
+          "id": "mobail_font_size",
+          "label": "Font Size",
+          "min":0,
+          "max":100,
+        "unit": "px",
+          "default":29,
+          "step": 1
+      },
+        {
+       "type": "range",
+          "id": "mobail_line_height",
+          "label": "Line Height",
+          "min":0,
+          "max":100,
+        "unit": "px",
+          "default":40,
+          "step": 1
+      },
+          {
+        "type": "range",
+          "id": "mobail_margin_bottom",
+          "label": "Margin Bottom",
+          "min":0,
+          "max":100,
+           "unit": "px",
+          "default":8,
+          "step": 1
+    }
+  ]
+},
+{
+  "type": "richtext",
+  "name":"Rich Text",
+  "settings": [
+    {
+      "type": "richtext",
+      "label": "Content",
+      "id": "text"
+    },
+     {
+      "type": "color",
+      "id": "textcolor",
+      "label": "Color",
+      "default":"#000000"
+    },
+     {
+   "type": "header",
+   "content": "Laptop Typography"
+    },     {
+        "type": "select",
+         "id": "text_align",
+            "label": "Text Align",
+            "default": "left",
+            "options": [
+              {
+                "label": "left",
+                "value": "left"
+              },
+              {
+                "value": "center",
+                "label": "center"
+              },
+              {
+                "label": "right",
+                "value": "right"
+              }
+            ]
+          },
+        {
+       "type": "range",
+          "id": "width",
+          "label": "Width",
+          "min":0,
+          "max":100,
+          "unit": "%",
+          "default":100,
+          "step": 1
+      },     {
+        "type": "select",
+         "id": "align_content",
+            "label": "Align Content",
+            "default": "0px auto 0px 0px",
+            "options": [
+              {
+                "label": "left",
+                "value": "0px auto 0px 0px"
+              },
+              {
+                "value": "0px auto",
+                "label": "center"
+              },
+              {
+                "label": "right",
+                "value": "0px 0px 0px auto"
+              }
+            ]
+          },
+    {
+       "type": "range",
+          "id": "font_size",
+          "label": "Font Size",
+          "min":0,
+          "max":30,
+        "unit": "px",
+          "default":18,
+          "step": 1
+      },
+        {
+       "type": "range",
+          "id": "line_height",
+          "label": "Line Height",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":27,
+          "step": 1
+      },
+
+    {
+        "type": "select",
+         "id": "font_weight",
+            "label": "Font Weight",
+            "default": "500",
+            "options": [
+              {
+                "label": "100",
+                "value": "100"
+              },
+              {
+                "value": "200",
+                "label": "200"
+              },
+                {
+                "label": "300",
+                "value": "300"
+              },
+              {
+                "value": "400",
+                "label": "400"
+              },
+                  {
+                "label": "500",
+                "value": "500"
+              },
+              {
+                "value": "600",
+                "label": "600"
+              },
+              {
+                "label": "700",
+                "value": "700"
+              },
+              {
+                "label": "800",
+                "value": "800"
+              },
+               {
+                "label": "900",
+                "value": "900"
+              },
+               {
+                "label": "Bold",
+                "value": "bold"
+              }
+            ]
+          },
+          {
+        "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin Bottom",
+          "min":0,
+          "max":100,
+           "unit": "px",
+          "default":20,
+          "step": 1
+    },
+         {
+   "type": "header",
+   "content": "Mobail Typography"
+    },     {
+        "type": "select",
+         "id": "mobail_text_align",
+            "label": "Text Align",
+            "default": "left",
+            "options": [
+              {
+                "label": "left",
+                "value": "left"
+              },
+              {
+                "value": "center",
+                "label": "center"
+              },
+              {
+                "label": "right",
+                "value": "right"
+              }
+            ]
+          },
+        {
+       "type": "range",
+          "id": "mobail_width",
+          "label": "Width",
+          "min":0,
+          "max":100,
+          "unit": "%",
+          "default":100,
+          "step": 1
+      },     {
+        "type": "select",
+         "id": "mobail_align_content",
+            "label": "Align Content",
+            "default": "0px auto 0px 0px",
+            "options": [
+              {
+                "label": "left",
+                "value": "0px auto 0px 0px"
+              },
+              {
+                "value": "0px auto",
+                "label": "center"
+              },
+              {
+                "label": "right",
+                "value": "0px 0px 0px auto"
+              }
+            ]
+          },
+    {
+       "type": "range",
+          "id": "mobail_font_size",
+          "label": "Font Size",
+          "min":0,
+          "max":30,
+        "unit": "px",
+          "default":16,
+          "step": 1
+      },
+        {
+       "type": "range",
+          "id": "mobail_line_height",
+          "label": "Line Height",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":24,
+          "step": 1
+      },
+          {
+        "type": "range",
+          "id": "mobail_margin_bottom",
+          "label": "Margin Bottom",
+          "min":0,
+          "max":100,
+           "unit": "px",
+          "default":20,
+          "step": 1
+    }
+  ]
+} ,
+{
+  "type": "button",
+  "name": "Button",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "url",
+      "id": "btnlink",
+      "label": "Button Link"
+    },
+    {
+      "type": "text",
+      "id": "btntext",
+      "label": "Button Text",
+      "default":"Shop Now"
+    },
+      {
+        "type": "header",
+        "content": "Button Style"
+      },
+     {
+        "type": "select",
+         "id": "text_align",
+            "label": "Text Align",
+            "default": "left",
+            "options": [
+              {
+                "label": "left",
+                "value": "left"
+              },
+              {
+                "value": "center",
+                "label": "center"
+              },
+              {
+                "label": "right",
+                "value": "right"
+              }
+            ]
+          },
+      {
+        "type": "text",
+        "id": "padding",
+        "label": "Border Padding ( 10px 45px)",
+        "default":"10px 45px"
+      },
+        {
+       "type": "range",
+          "id": "font_size",
+          "label": "Font Size",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":18,
+          "step": 1
+      },
+    {
+        "type": "select",
+         "id": "font_weight",
+            "label": "Font Weight",
+            "default": "500",
+            "options": [
+              {
+                "label": "100",
+                "value": "100"
+              },
+              {
+                "value": "200",
+                "label": "200"
+              },
+                {
+                "label": "300",
+                "value": "300"
+              },
+              {
+                "value": "400",
+                "label": "400"
+              },
+                  {
+                "label": "500",
+                "value": "500"
+              },
+              {
+                "value": "600",
+                "label": "600"
+              },
+              {
+                "label": "700",
+                "value": "700"
+              },
+              {
+                "label": "800",
+                "value": "800"
+              },
+               {
+                "label": "900",
+                "value": "900"
+              },
+               {
+                "label": "Bold",
+                "value": "bold"
+              }
+            ]
+          },
+
+    {
+      "type": "range",
+      "label": "Border Width",
+        "id": "border_width",
+          "min":0,
+          "max":10,
+        "unit": "px",
+          "default":1,
+          "step": 1
+      },
+        {
+      "type": "range",
+      "label": "Border Radius",
+        "id": "border_radius",
+          "min":0,
+          "max":100,
+        "unit": "px",
+          "default":30,
+          "step": 1
+      },
+      {
+        "type": "select",
+         "id": "border_style",
+            "label": "Border Style",
+            "default": "solid",
+            "options": [
+              {
+                "label": "Solid",
+                "value": "solid"
+              },
+              {
+                "value": "dotted",
+                "label": "Dotted"
+              },
+              {
+                "label": "Dashed",
+                "value": "dashed"
+              },
+              {
+                "label": "Double",
+                "value": "double"
+              }
+            ]
+          },          {
+        "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin Bottom",
+          "min":0,
+          "max":50,
+           "unit": "px",
+          "default":0,
+          "step": 1
+    },
+     {
+        "type": "header",
+        "content": "Mobail Button Style"
+      }, {
+        "type": "select",
+         "id": "mobail_text_align",
+            "label": "Text Align",
+            "default": "left",
+            "options": [
+              {
+                "label": "left",
+                "value": "left"
+              },
+              {
+                "value": "center",
+                "label": "center"
+              },
+              {
+                "label": "right",
+                "value": "right"
+              }
+            ]
+          },
+     {
+        "type": "text",
+        "id": "mobail_padding",
+        "label": "Border Width ( 10px 30px)",
+        "default":"10px 30px"
+      },
+        {
+       "type": "range",
+          "id": "mobaile_font_size",
+          "label": "Font Size",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":17,
+          "step": 1
+      },          {
+        "type": "range",
+          "id": "mobail_margin_bottom",
+          "label": "Margin Bottom",
+          "min":0,
+          "max":50,
+           "unit": "px",
+          "default":0,
+          "step": 1
+    },
+        {
+        "type": "header",
+        "content": "Button Color"
+      },
+               {
+            "type": "color",
+            "id": "text_color",
+            "label": "Text Color",
+             "default":"#ffffff"
+          },
+          {
+            "type": "color",
+            "id": "btn_color",
+            "label": "Button Color",
+             "default":"#4ea2b2"
+          },
+    {
+            "type": "color",
+            "id": "border_color",
+            "label": "Border Color",
+             "default":"#4ea2b2"
+          },
+            {
+        "type": "header",
+        "content": "Button Hover Color"
+      },
+            {
+            "type": "color",
+            "id": "btn_text_hover",
+            "label": "Text",
+            "default":"#ffffff"
+          },
+          {
+            "type": "color",
+            "id": "btn_color_hover",
+            "label": "Button Color",
+             "default":"#f37527"
+          },
+          {
+            "type": "color",
+            "id": "border_color_hover",
+            "label": "Border Color",
+             "default":"#f37527"
+          }
+  ]
+}      
+      
+      
+      
+    ],
+    "presets": [
+      {
+        "name": "PopDarts Instagram"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,182 @@
+{%- assign offer_product = section.settings.product | default: all_products['pro-pack'] -%}
+<section class="pd-page offer" id="offer-{{ section.id }}" aria-labelledby="offer-title-{{ section.id }}">
+  <div class="pd-wrap offer__grid">
+
+    <div class="offer__gallery">
+      <div class="slider slider--offer" data-slider aria-roledescription="carousel" aria-label="Pro Pack product photos">
+        <div class="slider__track" data-slider-track tabindex="0" role="group" aria-label="Slides">
+          {%- if offer_product and offer_product.images.size > 0 -%}
+            {%- for img in offer_product.images limit: 6 -%}
+              <article class="slide slide--product"><img class="slide__media" src="{{ img | image_url: width: 1200 }}" alt="{{ img.alt | default: offer_product.title | escape }}" loading="lazy"></article>
+            {%- endfor -%}
+          {%- else -%}
+            {%- for block in section.blocks -%}
+              <article class="slide slide--product"><img class="slide__media" src="{{ block.settings.image | image_url: width: 1200 }}" alt="{{ block.settings.alt | escape }}" loading="lazy"></article>
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+        <div class="slider__controls">
+          <button class="slider__arrow" type="button" data-slider-prev aria-label="Previous photo">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="slider__arrow" type="button" data-slider-next aria-label="Next photo">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="offer__content">
+      <h2 id="offer-title-{{ section.id }}" style="color: #0a0c10 !important;">{{ section.settings.heading | default: 'Get your<br>Pro Pack.' }}</h2>
+
+      <div class="offer__price">
+        {%- if offer_product -%}
+          <span class="offer__price-now">{{ offer_product.price | money }}</span>
+          {%- if offer_product.compare_at_price > offer_product.price -%}
+            <span class="offer__price-was">{{ offer_product.compare_at_price | money }}</span>
+            <span class="offer__price-save">Save {{ offer_product.compare_at_price | minus: offer_product.price | money }}</span>
+          {%- endif -%}
+        {%- else -%}
+          <span class="offer__price-now">{{ section.settings.price_now | default: '$31.99' }}</span>
+          <span class="offer__price-was">{{ section.settings.price_was | default: '$39.99' }}</span>
+          <span class="offer__price-save">{{ section.settings.price_save | default: 'Save $8' }}</span>
+        {%- endif -%}
+      </div>
+
+      <ul class="offer__includes">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'include' -%}
+            <li {{ block.shopify_attributes }}>{{ block.settings.text | default: 'Included item' }}</li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+
+      <p class="offer__colors">{{ section.settings.colors | default: '' }}</p>
+<br>
+      <a class="btn btn--primary btn--lg" href="{% if offer_product %}{{ offer_product.url }}{% else %}{{ section.settings.cta_link | default: '/products/pro-pack' }}{% endif %}">{{ section.settings.cta_text | default: 'Shop the Pro Pack' }}</a>
+
+      <ul class="offer__trust">
+        <li>{{ section.settings.trust_1 | default: '' }}</li>
+        <li>{{ section.settings.trust_2 | default: '' }}</li>
+        <li>{{ section.settings.trust_3 | default: '' }}</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Pro Pack Offer",
+  "tag": "section",
+  "class": "pd-section-offer",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product",
+      "info": "Defaults to the product with handle 'pro-pack' if left empty. Powers price and gallery when available."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Get your Pro Pack."
+    },
+    {
+      "type": "header",
+      "content": "Fallback pricing (if no product resolves)"
+    },
+    {
+      "type": "text",
+      "id": "price_now",
+      "label": "Price",
+      "default": "$31.99"
+    },
+    {
+      "type": "text",
+      "id": "price_was",
+      "label": "Compare-at price",
+      "default": "$39.99"
+    },
+    {
+      "type": "text",
+      "id": "price_save",
+      "label": "Savings badge",
+      "default": "Save $8"
+    },
+    {
+      "type": "text",
+      "id": "colors",
+      "label": "Colorways line",
+      "default": "Drizzle · Neon · Fire & Ice · Blue & Green · USA · Retro — and more."
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Shop the Pro Pack"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Fallback button link"
+    },
+    {
+      "type": "header",
+      "content": "Trust line"
+    },
+    {
+      "type": "text",
+      "id": "trust_1",
+      "label": "Trust item 1",
+      "default": "Free shipping on orders $50+"
+    },
+    {
+      "type": "text",
+      "id": "trust_2",
+      "label": "Trust item 2",
+      "default": "Ships next business day"
+    },
+    {
+      "type": "text",
+      "id": "trust_3",
+      "label": "Trust item 3",
+      "default": "Easy returns — support@popdartsgame.com"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "include",
+      "name": "Included item",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Included item" }
+      ]
+    },
+    {
+      "type": "fallback_image",
+      "name": "Fallback gallery image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "alt", "label": "Alt text" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Pro Pack Offer",
+      "blocks": [
+        { "type": "include", "settings": { "text": "Game rules & easy how-to instructions" } },
+        { "type": "include", "settings": { "text": "6 Pro Popdarts — 2 sets of 3, one per team" } },
+        { "type": "include", "settings": { "text": "1 Pro Target Marker — land on top for 10 points" } },
+        { "type": "include", "settings": { "text": "1 carrying bag with built-in ruler" } },
+        { "type": "include", "settings": { "text": "4 stickers" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

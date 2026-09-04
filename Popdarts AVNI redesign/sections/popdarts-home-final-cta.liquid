@@ -1,0 +1,46 @@
+<section class="pd-page final" id="home-final-{{ section.id }}" aria-labelledby="home-final-title-{{ section.id }}">
+  <div class="pd-texture" aria-hidden="true"></div>
+  <div class="pd-wrap final__inner">
+    <h2 id="home-final-title-{{ section.id }}" style="color: #fdfdfd;">{{ section.settings.heading | default: 'Your target<br>is waiting.' }}</h2>
+    <p>{{ section.settings.body | default: "Every rivalry starts with one throw. Grab a set and find out who's actually got the aim." }}</p>
+    <a class="btn btn--primary btn--lg" href="{{ section.settings.cta_link | default: '/collections/all' }}">{{ section.settings.cta_text | default: 'Shop Popdarts' }}</a>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Home Final CTA",
+  "tag": "section",
+  "class": "pd-section-home-final",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Your target is waiting."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "Every rivalry starts with one throw. Grab a set and find out who's actually got the aim."
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button text",
+      "default": "Shop Popdarts"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home Final CTA"
+    }
+  ]
+}
+{% endschema %}

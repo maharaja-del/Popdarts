@@ -1,0 +1,433 @@
+
+
+{% liquid
+  assign laptop_padding_top = section.settings.laptop_top
+  assign laptop_padding_bottom = section.settings.laptop_bottom
+  assign mobail_padding_top = section.settings.mobail_top
+  assign mobail_padding_bottom = section.settings.mobail_bottom
+  assign bgcolor = section.settings.bgcolor
+%}
+
+<style>
+
+  img{
+    display: block;
+    max-width:100%;
+  }
+  a{
+   text-decoration: none;
+  }
+  
+  .id_{{ section.id}}{
+    background-color: {{bgcolor}};
+    padding-top:{{laptop_padding_top}}px;
+    padding-bottom:{{laptop_padding_bottom}}px;
+    position: relative;
+  }
+ .id_{{ section.id}} .container{
+   width:100%;
+   margin:0px auto;
+   box-sizing: border-box;
+ }
+  
+  {% if section.settings.container == "container" %}
+      .id_{{ section.id}} .container{
+      max-width:1200px;    
+    }
+  {% elsif  section.settings.container == "container-full" %}
+    .id_{{ section.id}} .container{
+      max-width:100%;
+      padding:0px 5%;
+    }
+  {% endif %}
+
+
+  .id_{{ section.id}} .container .row{
+    margin:-20px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .id_{{ section.id}} .container .row .col-1{
+       max-width:80%;
+    width:100%;
+  box-sizing: border-box;
+  padding:20px
+  }
+  .id_{{ section.id}} .container .row .col-2{
+    max-width:20%;
+   width:100%;
+  box-sizing: border-box;
+  padding:20px
+  }
+  
+
+
+  @media(max-width:767px){
+      .id_{{ section.id}}{
+        padding-left:20px;
+        padding-right:20px;
+        padding-top:{{mobail_padding_top}}px;
+        padding-bottom:{{mobail_padding_bottom}}px;
+      }
+       .id_{{ section.id}} .container{
+      max-width:100%;
+      padding:0px;
+    }
+    
+    .id_{{ section.id}} .container .row{
+    margin:-10px;
+  }
+  .id_{{ section.id}} .container .row .col-1{
+       max-width:100%;
+  padding:10px
+  }
+  .id_{{ section.id}} .container .row .col-2{
+    max-width:100%;
+  padding:10px
+  }
+
+  }
+</style>
+
+
+
+
+
+<section class="id_{{ section.id }}">
+  <div class="container">
+    <div class="row">
+
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'title' %}
+                  <div class="col-1">
+              <style>
+                .{{block.id}}.title{
+                  font-size:{{block.settings.font_size}}px;
+                  font-weight:{{block.settings.font_weight}};
+                  line-height:{{block.settings.line_height}}px;
+                  color:{{block.settings.textcolor}};
+                  margin:0px;
+                  text-align: center;
+                }
+                 @media(max-width:767px){
+                 .{{block.id}}.title{
+                  font-size:{{block.settings.mobail_font_size}}px;
+                  line-height:{{block.settings.mobail_line_height}}px;
+                  margin-bottom:{{block.settings.mobail_margin_bottom}}px;
+                    text-align: center;
+                }
+                 }
+              </style>
+
+              <h3 class="title {{ block.id }}">{{ block.settings.title }}</h3>
+                    
+            </div>
+
+            {% when 'image' %}
+                  <div class="col-2">
+            <style>
+              .{{ block.id }}{
+                 aspect-ratio: {{block.settings.aspect_ratio}};
+                 object-fit: {{block.settings.object_fit}};
+                 border-radius:{{block.settings.border_radius}}{{block.settings.border_px}};
+              }
+            </style>
+            
+              {% if block.settings.img != blank %}
+                <img class="{{ block.id }}"
+                  src="{{ block.settings.img | image_url }}"
+                  alt="{{ block.settings.img.alt }}"
+                  width="100%"
+                  height="100%"
+                >
+              {% endif %}
+                </div>
+          {% endcase %}
+        {% endfor %}
+    
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "PopDarts Icon with Title",
+    "settings": [
+       {
+        "type": "select",
+         "id": "container",
+            "label": "Container Width",
+            "default": "container",
+            "options": [
+              {
+                "label": "Container",
+                "value": "container"
+              },
+              {
+                "value": "container-full",
+                "label": "Container Full"
+              }
+            ]
+          },
+         {
+  "type": "color",
+   "label": "Background Color",
+   "id": "bgcolor",
+    "default":"#85E059"
+ },
+      
+ {
+   "type": "header",
+   "content": "Laptop Padding"
+ },
+
+ {
+       "type": "range",
+          "id": "laptop_top",
+          "label": "Top",
+          "min":0,
+          "max":100,
+          "step": 1,
+        "unit": "px",
+        "default":40
+      },
+      {
+       "type": "range",
+          "id": "laptop_bottom",
+          "label": "Bottom",
+          "min":0,
+          "max":100,
+        "unit": "px",
+          "default":40,
+          "step": 1
+      },
+
+       {
+        "type": "header",
+        "content": "Mobail Padding"
+      },
+      {
+       "type": "range",
+          "id": "mobail_top",
+          "label": "Top",
+          "min":0,
+          "max":80,
+          "step": 1,
+        "unit": "px",
+        "default":30
+      },
+      {
+       "type": "range",
+          "id": "mobail_bottom",
+          "label": "Bottom",
+          "min":0,
+          "max":80,
+        "unit": "px",
+          "default":30,
+          "step": 1
+      }
+
+    ],
+    "blocks": [
+{
+  "type": "image",
+  "name": "Image",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "img",
+      "label": "Select Image"
+    },
+    {
+      "type": "text",
+      "id": "aspect_ratio",
+      "label": "Aspect Ratio(1/1)"
+    },
+       {
+        "type": "select",
+         "id": "object_fit",
+            "label": "Object fit",
+            "options": [
+              {
+                "label": "fill",
+                "value": "fill"
+              },
+              {
+                "label": "cover",
+                "value": "cover"
+              },
+              {
+                "value": "contain",
+                "label": "contain"
+              }
+            ],
+          "default": "fill"
+          },      {
+        "type": "header",
+        "content": "Border Radius"
+      },       {
+        "type": "select",
+         "id": "border_px",
+            "label": "Border Radius(px / %)",
+            "options": [
+              {
+                "label": "px",
+                "value": "px"
+              },
+              {
+                "label": "%",
+                "value": "%"
+              }
+            ],
+          "default": "px"
+          },
+    {
+      "type": "range",
+      "label": "Border Radius Range",
+        "id": "border_radius",
+          "min":0,
+          "max":100,
+        "unit": "px",
+          "default":0,
+          "step": 1
+      }
+  ]
+},
+{
+  "type": "title",
+  "name": "Title",
+    "limit": 1,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default":"<i>'Let a more democratic era of Pop culture begin'</i>"
+    },
+    {
+      "type": "color",
+      "id": "textcolor",
+      "label": "Color",
+      "default":"#ffffff"
+    },
+     {
+   "type": "header",
+   "content": "Laptop Typography"
+    },
+    {
+       "type": "range",
+          "id": "font_size",
+          "label": "Font Size",
+          "min":0,
+          "max":100,
+        "unit": "px",
+          "default":60,
+          "step": 1
+      },
+        {
+       "type": "range",
+          "id": "line_height",
+          "label": "Line Height",
+          "min":0,
+          "max":100,
+        "unit": "px",
+          "default":53,
+          "step": 1
+      },
+
+    {
+        "type": "select",
+         "id": "font_weight",
+            "label": "Font Weight",
+            "default": "700",
+            "options": [
+              {
+                "label": "100",
+                "value": "100"
+              },
+              {
+                "value": "200",
+                "label": "200"
+              },
+                {
+                "label": "300",
+                "value": "300"
+              },
+              {
+                "value": "400",
+                "label": "400"
+              },
+                  {
+                "label": "500",
+                "value": "500"
+              },
+              {
+                "value": "600",
+                "label": "600"
+              },
+              {
+                "label": "700",
+                "value": "700"
+              },
+              {
+                "label": "800",
+                "value": "800"
+              },
+               {
+                "label": "900",
+                "value": "900"
+              },
+               {
+                "label": "Bold",
+                "value": "bold"
+              }
+            ]
+          },
+         {
+   "type": "header",
+   "content": "Mobail Typography"
+    },
+    {
+       "type": "range",
+          "id": "mobail_font_size",
+          "label": "Font Size",
+          "min":0,
+          "max":100,
+        "unit": "px",
+          "default":36,
+          "step": 1
+      },
+        {
+       "type": "range",
+          "id": "mobail_line_height",
+          "label": "Line Height",
+          "min":0,
+          "max":100,
+        "unit": "px",
+          "default":42,
+          "step": 1
+      },
+          {
+        "type": "range",
+          "id": "mobail_margin_bottom",
+          "label": "Margin Bottom",
+          "min":0,
+          "max":100,
+           "unit": "px",
+          "default":20,
+          "step": 1
+    }
+  ]
+}
+],
+"presets": [
+      {
+        "name":"PopDarts Icon with Title"
+      }
+    ]
+
+
+  }
+{% endschema %}

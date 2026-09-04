@@ -1,0 +1,465 @@
+{% doc %}
+  @prompt
+    a cool looking bar that shows our Support Email support@popdartsgame.com
+    
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-support-email-bar-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    background: {{ block.settings.background_color }};
+    padding: {{ block.settings.padding_vertical }}px {{ block.settings.padding_horizontal }}px;
+    border-radius: {{ block.settings.border_radius }}px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ai-support-email-bar__content-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: {{ block.settings.gap }}px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .ai-support-email-bar__icon-{{ ai_gen_id }} {
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    flex-shrink: 0;
+    color: {{ block.settings.icon_color }};
+  }
+
+  .ai-support-email-bar__text-wrapper-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .ai-support-email-bar__label-{{ ai_gen_id }} {
+    font-size: {{ block.settings.label_size }}px;
+    font-weight: {{ block.settings.label_weight }};
+    color: {{ block.settings.label_color }};
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .ai-support-email-bar__email-{{ ai_gen_id }} {
+    font-size: {{ block.settings.email_size }}px;
+    font-weight: {{ block.settings.email_weight }};
+    color: {{ block.settings.email_color }};
+    text-decoration: none;
+    transition: color 0.3s ease;
+    line-height: 1.2;
+  }
+
+  .ai-support-email-bar__email-{{ ai_gen_id }}:hover {
+    color: {{ block.settings.email_hover_color }};
+  }
+
+  .ai-support-email-bar__background-effect-{{ ai_gen_id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: {{ block.settings.effect_opacity }};
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .ai-support-email-bar__gradient-{{ ai_gen_id }} {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background: linear-gradient(
+      45deg,
+      {{ block.settings.gradient_color_1 }} 0%,
+      {{ block.settings.gradient_color_2 }} 50%,
+      {{ block.settings.gradient_color_1 }} 100%
+    );
+    animation: ai-support-email-bar-gradient-{{ ai_gen_id }} 8s ease infinite;
+  }
+
+  @keyframes ai-support-email-bar-gradient-{{ ai_gen_id }} {
+    0%, 100% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+    50% {
+      transform: translate(-25%, -25%) rotate(180deg);
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-support-email-bar__content-{{ ai_gen_id }} {
+      flex-direction: {{ block.settings.mobile_layout }};
+      text-align: {{ block.settings.mobile_text_align }};
+    }
+
+    .ai-support-email-bar__icon-{{ ai_gen_id }} {
+      width: {{ block.settings.icon_size | times: 0.8 }}px;
+      height: {{ block.settings.icon_size | times: 0.8 }}px;
+    }
+
+    .ai-support-email-bar__label-{{ ai_gen_id }} {
+      font-size: {{ block.settings.label_size | times: 0.9 }}px;
+    }
+
+    .ai-support-email-bar__email-{{ ai_gen_id }} {
+      font-size: {{ block.settings.email_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<support-email-bar-{{ ai_gen_id }}
+  class="ai-support-email-bar-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  {% if block.settings.show_background_effect %}
+    <div class="ai-support-email-bar__background-effect-{{ ai_gen_id }}">
+      <div class="ai-support-email-bar__gradient-{{ ai_gen_id }}"></div>
+    </div>
+  {% endif %}
+
+  <div class="ai-support-email-bar__content-{{ ai_gen_id }}">
+    {% if block.settings.show_icon %}
+      <div class="ai-support-email-bar__icon-{{ ai_gen_id }}">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+          <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+      </div>
+    {% endif %}
+
+    <div class="ai-support-email-bar__text-wrapper-{{ ai_gen_id }}">
+      {% if block.settings.label != blank %}
+        <div class="ai-support-email-bar__label-{{ ai_gen_id }}">
+          {{ block.settings.label }}
+        </div>
+      {% endif %}
+
+      <a
+        href="mailto:{{ block.settings.email }}"
+        class="ai-support-email-bar__email-{{ ai_gen_id }}"
+      >
+        {{ block.settings.email }}
+      </a>
+    </div>
+  </div>
+</support-email-bar-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class SupportEmailBar{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.setupAccessibility();
+      }
+
+      setupAccessibility() {
+        const emailLink = this.querySelector('.ai-support-email-bar__email-{{ ai_gen_id }}');
+        if (emailLink) {
+          emailLink.setAttribute('aria-label', 'Send email to support');
+        }
+      }
+    }
+
+    customElements.define('support-email-bar-{{ ai_gen_id }}', SupportEmailBar{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Support email bar",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Label",
+      "default": "Support Email"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email address",
+      "default": "support@popdartsgame.com"
+    },
+    {
+      "type": "header",
+      "content": "Icon"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_icon",
+      "label": "Show icon",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "default": "#2b99ff"
+    },
+    {
+      "type": "header",
+      "content": "Label style"
+    },
+    {
+      "type": "range",
+      "id": "label_size",
+      "label": "Font size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "select",
+      "id": "label_weight",
+      "label": "Font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Color",
+      "default": "#0a0a0a"
+    },
+    {
+      "type": "header",
+      "content": "Email style"
+    },
+    {
+      "type": "range",
+      "id": "email_size",
+      "label": "Font size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "select",
+      "id": "email_weight",
+      "label": "Font weight",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi-bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "color",
+      "id": "email_color",
+      "label": "Color",
+      "default": "#2b99ff"
+    },
+    {
+      "type": "color",
+      "id": "email_hover_color",
+      "label": "Hover color",
+      "default": "#0a0a0a"
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f4f9fd"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_background_effect",
+      "label": "Show animated gradient",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "effect_opacity",
+      "label": "Effect opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "default": 0.3
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_1",
+      "label": "Gradient color 1",
+      "default": "#2b99ff"
+    },
+    {
+      "type": "color",
+      "id": "gradient_color_2",
+      "label": "Gradient color 2",
+      "default": "#23ff53"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_vertical",
+      "label": "Vertical padding",
+      "min": 10,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_horizontal",
+      "label": "Horizontal padding",
+      "min": 10,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap between elements",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Mobile layout"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Layout direction",
+      "options": [
+        {
+          "value": "row",
+          "label": "Horizontal"
+        },
+        {
+          "value": "column",
+          "label": "Vertical"
+        }
+      ],
+      "default": "row"
+    },
+    {
+      "type": "select",
+      "id": "mobile_text_align",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Support email bar"
+    }
+  ]
+}
+{% endschema %}

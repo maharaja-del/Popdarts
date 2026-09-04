@@ -1,0 +1,787 @@
+{%- comment -%}
+  QUICK ENTRIES — STYLE BLOCK (consolidated)
+  Replace everything in the section file from {%- style -%} down to
+  {%- endstyle -%} (inclusive) with this block.
+
+  Structure:
+    1. Section wrapper (bg, padding, typography)
+    2. Card base styles (desktop-first)
+    3. CTA button — defined ONCE here
+    4. Tablet overrides   (max-width: 1024px)
+    5. Mobile overrides   (max-width: 767px) — always last so they win
+{%- endcomment -%}
+{%- style -%}
+  /* ════════════════════════════════════════════════
+     1. SECTION WRAPPER
+     ════════════════════════════════════════════════ */
+  #QuickEntries-{{ section.id }} {
+    {% if section.settings.bg_image != blank %}
+      background-image: url({{ section.settings.bg_image | image_url }});
+      background-repeat: no-repeat;
+      background-size: cover;
+    {% endif %}
+    {% if section.settings.bg_color != blank %}
+      background-color: {{ section.settings.bg_color }};
+    {% endif %}
+    padding-top: {{ section.settings.desktop_padding_top }}px;
+    padding-bottom: {{ section.settings.desktop_padding_bottom }}px;
+  }
+  #QuickEntries-{{ section.id }} .page-width {
+    max-width: {{ section.settings.max_width }}px;
+    padding: 0 15px;
+    margin: 0 auto;
+  }
+  #QuickEntries-{{ section.id }} .quick-entries__title {
+    color: {{ section.settings.title_color }};
+    font-size: {{ section.settings.title_font_size_desktop }}px;
+  }
+  #QuickEntries-{{ section.id }} .quick-entries__subtitle {
+    color: {{ section.settings.subtitle_color }};
+    font-size: {{ section.settings.subtitle_font_size_desktop }}px;
+  }
+
+  /* ════════════════════════════════════════════════
+     2. CARD BASE (desktop-first)
+     ════════════════════════════════════════════════ */
+  #QuickEntries-{{ section.id }} .qe-ot-card {
+    background: #f5f0e8;
+    border-radius: 16px;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 4px 18px rgba(0,0,0,.18);
+    padding: 18px 12px;
+  }
+  #QuickEntries-{{ section.id }} .qe-ot-card .quick-entries__badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #e53e3e;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    z-index: 2;
+  }
+
+  /* Plan name (subscription cards) */
+  #QuickEntries-{{ section.id }} .quick-entries__plan-name {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  #QuickEntries-{{ section.id }} .qe-sub-card .quick-entries__plan-name {
+    font-size: 20px;
+    font-weight: 800;
+    color: #c05c1a;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 0;
+  }
+  #QuickEntries-{{ section.id }} .qe-sub-card .quick-entries__plan-icon {
+    object-fit: contain;
+  }
+  #QuickEntries-{{ section.id }} .quick-entries__plan-icon {
+    display: block;
+    width: auto;
+    height: 60px;
+    max-width: 80px;
+    object-fit: contain;
+    flex-shrink: 0;
+    margin: -55px 0 0 0;
+  }
+  #QuickEntries-{{ section.id }} .quick-entries__plan-icon[item-number="1"] {
+    width: auto;
+    height: 80px;
+    max-width: 80px;
+  }
+  #QuickEntries-{{ section.id }} .quick-entries__plan-icon[item-number="1"] + span {
+    margin-top: -20px;
+  }
+
+  /* Price */
+  #QuickEntries-{{ section.id }} .qe-ot-card .quick-entries__price {
+    font-size: 28px;
+    font-weight: 800;
+    color: #c05c1a;
+    text-align: center;
+    padding: 0 0 10px;
+  }
+  #QuickEntries-{{ section.id }} .qe-ot-card .quick-entries__divider {
+    margin: 0 14px 10px;
+  }
+
+  /* Grand prize block */
+  #QuickEntries-{{ section.id }} .qe-grand-block {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0 10px;
+  }
+  #QuickEntries-{{ section.id }} .qe-grand-left {
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+  }
+  #QuickEntries-{{ section.id }} .qe-grand-count {
+    font-size: 34px;
+    font-weight: 900;
+    color: #c05c1a;
+    line-height: 1;
+  }
+  #QuickEntries-{{ section.id }} .qe-grand-label {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+    letter-spacing: 1px;
+  }
+  #QuickEntries-{{ section.id }} .qe-grand-original {
+    font-size: 12px;
+    color: #9ca3af;
+  }
+  #QuickEntries-{{ section.id }} .qe-grand-img-wrap {
+    flex-shrink: 0;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  #QuickEntries-{{ section.id }} .qe-grand-img-wrap img {
+    width: 140px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+  }
+  #QuickEntries-{{ section.id }} .qe-grand-img-badge {
+    background: #c05c1a;
+    color: #fff;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: .5px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* Live giveaway block */
+  #QuickEntries-{{ section.id }} .qe-live-block {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0 10px;
+  }
+  #QuickEntries-{{ section.id }} .qe-live-left { flex: 1; min-width: 0; }
+  #QuickEntries-{{ section.id }} .qe-live-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #16a34a;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 2px 0;
+    border-radius: 4px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  #QuickEntries-{{ section.id }} .qe-live-label strong {
+    color: #fff;
+    background: #16a34a;
+    padding: 0 5px;
+    border-radius: 15px;
+  }
+  #QuickEntries-{{ section.id }} .qe-live-dot {
+    width: 7px;
+    height: 7px;
+    background: #4ade80;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  #QuickEntries-{{ section.id }} .qe-live-count {
+    font-size: 62px;
+    font-weight: 900;
+    color: #16a34a;
+    line-height: 1;
+    display: flex;
+    align-items: self-start;
+    gap: 5px;
+  }
+  #QuickEntries-{{ section.id }} .qe-live-count span {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 14px 0 0;
+    color: #000;
+  }
+  #QuickEntries-{{ section.id }} .qe-live-count span .qe-tip__img {
+    object-fit: contain;
+  }
+  #QuickEntries-{{ section.id }} .qe-live-count span .qe-tip__popup .qe-tip__text {
+    color: #fff;
+    margin: 10px 0 0;
+  }
+  #QuickEntries-{{ section.id }} .qe-live-sublabel,
+  #QuickEntries-{{ section.id }} .qe-live-sublabel span {
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1;
+    margin-top: 2px;
+    letter-spacing: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 2px;
+  }
+  #QuickEntries-{{ section.id }} .qe-live-sublabel span { display: block; }
+  #QuickEntries-{{ section.id }} .qe-live-sublabel span.giveaway-text {
+    display: flex;
+    align-items: flex-start;
+    gap: 2px;
+    font-size: 13px;
+    line-height: 1;
+    color: #16a34a;
+  }
+  #QuickEntries-{{ section.id }} .qe-live-img-wrap {
+    flex-shrink: 0;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+  }
+  #QuickEntries-{{ section.id }} .qe-live-img-wrap img {
+    width: 129px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+  }
+  #QuickEntries-{{ section.id }} .qe-live-img-badge {
+    background: #4ade80;
+    color: #14532d;
+    font-size: 8px;
+    font-weight: 800;
+    padding: 2px 5px;
+    border-radius: 3px;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  #QuickEntries-{{ section.id }} .qe-live-img-name {
+    font-size: 8px;
+    color: #555;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  /* Non-profit row */
+  #QuickEntries-{{ section.id }} .qe-nonprofit {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    padding: 8px 0;
+    font-size: 14px;
+    color: #000;
+    line-height: 1.3;
+  }
+  #QuickEntries-{{ section.id }} .qe-nonprofit img {
+    width: 30px;
+    height: auto;
+  }
+  #QuickEntries-{{ section.id }} .qe-nonprofit strong {
+    color: #16a34a;
+    display: block;
+  }
+
+  /* Feature list */
+  #QuickEntries-{{ section.id }} .quick-entries__features li::before { display: none; }
+  #QuickEntries-{{ section.id }} .qe-ot-features {
+    list-style: none;
+    margin: 0 auto;
+    padding: 25px 0;
+    border-top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 255px;
+    align-items: self-start;
+  }
+  #QuickEntries-{{ section.id }} .qe-ot-features li {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 8px;
+    font-size: 14px;
+    color: #000;
+    letter-spacing: 0;
+    padding: 0 0 5px;
+    width: 100%;
+    max-width: 320px;
+  }
+  #QuickEntries-{{ section.id }} .qe-ot-features li span {
+    border-bottom: 1px solid #e7dfd4;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto;
+  }
+  #QuickEntries-{{ section.id }} .qe-ot-features li:last-child span { border-bottom: 0; }
+  #QuickEntries-{{ section.id }} .qe-ot-features li span .qe-tip__popup {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  #QuickEntries-{{ section.id }} .qe-ot-features li span .qe-tip__popup span { border-bottom: 0; }
+  #QuickEntries-{{ section.id }} .qe-ot-features li span .qe-tip__popup img { object-fit: contain; }
+  #QuickEntries-{{ section.id }} .qe-feat-icon {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+  #QuickEntries-{{ section.id }} .qe-feat-icon-default { flex-shrink: 0; }
+
+  /* ════════════════════════════════════════════════
+     3. CTA BUTTON — single source of truth
+     ════════════════════════════════════════════════ */
+  #QuickEntries-{{ section.id }} .quick-entries__cta {
+    display: block;
+    width: auto;
+    min-width: 220px;
+    max-width: 280px;
+    margin: 14px auto 4px;
+    padding: 14px 38px;
+    box-sizing: border-box;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-align: center;
+    white-space: nowrap;
+    color: #fff;
+    background: #f37021;
+    border: 0;
+    border-radius: 999px;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+    -webkit-tap-highlight-color: transparent;
+    transition: filter .15s ease, transform .1s ease, box-shadow .15s ease;
+  }
+  #QuickEntries-{{ section.id }} .quick-entries__cta:hover {
+    filter: brightness(1.06);
+    box-shadow:
+      0 6px 16px rgba(192, 92, 26, .45),
+      inset 0 1px 0 rgba(255, 255, 255, .25);
+    transform: translateY(-1px);
+  }
+  #QuickEntries-{{ section.id }} .quick-entries__cta:active {
+    transform: translateY(1px) scale(.98);
+    box-shadow:
+      0 2px 6px rgba(192, 92, 26, .35),
+      inset 0 1px 0 rgba(255, 255, 255, .15);
+  }
+  #QuickEntries-{{ section.id }} .quick-entries__cta:disabled {
+    background: #c8b89a;
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: .75;
+  }
+
+  /* ════════════════════════════════════════════════
+     4. TABLET (≤ 1024px)
+     ════════════════════════════════════════════════ */
+  @media screen and (max-width: 1024px) {
+    #QuickEntries-{{ section.id }} {
+      padding-top: {{ section.settings.tablet_padding_top }}px;
+      padding-bottom: {{ section.settings.tablet_padding_bottom }}px;
+    }
+    #QuickEntries-{{ section.id }} .quick-entries__title {
+      font-size: {{ section.settings.title_font_size_tablet }}px;
+    }
+    #QuickEntries-{{ section.id }} .quick-entries__subtitle {
+      font-size: {{ section.settings.subtitle_font_size_tablet }}px;
+    }
+  }
+
+  /* ════════════════════════════════════════════════
+     5. MOBILE (≤ 767px) — PREMIUM REDESIGN
+     Kept last in the style block so it always wins.
+     !important guards beat section-quick-entries.css.
+
+     Design direction: "modern western premium" —
+     warm paper cards, molten-orange gradient numbers,
+     full-bleed truck hero, glassy green LIVE panel,
+     glowing animated CTA, staggered card entrances.
+     ════════════════════════════════════════════════ */
+  @media screen and (max-width: 767px) {
+
+    /* ── Motion ─────────────────────────────────── */
+    @keyframes qeCardIn-{{ section.id }} {
+      from { opacity: 0; transform: translateY(22px) scale(.985); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes qeShine-{{ section.id }} {
+      0%, 60%  { left: -80%; }
+      85%,100% { left: 140%; }
+    }
+    @keyframes qeLivePulse-{{ section.id }} {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(22,163,74,.45); }
+      55%      { box-shadow: 0 0 0 7px rgba(22,163,74,0); }
+    }
+    @keyframes qeBubble-{{ section.id }} {
+      0%, 100% { transform: scale(1);    box-shadow: 0 10px 24px rgba(0,0,0,.45), 0 0 0 0  rgba(243,112,33,.50); }
+      50%      { transform: scale(1.05); box-shadow: 0 12px 26px rgba(0,0,0,.50), 0 0 0 12px rgba(243,112,33,0); }
+    }
+
+    /* ── Section wrapper ────────────────────────── */
+    #QuickEntries-{{ section.id }} {
+      {% if section.settings.bg_image != blank %}
+        background-image: url({{ section.settings.mo_bg_image | image_url }});
+        background-size: cover;
+      {% endif %}
+      padding-top: {{ section.settings.mobile_padding_top }}px;
+      /* room for the fixed free-entries bubble */
+      padding-bottom: calc({{ section.settings.mobile_padding_bottom }}px + 96px);
+    }
+    #QuickEntries-{{ section.id }} .quick-entries__title {
+      font-size: {{ section.settings.title_font_size_mobile }}px;
+      letter-spacing: 1px;
+    }
+    #QuickEntries-{{ section.id }} .quick-entries__subtitle {
+      font-size: {{ section.settings.subtitle_font_size_mobile }}px;
+    }
+
+    /* ── Tabs → segmented pill control ──────────── */
+    #QuickEntries-{{ section.id }} .quick-entries__tabs {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 0;
+      max-width: 420px;
+      margin: 0 auto 28px;
+      padding: 4px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 999px;
+      backdrop-filter: blur(6px);
+    }
+    #QuickEntries-{{ section.id }} .quick-entries__tab {
+      flex: 1 1 50%;
+      padding: 11px 8px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      color: #d8d3c8;
+      background: transparent;
+      border: 0;
+      border-radius: 999px;
+      transition: color .2s ease, background .2s ease, box-shadow .2s ease;
+    }
+    #QuickEntries-{{ section.id }} .quick-entries__tab--active {
+      color: #fff;
+      background: linear-gradient(180deg, #ff8a3d, #e8631a);
+      box-shadow: 0 6px 16px -4px rgba(243,112,33,.6), inset 0 1px 0 rgba(255,255,255,.35);
+    }
+
+    /* ── Grid: one card per row, staggered entrance ── */
+    #QuickEntries-{{ section.id }} .quick-entries__grid {
+      display: grid !important;
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+    #QuickEntries-{{ section.id }} .qe-ot-card {
+      width: 100%;
+      max-width: 430px;
+      margin: 0 auto;
+      padding: 26px 18px 22px;
+      border-radius: 24px;
+      background: radial-gradient(130% 70% at 50% 0%, #fffdf8 0%, #f7f1e6 55%, #f0e7d6 100%);
+      box-shadow:
+        0 26px 50px -20px rgba(0,0,0,.55),
+        0 6px 18px rgba(0,0,0,.22),
+        inset 0 1px 0 rgba(255,255,255,.9);
+      animation: qeCardIn-{{ section.id }} .55s cubic-bezier(.2,.7,.3,1) both;
+    }
+    #QuickEntries-{{ section.id }} .quick-entries__card:nth-child(2) { animation-delay: .08s; }
+    #QuickEntries-{{ section.id }} .quick-entries__card:nth-child(3) { animation-delay: .16s; }
+    #QuickEntries-{{ section.id }} .quick-entries__card:nth-child(4) { animation-delay: .24s; }
+
+    /* ── Badge (POPULAR / BEST VALUE) ───────────── */
+    #QuickEntries-{{ section.id }} .qe-ot-card .quick-entries__badge {
+      top: -16px;
+      padding: 7px 20px;
+      font-size: 12px;
+      letter-spacing: 1.8px;
+      background: linear-gradient(135deg, #ff5f5f, #e02e2e);
+      box-shadow: 0 8px 18px -4px rgba(229,62,62,.55), inset 0 1px 0 rgba(255,255,255,.35);
+    }
+
+    /* ── Plan name + icon (subscription cards) ──── */
+    #QuickEntries-{{ section.id }} .quick-entries__plan-icon {
+      height: 52px;
+      margin: -34px 0 0;
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,.25));
+    }
+    #QuickEntries-{{ section.id }} .quick-entries__plan-icon[item-number="1"] { height: 58px; }
+    #QuickEntries-{{ section.id }} .qe-sub-card .quick-entries__plan-name { font-size: 22px; }
+
+    /* ── Price: molten-orange display number ────── */
+    #QuickEntries-{{ section.id }} .qe-ot-card .quick-entries__price {
+      font-size: 42px !important;
+      letter-spacing: -.5px;
+      padding: 2px 0 12px;
+      background: linear-gradient(180deg, #f5852f 5%, #b04c10 95%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    #QuickEntries-{{ section.id }} .qe-ot-card .quick-entries__divider { display: none; }
+
+    /* ── GRAND PRIZE: stacked hero ───────────────
+       Truck image goes full-width on top, entries
+       number becomes a huge centered display figure. */
+    #QuickEntries-{{ section.id }} .qe-grand-block {
+      flex-direction: column-reverse !important;
+      gap: 14px;
+      padding: 2px 0 14px;
+    }
+    #QuickEntries-{{ section.id }} .qe-grand-img-wrap {
+      width: 100% !important;
+    }
+    #QuickEntries-{{ section.id }} .qe-grand-img-wrap img {
+      width: 100% !important;
+      height: auto !important;
+      max-height: none !important;
+      object-fit: contain !important; /* never crop — prize art has baked-in bg/label */
+      border-radius: 16px;
+      box-shadow: 0 16px 30px -14px rgba(192,92,26,.6);
+    }
+    #QuickEntries-{{ section.id }} .qe-grand-img-badge {
+      position: relative;
+      z-index: 2;
+      margin-top: 8px; /* sits below the artwork instead of overlapping it */
+      padding: 6px 16px;
+      font-size: 10px;
+      letter-spacing: 1.4px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #e07a2e, #b04c10);
+      box-shadow: 0 6px 14px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.3);
+    }
+    #QuickEntries-{{ section.id }} .qe-grand-left { text-align: center; }
+    #QuickEntries-{{ section.id }} .qe-grand-count {
+      font-size: 64px !important;
+      letter-spacing: -2px;
+      background: linear-gradient(180deg, #f5852f 5%, #a8470f 95%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 4px 10px rgba(192,92,26,.25));
+    }
+    #QuickEntries-{{ section.id }} .qe-grand-label {
+      font-size: 17px !important;
+      letter-spacing: 7px;
+      margin-top: 4px;
+      color: #1c1814;
+      text-indent: 7px; /* optically recenters the tracked-out word */
+    }
+    #QuickEntries-{{ section.id }} .qe-grand-original {
+      font-size: 14px !important;
+      margin-top: 2px;
+    }
+
+    /* ── LIVE GIVEAWAY: glassy green inset panel ── */
+    #QuickEntries-{{ section.id }} .qe-live-block {
+      margin: 4px 0 12px;
+      padding: 14px 14px 12px;
+      gap: 10px;
+      border-radius: 16px;
+      background: linear-gradient(160deg, rgba(22,163,74,.10), rgba(22,163,74,.03));
+      border: 1px solid rgba(22,163,74,.30);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.65);
+    }
+    #QuickEntries-{{ section.id }} .qe-live-label { font-size: 15px !important; }
+    #QuickEntries-{{ section.id }} .qe-live-label strong {
+      animation: qeLivePulse-{{ section.id }} 2.2s ease-in-out infinite;
+    }
+    #QuickEntries-{{ section.id }} .qe-live-count {
+      font-size: 56px !important;
+      letter-spacing: -1px;
+    }
+    #QuickEntries-{{ section.id }} .qe-live-count span {
+      font-size: 16px !important;
+      margin: 9px 0 0;
+    }
+    #QuickEntries-{{ section.id }} .qe-live-sublabel,
+    #QuickEntries-{{ section.id }} .qe-live-sublabel span { font-size: 13px !important; }
+    #QuickEntries-{{ section.id }} .qe-live-sublabel span.giveaway-text { font-size: 13px !important; }
+    #QuickEntries-{{ section.id }} .qe-live-img-wrap img {
+      width: 118px !important;
+      height: auto !important;
+      max-height: none !important;
+      object-fit: contain !important; /* never crop */
+      border-radius: 12px;
+      box-shadow: 0 12px 22px -12px rgba(22,163,74,.65);
+    }
+    #QuickEntries-{{ section.id }} .qe-live-img-badge {
+      position: relative;
+      z-index: 2;
+      margin-top: 4px; /* below the artwork, no overlap */
+      padding: 4px 10px;
+      font-size: 9px;
+      border-radius: 999px;
+      color: #fff;
+      background: linear-gradient(135deg, #34d077, #16a34a);
+      box-shadow: 0 4px 10px rgba(0,0,0,.25);
+    }
+    #QuickEntries-{{ section.id }} .qe-live-img-name { font-size: 10px; }
+
+    /* ── Non-profit row: soft green pill ────────── */
+    #QuickEntries-{{ section.id }} .qe-nonprofit {
+      margin: 0 0 4px;
+      padding: 11px 14px;
+      font-size: 15px !important;
+      border-radius: 14px;
+      background: rgba(22,163,74,.07);
+      border: 1px dashed rgba(22,163,74,.35);
+    }
+    #QuickEntries-{{ section.id }} .qe-nonprofit img { width: 34px; }
+
+    /* ── Feature list: clean inset panel ────────── */
+    #QuickEntries-{{ section.id }} .qe-ot-features {
+      max-width: 100% !important;
+      margin: 8px 0 0;
+      padding: 14px 16px 10px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.55);
+      border: 1px solid #e9ddc8;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
+    }
+    #QuickEntries-{{ section.id }} .qe-ot-features li {
+      font-size: 15px !important;
+      padding: 0 0 9px;
+    }
+    #QuickEntries-{{ section.id }} .qe-ot-features li span { border-bottom-color: #efe6d4; }
+    #QuickEntries-{{ section.id }} .qe-feat-icon {
+      width: 26px !important;
+      height: 26px !important;
+    }
+
+    /* ── Tooltip popup: dark glass card ─────────── */
+    #QuickEntries-{{ section.id }} .qe-tip__popup {
+      position: fixed !important;
+      left: 16px !important;
+      right: 16px !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      width: auto !important;
+      max-width: none !important;
+      z-index: 999;
+      border-radius: 16px;
+      background: rgba(22, 19, 15, .96);
+      box-shadow: 0 30px 60px -20px rgba(0,0,0,.7);
+      padding: 16px;
+    }
+
+    /* ── CTA: glowing full-width button + shine ─── */
+    #QuickEntries-{{ section.id }} .quick-entries__cta {
+      display: block !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: none !important;
+      min-height: 60px;
+      margin: 18px 0 6px !important;
+      padding: 18px 20px;
+      font-size: 18px !important;
+      letter-spacing: 2px;
+      overflow: hidden;
+      background: linear-gradient(180deg, #ff8a3d 0%, #f37021 45%, #d85d12 100%) !important;
+      box-shadow:
+        0 16px 32px -10px rgba(243,112,33,.65),
+        inset 0 1px 0 rgba(255,255,255,.45) !important;
+    }
+    #QuickEntries-{{ section.id }} .quick-entries__cta::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -80%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(105deg, transparent, rgba(255,255,255,.45), transparent);
+      transform: skewX(-20deg);
+      animation: qeShine-{{ section.id }} 3.4s ease-in-out infinite;
+      pointer-events: none;
+    }
+    #QuickEntries-{{ section.id }} .quick-entries__cta:hover {
+      transform: none;
+      filter: none;
+    }
+    #QuickEntries-{{ section.id }} .quick-entries__cta:active {
+      transform: scale(.98);
+      filter: brightness(.94);
+    }
+    #QuickEntries-{{ section.id }} .quick-entries__cta:disabled {
+      background: #c8b89a !important;
+      box-shadow: none !important;
+    }
+    #QuickEntries-{{ section.id }} .quick-entries__cta:disabled::after { display: none; }
+
+    /* ── Free entries bubble: pulsing fixed badge ─ */
+    #QuickEntries-{{ section.id }} .quick-entries__free-bubble {
+      position: fixed !important;
+      left: auto !important;
+      right: 12px !important;
+      bottom: 12px !important;
+      top: auto !important;
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1px;
+      text-align: center;
+      z-index: 60;
+      color: #fff !important;
+      background: linear-gradient(160deg, #ff8a3d, #e0501e) !important;
+      animation: qeBubble-{{ section.id }} 2.6s ease-in-out infinite;
+    }
+    #QuickEntries-{{ section.id }} .quick-entries__free-count {
+      font-size: 20px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    #QuickEntries-{{ section.id }} .quick-entries__free-text {
+      font-size: 7.5px;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: .4px;
+    }
+  }
+
+  /* ── Accessibility: honor reduced-motion ──────── */
+  @media screen and (max-width: 767px) and (prefers-reduced-motion: reduce) {
+    #QuickEntries-{{ section.id }} .qe-ot-card,
+    #QuickEntries-{{ section.id }} .quick-entries__cta::after,
+    #QuickEntries-{{ section.id }} .qe-live-label strong,
+    #QuickEntries-{{ section.id }} .quick-entries__free-bubble {
+      animation: none !important;
+    }
+  }
+{%- endstyle -%}

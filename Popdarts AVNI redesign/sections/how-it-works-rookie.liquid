@@ -1,0 +1,466 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+<style>
+    .swiper-wrapper {
+    margin-top: 10px !important;
+}
+    .hiw-step-number,.swiper-pagination {
+    display: none !important;
+}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+.hiw-section {
+  font-family: 'Inter', sans-serif;
+  padding: 70px 20px;
+  background: #000000;
+  overflow: hidden;
+}
+
+.hiw-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.hiw-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.hiw-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  color: #23FF53;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin: 0 0 12px;
+}
+
+.hiw-title {
+  font-size: 52px;
+  font-weight: 900;
+  margin: 0 0 16px;
+  color: #ffffff;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.hiw-subtitle {
+  font-size: 16px;
+  color: #b3b3b3;
+  font-weight: 500;
+  max-width: 650px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Swiper Container */
+.hiw-swiper-container {
+  padding-bottom: 60px;
+  position: relative;
+}
+
+.hiw-swiper-container .swiper-slide {
+  height: auto;
+  position: relative;
+}
+
+/* Green Curved Arrows Between Slides - Desktop Only */
+.hiw-swiper-container .swiper-slide::after {
+  content: '';
+  position: absolute;
+  right: -44px;
+  top: 35%;
+  transform: translateY(-50%);
+  width: 70px;
+  height: 60px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 70 60' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 30 Q 35 15, 62 30' stroke='%2323FF53' stroke-width='3.5' fill='none' stroke-linecap='round'/%3E%3Cpath d='M56 25 L62 30 L56 35' stroke='%2323FF53' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 1;
+}
+
+/* Alternate arrow direction for visual variety */
+.hiw-swiper-container .swiper-slide:nth-child(even)::after {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 70 60' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 30 Q 35 45, 62 30' stroke='%2323FF53' stroke-width='3.5' fill='none' stroke-linecap='round'/%3E%3Cpath d='M56 25 L62 30 L56 35' stroke='%2323FF53' stroke-width='3.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.hiw-swiper-container .swiper-slide:last-child::after {
+  display: none;
+}
+
+/* Hide arrows on mobile and tablets */
+@media (max-width: 768px) {
+  .hiw-swiper-container .swiper-slide::after {
+    display: none;
+  }
+}
+
+/* Step Cards */
+.hiw-step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.hiw-step:hover {
+  transform: translateY(-6px);
+  z-index: 10;
+}
+
+.hiw-step-number {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #000;
+  color: #23FF53;
+  font-size: 18px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  border: 4px solid #000000;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.hiw-step:hover .hiw-step-number {
+  background: #23FF53;
+  color: #000;
+  transform: translateX(-50%);
+  z-index: 200;
+}
+
+.hiw-image-container {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #ffffff;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 3px solid #1a1a1a;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.hiw-step:hover .hiw-image-container {
+  border-color: #23FF53;
+  box-shadow: 0 12px 32px rgba(35, 255, 83, 0.15);
+}
+
+.hiw-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.hiw-step:hover .hiw-image-container img {
+  transform: scale(1.05);
+}
+
+.hiw-step-content {
+  text-align: center;
+  padding: 0 8px;
+}
+
+.hiw-step-title {
+  font-size: 17px;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.hiw-step-desc {
+  font-size: 14px;
+  color: #b3b3b3;
+  line-height: 1.6;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Pagination */
+.hiw-swiper-container .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background: #333333;
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+.hiw-swiper-container .swiper-pagination-bullet-active {
+  background: #23FF53;
+  width: 32px;
+  border-radius: 5px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+  .hiw-section {
+    padding: 40px 16px;
+  }
+
+  .hiw-header {
+    margin-bottom: 36px;
+  }
+
+  .hiw-eyebrow {
+    font-size: 10px;
+  }
+
+  .hiw-title {
+    font-size: 28px;
+  }
+
+  .hiw-subtitle {
+    font-size: 14px;
+  }
+
+  .hiw-swiper-container {
+    padding-bottom: 50px;
+  }
+
+  .hiw-step-number {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    border-width: 3px;
+  }
+
+  .hiw-image-container {
+    padding: 16px;
+    margin-bottom: 16px;
+    border-width: 2px;
+    border-radius: 16px;
+  }
+
+  .hiw-step-title {
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+
+  .hiw-step-desc {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .hiw-step-content {
+    padding: 0 6px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .hiw-section {
+    padding: 50px 16px;
+  }
+
+  .hiw-header {
+    margin-bottom: 40px;
+  }
+
+  .hiw-eyebrow {
+    font-size: 11px;
+  }
+
+  .hiw-title {
+    font-size: 36px;
+  }
+
+  .hiw-subtitle {
+    font-size: 15px;
+  }
+
+  .hiw-step-number {
+    width: 38px;
+    height: 38px;
+    font-size: 17px;
+  }
+
+  .hiw-image-container {
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .hiw-step-title {
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+
+  .hiw-step-desc {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .hiw-step-content {
+    padding: 0 6px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .hiw-section {
+    padding: 60px 20px;
+  }
+
+  .hiw-title {
+    font-size: 44px;
+  }
+
+  .hiw-step-title {
+    font-size: 16px;
+    margin-bottom: 9px;
+  }
+
+  .hiw-step-desc {
+    font-size: 13px;
+    line-height: 1.55;
+  }
+}
+</style>
+
+<section class="hiw-section">
+  <div class="hiw-container">
+    
+    <div class="hiw-header">
+      <p class="hiw-eyebrow">The Rookie Pack System</p>
+      <h2 class="hiw-title">HOW IT WORKS</h2>
+      
+    </div>
+
+    <div class="hiw-swiper-container swiper">
+      <div class="swiper-wrapper">
+        
+        <!-- Step 1: Frame It -->
+        <div class="swiper-slide">
+          <div class="hiw-step">
+            <div class="hiw-step-number">1</div>
+            <div class="hiw-image-container">
+              <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/step_1.jpg?v=1757453870" alt="Frame It" loading="lazy">
+            </div>
+            <div class="hiw-step-content">
+              <h3 class="hiw-step-title">1. Frame It</h3>
+              <p class="hiw-step-desc">Set up your Rookie Pack frame.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Clip It -->
+        <div class="swiper-slide">
+          <div class="hiw-step">
+            <div class="hiw-step-number">2</div>
+            <div class="hiw-image-container">
+              <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/STEP_2.jpg?v=1757453871" alt="Clip It" loading="lazy">
+            </div>
+            <div class="hiw-step-content">
+              <h3 class="hiw-step-title">2. Clip It</h3>
+              <p class="hiw-step-desc">Center the board on the bottom frame, then clip into the top frame.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Play It -->
+        <div class="swiper-slide">
+          <div class="hiw-step">
+            <div class="hiw-step-number">3</div>
+            <div class="hiw-image-container">
+              <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/STEP_3.jpg?v=1757453871" alt="Play It" loading="lazy">
+            </div>
+            <div class="hiw-step-content">
+              <h3 class="hiw-step-title">3. Play It</h3>
+              <p class="hiw-step-desc">Play and keep score with the built-in scorekeepers.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Swap It -->
+        <div class="swiper-slide">
+          <div class="hiw-step">
+            <div class="hiw-step-number">4</div>
+            <div class="hiw-image-container">
+              <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/STEP_4.jpg?v=1758731692" alt="Swap It" loading="lazy">
+            </div>
+            <div class="hiw-step-content">
+              <h3 class="hiw-step-title">4. Swap It</h3>
+              <p class="hiw-step-desc">Unclip the top frame and flip the board.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 5: Repeat It -->
+        <div class="swiper-slide">
+          <div class="hiw-step">
+            <div class="hiw-step-number">5</div>
+            <div class="hiw-image-container">
+              <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/STEP_5.jpg?v=1757453871" alt="Repeat It" loading="lazy">
+            </div>
+            <div class="hiw-step-content">
+              <h3 class="hiw-step-title">5. Repeat It</h3>
+              <p class="hiw-step-desc">Clip in the top frame and keep playing!</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      
+      <!-- Pagination -->
+      <div class="swiper-pagination"></div>
+    </div>
+
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+const hiwSwiper = new Swiper('.hiw-swiper-container', {
+  slidesPerView: 1.2,
+  spaceBetween: 16,
+  centeredSlides: false,
+  loop: false,
+  pagination: {
+    el: '.hiw-swiper-container .swiper-pagination',
+    clickable: true,
+  },
+  breakpoints: {
+    480: {
+      slidesPerView: 1.8,
+      spaceBetween: 18,
+    },
+    640: {
+      slidesPerView: 2.2,
+      spaceBetween: 20,
+    },
+    768: {
+      slidesPerView: 2.5,
+      spaceBetween: 22,
+    },
+    1024: {
+      slidesPerView: 3.5,
+      spaceBetween: 24,
+    },
+    1280: {
+      slidesPerView: 4.2,
+      spaceBetween: 24,
+    },
+    1400: {
+      slidesPerView: 5,
+      spaceBetween: 24,
+    }
+  }
+});
+</script>

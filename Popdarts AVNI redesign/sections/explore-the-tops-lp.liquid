@@ -1,0 +1,385 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+.explore-section {
+  font-family: 'Inter', sans-serif;
+  padding: 60px 20px;
+  background: #fafafa;
+}
+
+.explore-container {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.explore-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.explore-title {
+  font-size: 38px;
+  font-weight: 900;
+  margin: 0 0 10px;
+  color: #000000;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.explore-subtitle {
+  font-size: 15px;
+  color: #666;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Desktop Grid */
+.explore-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* Product Card */
+.product-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 2px solid #e8e8e8;
+  text-decoration: none;
+  cursor: pointer;
+  display: block;
+}
+
+.product-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  border-color: #23FF53;
+  box-shadow: 0 16px 40px rgba(35, 255, 83, 0.25);
+  z-index: 10;
+}
+
+.product-image-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  background: #fafafa;
+  padding: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image-wrap img {
+  transform: scale(1.08) rotate(2deg);
+}
+
+/* Mobile Swiper */
+.explore-swiper-container {
+  display: none;
+  padding-bottom: 50px;
+  position: relative;
+  overflow: visible !important;
+}
+
+.explore-swiper-container .swiper-wrapper {
+  padding: 4px 0;
+}
+
+.explore-swiper-container .swiper-slide {
+  height: auto;
+  transition: all 0.3s ease;
+}
+
+/* Make next slide peek visible */
+.explore-swiper-container .swiper-slide-next {
+  opacity: 0.6;
+}
+
+.explore-swiper-container .swiper-pagination {
+  bottom: 10px !important;
+}
+
+.explore-swiper-container .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: #ddd;
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+.explore-swiper-container .swiper-pagination-bullet-active {
+  background: #23FF53;
+  width: 24px;
+  border-radius: 4px;
+}
+
+/* Scroll indicator hint */
+.scroll-hint {
+  display: none;
+  text-align: center;
+  margin-top: -30px;
+  margin-bottom: 20px;
+  font-size: 12px;
+  color: #999;
+  font-weight: 600;
+  animation: fadeInOut 2s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+  .explore-section {
+    padding: 40px 0;
+  }
+
+  .explore-header {
+    margin-bottom: 28px;
+    padding: 0 16px;
+  }
+
+  .explore-title {
+    font-size: 26px;
+  }
+
+  .explore-subtitle {
+    font-size: 13px;
+  }
+
+  .explore-grid {
+    display: none !important;
+  }
+
+  .explore-swiper-container {
+    display: block !important;
+    padding-left: 16px;
+    padding-right: 16px;
+    overflow: visible !important;
+  }
+
+  .scroll-hint {
+    display: block;
+  }
+
+  .product-card {
+    border-radius: 14px;
+    border-width: 2px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+
+  .product-image-wrap {
+    padding: 16px;
+  }
+
+  /* Active slide emphasis */
+  .explore-swiper-container .swiper-slide-active .product-card {
+    border-color: #23FF53;
+    transform: scale(1);
+  }
+}
+
+@media (min-width: 769px) {
+  .explore-grid {
+    display: grid !important;
+  }
+
+  .explore-swiper-container {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .explore-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+
+  .explore-title {
+    font-size: 28px;
+  }
+
+  .product-image-wrap {
+    padding: 24px;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1300px) {
+  .explore-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+}
+.product-card {
+  /* ...your existing styles... */
+  cursor: default !important;
+}
+</style>
+
+<section class="explore-section">
+  <div class="explore-container">
+    
+    <div class="explore-header">
+      <h2 class="explore-title">Explore the Tops</h2>
+      <p class="explore-subtitle">Two games per board – flip for double the fun! 🎯</p>
+    </div>
+
+    <!-- Desktop Grid -->
+    <div class="explore-grid">
+      
+      <a  class="product-card">
+        <div class="product-image-wrap">
+          <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Popgolf_Easy_c065dacd-813d-48a5-b5f5-4e4a8123c4a1.jpg?v=1758548416" alt="PopGolf Easy">
+        </div>
+      </a>
+
+      <a class="product-card">
+        <div class="product-image-wrap">
+          <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Popgolf_Hard_bd30a47b-b117-43c8-91d7-82fba3845b67.jpg?v=1758548416" alt="PopGolf Hard">
+        </div>
+      </a>
+
+      <a class="product-card">
+        <div class="product-image-wrap">
+          <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Football_Easy_d76a07f7-75ee-4eda-bedc-0fb4a32a9378.jpg?v=1758548416" alt="Football Easy">
+        </div>
+      </a>
+
+      <a  class="product-card">
+        <div class="product-image-wrap">
+          <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Football_Hard_2b628a90-4704-4553-8b65-7deb08712d9d.jpg?v=1758548416" alt="Football Hard">
+        </div>
+      </a>
+
+      <a  class="product-card">
+        <div class="product-image-wrap">
+          <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/OG_Board_671ed0cd-8b66-4e6b-a590-53122ff8612f.jpg?v=1758548416" alt="OG Board">
+        </div>
+      </a>
+
+      <a class="product-card">
+        <div class="product-image-wrap">
+          <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Original_Popdarts_2c012f7c-fffb-43b5-9252-8841a7ab458a.jpg?v=1758548416" alt="Original PopDarts">
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Mobile Swiper -->
+    <div class="explore-swiper-container swiper">
+      <div class="swiper-wrapper">
+        
+        <div class="swiper-slide">
+          <a  class="product-card">
+            <div class="product-image-wrap">
+              <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Popgolf_Easy_c065dacd-813d-48a5-b5f5-4e4a8123c4a1.jpg?v=1758548416" alt="PopGolf Easy" loading="lazy">
+            </div>
+          </a>
+        </div>
+
+        <div class="swiper-slide">
+          <a href="/products/swaptop-popgolf" class="product-card">
+            <div class="product-image-wrap">
+              <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Popgolf_Hard_bd30a47b-b117-43c8-91d7-82fba3845b67.jpg?v=1758548416" alt="PopGolf Hard" loading="lazy">
+            </div>
+          </a>
+        </div>
+
+        <div class="swiper-slide">
+          <a  class="product-card">
+            <div class="product-image-wrap">
+              <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Football_Easy_d76a07f7-75ee-4eda-bedc-0fb4a32a9378.jpg?v=1758548416" alt="Football Easy" loading="lazy">
+            </div>
+          </a>
+        </div>
+
+        <div class="swiper-slide">
+          <a  class="product-card">
+            <div class="product-image-wrap">
+              <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Football_Hard_2b628a90-4704-4553-8b65-7deb08712d9d.jpg?v=1758548416" alt="Football Hard" loading="lazy">
+            </div>
+          </a>
+        </div>
+
+        <div class="swiper-slide">
+          <a  class="product-card">
+            <div class="product-image-wrap">
+              <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/OG_Board_671ed0cd-8b66-4e6b-a590-53122ff8612f.jpg?v=1758548416" alt="OG Board" loading="lazy">
+            </div>
+          </a>
+        </div>
+
+        <div class="swiper-slide">
+          <a  class="product-card">
+            <div class="product-image-wrap">
+              <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Original_Popdarts_2c012f7c-fffb-43b5-9252-8841a7ab458a.jpg?v=1758548416" alt="Original PopDarts" loading="lazy">
+            </div>
+          </a>
+        </div>
+
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+let exploreSwiper = null;
+
+function initExploreSwiper() {
+  if (window.innerWidth <= 768) {
+    if (!exploreSwiper) {
+      exploreSwiper = new Swiper('.explore-swiper-container', {
+        slidesPerView: 1.5,
+        spaceBetween: 14,
+        centeredSlides: false,
+        pagination: {
+          el: '.explore-swiper-container .swiper-pagination',
+          clickable: true,
+        },
+        breakpoints: {
+          480: {
+            slidesPerView: 2,
+            spaceBetween: 14,
+          },
+          640: {
+            slidesPerView: 2.5,
+            spaceBetween: 14,
+          }
+        }
+      });
+    }
+  } else {
+    if (exploreSwiper) {
+      exploreSwiper.destroy(true, true);
+      exploreSwiper = null;
+    }
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  initExploreSwiper();
+});
+
+let resizeTimer;
+window.addEventListener('resize', function() {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(function() {
+    initExploreSwiper();
+  }, 250);
+});
+</script>

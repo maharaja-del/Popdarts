@@ -1,0 +1,68 @@
+<section class="pd-page home-trust" id="home-trust-{{ section.id }}" aria-label="Why shop with Popdarts">
+  <div class="pd-wrap home-trust__grid">
+    {%- for block in section.blocks -%}
+      <div class="trust-item" {{ block.shopify_attributes }}>
+        <span class="trust-item__icon" aria-hidden="true">
+          {%- case block.settings.icon -%}
+            {%- when 'shipping' -%}
+              <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="6" width="14" height="11" rx="1.5"/><path d="M15 10h4l3 3v4h-7z"/><circle cx="6" cy="19" r="1.8"/><circle cx="17.5" cy="19" r="1.8"/></svg>
+            {%- when 'returns' -%}
+              <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v5h5"/></svg>
+            {%- when 'players' -%}
+              <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8.5" cy="8" r="3"/><circle cx="16" cy="9" r="2.4"/><path d="M2.5 20c0-3.6 2.7-6.2 6-6.2s6 2.6 6 6.2"/><path d="M14.7 14.2c2.6.3 4.5 2.6 4.8 5.8"/></svg>
+            {%- when 'espn' -%}
+              <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>
+            {%- else -%}
+              <svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
+          {%- endcase -%}
+        </span>
+        <span>
+          <span class="trust-item__label">{{ block.settings.label | default: 'Free Shipping' }}</span>
+          <span class="trust-item__sub">{{ block.settings.sub | default: 'On orders $50+' }}</span>
+        </span>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Home Trust Bar",
+  "tag": "section",
+  "class": "pd-section-home-trust",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "trust_item",
+      "name": "Trust item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "shipping", "label": "Shipping" },
+            { "value": "returns", "label": "Returns" },
+            { "value": "players", "label": "Players" },
+            { "value": "espn", "label": "TV / ESPN" }
+          ],
+          "default": "shipping"
+        },
+        { "type": "text", "id": "label", "label": "Label", "default": "Free Shipping" },
+        { "type": "text", "id": "sub", "label": "Sub-label", "default": "On orders $50+" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Home Trust Bar",
+      "blocks": [
+        { "type": "trust_item", "settings": { "icon": "shipping", "label": "Free Shipping", "sub": "On orders $50+" } },
+        { "type": "trust_item", "settings": { "icon": "returns", "label": "Easy Returns", "sub": "30-day return window" } },
+        { "type": "trust_item", "settings": { "icon": "players", "label": "1M+ Players", "sub": "And counting" } },
+        { "type": "trust_item", "settings": { "icon": "espn", "label": "1B+ Social Views", "sub": "Live on ESPN · The Popdarts Championship" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

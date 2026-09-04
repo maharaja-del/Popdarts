@@ -1,0 +1,170 @@
+{% comment %}
+  As Seen On — Father's Day Infinite Marquee
+  Warm cream + amber + slate theme to match hero-fathers.liquid.
+  Drop into: sections/brands-father.liquid
+  { "type": "brands-father" }
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+
+<style>
+  .bf-{{ section.id }} {
+    --bf-ink:#0a0a0a; --bf-ink-soft:#5d6b82;
+    --bf-amber:#2b99ff; --bf-amber-2:#5cb3ff; --bf-amber-deep:#1a7fe0;
+    --bf-teal:#2b99ff; --bf-cream:#f4f9fd; --bf-line:#e0ebf5;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    position:relative;overflow:hidden;color:var(--bf-ink);
+    padding:64px 0 72px;
+    /* Same warm Father's Day background as hero-fathers.liquid */
+    background:
+      radial-gradient(50% 55% at 88% 8%, rgba(43,153,255,.20), transparent 60%),
+      radial-gradient(55% 60% at 4% 96%, rgba(43,153,255,.10), transparent 62%),
+      linear-gradient(165deg,#f4f9fd 0%,#e8f2fc 100%);
+  }
+
+  /* ── HEADER ── */
+  .bf-{{ section.id }} .bf-header {
+    position:relative; z-index:1;
+    text-align:center; margin-bottom:48px; padding:0 20px;
+  }
+  .bf-{{ section.id }} .bf-eyebrow {
+    display:inline-flex; align-items:center; gap:8px;
+    background:linear-gradient(135deg,var(--bf-amber-2),var(--bf-amber));
+    color:#fff; font-size:12px; font-weight:800; letter-spacing:.14em; text-transform:uppercase;
+    padding:7px 15px; border-radius:999px; margin-bottom:18px;
+    box-shadow:0 6px 16px rgba(43,153,255,.32);
+  }
+  .bf-{{ section.id }} .bf-title {
+    margin:0; font-weight:900; text-transform:uppercase;
+    font-size:clamp(40px,7vw,72px); line-height:.95; letter-spacing:-.02em; color:var(--bf-ink);
+  }
+  .bf-{{ section.id }} .bf-title span {
+    background:linear-gradient(135deg,var(--bf-amber),var(--bf-amber-deep));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  }
+  .bf-{{ section.id }} .bf-subtitle {
+    font-size:15px; color:var(--bf-ink-soft); margin:14px 0 0; font-weight:500; letter-spacing:.01em;
+  }
+
+  /* ── TICKER ── */
+  .bf-{{ section.id }} .bf-ticker-outer {
+    position:relative; z-index:1; overflow:hidden;
+    width:100vw; margin-left:calc(-50vw + 50%);
+  }
+  .bf-{{ section.id }} .bf-ticker-outer::before,
+  .bf-{{ section.id }} .bf-ticker-outer::after {
+    content:''; position:absolute; top:0; bottom:0; width:160px; z-index:2; pointer-events:none;
+  }
+  .bf-{{ section.id }} .bf-ticker-outer::before {
+    left:0; background:linear-gradient(to right, #f4f9fd 0%, transparent 100%);
+  }
+  .bf-{{ section.id }} .bf-ticker-outer::after {
+    right:0; background:linear-gradient(to left, #e8f2fc 0%, transparent 100%);
+  }
+  .bf-{{ section.id }} .bf-ticker-bar {
+    border-top:1px solid var(--bf-line);
+    border-bottom:1px solid var(--bf-line);
+    background:rgba(255,255,255,.45);
+    padding:28px 0;
+  }
+  .bf-{{ section.id }} .bf-ticker-track {
+    display:flex; width:max-content;
+    animation:bf-scroll-{{ section.id }} 40s linear infinite;
+  }
+  .bf-{{ section.id }} .bf-ticker-track:hover { animation-play-state:paused; }
+
+  @keyframes bf-scroll-{{ section.id }} {
+    0%   { transform:translateX(0); }
+    100% { transform:translateX(-50%); }
+  }
+
+  .bf-{{ section.id }} .bf-ticker-set {
+    display:flex; align-items:center; flex-shrink:0;
+  }
+
+  /* ── LOGO ITEM ── */
+  .bf-{{ section.id }} .bf-item {
+    display:flex; align-items:center; justify-content:center;
+    padding:0 52px; position:relative; transition:opacity .3s;
+  }
+  .bf-{{ section.id }} .bf-item::after {
+    content:'✦'; position:absolute; right:-2px; font-size:10px; color:var(--bf-amber); opacity:.6;
+  }
+  .bf-{{ section.id }} .bf-ticker-track:hover .bf-item { opacity:.4; }
+  .bf-{{ section.id }} .bf-ticker-track:hover .bf-item:hover { opacity:1; }
+
+  /* ── LOGO IMAGES ── */
+  .bf-{{ section.id }} .bf-logo-img {
+    height:48px; width:auto; max-width:160px; object-fit:contain; display:block;
+    /* darken light-on-white logos so they read on the cream background */
+    filter:brightness(0) saturate(100%) opacity(.7);
+    transition:filter .3s, transform .3s;
+  }
+  .bf-{{ section.id }} .bf-item:hover .bf-logo-img {
+    filter:brightness(0) saturate(100%) opacity(1) drop-shadow(0 0 10px rgba(43,153,255,.45));
+    transform:scale(1.06);
+  }
+
+  @media (max-width:640px) {
+    .bf-{{ section.id }} { padding:48px 0 56px; }
+    .bf-{{ section.id }} .bf-item { padding:0 32px; }
+    .bf-{{ section.id }} .bf-ticker-outer::before,
+    .bf-{{ section.id }} .bf-ticker-outer::after { width:60px; }
+    .bf-{{ section.id }} .bf-logo-img { height:36px; }
+  }
+</style>
+
+<section class="bf-{{ section.id }}" aria-label="As Seen On">
+
+  <div class="bf-header">
+    <span class="bf-eyebrow">🏆 {{ section.settings.eyebrow | default: 'Press & Media' }} 🎁</span>
+    <h2 class="bf-title">{{ section.settings.title | default: 'As Seen <span>On</span>' }}</h2>
+    {%- if section.settings.subtitle != blank -%}
+      <p class="bf-subtitle">{{ section.settings.subtitle }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="bf-ticker-outer">
+    <div class="bf-ticker-bar">
+      <div class="bf-ticker-track">
+
+        {%- for i in (1..4) -%}
+          <div class="bf-ticker-set">
+            <div class="bf-item">
+              <img class="bf-logo-img" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/BuzzFeed.svg_1.png?v=1774991458" alt="BuzzFeed">
+            </div>
+            <div class="bf-item">
+              <img class="bf-logo-img" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ESPN_wordmark_svg.png?v=1774991116" alt="ESPN">
+            </div>
+            <div class="bf-item">
+              <img class="bf-logo-img" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/logo-white.png?v=1774991205" alt="Barstool Sports">
+            </div>
+            <div class="bf-item">
+              <img class="bf-logo-img" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/SportsIllustratedLogo_svg.png?v=1774991245" alt="Sports Illustrated">
+            </div>
+          </div>
+        {%- endfor -%}
+
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "As Seen On (Father)",
+  "tag": "section",
+  "class": "as-seen-on-father-wrapper",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Press & Media" },
+    { "type": "text", "id": "title", "label": "Heading", "info": "HTML allowed: wrap a word in <span> for amber text.", "default": "As Seen <span>On</span>" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Trusted by the world's biggest sports & entertainment brands" }
+  ],
+  "presets": [
+    { "name": "As Seen On (Father)" }
+  ]
+}
+{% endschema %}

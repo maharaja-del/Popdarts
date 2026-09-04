@@ -1,0 +1,375 @@
+{% comment %} POPDARTS — Quality Materials Showcase {% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+.qms {
+  background: #ffffff !important;
+  padding: 100px 0 120px;
+  font-family: 'Inter', sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+.qms-bg-accent {
+  position: absolute;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 900px;
+  background: radial-gradient(ellipse at center, rgba(35,255,83,0.06) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.qms-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px;
+  position: relative;
+  z-index: 1;
+}
+
+
+
+/* Headline */
+.qms-headline {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(32px, 4.5vw, 56px);
+  letter-spacing: .03em;
+  line-height: 1;
+  color: #0a0a0a;
+  text-align: center;
+  margin: 0 0 52px;
+}
+.qms-headline mark {
+  background: none;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-image: linear-gradient(130deg, #16a34a, #23FF53);
+}
+
+
+
+/* Image stage */
+.qms-stage {
+  position: relative;
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+.qms-shadow-blob {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 75%;
+  height: 60px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.18) 0%, transparent 70%);
+  filter: blur(18px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.qms-ring {
+  position: absolute;
+  inset: -18px;
+  border-radius: 28px;
+  border: 1px dashed rgba(35,255,83,0.22);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.qms-stripe {
+  position: absolute;
+  left: -4px;
+  top: 18%;
+  bottom: 18%;
+  width: 4px;
+  background: linear-gradient(to bottom, transparent, #23FF53, transparent);
+  border-radius: 4px;
+  z-index: 3;
+}
+
+/* Corner brackets */
+.qms-bracket {
+  position: absolute;
+  width: 20px; height: 20px;
+  z-index: 3;
+  pointer-events: none;
+}
+.qms-bracket::before,
+.qms-bracket::after {
+  content: '';
+  position: absolute;
+  background: #23FF53;
+}
+.qms-bracket--tl { top: -1px; left: -1px; }
+.qms-bracket--tl::before { top:0; left:0; width:20px; height:2px; }
+.qms-bracket--tl::after  { top:0; left:0; width:2px; height:20px; }
+.qms-bracket--tr { top: -1px; right: -1px; }
+.qms-bracket--tr::before { top:0; right:0; width:20px; height:2px; }
+.qms-bracket--tr::after  { top:0; right:0; width:2px; height:20px; }
+.qms-bracket--bl { bottom: -1px; left: -1px; }
+.qms-bracket--bl::before { bottom:0; left:0; width:20px; height:2px; }
+.qms-bracket--bl::after  { bottom:0; left:0; width:2px; height:20px; }
+.qms-bracket--br { bottom: -1px; right: -1px; }
+.qms-bracket--br::before { bottom:0; right:0; width:20px; height:2px; }
+.qms-bracket--br::after  { bottom:0; right:0; width:2px; height:20px; }
+
+/* Main frame */
+.qms-frame {
+  position: relative;
+  z-index: 1;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.04),
+    0 8px 24px rgba(0,0,0,0.09),
+    0 32px 72px rgba(0,0,0,0.13);
+  transition: transform 0.8s cubic-bezier(.16,1,.3,1), box-shadow 0.8s cubic-bezier(.16,1,.3,1);
+}
+.qms-stage:hover .qms-frame {
+  transform: translateY(-6px);
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.04),
+    0 16px 40px rgba(0,0,0,0.13),
+    0 48px 96px rgba(0,0,0,0.17);
+}
+
+.qms-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 1.6s cubic-bezier(.16,1,.3,1);
+}
+.qms-stage:hover .qms-frame img {
+  transform: scale(1.03);
+}
+
+.qms-frame::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(to right, transparent, #23FF53 40%, #8BFFAA 50%, #23FF53 60%, transparent);
+  z-index: 2;
+}
+
+/* Floating badge */
+.qms-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 4;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(35,255,83,0.3);
+  border-radius: 100px;
+  padding: 7px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #0a0a0a;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+.qms-badge-dot {
+  width: 6px; height: 6px;
+  background: #23FF53;
+  border-radius: 50%;
+}
+
+/* ── 3-col layout ── */
+.qms-inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 40px;
+}
+
+/* Side decorative panels */
+.qms-side {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 340px;
+}
+.qms-side svg {
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+  opacity: 0;
+  transition: opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1);
+}
+.qms-side--left svg  { transform: translateX(-20px); }
+.qms-side--right svg { transform: translateX(20px); }
+.qms-side.qms-in svg { opacity: 1; transform: translateX(0); }
+
+@media (max-width: 767px) {
+  .qms-inner { grid-template-columns: 1fr; }
+  .qms-side { display: none; }
+}
+
+@keyframes qms-spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes qms-spin-rev {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+.qms-spin     { animation: qms-spin-slow 18s linear infinite; transform-origin: center; }
+.qms-spin-rev { animation: qms-spin-rev  22s linear infinite; transform-origin: center; }
+.qms-float {
+  animation: qms-float-y 4s ease-in-out infinite;
+}
+@keyframes qms-float-y {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-8px); }
+}
+
+
+.qms-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
+}
+.qms-reveal.qms-in { opacity: 1; transform: translateY(0); }
+.qms-d1 { transition-delay: .1s }
+.qms-d2 { transition-delay: .2s }
+.qms-d3 { transition-delay: .3s }
+
+@media (max-width: 639px) {
+  .qms { padding: 60px 0 80px; }
+  .qms-wrap { padding: 0 20px; }
+  .qms-sub { margin-bottom: 40px; font-size: 14px; }
+  .qms-ring { display: none; }
+}
+@media (min-width: 1024px) {
+  .qms { padding: 120px 0 140px; }
+}
+</style>
+
+<section class="qms" aria-label="Quality Materials">
+  <div class="qms-bg-accent" aria-hidden="true"></div>
+
+  <div class="qms-wrap">
+
+    <h2 class="qms-headline qms-reveal qms-d1">
+      Quality <mark>Materials</mark>
+    </h2>
+
+    <div class="qms-inner">
+
+      <!-- LEFT — dartboard target rings -->
+      <div class="qms-side qms-side--left qms-reveal">
+        <svg viewBox="0 0 220 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Concentric rings — dartboard target -->
+          <g class="qms-float">
+            <circle cx="110" cy="118" r="96" stroke="#e5e7eb" stroke-width="1.5"/>
+            <circle cx="110" cy="118" r="76" stroke="#d1fae5" stroke-width="1.5"/>
+            <circle cx="110" cy="118" r="56" stroke="#6ee7b7" stroke-width="1.5" opacity="0.6"/>
+            <circle cx="110" cy="118" r="36" stroke="#23FF53" stroke-width="2" opacity="0.5"/>
+            <circle cx="110" cy="118" r="18" stroke="#23FF53" stroke-width="2.5" opacity="0.8"/>
+            <circle cx="110" cy="118" r="6"  fill="#23FF53" opacity="0.9"/>
+            <!-- Cross hairs -->
+            <line x1="110" y1="22"  x2="110" y2="214" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4 6"/>
+            <line x1="14"  y1="118" x2="206" y2="118" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4 6"/>
+          </g>
+          <!-- Dart silhouette -->
+          <g class="qms-float" style="animation-delay:.8s">
+            <line x1="158" y1="60" x2="122" y2="96" stroke="#111" stroke-width="2.5" stroke-linecap="round"/>
+            <polygon points="122,96 115,103 128,90" fill="#23FF53"/>
+            <line x1="158" y1="60" x2="168" y2="50" stroke="#6b7280" stroke-width="2" stroke-linecap="round"/>
+            <line x1="168" y1="50" x2="172" y2="42" stroke="#6b7280" stroke-width="1.5" stroke-linecap="round"/>
+          </g>
+          <!-- Small orbit dot -->
+          <circle class="qms-spin" cx="110" cy="22" r="4" fill="#23FF53" opacity="0.6" style="transform-box:fill-box"/>
+        </svg>
+      </div>
+
+      <!-- CENTER — image -->
+      <div class="qms-stage qms-reveal qms-d3">
+        <div class="qms-ring" aria-hidden="true"></div>
+        <div class="qms-shadow-blob" aria-hidden="true"></div>
+        <div class="qms-stripe" aria-hidden="true"></div>
+        <div class="qms-bracket qms-bracket--tl" aria-hidden="true"></div>
+        <div class="qms-bracket qms-bracket--tr" aria-hidden="true"></div>
+        <div class="qms-bracket qms-bracket--bl" aria-hidden="true"></div>
+        <div class="qms-bracket qms-bracket--br" aria-hidden="true"></div>
+        <div class="qms-frame">
+          <img
+            src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/image_2.png?v=1775689851"
+            alt="POPDARTS Quality Materials"
+            width="1200"
+            height="900">
+          <div class="qms-badge">
+            <span class="qms-badge-dot"></span>
+            POPDARTS®
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT — swaptop board shapes -->
+      <div class="qms-side qms-side--right qms-reveal">
+        <svg viewBox="0 0 220 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Swaptop board: two overlapping ovals like the board surface -->
+          <g class="qms-float" style="animation-delay:.4s">
+            <!-- Board oval 1 -->
+            <ellipse cx="110" cy="100" rx="72" ry="44" stroke="#e5e7eb" stroke-width="1.5"/>
+            <ellipse cx="110" cy="100" rx="52" ry="30" stroke="#d1fae5" stroke-width="1.5"/>
+            <ellipse cx="110" cy="100" rx="30" ry="17" stroke="#23FF53" stroke-width="2" opacity="0.6"/>
+            <ellipse cx="110" cy="100" rx="12" ry="7"  fill="#23FF53" opacity="0.2" stroke="#23FF53" stroke-width="1.5"/>
+            <!-- Board oval 2 — offset, suggesting swap -->
+            <ellipse cx="110" cy="160" rx="72" ry="44" stroke="#e5e7eb" stroke-width="1.5" stroke-dasharray="5 5"/>
+            <ellipse cx="110" cy="160" rx="52" ry="30" stroke="#d1fae5" stroke-width="1.5" stroke-dasharray="4 6"/>
+            <ellipse cx="110" cy="160" rx="30" ry="17" stroke="#23FF53" stroke-width="1.5" opacity="0.4" stroke-dasharray="3 5"/>
+          </g>
+          <!-- Swap arrows between the two boards -->
+          <g opacity="0.55">
+            <path d="M88 128 Q80 135 88 142" stroke="#23FF53" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <polygon points="88,142 83,136 94,138" fill="#23FF53"/>
+            <path d="M132 128 Q140 135 132 142" stroke="#23FF53" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <polygon points="132,142 127,136 138,138" fill="#23FF53"/>
+          </g>
+          <!-- Orbit dot -->
+          <circle class="qms-spin-rev" cx="110" cy="56" r="4" fill="#23FF53" opacity="0.5" style="transform-box:fill-box"/>
+        </svg>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function(){
+  var els = document.querySelectorAll('.qms-reveal, .qms-side');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      e.target.classList.add('qms-in');
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+  els.forEach(function(el){ io.observe(el); });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Quality Materials",
+  "settings": [],
+  "presets": [{ "name": "Quality Materials" }]
+}
+{% endschema %}

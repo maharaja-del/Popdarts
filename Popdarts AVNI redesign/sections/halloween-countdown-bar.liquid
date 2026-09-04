@@ -1,0 +1,41 @@
+{% render 'halloween-lp-head' %}
+<div class="hw hw-bar">
+  <div class="hw-bar__inner" data-hw-countdown data-deadline="{{ section.settings.deadline }}">
+    <span class="hw-bar__msg">{{ section.settings.message }}</span>
+    <span class="hw-bar__count">{{ section.settings.count_label }}
+      <b><span data-hw-unit="d">00</span>D</b>
+      <b><span data-hw-unit="h">00</span>H</b>
+      <b><span data-hw-unit="m">00</span>M</b>
+      <b><span data-hw-unit="s">00</span>S</b>
+    </span>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "HW Countdown Bar",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "message",
+      "label": "Message",
+      "default": "🎃 The Halloween Pro Pack is back — limited run"
+    },
+    {
+      "type": "text",
+      "id": "count_label",
+      "label": "Countdown label",
+      "default": "Vanishes in"
+    },
+    {
+      "type": "text",
+      "id": "deadline",
+      "label": "Deadline (ISO format)",
+      "info": "Example: 2026-10-31T23:59:00-04:00",
+      "default": "2026-10-31T23:59:00-04:00"
+    }
+  ],
+  "presets": [{ "name": "HW Countdown Bar" }]
+}
+{% endschema %}

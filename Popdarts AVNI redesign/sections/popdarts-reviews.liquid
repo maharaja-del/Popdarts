@@ -1,0 +1,1200 @@
+{{ 'swiper.css' | asset_url | stylesheet_tag }}
+{{ 'swiper.js' | asset_url | script_tag }}
+
+{% liquid
+  assign laptop_padding_top = section.settings.laptop_top
+  assign laptop_padding_bottom = section.settings.laptop_bottom
+  assign mobail_padding_top = section.settings.mobail_top
+  assign mobail_padding_bottom = section.settings.mobail_bottom
+  assign bgcolor = section.settings.bgcolor
+%}
+
+<style>
+  .id_{{ section.id}}{
+    background-color: {{bgcolor}};
+    padding-top:{{laptop_padding_top}}px;
+    padding-bottom:{{laptop_padding_bottom}}px;
+  }
+
+ .id_{{ section.id}} .container{
+   width:100%;
+   margin:0px auto;
+   box-sizing: border-box;
+ }
+  
+  {% if section.settings.container == "container" %}
+      .id_{{ section.id}} .container{
+      max-width:1200px;    
+    }
+  {% elsif  section.settings.container == "container-full" %}
+    .id_{{ section.id}} .container{
+      max-width:100%;
+      padding:0px 5%;
+    }
+  {% endif %}
+
+   .id_{{ section.id}} .review_box{
+    padding:{{section.settings.box_padding}}px;
+    background-color: {{section.settings.box_color}};
+    height:100%;
+   }
+  .id_{{ section.id}} .review_box .review{
+    font-size:{{section.settings.icon_size}}px;
+    color:{{section.settings.star_color}};
+  }
+  
+.id_{{ section.id}} .review_box h3{
+      font-size:{{section.settings.title_font_size}}px;
+      line-height:{{section.settings.title_line_height}}px;
+      font-weight:{{section.settings.title_font_weight}};
+      margin: 0;
+      margin-bottom:{{section.settings.title_margin_bottom}}px;
+      color:{{section.settings.title_color}};
+}
+
+   .id_{{ section.id}}  .review_box img{
+      display: block;
+       width:100%;
+       max-width:{{section.settings.icon_width}};
+      aspect-ratio:{{section.settings.aspect_ratio}};
+      object-fit:{{section.settings.object_fit}};
+      margin-bottom: 15px;
+    }
+
+       .id_{{ section.id}} .review_box .text {
+        font-size:{{section.settings.text_font_size}}px;
+        line-height:{{section.settings.text_line_height}}px;
+        font-weight:{{section.settings.text_font_weight}};
+        margin: 0;
+        margin-bottom:{{section.settings.text_margin_bottom}}px;
+       color:{{section.settings.text_color}};
+   }
+
+   .id_{{ section.id}} .review_box .verified{
+     display: flex;
+      justify-content: center;
+      align-items: center;
+   }
+      .id_{{ section.id}} .review_box .ver{
+        font-size: 16px;
+       font-weight: 300;
+       line-height: 22px;
+        margin-left:8px !important;
+        margin:0px;
+      }
+
+
+      .id_{{ section.id}}{ 
+      position: relative;
+      height: 100%;
+    }
+      .id_{{ section.id}} .swiper {
+      width: 100%;
+      height: 100%;
+    }
+
+    .id_{{ section.id}} .swiper-slide {
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+   .id_{{ section.id}} .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+
+  @media(max-width:767px){
+      .id_{{ section.id}}{
+       padding-left:20px;
+       padding-right:20px;
+      padding-top:{{mobail_padding_top}}px;
+      padding-bottom:{{mobail_padding_bottom}}px;
+      }
+      .id_{{ section.id}} .container{
+      max-width:100%;
+      padding:0px;
+    }
+      .id_{{ section.id}} .review_box .review{
+    font-size:{{section.settings.mobail_icon_star}}px;
+  }
+
+
+  .id_{{ section.id}} .review_box{
+   padding:{{section.settings.mobail_box_padding}}px;
+  }
+
+    .id_{{ section.id}} .review_box img{
+       max-width:{{section.settings.mobaile_icon_width}};
+       margin-bottom: 10px;
+    }
+
+   .id_{{ section.id}} .review_box h3{
+        font-size:{{section.settings.mobaile_title_font_size}}px;
+        line-height:{{section.settings.mobaile_title_line_height}}px;
+        margin-bottom:{{section.settings.mobaile_title_margin_bottom}}px;
+   }
+     .id_{{ section.id}} .review_box .text{
+        font-size:{{section.settings.mobaile_text_font_size}}px;
+        line-height:{{section.settings.mobail_text_line_height}}px;
+        margin-bottom:{{section.settings.mobail_text_margin_bottom}}px;
+   }
+      .id_{{ section.id}} .review_box .ver{
+        font-size: 14px;
+       font-weight: 300;
+       line-height: 20px;
+        margin-left:8px !important;
+        margin:0px;
+      }
+
+
+  }
+</style>
+
+<section class="id_{{ section.id }}">
+  <div class="container">
+        {% for block in section.blocks %}
+          {% case block.type %}
+                {% when 'title' %}
+              <style>
+                .{{block.id}}.title{
+                  font-size:{{block.settings.font_size}}px;
+                  font-weight:{{block.settings.font_weight}};
+                  line-height:{{block.settings.line_height}}px;
+                  color:{{block.settings.textcolor}};
+                  margin-bottom:{{block.settings.margin_bottom}}px !important;
+                  text-align: {{block.settings.text_align}};
+                  width:{{block.settings.width}}%;
+                  margin:{{block.settings.align_content}}
+                }
+                 @media(max-width:767px){
+                 .{{block.id}}.title{
+                  font-size:{{block.settings.mobail_font_size}}px;
+                  line-height:{{block.settings.mobail_line_height}}px;
+                  margin-bottom:{{block.settings.mobail_margin_bottom}}px !important;
+                  text-align: {{block.settings.mobail_text_align}};
+                  width:{{block.settings.mobail_width}}%;
+                  margin:{{block.settings.mobail_align_content}}
+                }
+                 }
+              </style>
+              <h3 class="title {{ block.id }}">{{ block.settings.title }}</h3>
+              {% when 'richtext' %}
+              <style>
+                 .{{block.id}}{
+                   font-size:{{block.settings.font_size}}px;
+                   font-weight:{{block.settings.font_weight}};
+                   line-height:{{block.settings.line_height}}px;
+                   color:{{block.settings.textcolor}};
+                   margin-bottom:{{block.settings.margin_bottom}}px !important;
+                  text-align: {{block.settings.text_align}};
+                  width:{{block.settings.width}}%;
+                  margin:{{block.settings.align_content}}
+                 }
+                    .{{block.id}} ul{
+                             padding-inline-start: 0;
+                       margin-block: 0;
+                       }
+                       .{{block.id}} ul li{
+                          list-style: none;
+                         margin-bottom:10px;
+                          display: flex;
+                       }
+                 .{{block.id}} ul li::before{
+
+                   content: "\2713";
+                   font-size:{{block.settings.font_size}}px;
+                   font-weight:{{block.settings.font_weight}};
+                   margin-right: 10px;
+                   }
+                  @media(max-width:767px){
+                  .{{block.id}}{
+                   font-size:{{block.settings.mobail_font_size}}px;
+                   line-height:{{block.settings.mobail_line_height}}px;
+                   margin-bottom:{{block.settings.mobail_margin_bottom}}px !important;
+                  text-align: {{block.settings.mobail_text_align}};
+                  width:{{block.settings.mobail_width}}%;
+                  margin:{{block.settings.mobail_align_content}}
+                 }
+                .{{block.id}} ul li::before{
+                      font-size:{{block.settings.mobail_font_size}}px;
+                     }
+                  }
+              </style>
+              <div class="{{ block.id }}">{{ block.settings.text }}</div>
+             
+          {% endcase %}
+      {% endfor %} 
+
+    <div class="review_main_box">
+        <div class="swiper reviewsSwiper{{ section.id }}">
+             <div class="swiper-wrapper">
+      
+              {% for block in section.blocks %}
+          {% case block.type %}
+                {% when 'review' %}
+            <div class="swiper-slide">
+                <div class="review_box {{ block.id }}">
+                  {% if block.settings.img_id != blank %}
+                         <div class="image">
+                  <img class=""
+                      src="{{ block.settings.img_id | image_url }}"
+                     alt="{{ block.settings.img_id.alt }}"
+                     width="100%"
+                     height="100%"
+                    >
+                       </div>
+                {% endif %}
+                          <div class="review">★★★★★</div>
+                          <h3>{{ block.settings.title }}</h3>
+                          <p class="text">{{ block.settings.text }}</p>
+                          <h3>{{ block.settings.name }}</h3>
+                          <div class="verified">
+                              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M14.1247 6.67117C13.9082 6.5453 13.7136 6.38497 13.5487 6.1965C13.5654 5.93411 13.6279 5.67667 13.7334 5.43584C13.9274 4.8885 14.1467 4.2685 13.7947 3.7865C13.4427 3.3045 12.778 3.31984 12.1947 3.33317C11.9369 3.35969 11.6765 3.34211 11.4247 3.28117C11.2905 3.06284 11.1947 2.82316 11.1414 2.5725C10.976 2.00917 10.7874 1.3725 10.208 1.18184C9.64936 1.00184 9.13203 1.39784 8.67469 1.74584C8.47735 1.92605 8.2487 2.06862 8.00003 2.1665C7.74876 2.06942 7.51755 1.92681 7.31803 1.74584C6.86203 1.39984 6.34669 0.999837 5.78536 1.1825C5.20736 1.3705 5.01869 2.00917 4.85203 2.5725C4.79878 2.82235 4.7039 3.06146 4.57136 3.27984C4.31904 3.34061 4.05831 3.35864 3.80003 3.33317C3.21469 3.31717 2.55536 3.29984 2.20003 3.7865C1.84469 4.27317 2.06669 4.8885 2.26136 5.43517C2.36832 5.67564 2.43175 5.93319 2.44869 6.19584C2.28408 6.38455 2.08974 6.54511 1.87336 6.67117C1.38536 7.0045 0.83136 7.38384 0.83136 7.99984C0.83136 8.61584 1.38536 8.99384 1.87336 9.3285C2.08969 9.45436 2.28403 9.61469 2.44869 9.80317C2.43353 10.0657 2.37191 10.3235 2.26669 10.5645C2.07336 11.1112 1.85469 11.7312 2.20603 12.2132C2.55736 12.6952 3.22003 12.6798 3.80603 12.6665C4.064 12.64 4.32462 12.6575 4.57669 12.7185C4.71028 12.9371 4.80586 13.1767 4.85936 13.4272C5.02469 13.9905 5.21336 14.6272 5.79269 14.8178C5.88557 14.8476 5.98249 14.8629 6.08003 14.8632C6.54883 14.7959 6.98455 14.5827 7.32536 14.2538C7.5227 14.0736 7.75135 13.9311 8.00003 13.8332C8.2513 13.9303 8.4825 14.0729 8.68203 14.2538C9.13869 14.6025 9.65603 15.0005 10.2154 14.8172C10.7934 14.6292 10.982 13.9905 11.1487 13.4278C11.2021 13.1775 11.2977 12.9381 11.4314 12.7198C11.6827 12.6586 11.9426 12.6406 12.2 12.6665C12.7854 12.6805 13.4447 12.6998 13.8 12.2132C14.1554 11.7265 13.9334 11.1112 13.7387 10.5638C13.6325 10.3236 13.5691 10.0666 13.5514 9.8045C13.7161 9.61562 13.9107 9.45504 14.1274 9.32917C14.6154 8.99584 15.1694 8.61584 15.1694 7.99984C15.1694 7.38384 14.6134 7.00517 14.1247 6.67117Z" fill="#457DAB"></path> <path d="M7.33337 9.83301C7.26771 9.83313 7.20267 9.82024 7.14202 9.79506C7.08137 9.76989 7.02632 9.73293 6.98004 9.68634L5.64671 8.35301C5.55839 8.25823 5.5103 8.13286 5.51259 8.00333C5.51488 7.87379 5.56735 7.7502 5.65896 7.6586C5.75057 7.56699 5.87416 7.51451 6.00369 7.51223C6.13323 7.50994 6.25859 7.55802 6.35337 7.64634L7.38004 8.67301L9.70004 6.93301C9.80613 6.85344 9.93948 6.81928 10.0708 6.83804C10.202 6.85679 10.3205 6.92692 10.4 7.03301C10.4796 7.1391 10.5138 7.27244 10.495 7.40372C10.4763 7.535 10.4061 7.65345 10.3 7.73301L7.63337 9.73301C7.5468 9.79788 7.44155 9.83296 7.33337 9.83301Z" fill="white"></path> </svg>
+                             <p class="ver">Verified Purchase</p>
+                          </div>
+                    </div>
+              </div>
+                {% endcase %}
+      {% endfor %} 
+
+
+           </div>
+        </div>
+    </div>
+
+  </div>
+</section>
+
+
+<script>
+    var swiper = new Swiper(".reviewsSwiper{{ section.id }}", {
+      slidesPerView: 1,
+      breakpoints: {
+      769: {
+        slidesPerView:3,
+        slidesPerGroup: 1,
+      },
+    },
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      spaceBetween:{{section.settings.box_gap}},
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+    });
+  </script>
+
+
+{% schema %}
+  {
+     "name": "PopDarts Reviews",
+    "settings": [
+             {
+        "type": "select",
+         "id": "container",
+            "label": "Container Width",
+            "default": "container",
+            "options": [
+              {
+                "label": "Container",
+                "value": "container"
+              },
+              {
+                "value": "container-full",
+                "label": "Container Full"
+              }
+            ]
+          },
+
+      {
+  "type": "color",
+   "label": "Background Color",
+   "id": "bgcolor"
+ },
+ {
+   "type": "header",
+   "content": "Laptop Style"
+ },
+
+ {
+       "type": "range",
+          "id": "laptop_top",
+          "label": "Section Top Padding",
+          "min":0,
+          "max":150,
+          "step": 2,
+        "unit": "px",
+        "default":112
+      },
+      {
+       "type": "range",
+          "id": "laptop_bottom",
+          "label": "Section Bottom Padding",
+          "min":0,
+          "max":150,
+        "unit": "px",
+          "default":112,
+          "step": 2
+      },
+      {
+       "type": "range",
+          "id": "box_gap",
+          "label": "Box Gap",
+          "min":0,
+          "max":50,
+          "unit": "px",
+          "default":15,
+          "step": 1
+      },
+        {
+       "type": "range",
+          "id": "box_padding",
+          "label": "Box Padding",
+          "min":0,
+          "max":50,
+          "unit": "px",
+          "default":0,
+          "step": 1
+      },
+     
+        {
+       "type": "text",
+          "id": "icon_width",
+          "label": "Icon Max Width",
+          "default":"30px"
+      },
+      {
+      "type": "text",
+      "id": "aspect_ratio",
+      "label": "Icon Aspect Ratio(1/1)"
+    },
+     {
+        "type": "select",
+         "id": "object_fit",
+            "label": "Icon Object fit",
+            "options": [
+              {
+                "label": "fill",
+                "value": "fill"
+              },
+              {
+                "label": "cover",
+                "value": "cover"
+              },
+              {
+                "value": "contain",
+                "label": "contain"
+              }
+            ],
+          "default": "fill"
+          }, 
+             {
+       "type": "range",
+          "id": "icon_size",
+          "label": "Star Icon Size",
+          "min":0,
+          "max":40,
+        "unit": "px",
+          "default":20,
+          "step": 1
+      },
+       {
+       "type": "range",
+          "id": "title_font_size",
+          "label": "Title Font Size",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":18,
+          "step": 1
+      },
+             {
+       "type": "range",
+          "id": "title_line_height",
+          "label": "Title Line Height",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":18,
+          "step": 1
+      },
+    {
+        "type": "select",
+         "id": "title_font_weight",
+            "label": "Title Font Weight",
+            "default": "500",
+            "options": [
+              {
+                "label": "100",
+                "value": "100"
+              },
+              {
+                "value": "200",
+                "label": "200"
+              },
+                {
+                "label": "300",
+                "value": "300"
+              },
+              {
+                "value": "400",
+                "label": "400"
+              },
+                  {
+                "label": "500",
+                "value": "500"
+              },
+              {
+                "value": "600",
+                "label": "600"
+              },
+              {
+                "label": "700",
+                "value": "700"
+              },
+              {
+                "label": "800",
+                "value": "800"
+              },
+               {
+                "label": "900",
+                "value": "900"
+              },
+               {
+                "label": "Bold",
+                "value": "bold"
+              }
+            ]
+          },
+          {
+       "type": "range",
+          "id": "title_margin_bottom",
+          "label": "Title Margin Bottom",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":10,
+          "step": 1
+      },
+             {
+       "type": "range",
+          "id": "text_font_size",
+          "label": "Text Font Size",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":18,
+          "step": 1
+      },
+             {
+       "type": "range",
+          "id": "text_line_height",
+          "label": "Text Line Height",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":18,
+          "step": 1
+      },
+    {
+        "type": "select",
+         "id": "text_font_weight",
+            "label": "Text Font Weight",
+            "default": "500",
+            "options": [
+              {
+                "label": "100",
+                "value": "100"
+              },
+              {
+                "value": "200",
+                "label": "200"
+              },
+                {
+                "label": "300",
+                "value": "300"
+              },
+              {
+                "value": "400",
+                "label": "400"
+              },
+                  {
+                "label": "500",
+                "value": "500"
+              },
+              {
+                "value": "600",
+                "label": "600"
+              },
+              {
+                "label": "700",
+                "value": "700"
+              },
+              {
+                "label": "800",
+                "value": "800"
+              },
+               {
+                "label": "900",
+                "value": "900"
+              },
+               {
+                "label": "Bold",
+                "value": "bold"
+              }
+            ]
+          },
+          {
+       "type": "range",
+          "id": "text_margin_bottom",
+          "label": "Text Margin Bottom",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":10,
+          "step": 1
+      },
+       {
+        "type": "header",
+        "content": "Mobail Style"
+      },
+      {
+       "type": "range",
+          "id": "mobail_top",
+          "label": "Section Padding Top",
+          "min":0,
+          "max":80,
+          "step": 1,
+        "unit": "px",
+        "default":64
+      },
+      {
+       "type": "range",
+          "id": "mobail_bottom",
+          "label": "Section Padding Bottom",
+          "min":0,
+          "max":80,
+        "unit": "px",
+          "default":64,
+          "step": 1
+      },
+        {
+       "type": "range",
+          "id": "mobail_box_padding",
+          "label": "Box Padding",
+          "min":0,
+          "max":50,
+          "unit": "px",
+          "default":20,
+          "step": 1
+      },
+       {
+       "type": "text",
+          "id": "mobaile_icon_width",
+          "label": "Image Max Width"
+      },
+                   {
+       "type": "range",
+          "id": "mobail_icon_star",
+          "label": "Star Icon Size",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":10,
+          "step": 1
+      },
+       {
+       "type": "range",
+          "id": "mobaile_title_font_size",
+          "label": "Title Font Size",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":18,
+          "step": 1
+      },
+             {
+       "type": "range",
+          "id": "mobaile_title_line_height",
+          "label": "Title Line Height",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":18,
+          "step": 1
+      },
+          {
+       "type": "range",
+          "id": "mobaile_title_margin_bottom",
+          "label": "Title Margin Bottom",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":10,
+          "step": 1
+      },
+             {
+       "type": "range",
+          "id": "mobaile_text_font_size",
+          "label": "Text Font Size",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":18,
+          "step": 1
+      },
+             {
+       "type": "range",
+          "id": "mobail_text_line_height",
+          "label": "Text Line Height",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":18,
+          "step": 1
+      },
+          {
+       "type": "range",
+          "id": "mobail_text_margin_bottom",
+          "label": "Text Margin Bottom",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":10,
+          "step": 1
+      },
+      {
+        "type": "header",
+        "content": "Icon Box Color"
+      },
+         {
+        "type":"color",
+        "id":"star_color",
+        "label": "Star Color"
+      },
+      {
+        "type":"color",
+        "id":"title_color",
+        "label": "Title Color"
+      },
+        {
+        "type":"color",
+        "id":"text_color",
+        "label": "Text Color"
+      },
+        {
+        "type":"color",
+        "id":"box_color",
+        "label": "Box Background Color"
+      }
+      
+     
+    ],
+    "blocks": [ 
+      {
+        "type":"review",
+        "name":"Review",
+        "settings":[
+          {
+            "type":"image_picker",
+            "id":"img_id",
+            "label":"Select Image"
+          },
+          {
+            "type":"text",
+            "id":"title",
+            "label":"Title",
+            "default": "The Best Gift"
+          },
+          {
+            "type":"textarea",
+            "id":"text",
+            "label":"Description",
+            "default": "They are absolutely worth the price as a gift...I am looking forward to treating myself to one too."
+          },
+            {
+            "type":"text",
+            "id":"name",
+            "label":"Name",
+            "default": "Candice"
+          }
+        ]
+      },
+      {
+  "type": "title",
+  "name": "Title",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default":"The ShopLandingAI Solution"
+    },
+    {
+      "type": "color",
+      "id": "textcolor",
+      "label": "Color",
+      "default":"#000000"
+    },
+     {
+   "type": "header",
+   "content": "Laptop Typography"
+    },
+     {
+        "type": "select",
+         "id": "text_align",
+            "label": "Text Align",
+            "default": "left",
+            "options": [
+              {
+                "label": "left",
+                "value": "left"
+              },
+              {
+                "value": "center",
+                "label": "center"
+              },
+              {
+                "label": "right",
+                "value": "right"
+              }
+            ]
+          },
+        {
+       "type": "range",
+          "id": "width",
+          "label": "Width",
+          "min":0,
+          "max":100,
+          "unit": "%",
+          "default":100,
+          "step": 1
+      },     {
+        "type": "select",
+         "id": "align_content",
+            "label": "Align Content",
+            "default": "0px auto 0px 0px",
+            "options": [
+              {
+                "label": "left",
+                "value": "0px auto 0px 0px"
+              },
+              {
+                "value": "0px auto",
+                "label": "center"
+              },
+              {
+                "label": "right",
+                "value": "0px 0px 0px auto"
+              }
+            ]
+          },
+    {
+       "type": "range",
+          "id": "font_size",
+          "label": "Font Size",
+          "min":0,
+          "max":100,
+        "unit": "px",
+          "default":50,
+          "step": 1
+      },
+        {
+       "type": "range",
+          "id": "line_height",
+          "label": "Line Height",
+          "min":0,
+          "max":100,
+        "unit": "px",
+          "default":60,
+          "step": 1
+      },
+
+    {
+        "type": "select",
+         "id": "font_weight",
+            "label": "Font Weight",
+            "default": "500",
+            "options": [
+              {
+                "label": "100",
+                "value": "100"
+              },
+              {
+                "value": "200",
+                "label": "200"
+              },
+                {
+                "label": "300",
+                "value": "300"
+              },
+              {
+                "value": "400",
+                "label": "400"
+              },
+                  {
+                "label": "500",
+                "value": "500"
+              },
+              {
+                "value": "600",
+                "label": "600"
+              },
+              {
+                "label": "700",
+                "value": "700"
+              },
+              {
+                "label": "800",
+                "value": "800"
+              },
+               {
+                "label": "900",
+                "value": "900"
+              },
+               {
+                "label": "Bold",
+                "value": "bold"
+              }
+            ]
+          },
+          {
+        "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin Bottom",
+          "min":0,
+          "max":100,
+           "unit": "px",
+          "default":8,
+          "step": 1
+    },
+         {
+   "type": "header",
+   "content": "Mobail Typography"
+    },
+    {
+        "type": "select",
+         "id": "mobail_text_align",
+            "label": "Text Align",
+            "default": "left",
+            "options": [
+              {
+                "label": "left",
+                "value": "left"
+              },
+              {
+                "value": "center",
+                "label": "center"
+              },
+              {
+                "label": "right",
+                "value": "right"
+              }
+            ]
+          },
+        {
+       "type": "range",
+          "id": "mobail_width",
+          "label": "Width",
+          "min":0,
+          "max":100,
+          "unit": "%",
+          "default":100,
+          "step": 1
+      },     {
+        "type": "select",
+         "id": "mobail_align_content",
+            "label": "Align Content",
+            "default": "0px auto 0px 0px",
+            "options": [
+              {
+                "label": "left",
+                "value": "0px auto 0px 0px"
+              },
+              {
+                "value": "0px auto",
+                "label": "center"
+              },
+              {
+                "label": "right",
+                "value": "0px 0px 0px auto"
+              }
+            ]
+          },
+    {
+       "type": "range",
+          "id": "mobail_font_size",
+          "label": "Font Size",
+          "min":0,
+          "max":100,
+        "unit": "px",
+          "default":29,
+          "step": 1
+      },
+        {
+       "type": "range",
+          "id": "mobail_line_height",
+          "label": "Line Height",
+          "min":0,
+          "max":100,
+        "unit": "px",
+          "default":40,
+          "step": 1
+      },
+          {
+        "type": "range",
+          "id": "mobail_margin_bottom",
+          "label": "Margin Bottom",
+          "min":0,
+          "max":100,
+           "unit": "px",
+          "default":8,
+          "step": 1
+    }
+  ]
+},
+{
+  "type": "richtext",
+  "name":"Rich Text",
+  "settings": [
+    {
+      "type": "richtext",
+      "label": "Content",
+      "id": "text"
+    },
+     {
+      "type": "color",
+      "id": "textcolor",
+      "label": "Color",
+      "default":"#000000"
+    },
+     {
+   "type": "header",
+   "content": "Laptop Typography"
+    },     {
+        "type": "select",
+         "id": "text_align",
+            "label": "Text Align",
+            "default": "left",
+            "options": [
+              {
+                "label": "left",
+                "value": "left"
+              },
+              {
+                "value": "center",
+                "label": "center"
+              },
+              {
+                "label": "right",
+                "value": "right"
+              }
+            ]
+          },
+        {
+       "type": "range",
+          "id": "width",
+          "label": "Width",
+          "min":0,
+          "max":100,
+          "unit": "%",
+          "default":100,
+          "step": 1
+      },     {
+        "type": "select",
+         "id": "align_content",
+            "label": "Align Content",
+            "default": "0px auto 0px 0px",
+            "options": [
+              {
+                "label": "left",
+                "value": "0px auto 0px 0px"
+              },
+              {
+                "value": "0px auto",
+                "label": "center"
+              },
+              {
+                "label": "right",
+                "value": "0px 0px 0px auto"
+              }
+            ]
+          },
+    {
+       "type": "range",
+          "id": "font_size",
+          "label": "Font Size",
+          "min":0,
+          "max":30,
+        "unit": "px",
+          "default":18,
+          "step": 1
+      },
+        {
+       "type": "range",
+          "id": "line_height",
+          "label": "Line Height",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":27,
+          "step": 1
+      },
+
+    {
+        "type": "select",
+         "id": "font_weight",
+            "label": "Font Weight",
+            "default": "500",
+            "options": [
+              {
+                "label": "100",
+                "value": "100"
+              },
+              {
+                "value": "200",
+                "label": "200"
+              },
+                {
+                "label": "300",
+                "value": "300"
+              },
+              {
+                "value": "400",
+                "label": "400"
+              },
+                  {
+                "label": "500",
+                "value": "500"
+              },
+              {
+                "value": "600",
+                "label": "600"
+              },
+              {
+                "label": "700",
+                "value": "700"
+              },
+              {
+                "label": "800",
+                "value": "800"
+              },
+               {
+                "label": "900",
+                "value": "900"
+              },
+               {
+                "label": "Bold",
+                "value": "bold"
+              }
+            ]
+          },
+          {
+        "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin Bottom",
+          "min":0,
+          "max":100,
+           "unit": "px",
+          "default":20,
+          "step": 1
+    },
+         {
+   "type": "header",
+   "content": "Mobail Typography"
+    },     {
+        "type": "select",
+         "id": "mobail_text_align",
+            "label": "Text Align",
+            "default": "left",
+            "options": [
+              {
+                "label": "left",
+                "value": "left"
+              },
+              {
+                "value": "center",
+                "label": "center"
+              },
+              {
+                "label": "right",
+                "value": "right"
+              }
+            ]
+          },
+        {
+       "type": "range",
+          "id": "mobail_width",
+          "label": "Width",
+          "min":0,
+          "max":100,
+          "unit": "%",
+          "default":100,
+          "step": 1
+      },     {
+        "type": "select",
+         "id": "mobail_align_content",
+            "label": "Align Content",
+            "default": "0px auto 0px 0px",
+            "options": [
+              {
+                "label": "left",
+                "value": "0px auto 0px 0px"
+              },
+              {
+                "value": "0px auto",
+                "label": "center"
+              },
+              {
+                "label": "right",
+                "value": "0px 0px 0px auto"
+              }
+            ]
+          },
+    {
+       "type": "range",
+          "id": "mobail_font_size",
+          "label": "Font Size",
+          "min":0,
+          "max":30,
+        "unit": "px",
+          "default":16,
+          "step": 1
+      },
+        {
+       "type": "range",
+          "id": "mobail_line_height",
+          "label": "Line Height",
+          "min":0,
+          "max":50,
+        "unit": "px",
+          "default":24,
+          "step": 1
+      },
+          {
+        "type": "range",
+          "id": "mobail_margin_bottom",
+          "label": "Margin Bottom",
+          "min":0,
+          "max":100,
+           "unit": "px",
+          "default":20,
+          "step": 1
+    }
+  ]
+} 
+    ],
+    "presets": [
+      {
+        "name": "PopDarts Reviews"
+      }
+    ]
+  }
+{% endschema %}

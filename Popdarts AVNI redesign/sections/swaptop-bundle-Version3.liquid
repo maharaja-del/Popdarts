@@ -1,0 +1,3023 @@
+{% comment %}
+  Swaptop Bundle v4 — Clean Configurator (restyled to match v1 aesthetic)
+  Drop into: sections/swaptop-bundle-v4.liquid
+
+  Aesthetic: clean white surface · Inter typography · green #23ff53 accent
+  - Inter font throughout (no Fraunces / Space Grotesk)
+  - White paper with subtle gray surfaces
+  - Green primary accent, gold star rating
+  - Soft rounded corners, no hard offset shadows
+  - No tilted/rotated decorations, no italic display type
+
+  Keeps every cart action, modal, lightbox and reel from v4.
+  Uses sw4- prefix so both versions can coexist.
+{% endcomment %}
+
+{% assign main_product   = all_products['swaptop-kit'] %}
+{% assign addon_football = all_products['swaptop-football'] %}
+{% assign addon_og       = all_products['swaptop-og'] %}
+{% assign addon_popgolf  = all_products['swaptop-popgolf'] %}
+
+{% assign sid = section.id | replace: '-', '_' | replace: '.', '_' %}
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  .sw4-section-{{ sid }} {
+    --sw4-bg:       #ffffff;
+    --sw4-bg-2:     #fafafa;
+    --sw4-bg-3:     #f3f4f6;
+    --sw4-text:     #0a0a0a;
+    --sw4-text-2:   #525252;
+    --sw4-text-3:   #a3a3a3;
+    --sw4-line:     #ececec;
+    --sw4-line-2:   #f4f4f4;
+    --sw4-accent:   #23ff53;
+    --sw4-accent-2: #16a34a;
+    --sw4-accent-3: #065f46;
+    --sw4-accent-soft: #f0fdf4;
+    --sw4-accent-soft-2: #dcfce7;
+    --sw4-star:     #f59e0b;
+    --sw4-ink:      #0a0a0a;
+    --sw4-font:     'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --sw4-ease:     cubic-bezier(0.16, 1, 0.3, 1);
+
+    position: relative;
+    background: var(--sw4-bg);
+    color: var(--sw4-text);
+    overflow-x: clip;
+    isolation: isolate;
+    font-family: var(--sw4-font);
+  }
+  /* ambient glow behind hero area */
+  .sw4-section-{{ sid }}::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: min(900px, 90%);
+    height: 520px;
+    background:
+      radial-gradient(60% 80% at 30% 40%, rgba(35,255,83,0.10) 0%, rgba(35,255,83,0) 70%),
+      radial-gradient(50% 80% at 80% 30%, rgba(35,255,83,0.06) 0%, rgba(35,255,83,0) 70%);
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(8px);
+  }
+  .sw4-section-{{ sid }} *,
+  .sw4-section-{{ sid }} *::before,
+  .sw4-section-{{ sid }} *::after { box-sizing: border-box; }
+
+  .sw4-section-{{ sid }}-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1380px;
+    margin: 0 auto;
+    padding: 44px 20px 64px;
+  }
+
+  /* BUTTON RESET */
+  .sw4-section-{{ sid }} button,
+  body > .sw4-modal-{{ sid }} button {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    border: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    line-height: 1 !important;
+    font: inherit !important;
+    color: inherit !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    cursor: pointer;
+    box-sizing: border-box !important;
+    box-shadow: none;
+    background: transparent;
+  }
+  .sw4-section-{{ sid }} button::before,
+  .sw4-section-{{ sid }} button::after,
+  body > .sw4-modal-{{ sid }} button::before,
+  body > .sw4-modal-{{ sid }} button::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  /* HEADER */
+  .sw4-header-{{ sid }} {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-bottom: 40px;
+    position: relative;
+    max-width: 720px;
+  }
+  .sw4-eyebrow-{{ sid }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--sw4-font);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--sw4-text-2);
+  }
+  .sw4-eyebrow-{{ sid }}::before {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: var(--sw4-text);
+  }
+  .sw4-eyebrow-{{ sid }}::after {
+    content: '— 04';
+    color: var(--sw4-accent-2);
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    margin-left: 2px;
+  }
+  .sw4-headline-{{ sid }} {
+    margin: 0;
+    font-family: var(--sw4-font);
+    font-weight: 800;
+    font-size: clamp(44px, 9vw, 84px);
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+    color: var(--sw4-text);
+  }
+  .sw4-headline-{{ sid }} em {
+    font-style: normal;
+    font-weight: 800;
+    background: linear-gradient(120deg, var(--sw4-accent-2) 0%, var(--sw4-accent) 60%, var(--sw4-accent-2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+  }
+  .sw4-headline-{{ sid }} em::after {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-left: -2px;
+    margin-bottom: 0.08em;
+    border-radius: 50%;
+    background: var(--sw4-accent);
+    vertical-align: baseline;
+    box-shadow: 0 0 14px rgba(35,255,83,0.6);
+  }
+  .sw4-sub-{{ sid }} {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--sw4-text-2);
+    max-width: 540px;
+    font-weight: 400;
+  }
+  .sw4-header-meta-{{ sid }} {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 20px;
+    margin-top: 4px;
+    padding-top: 18px;
+    border-top: 1px solid var(--sw4-line);
+  }
+  .sw4-stars-{{ sid }} {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    background: transparent !important;
+    padding: 0 !important;
+  }
+  .sw4-stars-icons-{{ sid }} { display: flex; gap: 2px; }
+  .sw4-stars-icons-{{ sid }} span { color: var(--sw4-star); font-size: 16px; line-height: 1; }
+  .sw4-stars-label-{{ sid }} {
+    font-family: var(--sw4-font);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--sw4-text);
+    transition: color 0.2s ease;
+  }
+  .sw4-stars-label-{{ sid }}::after {
+    content: '↗';
+    margin-left: 4px;
+    font-size: 11px;
+    color: var(--sw4-text-3);
+  }
+  .sw4-stars-{{ sid }}:hover .sw4-stars-label-{{ sid }} { color: var(--sw4-accent-2); }
+  .sw4-live-{{ sid }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--sw4-font);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--sw4-text-2);
+    letter-spacing: 0;
+    text-transform: none;
+    background: transparent;
+    border: 0;
+    padding: 0;
+  }
+  .sw4-live-dot-{{ sid }} {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--sw4-accent-2);
+    animation: sw4pulse-{{ sid }} 1.6s ease-in-out infinite;
+  }
+  @keyframes sw4pulse-{{ sid }} {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.5; transform: scale(0.85); }
+  }
+
+  /* BUILDER GRID */
+  .sw4-builder-{{ sid }} {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  .sw4-hero-col-{{ sid }} {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
+  }
+
+  /* HERO */
+  .sw4-hero-{{ sid }} {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    background: var(--sw4-bg-2);
+    border: 1px solid var(--sw4-line);
+    aspect-ratio: 1 / 1;
+    box-shadow:
+      0 1px 2px rgba(0,0,0,0.04),
+      0 8px 30px rgba(0,0,0,0.05);
+  }
+  .sw4-hero-stage-{{ sid }} {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .sw4-hero-num-{{ sid }} {
+    display: none;
+  }
+  .sw4-hero-img-{{ sid }} {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: contain;
+    padding: 48px 32px 96px;
+    display: block;
+    z-index: 2;
+    transition: opacity 0.25s ease;
+  }
+  .sw4-hero-pill-{{ sid }} {
+    position: absolute;
+    top: 16px; left: 16px;
+    z-index: 4;
+    padding: 7px 12px 7px 10px;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: var(--sw4-text);
+    border: 1px solid rgba(0,0,0,0.06);
+    font-family: var(--sw4-font);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .sw4-hero-pill-{{ sid }} .sw4-pulse {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--sw4-accent);
+    box-shadow: 0 0 0 3px rgba(35,255,83,0.25);
+    animation: sw4pulse-{{ sid }} 1.6s ease-in-out infinite;
+  }
+  .sw4-hero-counter-{{ sid }} {
+    position: absolute;
+    top: 16px; right: 16px;
+    z-index: 4;
+    padding: 7px 12px;
+    border-radius: 100px;
+    background: rgba(10,10,10,0.88);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #fff;
+    font-family: var(--sw4-font);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    font-variant-numeric: tabular-nums;
+  }
+  .sw4-hero-thumbs-{{ sid }} {
+    position: absolute;
+    bottom: 14px; left: 14px; right: 14px;
+    z-index: 4;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .sw4-hero-thumbs-{{ sid }}::-webkit-scrollbar { display: none; }
+  .sw4-hero-thumb-{{ sid }} {
+    width: 54px !important; height: 54px !important;
+    border-radius: 10px !important;
+    overflow: hidden !important;
+    cursor: pointer;
+    border: 2px solid transparent !important;
+    background: #fff !important;
+    flex-shrink: 0;
+    transition: border-color 0.2s !important;
+    padding: 0 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+  }
+  .sw4-hero-thumb-{{ sid }}.active,
+  .sw4-hero-thumb-{{ sid }}:hover {
+    border-color: var(--sw4-accent) !important;
+  }
+  .sw4-hero-thumb-{{ sid }} img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* KIT COMPOSITION */
+  .sw4-comp-{{ sid }} {
+    position: relative;
+    padding: 16px 18px 18px;
+    border-radius: 14px;
+    border: 1px solid var(--sw4-line);
+    background: #fff;
+  }
+  .sw4-comp-head-{{ sid }} {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--sw4-line);
+  }
+  .sw4-comp-eyebrow-{{ sid }} {
+    font-family: var(--sw4-font);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--sw4-text-2);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sw4-comp-eyebrow-{{ sid }}::before {
+    content: '';
+    width: 5px; height: 5px;
+    background: var(--sw4-accent);
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px rgba(35,255,83,0.2);
+  }
+  .sw4-comp-count-{{ sid }} {
+    font-family: var(--sw4-font);
+    font-weight: 800;
+    font-size: 12px;
+    color: var(--sw4-text);
+    letter-spacing: 0.08em;
+    padding: 4px 8px;
+    background: var(--sw4-bg-2);
+    border-radius: 6px;
+    font-variant-numeric: tabular-nums;
+  }
+  .sw4-comp-pills-{{ sid }} {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .sw4-comp-pill-{{ sid }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 4px 11px 4px 4px;
+    border-radius: 100px;
+    background: #fff;
+    border: 1px solid var(--sw4-line);
+    font-family: var(--sw4-font);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--sw4-text);
+    animation: sw4pillin-{{ sid }} 0.3s ease-out both;
+  }
+  @keyframes sw4pillin-{{ sid }} {
+    from { opacity: 0; transform: scale(0.85); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  .sw4-comp-pill-img-{{ sid }} {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: var(--sw4-bg-3);
+  }
+  .sw4-comp-pill-img-{{ sid }} img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .sw4-comp-plus-{{ sid }} {
+    color: var(--sw4-text-3);
+    font-family: var(--sw4-font);
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  /* CONFIGURATOR */
+  .sw4-config-col-{{ sid }} {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+  }
+  .sw4-config-head-{{ sid }} {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 6px 2px 4px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--sw4-line);
+    padding-bottom: 14px;
+  }
+  .sw4-config-title-{{ sid }} {
+    margin: 0;
+    font-family: var(--sw4-font);
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: -0.02em;
+    text-transform: none;
+    line-height: 1;
+    color: var(--sw4-text);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sw4-config-title-{{ sid }}::before {
+    display: none;
+    content: none;
+  }
+  .sw4-config-title-{{ sid }} em {
+    font-style: normal;
+    font-weight: 800;
+    background: linear-gradient(120deg, var(--sw4-accent-2), var(--sw4-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .sw4-config-meta-{{ sid }} {
+    font-family: var(--sw4-font);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--sw4-text-3);
+    text-transform: none;
+  }
+
+  /* WIDE CARD */
+  .sw4-card-{{ sid }} {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #fff;
+    border: 1.5px solid var(--sw4-line);
+    transition: border-color 0.3s var(--sw4-ease), box-shadow 0.3s var(--sw4-ease), transform 0.3s var(--sw4-ease);
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    min-height: 110px;
+  }
+  .sw4-card-{{ sid }}::before { content: none; }
+  .sw4-card-{{ sid }}:not(.locked):hover {
+    border-color: #d4d4d4;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+    transform: translateY(-1px);
+  }
+  .sw4-card-{{ sid }}.selected {
+    border-color: var(--sw4-accent);
+    box-shadow:
+      0 0 0 1px var(--sw4-accent),
+      0 6px 24px rgba(35,255,83,0.16);
+  }
+  .sw4-card-{{ sid }}.locked {
+    border-color: var(--sw4-accent);
+    box-shadow: 0 0 0 1px var(--sw4-accent);
+  }
+  /* subtle inner highlight on selected/locked */
+  .sw4-card-{{ sid }}.selected::after,
+  .sw4-card-{{ sid }}.locked::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(35,255,83,0.5), transparent);
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  .sw4-card-img-{{ sid }} {
+    position: relative;
+    overflow: hidden;
+    background: var(--sw4-bg-2);
+    cursor: pointer;
+  }
+  .sw4-card-img-{{ sid }}::before { content: none; }
+  .sw4-card-img-{{ sid }} img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    z-index: 1;
+    transition: transform 0.3s ease;
+  }
+  .sw4-card-{{ sid }}:not(.locked):hover .sw4-card-img-{{ sid }} img { transform: scale(1.04); }
+
+  .sw4-card-tag-{{ sid }} {
+    position: absolute;
+    top: 8px; left: 8px;
+    z-index: 4;
+    padding: 4px 9px;
+    border-radius: 100px;
+    background: #fff;
+    border: 1px solid var(--sw4-line);
+    font-family: var(--sw4-font);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--sw4-text);
+  }
+  .sw4-card-tag-{{ sid }}.is-included {
+    background: var(--sw4-accent-soft);
+    color: var(--sw4-accent-2);
+    border-color: var(--sw4-accent-soft-2);
+  }
+  .sw4-card-tag-{{ sid }}.is-fave {
+    background: #fffbeb;
+    color: #b45309;
+    border-color: #fde68a;
+  }
+
+  .sw4-card-body-{{ sid }} {
+    padding: 12px 14px 12px 16px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px 14px;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+  }
+  .sw4-card-{{ sid }}.locked .sw4-card-body-{{ sid }} { cursor: default; }
+  .sw4-card-info-{{ sid }} { min-width: 0; }
+  .sw4-card-eyebrow-{{ sid }} {
+    display: block;
+    font-family: var(--sw4-font);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sw4-text-3);
+    margin-bottom: 4px;
+  }
+  .sw4-card-{{ sid }}.selected .sw4-card-eyebrow-{{ sid }},
+  .sw4-card-{{ sid }}.locked   .sw4-card-eyebrow-{{ sid }} { color: var(--sw4-accent-2); }
+  .sw4-card-title-{{ sid }} {
+    margin: 0;
+    font-family: var(--sw4-font);
+    font-weight: 800;
+    font-size: 17px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--sw4-text);
+  }
+  .sw4-card-sub-{{ sid }} {
+    margin: 5px 0 0;
+    font-size: 12px;
+    color: var(--sw4-text-2);
+    font-weight: 400;
+    line-height: 1.4;
+    display: none;
+  }
+  .sw4-card-aside-{{ sid }} {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .sw4-card-price-{{ sid }} {
+    font-family: var(--sw4-font);
+    font-weight: 800;
+    font-size: 15px;
+    color: var(--sw4-text);
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+  .sw4-card-{{ sid }}.selected .sw4-card-price-{{ sid }},
+  .sw4-card-{{ sid }}.locked   .sw4-card-price-{{ sid }} { color: var(--sw4-accent-2); }
+
+  .sw4-card-action-{{ sid }} {
+    width: 36px !important; height: 36px !important;
+    aspect-ratio: 1 !important;
+    border-radius: 50% !important;
+    background: var(--sw4-bg-2) !important;
+    border: 1px solid var(--sw4-line) !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    transition: background 0.2s ease, border-color 0.2s ease !important;
+  }
+  .sw4-card-action-{{ sid }}:hover {
+    background: var(--sw4-bg-3) !important;
+    border-color: #d1d5db !important;
+  }
+  .sw4-card-action-{{ sid }} svg { width: 14px; height: 14px; stroke: var(--sw4-text); transition: stroke 0.2s ease; }
+  .sw4-card-{{ sid }}.selected .sw4-card-action-{{ sid }} {
+    background: var(--sw4-accent) !important;
+    border-color: var(--sw4-accent) !important;
+  }
+  .sw4-card-{{ sid }}.selected .sw4-card-action-{{ sid }} svg { stroke: #111 !important; }
+  .sw4-card-{{ sid }}.locked .sw4-card-action-{{ sid }} {
+    background: var(--sw4-accent) !important;
+    border-color: var(--sw4-accent) !important;
+    pointer-events: none !important;
+  }
+  .sw4-card-{{ sid }}.locked .sw4-card-action-{{ sid }} svg { stroke: #111 !important; }
+  .sw4-card-action-{{ sid }} .sw4-icon-check { display: none; }
+  .sw4-card-action-{{ sid }} .sw4-icon-plus  { display: block; }
+  .sw4-card-{{ sid }}.selected .sw4-card-action-{{ sid }} .sw4-icon-plus  { display: none; }
+  .sw4-card-{{ sid }}.selected .sw4-card-action-{{ sid }} .sw4-icon-check { display: block; }
+  .sw4-card-{{ sid }}.locked .sw4-card-action-{{ sid }} .sw4-icon-plus  { display: none; }
+  .sw4-card-{{ sid }}.locked .sw4-card-action-{{ sid }} .sw4-icon-check { display: block; }
+
+  .sw4-card-detail-{{ sid }} {
+    font-family: var(--sw4-font) !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.04em !important;
+    color: var(--sw4-text-2) !important;
+    background: transparent !important;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.2s ease;
+  }
+  .sw4-card-detail-{{ sid }}:hover { color: var(--sw4-accent-2) !important; }
+
+  .sw4-card-popup-{{ sid }} {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0;
+    background: rgba(0,0,0,0);
+    transition: opacity 0.2s ease, background 0.2s ease;
+  }
+  .sw4-card-popup-{{ sid }}.show { opacity: 1; background: rgba(0,0,0,0.45); }
+  .sw4-card-popup-badge-{{ sid }} {
+    background: var(--sw4-accent);
+    color: #111;
+    font-family: var(--sw4-font);
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 10px 18px;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    box-shadow:
+      0 0 0 3px rgba(35,255,83,0.3),
+      0 6px 22px rgba(0,0,0,0.35);
+    transform: scale(0.7);
+    transition: transform 0.35s cubic-bezier(0.34, 1.7, 0.64, 1);
+  }
+  .sw4-card-popup-{{ sid }}.show .sw4-card-popup-badge-{{ sid }} { transform: scale(1); }
+  .sw4-card-popup-badge-{{ sid }} svg { width: 14px; height: 14px; stroke: #111; flex-shrink: 0; }
+
+  /* ACTION ZONE — hero moment */
+  .sw4-action-{{ sid }} {
+    position: relative;
+    margin-top: 8px;
+    padding: 22px 22px 20px;
+    border-radius: 16px;
+    border: 1px solid var(--sw4-line);
+    background:
+      linear-gradient(180deg, #fff 0%, var(--sw4-bg-2) 100%);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .sw4-action-{{ sid }}::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--sw4-accent) 50%, transparent 100%);
+    opacity: 0.7;
+  }
+  .sw4-total-block-{{ sid }} {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .sw4-total-left-{{ sid }} {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+  }
+  .sw4-total-eyebrow-{{ sid }} {
+    font-family: var(--sw4-font);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sw4-text-3);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sw4-total-eyebrow-{{ sid }}::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--sw4-accent);
+    box-shadow: 0 0 0 3px rgba(35,255,83,0.18);
+  }
+  .sw4-total-amount-{{ sid }} {
+    font-family: var(--sw4-font);
+    font-weight: 800;
+    font-size: clamp(34px, 6vw, 44px);
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+    color: var(--sw4-text);
+    transition: transform 0.3s var(--sw4-ease), color 0.3s var(--sw4-ease);
+    font-variant-numeric: tabular-nums;
+  }
+  .sw4-total-amount-{{ sid }}.bump { transform: scale(1.08); color: var(--sw4-accent-2); }
+  .sw4-total-right-{{ sid }} {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    padding-bottom: 4px;
+  }
+  .sw4-total-compare-{{ sid }} {
+    font-family: var(--sw4-font);
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--sw4-text-3);
+    text-decoration: line-through;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .sw4-total-savings-{{ sid }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    border-radius: 100px;
+    background: var(--sw4-text);
+    color: var(--sw4-accent);
+    font-family: var(--sw4-font);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    line-height: 1;
+  }
+  .sw4-total-savings-{{ sid }}::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--sw4-accent);
+    box-shadow: 0 0 6px var(--sw4-accent);
+  }
+
+  .sw4-cta-{{ sid }} {
+    position: relative !important;
+    width: 100% !important;
+    background: var(--sw4-text) !important;
+    color: #fff !important;
+    padding: 19px 24px !important;
+    font-family: var(--sw4-font) !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    border-radius: 12px !important;
+    text-align: center !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    transition: background 0.25s var(--sw4-ease), transform 0.2s var(--sw4-ease), box-shadow 0.25s var(--sw4-ease) !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    box-shadow:
+      0 1px 2px rgba(0,0,0,0.1),
+      0 4px 16px rgba(0,0,0,0.08) !important;
+  }
+  .sw4-cta-{{ sid }}::before {
+    content: '' !important;
+    display: block !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background: linear-gradient(110deg, transparent 30%, rgba(35,255,83,0.18) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.7s var(--sw4-ease);
+    pointer-events: none;
+  }
+  .sw4-cta-{{ sid }}:hover {
+    background: #1a1a1a !important;
+    color: #fff !important;
+    transform: translateY(-2px);
+    box-shadow:
+      0 2px 6px rgba(0,0,0,0.08),
+      0 12px 28px rgba(35,255,83,0.25),
+      0 0 0 1px var(--sw4-accent) !important;
+  }
+  .sw4-cta-{{ sid }}:hover::before { transform: translateX(100%); }
+  .sw4-cta-{{ sid }}:hover svg { stroke: var(--sw4-accent) !important; }
+  .sw4-cta-{{ sid }}:active { transform: translateY(0); }
+  .sw4-cta-{{ sid }}.loading { opacity: 0.7; pointer-events: none; }
+  .sw4-cta-{{ sid }} svg {
+    width: 16px; height: 16px;
+    stroke: #fff;
+    transition: transform 0.3s var(--sw4-ease), stroke 0.25s var(--sw4-ease);
+    position: relative;
+    z-index: 1;
+  }
+  .sw4-cta-{{ sid }} > span { position: relative; z-index: 1; color: #fff !important; }
+  .sw4-cta-{{ sid }}:hover > span { color: #fff !important; }
+  .sw4-cta-{{ sid }}:hover svg { transform: translateX(5px); }
+
+  .sw4-trust-row-{{ sid }} {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px 18px;
+    padding-top: 4px;
+  }
+  .sw4-trust-item-{{ sid }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--sw4-text-2);
+    font-family: var(--sw4-font);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .sw4-trust-item-{{ sid }} .sw4-dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--sw4-accent-2);
+    flex-shrink: 0;
+  }
+
+  /* STATS */
+  /* STATS — confident */
+  .sw4-stats-{{ sid }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--sw4-line);
+    border-radius: 16px;
+    margin: 56px 0 56px;
+    background: #fff;
+    overflow: hidden;
+    position: relative;
+  }
+  .sw4-stat-{{ sid }} {
+    padding: 32px 14px;
+    text-align: left;
+    padding-left: 24px;
+    position: relative;
+  }
+  .sw4-stat-{{ sid }} + .sw4-stat-{{ sid }} { border-left: 1px solid var(--sw4-line); }
+  .sw4-stat-{{ sid }}::before {
+    content: '';
+    position: absolute;
+    top: 18px; left: 24px;
+    width: 16px; height: 1px;
+    background: var(--sw4-text);
+  }
+  .sw4-stat-num-{{ sid }} {
+    display: block;
+    font-family: var(--sw4-font);
+    font-weight: 800;
+    font-size: clamp(36px, 5.5vw, 52px);
+    line-height: 0.95;
+    color: var(--sw4-text);
+    letter-spacing: -0.045em;
+    margin-top: 14px;
+    font-variant-numeric: tabular-nums;
+  }
+  .sw4-stat-num-{{ sid }}.is-accent {
+    background: linear-gradient(120deg, var(--sw4-accent-2), var(--sw4-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .sw4-stat-num-{{ sid }} .sw4-star { color: var(--sw4-star); font-size: 0.6em; -webkit-text-fill-color: var(--sw4-star); }
+  .sw4-stat-label-{{ sid }} {
+    display: block;
+    margin-top: 10px;
+    font-family: var(--sw4-font);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sw4-text-3);
+  }
+
+  /* REELS */
+  .sw4-reels-{{ sid }} { margin-bottom: 56px; }
+  .sw4-reels-head-{{ sid }} {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--sw4-line);
+  }
+  .sw4-reels-title-{{ sid }} {
+    margin: 0;
+    font-family: var(--sw4-font);
+    font-weight: 800;
+    font-size: clamp(26px, 4vw, 36px);
+    line-height: 1;
+    letter-spacing: -0.035em;
+    color: var(--sw4-text);
+  }
+  .sw4-reels-title-{{ sid }} em {
+    font-style: normal;
+    font-weight: 800;
+    background: linear-gradient(120deg, var(--sw4-accent-2), var(--sw4-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .sw4-reels-meta-{{ sid }} {
+    font-family: var(--sw4-font);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--sw4-text-3);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .sw4-reels-grid-{{ sid }} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .sw4-reel-{{ sid }} {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #0a0a0a;
+    aspect-ratio: 9 / 16;
+    border: 1px solid var(--sw4-line);
+    transition: transform 0.35s var(--sw4-ease), box-shadow 0.35s var(--sw4-ease);
+  }
+  .sw4-reel-{{ sid }}:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.14);
+  }
+  .sw4-reel-{{ sid }} video {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+  .sw4-reel-{{ sid }}::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 38%, rgba(0,0,0,0) 60%);
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  .sw4-reel-{{ sid }}:hover::after { opacity: 0.6; }
+  .sw4-reel-meta-{{ sid }} {
+    position: absolute;
+    left: 12px; right: 12px; bottom: 12px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .sw4-reel-tag-{{ sid }} {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.92);
+    color: #111;
+    font-family: var(--sw4-font);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 7px;
+  }
+  .sw4-reel-title-{{ sid }} {
+    margin: 0;
+    font-family: var(--sw4-font);
+    font-weight: 800;
+    font-size: 14px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: #fff;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+  }
+  .sw4-reel-play-{{ sid }} {
+    position: absolute !important;
+    top: 10px !important; right: 10px !important;
+    z-index: 2;
+    width: 32px !important; height: 32px !important;
+    aspect-ratio: 1 !important;
+    border-radius: 50% !important;
+    background: rgba(255,255,255,0.25) !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    transition: background 0.2s ease, transform 0.2s ease !important;
+  }
+  .sw4-reel-play-{{ sid }} svg { width: 12px; height: 12px; margin-left: 1px; }
+  .sw4-reel-play-{{ sid }} svg path { fill: #fff !important; }
+  .sw4-reel-{{ sid }}:hover .sw4-reel-play-{{ sid }} { background: rgba(255,255,255,0.45) !important; transform: scale(1.08); }
+
+  /* ACCORDION */
+  .sw4-acc-{{ sid }} {
+    margin-top: 8px;
+    padding-top: 32px;
+    border-top: 1px solid var(--sw4-line);
+    display: flex;
+    flex-direction: column;
+  }
+  .sw4-acc-head-{{ sid }} {
+    font-family: var(--sw4-font);
+    font-weight: 800;
+    font-size: clamp(26px, 4vw, 36px);
+    letter-spacing: -0.035em;
+    line-height: 1;
+    color: var(--sw4-text);
+    margin: 0 0 16px;
+  }
+  .sw4-acc-head-{{ sid }} em {
+    font-style: normal;
+    font-weight: 800;
+    background: linear-gradient(120deg, var(--sw4-accent-2), var(--sw4-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .sw4-acc-item-{{ sid }} { border-bottom: 1px solid var(--sw4-line); }
+  .sw4-acc-item-{{ sid }}:first-of-type { border-top: 1px solid var(--sw4-line); }
+  .sw4-acc-trigger-{{ sid }} {
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 20px 4px !important;
+    background: transparent !important;
+    text-align: left !important;
+    gap: 12px !important;
+    transition: padding 0.3s var(--sw4-ease);
+  }
+  .sw4-acc-trigger-{{ sid }}:hover .sw4-acc-title-{{ sid }} { color: var(--sw4-accent-2); }
+  .sw4-acc-title-{{ sid }} {
+    font-family: var(--sw4-font);
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--sw4-text);
+    letter-spacing: -0.01em;
+    transition: color 0.25s var(--sw4-ease);
+  }
+  .sw4-acc-icon-{{ sid }} {
+    flex-shrink: 0;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    border: 1.5px solid var(--sw4-line);
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.35s var(--sw4-ease);
+  }
+  .sw4-acc-icon-{{ sid }} svg { width: 12px; height: 12px; transition: transform 0.35s var(--sw4-ease); fill: var(--sw4-text); }
+  .sw4-acc-item-{{ sid }}.open .sw4-acc-icon-{{ sid }} {
+    border-color: var(--sw4-text);
+    background: var(--sw4-text);
+  }
+  .sw4-acc-item-{{ sid }}.open .sw4-acc-icon-{{ sid }} svg {
+    transform: rotate(45deg);
+    fill: var(--sw4-accent);
+  }
+  .sw4-acc-body-{{ sid }} {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s var(--sw4-ease), padding 0.4s var(--sw4-ease);
+    padding-bottom: 0;
+  }
+  .sw4-acc-item-{{ sid }}.open .sw4-acc-body-{{ sid }} { max-height: 600px; padding-bottom: 22px; }
+  .sw4-acc-content-{{ sid }} {
+    font-family: var(--sw4-font);
+    font-size: 14px;
+    color: var(--sw4-text-2);
+    line-height: 1.7;
+    font-weight: 400;
+  }
+  .sw4-acc-content-{{ sid }} p { margin: 0 0 8px; }
+  .sw4-acc-content-{{ sid }} p:last-child { margin: 0; }
+  .sw4-acc-content-{{ sid }} ul { margin: 0 0 8px; padding-left: 18px; }
+  .sw4-acc-content-{{ sid }} li { margin-bottom: 4px; }
+  .sw4-acc-content-{{ sid }} a { color: var(--sw4-accent-2); text-decoration: underline; }
+
+  /* LIGHTBOX */
+  .sw4-lightbox-{{ sid }} {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    background: rgba(0,0,0,0.94);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .sw4-lightbox-{{ sid }}.active { display: flex; }
+  .sw4-lightbox-img-{{ sid }} {
+    max-width: 92vw; max-height: 88vh;
+    object-fit: contain;
+    border-radius: 12px;
+    display: block;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+  }
+  button.sw4-lb-close-{{ sid }},
+  button.sw4-lb-prev-{{ sid }},
+  button.sw4-lb-next-{{ sid }} {
+    position: fixed !important;
+    width: 44px !important; height: 44px !important;
+    aspect-ratio: 1 !important;
+    border-radius: 50% !important;
+    background: rgba(255,255,255,0.12) !important;
+    padding: 0 !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    cursor: pointer !important;
+    z-index: 10000001 !important;
+    transition: background 0.2s ease !important;
+  }
+  button.sw4-lb-close-{{ sid }} { top: 20px !important; right: 20px !important; }
+  button.sw4-lb-close-{{ sid }}:hover { background: rgba(255,255,255,0.22) !important; }
+  button.sw4-lb-prev-{{ sid }} { left: 20px !important; top: 50% !important; transform: translateY(-50%) !important; width: 48px !important; height: 48px !important; }
+  button.sw4-lb-next-{{ sid }} { right: 20px !important; top: 50% !important; transform: translateY(-50%) !important; width: 48px !important; height: 48px !important; }
+  button.sw4-lb-prev-{{ sid }}:hover:not(:disabled),
+  button.sw4-lb-next-{{ sid }}:hover:not(:disabled) { background: rgba(255,255,255,0.22) !important; }
+  button.sw4-lb-prev-{{ sid }}:disabled,
+  button.sw4-lb-next-{{ sid }}:disabled { opacity: 0.25 !important; cursor: not-allowed !important; }
+  button.sw4-lb-close-{{ sid }} svg,
+  button.sw4-lb-prev-{{ sid }} svg,
+  button.sw4-lb-next-{{ sid }} svg { width: 20px !important; height: 20px !important; display: block !important; stroke: #fff !important; }
+  .sw4-lb-counter-{{ sid }} {
+    position: fixed;
+    bottom: 24px; left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--sw4-font);
+    font-weight: 500;
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.06em;
+  }
+
+  /* QUICK VIEW */
+  .sw4-qv-overlay-{{ sid }} {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999999;
+    background: rgba(0,0,0,0.72);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .sw4-qv-panel-{{ sid }} {
+    background: #fff;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 940px;
+    max-height: 92vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.35);
+    animation: sw4qvin-{{ sid }} 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+  @keyframes sw4qvin-{{ sid }} {
+    from { opacity: 0; transform: scale(0.94) translateY(12px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  button.sw4-qv-close-{{ sid }} {
+    position: absolute !important;
+    top: 14px !important; right: 14px !important;
+    width: 36px !important; height: 36px !important;
+    aspect-ratio: 1 !important;
+    border-radius: 50% !important;
+    background: var(--sw4-bg-3) !important;
+    cursor: pointer !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    z-index: 10 !important;
+    transition: background 0.2s ease !important;
+    padding: 0 !important;
+  }
+  button.sw4-qv-close-{{ sid }}:hover { background: #e5e7eb !important; }
+  button.sw4-qv-close-{{ sid }} svg { width: 16px !important; height: 16px !important; stroke: var(--sw4-text) !important; display: block !important; }
+  .sw4-qv-body-{{ sid }} { display: grid; grid-template-columns: 54% 1fr; flex: 1; overflow: hidden; }
+  .sw4-qv-gallery-{{ sid }} {
+    background: var(--sw4-bg-2);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    position: relative;
+  }
+  .sw4-qv-img-wrap-{{ sid }} {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    min-height: 300px;
+    padding: 20px;
+  }
+  .sw4-qv-img-wrap-{{ sid }}::before { content: none; }
+  .sw4-qv-main-img-{{ sid }} {
+    max-width: 100%; max-height: 420px;
+    object-fit: contain;
+    display: block;
+    transition: opacity 0.2s ease;
+    position: relative;
+    z-index: 1;
+    border-radius: 8px;
+  }
+  button.sw4-qv-nav-{{ sid }} {
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: 38px !important; height: 38px !important;
+    aspect-ratio: 1 !important;
+    border-radius: 50% !important;
+    background: rgba(255,255,255,0.92) !important;
+    cursor: pointer !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.14) !important;
+    transition: background 0.2s ease, opacity 0.2s ease !important;
+    padding: 0 !important;
+    z-index: 4 !important;
+  }
+  button.sw4-qv-nav-{{ sid }}:hover { background: #fff !important; }
+  button.sw4-qv-nav-{{ sid }}.off { opacity: 0 !important; pointer-events: none !important; }
+  button.sw4-qv-nav-{{ sid }} svg { width: 18px !important; height: 18px !important; stroke: var(--sw4-text) !important; display: block !important; }
+  button.sw4-qv-nav-{{ sid }}.prev { left: 10px !important; }
+  button.sw4-qv-nav-{{ sid }}.next { right: 10px !important; }
+  .sw4-qv-count-{{ sid }} {
+    position: absolute;
+    bottom: 10px; left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--sw4-font);
+    font-weight: 600;
+    font-size: 11px;
+    color: rgba(255,255,255,0.9);
+    background: rgba(0,0,0,0.42);
+    padding: 3px 10px;
+    border-radius: 100px;
+    letter-spacing: 0.06em;
+    z-index: 3;
+  }
+  .sw4-qv-thumbs-{{ sid }} {
+    display: flex;
+    gap: 6px;
+    padding: 10px 14px;
+    overflow-x: auto;
+    background: var(--sw4-bg-2);
+    scrollbar-width: none;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .sw4-qv-thumbs-{{ sid }}::-webkit-scrollbar { display: none; }
+  .sw4-qv-thumb-{{ sid }} {
+    width: 58px; height: 58px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+    background: #eee;
+  }
+  .sw4-qv-thumb-{{ sid }}.active { border-color: var(--sw4-accent); }
+  .sw4-qv-thumb-{{ sid }}:hover  { border-color: #86efac; }
+  .sw4-qv-thumb-{{ sid }} img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .sw4-qv-info-{{ sid }} {
+    padding: 24px 26px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+    color: var(--sw4-text);
+    background: #fff;
+  }
+  .sw4-qv-info-{{ sid }}::-webkit-scrollbar { width: 6px; }
+  .sw4-qv-info-{{ sid }}::-webkit-scrollbar-thumb { background: var(--sw4-line); border-radius: 3px; }
+  .sw4-qv-title-{{ sid }} {
+    font-family: var(--sw4-font);
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--sw4-text);
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    margin: 0;
+  }
+  .sw4-qv-price-row-{{ sid }} { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .sw4-qv-price-sale-{{ sid }} {
+    font-family: var(--sw4-font);
+    font-weight: 800;
+    font-size: 26px;
+    color: var(--sw4-text);
+    letter-spacing: -0.03em;
+  }
+  .sw4-qv-price-compare-{{ sid }} {
+    font-family: var(--sw4-font);
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--sw4-text-3);
+    text-decoration: line-through;
+  }
+  .sw4-qv-price-badge-{{ sid }} {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--sw4-font);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--sw4-accent-2);
+    background: var(--sw4-accent-soft-2);
+    padding: 3px 10px;
+    border-radius: 100px;
+    letter-spacing: 0.04em;
+  }
+  .sw4-qv-divider-{{ sid }} { height: 1px; background: var(--sw4-line-2); flex-shrink: 0; }
+  .sw4-qv-acc-{{ sid }} {
+    border: 1px solid var(--sw4-line);
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #fff;
+  }
+  button.sw4-qv-acc-trigger-{{ sid }} {
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 12px 14px !important;
+    background: var(--sw4-bg-2) !important;
+    cursor: pointer !important;
+    text-align: left !important;
+    gap: 10px !important;
+  }
+  button.sw4-qv-acc-trigger-{{ sid }}:hover { background: var(--sw4-bg-3) !important; }
+  .sw4-qv-acc-label-{{ sid }} {
+    font-family: var(--sw4-font);
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--sw4-text);
+    letter-spacing: -0.01em;
+  }
+  .sw4-qv-acc-iconwrap-{{ sid }} {
+    flex-shrink: 0;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 1.5px solid #ccc;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  .sw4-qv-acc-iconwrap-{{ sid }} svg { width: 12px; height: 12px; fill: var(--sw4-text); transition: transform 0.3s ease; }
+  .sw4-qv-acc-{{ sid }}.open .sw4-qv-acc-iconwrap-{{ sid }} { background: var(--sw4-accent); border-color: var(--sw4-accent); }
+  .sw4-qv-acc-{{ sid }}.open .sw4-qv-acc-iconwrap-{{ sid }} svg { transform: rotate(45deg); fill: #111; }
+  .sw4-qv-acc-body-{{ sid }} {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.32s ease;
+    background: #fff;
+  }
+  .sw4-qv-acc-{{ sid }}.open .sw4-qv-acc-body-{{ sid }} { max-height: 280px; }
+  .sw4-qv-desc-{{ sid }} {
+    font-family: var(--sw4-font);
+    font-size: 13px;
+    color: var(--sw4-text-2);
+    line-height: 1.7;
+    padding: 12px 14px;
+    overflow-y: auto;
+    max-height: 240px;
+    scrollbar-width: thin;
+  }
+  .sw4-qv-desc-{{ sid }} p { margin: 0 0 8px; }
+  .sw4-qv-desc-{{ sid }} p:last-child { margin: 0; }
+  .sw4-qv-desc-{{ sid }} ul { margin: 0 0 8px; padding-left: 18px; }
+  .sw4-qv-desc-{{ sid }} li { margin-bottom: 4px; }
+  .sw4-qv-desc-{{ sid }} a { color: var(--sw4-accent-2); text-decoration: underline; }
+  .sw4-qv-cta-{{ sid }} {
+    flex-shrink: 0;
+    padding: 14px 28px 22px;
+    background: #fff;
+    border-top: 1px solid var(--sw4-line-2);
+    margin-left: 54%;
+  }
+  button.sw4-qv-add-{{ sid }} {
+    width: 100% !important;
+    padding: 15px !important;
+    border-radius: 12px !important;
+    background: var(--sw4-accent) !important;
+    color: #111 !important;
+    font-family: var(--sw4-font) !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    transition: background 0.2s, color 0.2s, transform 0.15s !important;
+  }
+  button.sw4-qv-add-{{ sid }}:hover  { background: var(--sw4-accent-2) !important; color: #fff !important; transform: translateY(-1px) !important; }
+  button.sw4-qv-add-{{ sid }}:hover svg { stroke: #fff !important; }
+  button.sw4-qv-add-{{ sid }}:active { transform: translateY(0) !important; }
+  button.sw4-qv-add-{{ sid }}.in-bundle {
+    background: var(--sw4-accent-2) !important;
+    color: #fff !important;
+    pointer-events: none !important;
+    cursor: default !important;
+  }
+  button.sw4-qv-add-{{ sid }}.in-bundle svg { stroke: #fff !important; }
+  button.sw4-qv-add-{{ sid }} svg { width: 16px !important; height: 16px !important; stroke: currentColor !important; flex-shrink: 0 !important; display: block !important; }
+
+  /* REEL OVERLAY */
+  .sw4-reel-overlay-{{ sid }} {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(0,0,0,0.86);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .sw4-reel-overlay-{{ sid }}.active { display: flex; }
+  .sw4-reel-stage-{{ sid }} {
+    position: relative;
+    width: min(390px, 88vw);
+    max-height: 92vh;
+    aspect-ratio: 9 / 16;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #000;
+    flex-shrink: 0;
+  }
+  .sw4-reel-stage-{{ sid }} video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .sw4-reel-overlay-title-{{ sid }} {
+    position: absolute;
+    bottom: 64px; left: 0; right: 0;
+    text-align: center;
+    font-family: var(--sw4-font);
+    font-weight: 600;
+    color: #fff;
+    font-size: 13px;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.8);
+    pointer-events: none;
+    padding: 0 14px;
+    z-index: 5;
+  }
+  button.sw4-reel-close-{{ sid }},
+  button.sw4-reel-mute-{{ sid }},
+  button.sw4-reel-prev-{{ sid }},
+  button.sw4-reel-next-{{ sid }} {
+    border-radius: 50% !important;
+    background: rgba(157,157,157,0.5) !important;
+    cursor: pointer !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    transition: background 0.2s ease !important;
+    padding: 0 !important;
+  }
+  button.sw4-reel-close-{{ sid }} {
+    position: fixed !important;
+    top: 16px !important; right: 16px !important;
+    width: 42px !important; height: 42px !important;
+    aspect-ratio: 1 !important;
+    z-index: 100001 !important;
+  }
+  button.sw4-reel-close-{{ sid }}:hover { background: rgba(157,157,157,0.8) !important; }
+  button.sw4-reel-mute-{{ sid }} {
+    position: absolute !important;
+    bottom: 16px !important; right: 16px !important;
+    width: 38px !important; height: 38px !important;
+    aspect-ratio: 1 !important;
+    z-index: 10 !important;
+  }
+  button.sw4-reel-mute-{{ sid }}:hover { background: rgba(157,157,157,0.78) !important; }
+  button.sw4-reel-mute-{{ sid }} svg { width: 20px !important; height: 20px !important; stroke: #fff !important; }
+  button.sw4-reel-mute-{{ sid }} .icon-on { display: none !important; }
+  button.sw4-reel-mute-{{ sid }}.is-on .icon-off { display: none !important; }
+  button.sw4-reel-mute-{{ sid }}.is-on .icon-on  { display: block !important; }
+  button.sw4-reel-prev-{{ sid }},
+  button.sw4-reel-next-{{ sid }} {
+    position: fixed !important;
+    top: 50% !important;
+    width: 42px !important; height: 42px !important;
+    aspect-ratio: 1 !important;
+    transform: translateY(-50%) !important;
+    z-index: 100001 !important;
+    margin: 0 10px !important;
+  }
+  button.sw4-reel-prev-{{ sid }}:hover:not(:disabled),
+  button.sw4-reel-next-{{ sid }}:hover:not(:disabled) { background: rgba(157,157,157,0.8) !important; }
+  button.sw4-reel-prev-{{ sid }}:disabled,
+  button.sw4-reel-next-{{ sid }}:disabled { opacity: 0.25 !important; cursor: not-allowed !important; }
+  button.sw4-reel-prev-{{ sid }} { left: 10px !important; }
+  button.sw4-reel-next-{{ sid }} { right: 10px !important; }
+  button.sw4-reel-close-{{ sid }} svg,
+  button.sw4-reel-prev-{{ sid }} svg,
+  button.sw4-reel-next-{{ sid }} svg { width: 22px !important; height: 22px !important; display: block !important; stroke: #fff !important; }
+  .sw4-reel-counter-{{ sid }} {
+    position: absolute;
+    top: 12px; left: 12px;
+    z-index: 5;
+    padding: 5px 11px;
+    border-radius: 100px;
+    background: rgba(0,0,0,0.42);
+    color: rgba(255,255,255,0.9);
+    font-family: var(--sw4-font);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+
+  /* RESPONSIVE */
+  @media (min-width: 480px) {
+    .sw4-section-{{ sid }}-inner { padding: 52px 24px 72px; }
+    .sw4-card-{{ sid }} { grid-template-columns: 130px 1fr; min-height: 130px; }
+    .sw4-card-sub-{{ sid }} { display: block; }
+    .sw4-card-title-{{ sid }} { font-size: 19px; }
+  }
+  @media (min-width: 768px) {
+    .sw4-section-{{ sid }}-inner { padding: 64px 36px 84px; }
+    .sw4-card-{{ sid }} { grid-template-columns: 150px 1fr; min-height: 150px; }
+    .sw4-card-title-{{ sid }} { font-size: 21px; }
+    .sw4-card-price-{{ sid }} { font-size: 17px; }
+  }
+  @media (min-width: 900px) {
+    .sw4-builder-{{ sid }} { grid-template-columns: 1.15fr 1fr; gap: 28px; }
+    .sw4-hero-col-{{ sid }} { position: sticky; top: 20px; }
+    .sw4-hero-{{ sid }} { aspect-ratio: 1 / 1.05; }
+  }
+  @media (min-width: 1024px) {
+    .sw4-section-{{ sid }}-inner { padding: 80px 56px 100px; }
+  }
+  @media (max-width: 640px) {
+    .sw4-qv-overlay-{{ sid }} { padding: 0; align-items: stretch; }
+    .sw4-qv-panel-{{ sid }} { border-radius: 0; max-height: 100%; height: 100%; width: 100%; display: flex; flex-direction: column; }
+    .sw4-qv-body-{{ sid }} { grid-template-columns: 1fr; display: flex; flex-direction: column; overflow: hidden; flex: 1; min-height: 0; }
+    .sw4-qv-gallery-{{ sid }} { flex-shrink: 0; height: 280px; min-height: 280px; }
+    .sw4-qv-img-wrap-{{ sid }} { min-height: 0; flex: 1; padding: 16px; }
+    .sw4-qv-main-img-{{ sid }} { max-height: 200px; max-width: 100%; }
+    button.sw4-qv-nav-{{ sid }} { width: 32px !important; height: 32px !important; }
+    button.sw4-qv-nav-{{ sid }} svg { width: 14px !important; height: 14px !important; }
+    .sw4-qv-thumbs-{{ sid }} { padding: 8px 14px; }
+    .sw4-qv-thumb-{{ sid }} { width: 46px; height: 46px; }
+    .sw4-qv-info-{{ sid }} { padding: 18px 20px 8px; gap: 12px; flex: 1; min-height: 0; -webkit-overflow-scrolling: touch; }
+    .sw4-qv-title-{{ sid }} { font-size: 18px; }
+    .sw4-qv-price-sale-{{ sid }} { font-size: 22px; }
+    .sw4-qv-cta-{{ sid }} { margin-left: 0; padding: 12px 20px 24px; width: 100%; }
+  }
+  @media (max-width: 480px) {
+    .sw4-reel-prev-{{ sid }}, .sw4-reel-next-{{ sid }} { display: none !important; }
+    .sw4-reel-stage-{{ sid }} { width: min(320px, 82vw); }
+    .sw4-reels-grid-{{ sid }} { gap: 8px; }
+  }
+</style>
+
+<section class="sw4-section-{{ sid }}">
+  <div class="sw4-section-{{ sid }}-inner">
+
+
+
+    <!-- BUILDER -->
+    <div class="sw4-builder-{{ sid }}">
+
+      <!-- LEFT: Hero + Kit Composition -->
+      <div class="sw4-hero-col-{{ sid }}">
+
+        <div class="sw4-hero-{{ sid }}">
+          <div class="sw4-hero-stage-{{ sid }}" onclick="sw4OpenLightbox_{{ sid }}()">
+            <span class="sw4-hero-pill-{{ sid }}">
+              <span class="sw4-pulse"></span>
+              Live Preview
+            </span>
+            <span class="sw4-hero-counter-{{ sid }}" id="sw4-hero-counter-{{ sid }}">01 / 05</span>
+            <span class="sw4-hero-num-{{ sid }}" id="sw4-hero-num-{{ sid }}">01</span>
+            <img
+              id="sw4-hero-img-{{ sid }}"
+              class="sw4-hero-img-{{ sid }}"
+              src="{{ main_product.featured_image | image_url: width: 1200 }}"
+              alt="{{ main_product.title }}"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+            >
+          </div>
+
+          <div class="sw4-hero-thumbs-{{ sid }}" id="sw4-hero-thumbs-{{ sid }}">
+            {% assign first_img = main_product.images | first %}
+            <button type="button" class="sw4-hero-thumb-{{ sid }} active" data-src="{{ first_img | image_url: width: 1600 }}" data-idx="0" aria-label="Image 1">
+              <img src="{{ first_img | image_url: width: 200 }}" alt="{{ main_product.title }} 1" loading="eager">
+            </button>
+            
+            {% for image in main_product.images limit: 3 %}
+              {% unless forloop.first %}
+                <button type="button" class="sw4-hero-thumb-{{ sid }}" data-src="{{ image | image_url: width: 1600 }}" data-idx="{{ forloop.index | plus: 2 }}" aria-label="Image {{ forloop.index | plus: 2 }}">
+                  <img src="{{ image | image_url: width: 200 }}" alt="{{ main_product.title }} {{ forloop.index }}" loading="eager">
+                </button>
+              {% endunless %}
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- KIT COMPOSITION -->
+        <div class="sw4-comp-{{ sid }}">
+          <div class="sw4-comp-head-{{ sid }}">
+            <span class="sw4-comp-eyebrow-{{ sid }}">Your Kit</span>
+            <span class="sw4-comp-count-{{ sid }}" id="sw4-comp-count-{{ sid }}">01 ITEM</span>
+          </div>
+          <div class="sw4-comp-pills-{{ sid }}" id="sw4-comp-pills-{{ sid }}"></div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Configurator -->
+      <div class="sw4-config-col-{{ sid }}">
+
+        <div class="sw4-config-head-{{ sid }}">
+          <h3 class="sw4-config-title-{{ sid }}">Add <em>Your Tops</em></h3>
+          <span class="sw4-config-meta-{{ sid }}">More you stack, more you save</span>
+        </div>
+
+        <!-- FRAME (locked) -->
+        <div class="sw4-card-{{ sid }} selected locked" data-num="01" id="sw4-card-main-{{ sid }}">
+          <div class="sw4-card-img-{{ sid }}" onclick="sw4OpenLightbox_{{ sid }}()">
+            <span class="sw4-card-tag-{{ sid }} is-included">Included</span>
+            <img src="{{ main_product.featured_image | image_url: width: 600 }}" alt="{{ main_product.title }}" loading="eager">
+          </div>
+          <div class="sw4-card-body-{{ sid }}">
+            <div class="sw4-card-info-{{ sid }}">
+              <span class="sw4-card-eyebrow-{{ sid }}">The Frame</span>
+              <h4 class="sw4-card-title-{{ sid }}">{{ main_product.title }}</h4>
+              <p class="sw4-card-sub-{{ sid }}">The base of every Swaptop kit. One frame, endless tops.</p>
+            </div>
+            <div class="sw4-card-aside-{{ sid }}">
+              <span class="sw4-card-price-{{ sid }}">{{ main_product.price | money_without_trailing_zeros }}</span>
+              <button type="button" class="sw4-card-action-{{ sid }}" tabindex="-1" aria-label="Always included">
+                <svg class="sw4-icon-plus" viewBox="0 0 16 16" fill="none" stroke-width="2.8" stroke-linecap="round"><line x1="8" y1="3" x2="8" y2="13"/><line x1="3" y1="8" x2="13" y2="8"/></svg>
+                <svg class="sw4-icon-check" viewBox="0 0 16 16" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,8 6,12 14,4"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- FOOTBALL -->
+        <div
+          class="sw4-card-{{ sid }}"
+          data-num="02"
+          id="sw4-card-football-{{ sid }}"
+          data-variant="{{ addon_football.first_available_variant.id }}"
+          data-price="{{ addon_football.price }}"
+          data-compare="{{ addon_football.compare_at_price | default: addon_football.price }}"
+        >
+          <div class="sw4-card-img-{{ sid }}" onclick="sw4CardImgClick_{{ sid }}(event, this)">
+            <div class="sw4-card-popup-{{ sid }}">
+              <div class="sw4-card-popup-badge-{{ sid }}">
+                <svg viewBox="0 0 16 16" fill="none" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,8 6,12 14,4"/></svg>
+                Added
+              </div>
+            </div>
+            <span class="sw4-card-tag-{{ sid }} is-fave">★ Fan Fave</span>
+            <img src="{{ addon_football.featured_image | image_url: width: 600 }}" alt="{{ addon_football.title }}" loading="eager">
+          </div>
+          <div class="sw4-card-body-{{ sid }}" onclick="sw4ToggleAddon_{{ sid }}(this.closest('.sw4-card-{{ sid }}'))">
+            <div class="sw4-card-info-{{ sid }}">
+              <span class="sw4-card-eyebrow-{{ sid }}">Top 01 — Most Popular</span>
+              <h4 class="sw4-card-title-{{ sid }}">{{ addon_football.title }}</h4>
+              <p class="sw4-card-sub-{{ sid }}">Score touchdowns with friends — the crowd favorite.</p>
+            </div>
+            <div class="sw4-card-aside-{{ sid }}">
+              <span class="sw4-card-price-{{ sid }}">+{{ addon_football.price | money_without_trailing_zeros }}</span>
+              <button type="button" class="sw4-card-action-{{ sid }}" onclick="event.stopPropagation(); sw4ToggleAddon_{{ sid }}(this.closest('.sw4-card-{{ sid }}'))" aria-label="Add to bundle">
+                <svg class="sw4-icon-plus" viewBox="0 0 16 16" fill="none" stroke-width="2.8" stroke-linecap="round"><line x1="8" y1="3" x2="8" y2="13"/><line x1="3" y1="8" x2="13" y2="8"/></svg>
+                <svg class="sw4-icon-check" viewBox="0 0 16 16" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,8 6,12 14,4"/></svg>
+              </button>
+              <button type="button" class="sw4-card-detail-{{ sid }}" onclick="event.stopPropagation(); sw4QvOpen_{{ sid }}('sw4-card-football-{{ sid }}')">Details →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- OG -->
+        <div
+          class="sw4-card-{{ sid }}"
+          data-num="03"
+          id="sw4-card-og-{{ sid }}"
+          data-variant="{{ addon_og.first_available_variant.id }}"
+          data-price="{{ addon_og.price }}"
+          data-compare="{{ addon_og.compare_at_price | default: addon_og.price }}"
+        >
+          <div class="sw4-card-img-{{ sid }}" onclick="sw4CardImgClick_{{ sid }}(event, this)">
+            <div class="sw4-card-popup-{{ sid }}">
+              <div class="sw4-card-popup-badge-{{ sid }}">
+                <svg viewBox="0 0 16 16" fill="none" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,8 6,12 14,4"/></svg>
+                Added
+              </div>
+            </div>
+            <img src="{{ addon_og.featured_image | image_url: width: 600 }}" alt="{{ addon_og.title }}" loading="eager">
+          </div>
+          <div class="sw4-card-body-{{ sid }}" onclick="sw4ToggleAddon_{{ sid }}(this.closest('.sw4-card-{{ sid }}'))">
+            <div class="sw4-card-info-{{ sid }}">
+              <span class="sw4-card-eyebrow-{{ sid }}">Top 02 — Classic</span>
+              <h4 class="sw4-card-title-{{ sid }}">{{ addon_og.title }}</h4>
+              <p class="sw4-card-sub-{{ sid }}">The original Popdarts experience — circle shot mayhem.</p>
+            </div>
+            <div class="sw4-card-aside-{{ sid }}">
+              <span class="sw4-card-price-{{ sid }}">+{{ addon_og.price | money_without_trailing_zeros }}</span>
+              <button type="button" class="sw4-card-action-{{ sid }}" onclick="event.stopPropagation(); sw4ToggleAddon_{{ sid }}(this.closest('.sw4-card-{{ sid }}'))" aria-label="Add to bundle">
+                <svg class="sw4-icon-plus" viewBox="0 0 16 16" fill="none" stroke-width="2.8" stroke-linecap="round"><line x1="8" y1="3" x2="8" y2="13"/><line x1="3" y1="8" x2="13" y2="8"/></svg>
+                <svg class="sw4-icon-check" viewBox="0 0 16 16" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,8 6,12 14,4"/></svg>
+              </button>
+              <button type="button" class="sw4-card-detail-{{ sid }}" onclick="event.stopPropagation(); sw4QvOpen_{{ sid }}('sw4-card-og-{{ sid }}')">Details →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- POP GOLF -->
+        <div
+          class="sw4-card-{{ sid }}"
+          data-num="04"
+          id="sw4-card-popgolf-{{ sid }}"
+          data-variant="{{ addon_popgolf.first_available_variant.id }}"
+          data-price="{{ addon_popgolf.price }}"
+          data-compare="{{ addon_popgolf.compare_at_price | default: addon_popgolf.price }}"
+        >
+          <div class="sw4-card-img-{{ sid }}" onclick="sw4CardImgClick_{{ sid }}(event, this)">
+            <div class="sw4-card-popup-{{ sid }}">
+              <div class="sw4-card-popup-badge-{{ sid }}">
+                <svg viewBox="0 0 16 16" fill="none" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,8 6,12 14,4"/></svg>
+                Added
+              </div>
+            </div>
+            <img src="{{ addon_popgolf.featured_image | image_url: width: 600 }}" alt="{{ addon_popgolf.title }}" loading="eager">
+          </div>
+          <div class="sw4-card-body-{{ sid }}" onclick="sw4ToggleAddon_{{ sid }}(this.closest('.sw4-card-{{ sid }}'))">
+            <div class="sw4-card-info-{{ sid }}">
+              <span class="sw4-card-eyebrow-{{ sid }}">Top 03 — Pro Pick</span>
+              <h4 class="sw4-card-title-{{ sid }}">{{ addon_popgolf.title }}</h4>
+              <p class="sw4-card-sub-{{ sid }}">Mini-golf precision meets Popdarts — finesse mode on.</p>
+            </div>
+            <div class="sw4-card-aside-{{ sid }}">
+              <span class="sw4-card-price-{{ sid }}">+{{ addon_popgolf.price | money_without_trailing_zeros }}</span>
+              <button type="button" class="sw4-card-action-{{ sid }}" onclick="event.stopPropagation(); sw4ToggleAddon_{{ sid }}(this.closest('.sw4-card-{{ sid }}'))" aria-label="Add to bundle">
+                <svg class="sw4-icon-plus" viewBox="0 0 16 16" fill="none" stroke-width="2.8" stroke-linecap="round"><line x1="8" y1="3" x2="8" y2="13"/><line x1="3" y1="8" x2="13" y2="8"/></svg>
+                <svg class="sw4-icon-check" viewBox="0 0 16 16" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,8 6,12 14,4"/></svg>
+              </button>
+              <button type="button" class="sw4-card-detail-{{ sid }}" onclick="event.stopPropagation(); sw4QvOpen_{{ sid }}('sw4-card-popgolf-{{ sid }}')">Details →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACTION ZONE -->
+        <div class="sw4-action-{{ sid }}">
+          <div class="sw4-total-block-{{ sid }}">
+            <div class="sw4-total-left-{{ sid }}">
+              <span class="sw4-total-eyebrow-{{ sid }}">Your Kit Total</span>
+              <span class="sw4-total-amount-{{ sid }}" id="sw4-total-{{ sid }}">{{ main_product.price | money }}</span>
+            </div>
+            <div class="sw4-total-right-{{ sid }}">
+              <span class="sw4-total-compare-{{ sid }}" id="sw4-total-compare-{{ sid }}" style="display:none"></span>
+              <span class="sw4-total-savings-{{ sid }}" id="sw4-total-savings-{{ sid }}" style="display:none"></span>
+            </div>
+          </div>
+
+          <button type="button" class="sw4-cta-{{ sid }}" id="sw4-cta-{{ sid }}" onclick="sw4AddToCart_{{ sid }}()">
+            <span id="sw4-cta-text-{{ sid }}">Add to Cart</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="20" y2="12"/><polyline points="14 6 20 12 14 18"/></svg>
+          </button>
+
+          <div class="sw4-trust-row-{{ sid }}">
+            <span class="sw4-trust-item-{{ sid }}"><span class="sw4-dot"></span>Free Shipping</span>
+            <span class="sw4-trust-item-{{ sid }}"><span class="sw4-dot"></span>30-Day Returns</span>
+            <span class="sw4-trust-item-{{ sid }}"><span class="sw4-dot"></span>Ships in 24h</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="sw4-stats-{{ sid }}">
+      <div class="sw4-stat-{{ sid }}">
+        <span class="sw4-stat-num-{{ sid }}">5K+</span>
+        <span class="sw4-stat-label-{{ sid }}">Kits Sold</span>
+      </div>
+      <div class="sw4-stat-{{ sid }}">
+        <span class="sw4-stat-num-{{ sid }}">4.9<span class="sw4-star">★</span></span>
+        <span class="sw4-stat-label-{{ sid }}">17 Reviews</span>
+      </div>
+      <div class="sw4-stat-{{ sid }}">
+        <span class="sw4-stat-num-{{ sid }} is-accent">10s</span>
+        <span class="sw4-stat-label-{{ sid }}">Swap Time</span>
+      </div>
+    </div>
+
+    <!-- VIDEO REELS -->
+    <div class="sw4-reels-{{ sid }}">
+      <div class="sw4-reels-head-{{ sid }}">
+        <h3 class="sw4-reels-title-{{ sid }}">See It <em>In Action</em></h3>
+        <span class="sw4-reels-meta-{{ sid }}">Tap to watch · Sound on</span>
+      </div>
+      <div class="sw4-reels-grid-{{ sid }}">
+        <div class="sw4-reel-{{ sid }}" data-reel-index="0">
+          <video class="sw4-reel-video-{{ sid }}" muted playsinline autoplay loop preload="metadata"></video>
+          <button type="button" class="sw4-reel-play-{{ sid }}" tabindex="-1" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+          </button>
+          <div class="sw4-reel-meta-{{ sid }}">
+            <span class="sw4-reel-tag-{{ sid }}">Watch</span>
+            <h4 class="sw4-reel-title-{{ sid }}">What's Swaptop?</h4>
+          </div>
+        </div>
+        <div class="sw4-reel-{{ sid }}" data-reel-index="1">
+          <video class="sw4-reel-video-{{ sid }}" muted playsinline autoplay loop preload="metadata"></video>
+          <button type="button" class="sw4-reel-play-{{ sid }}" tabindex="-1" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+          </button>
+          <div class="sw4-reel-meta-{{ sid }}">
+            <span class="sw4-reel-tag-{{ sid }}">Inside</span>
+            <h4 class="sw4-reel-title-{{ sid }}">What's Included</h4>
+          </div>
+        </div>
+        <div class="sw4-reel-{{ sid }}" data-reel-index="2">
+          <video class="sw4-reel-video-{{ sid }}" muted playsinline autoplay loop preload="metadata"></video>
+          <button type="button" class="sw4-reel-play-{{ sid }}" tabindex="-1" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z" fill="#fff"/></svg>
+          </button>
+          <div class="sw4-reel-meta-{{ sid }}">
+            <span class="sw4-reel-tag-{{ sid }}">More</span>
+            <h4 class="sw4-reel-title-{{ sid }}">Other Tops</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACCORDION -->
+    <div class="sw4-acc-{{ sid }}">
+      <h3 class="sw4-acc-head-{{ sid }}">The <em>Details</em></h3>
+      <div class="sw4-acc-item-{{ sid }}">
+        <button type="button" class="sw4-acc-trigger-{{ sid }}" aria-expanded="false">
+          <span class="sw4-acc-title-{{ sid }}">Detailed Description</span>
+          <span class="sw4-acc-icon-{{ sid }}">
+            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/></svg>
+          </span>
+        </button>
+        <div class="sw4-acc-body-{{ sid }}">
+          <div class="sw4-acc-content-{{ sid }}">
+            One Frame, Endless Games™. Get everything you need for the best new game from Popdarts! Swaptop™ is an innovative portable playing surface system that allows you to easily swap different tops (games), using just one frame.
+          </div>
+        </div>
+      </div>
+      <div class="sw4-acc-item-{{ sid }}">
+        <button type="button" class="sw4-acc-trigger-{{ sid }}" aria-expanded="false">
+          <span class="sw4-acc-title-{{ sid }}">What's Included</span>
+          <span class="sw4-acc-icon-{{ sid }}">
+            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/></svg>
+          </span>
+        </button>
+        <div class="sw4-acc-body-{{ sid }}">
+          <div class="sw4-acc-content-{{ sid }}">
+            <ul>
+              <li>1 Swaptop&trade; Frame</li>
+              <li>1 Double-Sided Swaptop&trade; (Darts &amp; Circle Shot)</li>
+              <li>1 Durable Carrying Case</li>
+              <li>6 Swaptop&trade; Rookie Darts</li>
+              <li>BONUS: Pro Popdart When You Want To Level Up!</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="sw4-acc-item-{{ sid }}">
+        <button type="button" class="sw4-acc-trigger-{{ sid }}" aria-expanded="false">
+          <span class="sw4-acc-title-{{ sid }}">Shipping &amp; Returns</span>
+          <span class="sw4-acc-icon-{{ sid }}">
+            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/></svg>
+          </span>
+        </button>
+        <div class="sw4-acc-body-{{ sid }}">
+          <div class="sw4-acc-content-{{ sid }}">
+            <ul>
+              <li>All Popdarts&reg; orders ship next business day.</li>
+              <li>Standard shipping in the USA takes 3&ndash;5 business days.</li>
+              <li>Returns are easy. Simply contact us at <a href="mailto:support@popdartsgame.com">support@popdartsgame.com</a>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="sw4-lightbox-{{ sid }} sw4-modal-{{ sid }}" id="sw4-lightbox-{{ sid }}">
+  <button type="button" class="sw4-lb-close-{{ sid }}" onclick="sw4CloseLightbox_{{ sid }}()" aria-label="Close">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <button type="button" class="sw4-lb-prev-{{ sid }}" id="sw4-lb-prev-{{ sid }}" onclick="sw4LightboxNav_{{ sid }}(-1)" aria-label="Previous">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <img class="sw4-lightbox-img-{{ sid }}" id="sw4-lb-img-{{ sid }}" src="" alt="">
+  <button type="button" class="sw4-lb-next-{{ sid }}" id="sw4-lb-next-{{ sid }}" onclick="sw4LightboxNav_{{ sid }}(1)" aria-label="Next">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+  <span class="sw4-lb-counter-{{ sid }}" id="sw4-lb-counter-{{ sid }}"></span>
+</div>
+
+<!-- QUICK VIEW -->
+<div class="sw4-qv-overlay-{{ sid }} sw4-modal-{{ sid }}" id="sw4-qv-overlay-{{ sid }}" role="dialog" aria-modal="true">
+  <div class="sw4-qv-panel-{{ sid }}" id="sw4-qv-panel-{{ sid }}">
+    <button type="button" class="sw4-qv-close-{{ sid }}" onclick="sw4QvClose_{{ sid }}()" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="sw4-qv-body-{{ sid }}">
+      <div class="sw4-qv-gallery-{{ sid }}">
+        <div class="sw4-qv-img-wrap-{{ sid }}">
+          <button type="button" class="sw4-qv-nav-{{ sid }} prev off" id="sw4-qv-prev-{{ sid }}" onclick="sw4QvNav_{{ sid }}(-1)" aria-label="Previous">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <img class="sw4-qv-main-img-{{ sid }}" id="sw4-qv-main-img-{{ sid }}" src="" alt="">
+          <button type="button" class="sw4-qv-nav-{{ sid }} next off" id="sw4-qv-next-{{ sid }}" onclick="sw4QvNav_{{ sid }}(1)" aria-label="Next">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+          <span class="sw4-qv-count-{{ sid }}" id="sw4-qv-count-{{ sid }}"></span>
+        </div>
+        <div class="sw4-qv-thumbs-{{ sid }}" id="sw4-qv-thumbs-{{ sid }}"></div>
+      </div>
+      <div class="sw4-qv-info-{{ sid }}">
+        <h2 class="sw4-qv-title-{{ sid }}" id="sw4-qv-title-{{ sid }}"></h2>
+        <div class="sw4-qv-price-row-{{ sid }}">
+          <span class="sw4-qv-price-compare-{{ sid }}" id="sw4-qv-price-compare-{{ sid }}" style="display:none"></span>
+          <span class="sw4-qv-price-sale-{{ sid }}" id="sw4-qv-price-sale-{{ sid }}"></span>
+          <span class="sw4-qv-price-badge-{{ sid }}" id="sw4-qv-price-badge-{{ sid }}" style="display:none"></span>
+        </div>
+        <div class="sw4-qv-divider-{{ sid }}"></div>
+        <div class="sw4-qv-acc-{{ sid }}">
+          <button type="button" class="sw4-qv-acc-trigger-{{ sid }}" onclick="sw4QvAccToggle_{{ sid }}(this)" aria-expanded="false">
+            <span class="sw4-qv-acc-label-{{ sid }}">Detailed Description</span>
+            <span class="sw4-qv-acc-iconwrap-{{ sid }}">
+              <svg viewBox="0 0 16 16"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/></svg>
+            </span>
+          </button>
+          <div class="sw4-qv-acc-body-{{ sid }}">
+            <div class="sw4-qv-desc-{{ sid }}" id="sw4-qv-desc-{{ sid }}"></div>
+          </div>
+        </div>
+        <div class="sw4-qv-acc-{{ sid }}">
+          <button type="button" class="sw4-qv-acc-trigger-{{ sid }}" onclick="sw4QvAccToggle_{{ sid }}(this)" aria-expanded="false">
+            <span class="sw4-qv-acc-label-{{ sid }}">What's Included</span>
+            <span class="sw4-qv-acc-iconwrap-{{ sid }}">
+              <svg viewBox="0 0 16 16"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/></svg>
+            </span>
+          </button>
+          <div class="sw4-qv-acc-body-{{ sid }}">
+            <div class="sw4-qv-desc-{{ sid }}">
+              <ul>
+                <li>1 Swaptop&trade; Frame</li>
+                <li>1 Double-Sided Swaptop&trade; (Darts &amp; Circle Shot)</li>
+                <li>1 Durable Carrying Case</li>
+                <li>6 Swaptop&trade; Rookie Darts</li>
+                <li>BONUS: Pro Popdart When You Want To Level Up!</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="sw4-qv-acc-{{ sid }}">
+          <button type="button" class="sw4-qv-acc-trigger-{{ sid }}" onclick="sw4QvAccToggle_{{ sid }}(this)" aria-expanded="false">
+            <span class="sw4-qv-acc-label-{{ sid }}">Shipping &amp; Returns</span>
+            <span class="sw4-qv-acc-iconwrap-{{ sid }}">
+              <svg viewBox="0 0 16 16"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/></svg>
+            </span>
+          </button>
+          <div class="sw4-qv-acc-body-{{ sid }}">
+            <div class="sw4-qv-desc-{{ sid }}">
+              <ul>
+                <li>All Popdarts&reg; orders ship next business day.</li>
+                <li>Standard shipping in the USA takes 3&ndash;5 business days.</li>
+                <li>Returns are easy. Simply contact us at <a href="mailto:support@popdartsgame.com">support@popdartsgame.com</a>.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sw4-qv-cta-{{ sid }}">
+      <button type="button" class="sw4-qv-add-{{ sid }}" id="sw4-qv-add-{{ sid }}" onclick="sw4QvCtaClick_{{ sid }}()">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <span id="sw4-qv-add-label-{{ sid }}">Add to Bundle</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- REEL OVERLAY -->
+<div class="sw4-reel-overlay-{{ sid }} sw4-modal-{{ sid }}" id="sw4-reel-overlay-{{ sid }}" role="dialog" aria-modal="true">
+  <button type="button" class="sw4-reel-close-{{ sid }}" id="sw4-reel-close-{{ sid }}" aria-label="Close video">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <button type="button" class="sw4-reel-prev-{{ sid }}" id="sw4-reel-prev-{{ sid }}" aria-label="Previous">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <div class="sw4-reel-stage-{{ sid }}">
+    <span class="sw4-reel-counter-{{ sid }}" id="sw4-reel-counter-{{ sid }}">1 / 3</span>
+    <video id="sw4-reel-video-{{ sid }}" playsinline loop webkit-playsinline></video>
+    <div class="sw4-reel-overlay-title-{{ sid }}" id="sw4-reel-overlay-title-{{ sid }}"></div>
+    <button type="button" class="sw4-reel-mute-{{ sid }}" id="sw4-reel-mute-{{ sid }}" aria-label="Toggle sound">
+      <svg class="icon-off" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+        <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+      </svg>
+      <svg class="icon-on" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+      </svg>
+    </button>
+  </div>
+  <button type="button" class="sw4-reel-next-{{ sid }}" id="sw4-reel-next-{{ sid }}" aria-label="Next">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+</div>
+
+<script>
+(function () {
+  /* ── PRICES ── */
+  var SW4_BASE_PRICE   = {{ main_product.price }};
+  var SW4_BASE_COMPARE = {{ main_product.compare_at_price | default: main_product.price }};
+  var SW4_MAIN_VARIANT = {{ main_product.first_available_variant.id }};
+
+  var sectionEl    = document.querySelector('.sw4-section-{{ sid }}');
+  if (!sectionEl) return;
+
+  var heroImg      = document.getElementById('sw4-hero-img-{{ sid }}');
+  var heroCounter  = document.getElementById('sw4-hero-counter-{{ sid }}');
+  var heroNum      = document.getElementById('sw4-hero-num-{{ sid }}');
+  var heroThumbsWrap = document.getElementById('sw4-hero-thumbs-{{ sid }}');
+  var heroThumbBtns  = heroThumbsWrap ? heroThumbsWrap.querySelectorAll('.sw4-hero-thumb-{{ sid }}') : [];
+  var totalEl      = document.getElementById('sw4-total-{{ sid }}');
+  var totalCompareEl = document.getElementById('sw4-total-compare-{{ sid }}');
+  var totalSavingsEl = document.getElementById('sw4-total-savings-{{ sid }}');
+  var compPillsEl  = document.getElementById('sw4-comp-pills-{{ sid }}');
+  var compCountEl  = document.getElementById('sw4-comp-count-{{ sid }}');
+  var ctaBtn       = document.getElementById('sw4-cta-{{ sid }}');
+  var ctaText      = document.getElementById('sw4-cta-text-{{ sid }}');
+
+  var SW4_PILL_DATA = {
+    'sw4-card-football-{{ sid }}': { name: '{{ addon_football.title | escape }}', img: '{{ addon_football.featured_image | image_url: width: 80 }}' },
+    'sw4-card-og-{{ sid }}':       { name: '{{ addon_og.title | escape }}',       img: '{{ addon_og.featured_image | image_url: width: 80 }}' },
+    'sw4-card-popgolf-{{ sid }}':  { name: '{{ addon_popgolf.title | escape }}',  img: '{{ addon_popgolf.featured_image | image_url: width: 80 }}' }
+  };
+
+  function sw4MakePillHtml(imgUrl, name) {
+    return '<span class="sw4-comp-pill-{{ sid }}">' +
+             '<span class="sw4-comp-pill-img-{{ sid }}"><img src="' + imgUrl + '" alt=""></span>' +
+             name +
+           '</span>';
+  }
+  function sw4PadTwo(n) { return n < 10 ? '0' + n : String(n); }
+
+  function sw4ShowAddedPopup(card) {
+    var overlay = card && card.querySelector('.sw4-card-popup-{{ sid }}');
+    if (!overlay) return;
+    if (overlay._hideTimer) clearTimeout(overlay._hideTimer);
+    overlay.classList.add('show');
+    overlay._hideTimer = setTimeout(function () { overlay.classList.remove('show'); }, 1400);
+  }
+
+  heroThumbBtns.forEach(function (t, i) {
+    t.addEventListener('click', function () {
+      heroThumbBtns.forEach(function (x) { x.classList.remove('active'); });
+      t.classList.add('active');
+      heroImg.style.opacity = '0';
+      setTimeout(function () {
+        heroImg.src = t.dataset.src;
+        heroImg.style.opacity = '1';
+      }, 180);
+      var total = heroThumbBtns.length;
+      heroCounter.textContent = sw4PadTwo(i + 1) + ' / ' + sw4PadTwo(total);
+    });
+  });
+  if (heroCounter) heroCounter.textContent = '01 / ' + sw4PadTwo(heroThumbBtns.length);
+
+  function sw4OpenCartDrawer() {
+    var btn = document.querySelector('[data-cart-toggle],.cart-toggle,#cart-toggle,.js-cart-open');
+    if (btn) { btn.click(); return; }
+    document.dispatchEvent(new CustomEvent('cart:open'));
+    document.dispatchEvent(new CustomEvent('theme:cart:open'));
+  }
+
+  function sw4RefreshCart() {
+    fetch('/cart.js').then(function(r){ return r.json(); }).then(function(cart){
+      var n = cart.item_count;
+      document.querySelectorAll(
+        '[data-cart-count],[data-cart-item-count],.cart-count,.cart__count,#CartCount,.header__cart-count,.cart-count-bubble [aria-hidden]'
+      ).forEach(function(el){ el.textContent = n; });
+    }).catch(function(){});
+    fetch('/?sections=cart-drawer,cart-icon-bubble').then(function(r){ return r.json(); }).then(function(sections){
+      if (sections['cart-drawer']) {
+        var liveDrawer  = document.querySelector('cart-drawer');
+        var sectionWrap = liveDrawer && liveDrawer.closest('[id^="shopify-section-"]');
+        if (sectionWrap) {
+          sectionWrap.innerHTML = sections['cart-drawer'];
+        } else if (liveDrawer) {
+          var doc = new DOMParser().parseFromString(sections['cart-drawer'], 'text/html');
+          var fd  = doc.querySelector('cart-drawer');
+          if (fd) liveDrawer.outerHTML = fd.outerHTML;
+        }
+      }
+      if (sections['cart-icon-bubble']) {
+        var countEl  = document.querySelector('[data-cart-count],[data-cart-item-count],.cart-count,.cart__count,.cart-count-bubble');
+        var iconWrap = countEl && countEl.closest('[id^="shopify-section-"]');
+        if (iconWrap) iconWrap.innerHTML = sections['cart-icon-bubble'];
+      }
+    }).catch(function(){});
+  }
+
+  function sw4EnforceKitQty() {
+    fetch('/cart.js').then(function(r){ return r.json(); }).then(function(cart){
+      for (var i = 0; i < cart.items.length; i++) {
+        if (cart.items[i].variant_id === SW4_MAIN_VARIANT && cart.items[i].quantity > 1) {
+          fetch('/cart/change.js', {
+            method:'POST', headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest'},
+            body: JSON.stringify({ id: cart.items[i].key, quantity: 1 })
+          }).then(function(r){ return r.json(); }).then(sw4RefreshCart).catch(function(){});
+          break;
+        }
+      }
+    }).catch(function(){});
+  }
+
+  function sw4ApplySelected(card, selected) { card.classList.toggle('selected', selected); }
+
+  function sw4RenderKit() {
+    if (!compPillsEl) return;
+    var html = sw4MakePillHtml('{{ main_product.featured_image | image_url: width: 80 }}', 'Frame');
+    var count = 1;
+    document.querySelectorAll('.sw4-card-{{ sid }}.selected:not(.locked)').forEach(function (card) {
+      var d = SW4_PILL_DATA[card.id];
+      if (!d) return;
+      html += '<span class="sw4-comp-plus-{{ sid }}">+</span>';
+      html += sw4MakePillHtml(d.img, d.name.split(' ')[0]);
+      count++;
+    });
+    compPillsEl.innerHTML = html;
+    if (compCountEl) compCountEl.textContent = sw4PadTwo(count) + (count === 1 ? ' ITEM' : ' ITEMS');
+    if (heroNum)    heroNum.textContent = sw4PadTwo(count);
+  }
+
+  function sw4SyncFromCart() {
+    fetch('/cart.js').then(function(r){ return r.json(); }).then(function(cart){
+      var inCart = cart.items.map(function(i){ return i.variant_id; });
+      document.querySelectorAll('.sw4-card-{{ sid }}:not(.locked)').forEach(function(card){
+        var v = parseInt(card.dataset.variant, 10);
+        if (v && inCart.indexOf(v) !== -1) sw4ApplySelected(card, true);
+      });
+      sw4UpdateTotal();
+      sw4RenderKit();
+    }).catch(function(){});
+  }
+
+  window['sw4ToggleAddon_{{ sid }}'] = function (card) {
+    if (!card || card.classList.contains('locked')) return;
+    var selecting    = !card.classList.contains('selected');
+    var addonVariant = parseInt(card.dataset.variant, 10);
+
+    sw4ApplySelected(card, selecting);
+    sw4UpdateTotal();
+    sw4RenderKit();
+
+    if (selecting) sw4ShowAddedPopup(card);
+    if (!addonVariant) return;
+
+    if (selecting) {
+      fetch('/cart.js').then(function(r){ return r.json(); }).then(function(cart){
+        var inCart = cart.items.map(function(i){ return i.variant_id; });
+        var items  = [];
+        if (SW4_MAIN_VARIANT && inCart.indexOf(SW4_MAIN_VARIANT) === -1)
+          items.push({ id: SW4_MAIN_VARIANT, quantity: 1 });
+        if (inCart.indexOf(addonVariant) === -1)
+          items.push({ id: addonVariant, quantity: 1 });
+        if (!items.length) { sw4OpenCartDrawer(); return null; }
+        return fetch('/cart/add.js', {
+          method:'POST', headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest'},
+          body: JSON.stringify({ items: items })
+        }).then(function(r){ return r.json(); });
+      }).then(function(result){
+        if (!result) return;
+        sw4EnforceKitQty();
+        sw4RefreshCart();
+        sw4OpenCartDrawer();
+      }).catch(function(){
+        sw4ApplySelected(card, false);
+        sw4UpdateTotal();
+        sw4RenderKit();
+      });
+    } else {
+      fetch('/cart.js').then(function(r){ return r.json(); }).then(function(cart){
+        var addonKey = null;
+        var kitKeys  = [];
+        cart.items.forEach(function(item){
+          if (String(item.variant_id) === String(addonVariant)) addonKey = item.key;
+          if (item.variant_id === SW4_MAIN_VARIANT)             kitKeys.push(item.key);
+        });
+        var toRemove = kitKeys.slice();
+        if (addonKey) toRemove.push(addonKey);
+        if (!toRemove.length) return null;
+        return Promise.all(toRemove.map(function(key){
+          return fetch('/cart/change.js', {
+            method:'POST', headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest'},
+            body: JSON.stringify({ id: key, quantity: 0 })
+          }).then(function(r){ return r.json(); });
+        }));
+      }).then(function(result){
+        if (result === null) return null;
+        return fetch('/cart.js').then(function(r){ return r.json(); });
+      }).then(function(cart){
+        if (!cart) return null;
+        var remaining = cart.items.filter(function(i){ return i.variant_id === SW4_MAIN_VARIANT; });
+        if (!remaining.length) return true;
+        return Promise.all(remaining.map(function(item){
+          return fetch('/cart/change.js', {
+            method:'POST', headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest'},
+            body: JSON.stringify({ id: item.key, quantity: 0 })
+          }).then(function(r){ return r.json(); });
+        })).then(function(){ return true; });
+      }).then(function(ok){
+        if (!ok) return null;
+        return fetch('/cart/add.js', {
+          method:'POST', headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest'},
+          body: JSON.stringify({ items: [{ id: SW4_MAIN_VARIANT, quantity: 1 }] })
+        }).then(function(r){ return r.json(); });
+      }).then(function(result){
+        if (!result) return;
+        sw4RefreshCart();
+      }).catch(function(){
+        sw4ApplySelected(card, true);
+        sw4UpdateTotal();
+        sw4RenderKit();
+      });
+    }
+  };
+
+  function sw4Money(cents) {
+    return '$' + (cents / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  function sw4UpdateTotal() {
+    var total   = SW4_BASE_PRICE;
+    var compare = SW4_BASE_COMPARE;
+    document.querySelectorAll('.sw4-card-{{ sid }}:not(.locked).selected').forEach(function (card) {
+      var p = parseInt(card.dataset.price,   10) || 0;
+      var c = parseInt(card.dataset.compare, 10) || 0;
+      total   += p;
+      compare += (c > 0 ? c : p);
+    });
+    if (totalEl) totalEl.textContent = sw4Money(total);
+    var saved = compare - total;
+    if (saved > 0) {
+      if (totalCompareEl) { totalCompareEl.textContent = sw4Money(compare); totalCompareEl.style.cssText = 'display:inline;'; }
+      if (totalSavingsEl) { totalSavingsEl.textContent = 'SAVE ' + sw4Money(saved); totalSavingsEl.style.cssText = 'display:inline-flex;'; }
+    } else {
+      if (totalCompareEl) totalCompareEl.style.cssText = 'display:none;';
+      if (totalSavingsEl) totalSavingsEl.style.cssText = 'display:none;';
+    }
+    if (totalEl) {
+      totalEl.classList.remove('bump');
+      void totalEl.offsetWidth;
+      totalEl.classList.add('bump');
+      setTimeout(function () { totalEl.classList.remove('bump'); }, 300);
+    }
+  }
+
+  function sw4GetItems() {
+    var items = [{ id: SW4_MAIN_VARIANT, quantity: 1 }];
+    document.querySelectorAll('.sw4-card-{{ sid }}:not(.locked).selected').forEach(function (card) {
+      if (card.dataset.variant) items.push({ id: parseInt(card.dataset.variant, 10), quantity: 1 });
+    });
+    return items;
+  }
+
+  window['sw4AddToCart_{{ sid }}'] = function () {
+    if (!ctaBtn || ctaBtn.classList.contains('loading')) return;
+    ctaBtn.classList.add('loading');
+    if (ctaText) ctaText.textContent = 'Adding...';
+    document.querySelectorAll('.sw4-card-{{ sid }}:not(.locked).selected').forEach(function(card, i) {
+      setTimeout(function(){ sw4ShowAddedPopup(card); }, i * 120);
+    });
+    fetch('/cart.js').then(function(r){ return r.json(); }).then(function(cart){
+      var inCart   = cart.items.map(function(i){ return i.variant_id; });
+      var allItems = sw4GetItems();
+      var toAdd    = allItems.filter(function(item){ return inCart.indexOf(item.id) === -1; });
+      sw4OpenCartDrawer();
+      if (!toAdd.length) {
+        ctaBtn.classList.remove('loading');
+        if (ctaText) ctaText.textContent = 'Added ✓';
+        setTimeout(function() { if (ctaText) ctaText.textContent = 'Add to Cart'; }, 2000);
+        return null;
+      }
+      return fetch('/cart/add.js', {
+        method:'POST', headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest'},
+        body: JSON.stringify({ items: toAdd })
+      }).then(function(r){ return r.json(); });
+    }).then(function(data){
+      if (!data) return;
+      if (data.status && data.status >= 400) throw new Error(data.description || 'Cart error');
+      sw4EnforceKitQty();
+      sw4RefreshCart();
+      ctaBtn.classList.remove('loading');
+      if (ctaText) ctaText.textContent = 'Added ✓';
+      setTimeout(function() { if (ctaText) ctaText.textContent = 'Add to Cart'; }, 2000);
+    }).catch(function(){
+      ctaBtn.classList.remove('loading');
+      if (ctaText) ctaText.textContent = 'Try Again';
+      setTimeout(function() { if (ctaText) ctaText.textContent = 'Add to Cart'; }, 2500);
+    });
+  };
+
+  window['sw4ScrollToReviews_{{ sid }}'] = function () {
+    var target = document.querySelector('.jdgm-rev-widg__header');
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  document.querySelectorAll('.sw4-acc-{{ sid }} .sw4-acc-trigger-{{ sid }}').forEach(function (trigger) {
+    trigger.addEventListener('click', function () {
+      var item   = trigger.closest('.sw4-acc-item-{{ sid }}');
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.sw4-acc-{{ sid }} .sw4-acc-item-{{ sid }}').forEach(function (i) {
+        i.classList.remove('open');
+        var trg = i.querySelector('.sw4-acc-trigger-{{ sid }}');
+        if (trg) trg.setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        trigger.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  sw4UpdateTotal();
+  sw4RenderKit();
+  sw4SyncFromCart();
+})();
+</script>
+
+<script>
+(function () {
+  /* ── LIGHTBOX ── */
+  var SW4_LB_IMAGES_DEFAULT = [
+    {% assign first_img = main_product.images | first %}
+    '{{ first_img | image_url: width: 1600 }}',
+    'https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Images_Popdarts_Images1.jpg?v=1778015525',
+    'https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Group_1484581343.png?v=1778015640'
+    {% for image in main_product.images limit: 3 %}{% unless forloop.first %},'{{ image | image_url: width: 1600 }}'{% endunless %}{% endfor %}
+  ];
+
+  var SW4_FOOTBALL_LB = [{% for img in addon_football.images %}'{{ img | image_url: width: 1600 }}'{% unless forloop.last %},{% endunless %}{% endfor %}];
+  var SW4_OG_LB       = [{% for img in addon_og.images       %}'{{ img | image_url: width: 1600 }}'{% unless forloop.last %},{% endunless %}{% endfor %}];
+  var SW4_POPGOLF_LB  = [{% for img in addon_popgolf.images  %}'{{ img | image_url: width: 1600 }}'{% unless forloop.last %},{% endunless %}{% endfor %}];
+
+  var SW4_CARD_LB_MAP = {
+    'sw4-card-football-{{ sid }}': SW4_FOOTBALL_LB,
+    'sw4-card-og-{{ sid }}':       SW4_OG_LB,
+    'sw4-card-popgolf-{{ sid }}':  SW4_POPGOLF_LB
+  };
+
+  var lbEl       = document.getElementById('sw4-lightbox-{{ sid }}');
+  var lbImg      = document.getElementById('sw4-lb-img-{{ sid }}');
+  var lbPrev     = document.getElementById('sw4-lb-prev-{{ sid }}');
+  var lbNext     = document.getElementById('sw4-lb-next-{{ sid }}');
+  var lbCounter  = document.getElementById('sw4-lb-counter-{{ sid }}');
+  var lbImages   = SW4_LB_IMAGES_DEFAULT.slice();
+  var lbIndex    = 0;
+
+  function sw4RenderLb() {
+    if (!lbImg) return;
+    lbImg.style.opacity = '0';
+    setTimeout(function () {
+      lbImg.src = lbImages[lbIndex];
+      lbImg.style.opacity = '1';
+    }, 120);
+    if (lbCounter) lbCounter.textContent = String(lbIndex + 1).padStart(2,'0') + ' / ' + String(lbImages.length).padStart(2,'0');
+    if (lbPrev) lbPrev.disabled = lbIndex === 0;
+    if (lbNext) lbNext.disabled = lbIndex === lbImages.length - 1;
+  }
+
+  window['sw4OpenLightbox_{{ sid }}'] = function (imageList, startIndex) {
+    if (!lbEl) return;
+    if (Array.isArray(imageList) && imageList.length) {
+      lbImages = imageList.slice();
+      lbIndex  = startIndex || 0;
+    } else {
+      lbImages = SW4_LB_IMAGES_DEFAULT.slice();
+      var activeThumb = document.querySelector('.sw4-hero-thumb-{{ sid }}.active');
+      lbIndex = activeThumb ? parseInt(activeThumb.dataset.idx, 10) || 0 : 0;
+    }
+    lbEl.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    sw4RenderLb();
+  };
+  window['sw4CloseLightbox_{{ sid }}'] = function () {
+    if (!lbEl) return;
+    lbEl.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+  window['sw4LightboxNav_{{ sid }}'] = function (delta) {
+    var next = lbIndex + delta;
+    if (next < 0 || next > lbImages.length - 1) return;
+    lbIndex = next;
+    sw4RenderLb();
+  };
+  window['sw4CardImgClick_{{ sid }}'] = function (e, imgEl) {
+    e.stopPropagation();
+    var card = imgEl.closest('.sw4-card-{{ sid }}');
+    if (!card) return;
+    var imgList = SW4_CARD_LB_MAP[card.id];
+    if (imgList && imgList.length > 0) {
+      window['sw4OpenLightbox_{{ sid }}'](imgList, 0);
+    } else {
+      window['sw4ToggleAddon_{{ sid }}'](card);
+    }
+  };
+
+  if (lbEl) {
+    lbEl.addEventListener('click', function (e) {
+      if (e.target === lbEl) window['sw4CloseLightbox_{{ sid }}']();
+    });
+  }
+  document.addEventListener('keydown', function (e) {
+    if (!lbEl || !lbEl.classList.contains('active')) return;
+    if (e.key === 'Escape')      window['sw4CloseLightbox_{{ sid }}']();
+    if (e.key === 'ArrowLeft')   window['sw4LightboxNav_{{ sid }}'](-1);
+    if (e.key === 'ArrowRight')  window['sw4LightboxNav_{{ sid }}'](1);
+  });
+  var lbTouchX = null;
+  if (lbEl) {
+    lbEl.addEventListener('touchstart', function (e) { lbTouchX = e.touches[0].clientX; }, { passive: true });
+    lbEl.addEventListener('touchend',   function (e) {
+      if (lbTouchX === null) return;
+      var dx = e.changedTouches[0].clientX - lbTouchX;
+      if (Math.abs(dx) > 60) window['sw4LightboxNav_{{ sid }}'](dx > 0 ? -1 : 1);
+      lbTouchX = null;
+    }, { passive: true });
+  }
+})();
+</script>
+
+<script>
+(function () {
+  /* ── QUICK VIEW ── */
+  var SW4_QV_DATA = {
+    'sw4-card-football-{{ sid }}': {
+      title:   '{{ addon_football.title | escape }}',
+      desc:    {{ addon_football.description | json | replace: '</script>', '<\/script>' }},
+      price:   {{ addon_football.price }},
+      compare: {{ addon_football.compare_at_price | default: 0 }},
+      images:  [{% for img in addon_football.images %}'{{ img | image_url: width: 1200 }}'{% unless forloop.last %},{% endunless %}{% endfor %}],
+      thumbs:  [{% for img in addon_football.images %}'{{ img | image_url: width: 120 }}'{% unless forloop.last %},{% endunless %}{% endfor %}]
+    },
+    'sw4-card-og-{{ sid }}': {
+      title:   '{{ addon_og.title | escape }}',
+      desc:    {{ addon_og.description | json | replace: '</script>', '<\/script>' }},
+      price:   {{ addon_og.price }},
+      compare: {{ addon_og.compare_at_price | default: 0 }},
+      images:  [{% for img in addon_og.images %}'{{ img | image_url: width: 1200 }}'{% unless forloop.last %},{% endunless %}{% endfor %}],
+      thumbs:  [{% for img in addon_og.images %}'{{ img | image_url: width: 120 }}'{% unless forloop.last %},{% endunless %}{% endfor %}]
+    },
+    'sw4-card-popgolf-{{ sid }}': {
+      title:   '{{ addon_popgolf.title | escape }}',
+      desc:    {{ addon_popgolf.description | json | replace: '</script>', '<\/script>' }},
+      price:   {{ addon_popgolf.price }},
+      compare: {{ addon_popgolf.compare_at_price | default: 0 }},
+      images:  [{% for img in addon_popgolf.images %}'{{ img | image_url: width: 1200 }}'{% unless forloop.last %},{% endunless %}{% endfor %}],
+      thumbs:  [{% for img in addon_popgolf.images %}'{{ img | image_url: width: 120 }}'{% unless forloop.last %},{% endunless %}{% endfor %}]
+    }
+  };
+
+  var qvOverlay = document.getElementById('sw4-qv-overlay-{{ sid }}');
+  var qvPanel   = document.getElementById('sw4-qv-panel-{{ sid }}');
+  var qvTitle   = document.getElementById('sw4-qv-title-{{ sid }}');
+  var qvDesc    = document.getElementById('sw4-qv-desc-{{ sid }}');
+  var qvImg     = document.getElementById('sw4-qv-main-img-{{ sid }}');
+  var qvThumbs  = document.getElementById('sw4-qv-thumbs-{{ sid }}');
+  var qvPrev    = document.getElementById('sw4-qv-prev-{{ sid }}');
+  var qvNext    = document.getElementById('sw4-qv-next-{{ sid }}');
+  var qvCount   = document.getElementById('sw4-qv-count-{{ sid }}');
+  var qvSale    = document.getElementById('sw4-qv-price-sale-{{ sid }}');
+  var qvCompare = document.getElementById('sw4-qv-price-compare-{{ sid }}');
+  var qvBadge   = document.getElementById('sw4-qv-price-badge-{{ sid }}');
+  var qvBtn     = document.getElementById('sw4-qv-add-{{ sid }}');
+  var qvBtnLabel = document.getElementById('sw4-qv-add-label-{{ sid }}');
+
+  var qvCurrentCardId = null;
+  var qvImgIdx = 0;
+
+  function sw4QvMoney(c) { return '$' + (c / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+  function sw4QvRenderImg() {
+    var d = SW4_QV_DATA[qvCurrentCardId];
+    if (!d || !qvImg) return;
+    qvImg.style.opacity = '0';
+    setTimeout(function () {
+      qvImg.src = d.images[qvImgIdx];
+      qvImg.style.opacity = '1';
+    }, 120);
+    if (qvCount) qvCount.textContent = (qvImgIdx + 1) + ' / ' + d.images.length;
+    if (qvPrev) qvPrev.classList.toggle('off', qvImgIdx === 0);
+    if (qvNext) qvNext.classList.toggle('off', qvImgIdx === d.images.length - 1);
+    if (qvThumbs) {
+      qvThumbs.querySelectorAll('.sw4-qv-thumb-{{ sid }}').forEach(function (t, i) {
+        t.classList.toggle('active', i === qvImgIdx);
+      });
+    }
+  }
+
+  function sw4QvSyncBtn() {
+    if (!qvCurrentCardId || !qvBtn) return;
+    var card = document.getElementById(qvCurrentCardId);
+    var inBundle = card && card.classList.contains('selected');
+    if (inBundle) {
+      qvBtn.classList.add('in-bundle');
+      if (qvBtnLabel) qvBtnLabel.textContent = 'Already in Bundle';
+    } else {
+      qvBtn.classList.remove('in-bundle');
+      if (qvBtnLabel) qvBtnLabel.textContent = 'Add to Bundle';
+    }
+  }
+
+  window['sw4QvOpen_{{ sid }}'] = function (cardId) {
+    var d = SW4_QV_DATA[cardId];
+    if (!d || !qvOverlay) return;
+    qvCurrentCardId = cardId;
+    qvImgIdx = 0;
+    if (qvTitle) qvTitle.textContent = d.title;
+    if (qvDesc)  qvDesc.innerHTML    = d.desc || '';
+    if (qvSale)  qvSale.textContent  = sw4QvMoney(d.price);
+    if (d.compare && d.compare > d.price) {
+      if (qvCompare) { qvCompare.textContent = sw4QvMoney(d.compare); qvCompare.style.cssText = 'display:inline;'; }
+      if (qvBadge)   { qvBadge.textContent   = 'SAVE ' + sw4QvMoney(d.compare - d.price); qvBadge.style.cssText = 'display:inline-flex;'; }
+    } else {
+      if (qvCompare) qvCompare.style.cssText = 'display:none;';
+      if (qvBadge)   qvBadge.style.cssText   = 'display:none;';
+    }
+    if (qvThumbs) {
+      qvThumbs.innerHTML = '';
+      d.thumbs.forEach(function (t, i) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'sw4-qv-thumb-{{ sid }}' + (i === 0 ? ' active' : '');
+        btn.innerHTML = '<img src="' + t + '" alt="">';
+        btn.onclick = function () { qvImgIdx = i; sw4QvRenderImg(); };
+        qvThumbs.appendChild(btn);
+      });
+    }
+    sw4QvRenderImg();
+    sw4QvSyncBtn();
+    qvOverlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  };
+
+  window['sw4QvClose_{{ sid }}'] = function () {
+    if (!qvOverlay) return;
+    qvOverlay.style.display = 'none';
+    document.body.style.overflow = '';
+    qvCurrentCardId = null;
+    if (qvPanel) {
+      qvPanel.querySelectorAll('.sw4-qv-acc-{{ sid }}.open').forEach(function (acc) { acc.classList.remove('open'); });
+    }
+  };
+
+  window['sw4QvNav_{{ sid }}'] = function (delta) {
+    var d = SW4_QV_DATA[qvCurrentCardId];
+    if (!d) return;
+    var next = qvImgIdx + delta;
+    if (next < 0 || next > d.images.length - 1) return;
+    qvImgIdx = next;
+    sw4QvRenderImg();
+  };
+
+  window['sw4QvAccToggle_{{ sid }}'] = function (trigger) {
+    var item = trigger.parentElement;
+    item.classList.toggle('open');
+    trigger.setAttribute('aria-expanded', item.classList.contains('open') ? 'true' : 'false');
+  };
+
+  window['sw4QvCtaClick_{{ sid }}'] = function () {
+    if (!qvCurrentCardId) return;
+    if (qvBtn && qvBtn.classList.contains('in-bundle')) return;
+    var card = document.getElementById(qvCurrentCardId);
+    if (!card) return;
+    if (typeof window['sw4ToggleAddon_{{ sid }}'] === 'function') {
+      window['sw4ToggleAddon_{{ sid }}'](card);
+    }
+    setTimeout(function () { sw4QvSyncBtn(); }, 120);
+    setTimeout(function () { window['sw4QvClose_{{ sid }}'](); }, 350);
+  };
+
+  if (qvOverlay) {
+    qvOverlay.addEventListener('click', function (e) {
+      if (e.target === qvOverlay) window['sw4QvClose_{{ sid }}']();
+    });
+  }
+  document.addEventListener('keydown', function (e) {
+    if (!qvOverlay || qvOverlay.style.display !== 'flex') return;
+    if (e.key === 'Escape')     window['sw4QvClose_{{ sid }}']();
+    if (e.key === 'ArrowLeft')  window['sw4QvNav_{{ sid }}'](-1);
+    if (e.key === 'ArrowRight') window['sw4QvNav_{{ sid }}'](1);
+  });
+  var qvTouchX = null;
+  var imgWrap  = qvPanel && qvPanel.querySelector('.sw4-qv-img-wrap-{{ sid }}');
+  if (imgWrap) {
+    imgWrap.addEventListener('touchstart', function (e) { qvTouchX = e.touches[0].clientX; }, { passive: true });
+    imgWrap.addEventListener('touchend',   function (e) {
+      if (qvTouchX === null) return;
+      var dx = e.changedTouches[0].clientX - qvTouchX;
+      if (Math.abs(dx) > 50) window['sw4QvNav_{{ sid }}'](dx > 0 ? -1 : 1);
+      qvTouchX = null;
+    }, { passive: true });
+  }
+})();
+</script>
+
+<script>
+(function () {
+  /* ── VIDEO REELS ── */
+  var SW4_REELS = [
+    { url: 'https://cdn.shopify.com/videos/c/o/v/82b6e4e61510421e8d96ec8939aeb02f.mp4', title: "What's Swaptop?" },
+    { url: 'https://cdn.shopify.com/videos/c/o/v/b163bf830556460ba6fa9ac912debc50.mp4', title: "What's Included" },
+    { url: 'https://cdn.shopify.com/videos/c/o/v/c093e4799d554399a99542aa17674570.mp4', title: 'Other Tops' }
+  ];
+
+  /* Inline reel autoplay */
+  var inlineReels = document.querySelectorAll('.sw4-section-{{ sid }} .sw4-reel-{{ sid }}');
+  inlineReels.forEach(function (reelEl, i) {
+    var video = reelEl.querySelector('.sw4-reel-video-{{ sid }}');
+    var data  = SW4_REELS[i];
+    if (!video || !data) return;
+    video.src = data.url;
+    video.muted = true;
+    video.playsInline = true;
+    video.loop = true;
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+    video.load();
+    var attemptPlay = function () {
+      var p = video.play();
+      if (p && p.catch) p.catch(function () {});
+    };
+    video.addEventListener('loadeddata', attemptPlay);
+    setTimeout(attemptPlay, 200);
+  });
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var video = entry.target.querySelector('.sw4-reel-video-{{ sid }}');
+        if (!video) return;
+        if (entry.isIntersecting) {
+          var p = video.play();
+          if (p && p.catch) p.catch(function () {});
+        } else {
+          video.pause();
+        }
+      });
+    }, { threshold: 0.25 });
+    inlineReels.forEach(function (r) { io.observe(r); });
+  }
+
+  /* Reel overlay */
+  var reelOverlay = document.getElementById('sw4-reel-overlay-{{ sid }}');
+  var reelVideo   = document.getElementById('sw4-reel-video-{{ sid }}');
+  var reelTitleEl = document.getElementById('sw4-reel-overlay-title-{{ sid }}');
+  var reelCounter = document.getElementById('sw4-reel-counter-{{ sid }}');
+  var reelMute    = document.getElementById('sw4-reel-mute-{{ sid }}');
+  var reelPrev    = document.getElementById('sw4-reel-prev-{{ sid }}');
+  var reelNext    = document.getElementById('sw4-reel-next-{{ sid }}');
+  var reelClose   = document.getElementById('sw4-reel-close-{{ sid }}');
+  var reelIdx     = 0;
+
+  function sw4OpenReel(i) {
+    if (!reelOverlay || !reelVideo) return;
+    reelIdx = i;
+    var d = SW4_REELS[i];
+    if (!d) return;
+    reelVideo.src = d.url;
+    reelVideo.muted = false;
+    reelVideo.load();
+    var p = reelVideo.play();
+    if (p && p.catch) p.catch(function () { reelVideo.muted = true; reelVideo.play(); });
+    if (reelTitleEl) reelTitleEl.textContent = d.title;
+    if (reelCounter) reelCounter.textContent = (i + 1) + ' / ' + SW4_REELS.length;
+    if (reelMute)    reelMute.classList.toggle('is-on', !reelVideo.muted);
+    if (reelPrev)    reelPrev.disabled = i === 0;
+    if (reelNext)    reelNext.disabled = i === SW4_REELS.length - 1;
+    reelOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function sw4CloseReel() {
+    if (!reelOverlay) return;
+    reelOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+    if (reelVideo) { reelVideo.pause(); reelVideo.removeAttribute('src'); reelVideo.load(); }
+  }
+  function sw4NavReel(delta) {
+    var next = reelIdx + delta;
+    if (next < 0 || next > SW4_REELS.length - 1) return;
+    sw4OpenReel(next);
+  }
+  function sw4ToggleReelMute() {
+    if (!reelVideo || !reelMute) return;
+    reelVideo.muted = !reelVideo.muted;
+    reelMute.classList.toggle('is-on', !reelVideo.muted);
+  }
+
+  inlineReels.forEach(function (reelEl, i) {
+    reelEl.addEventListener('click', function () { sw4OpenReel(i); });
+  });
+  if (reelClose) reelClose.addEventListener('click', sw4CloseReel);
+  if (reelPrev)  reelPrev.addEventListener('click',  function () { sw4NavReel(-1); });
+  if (reelNext)  reelNext.addEventListener('click',  function () { sw4NavReel(1); });
+  if (reelMute)  reelMute.addEventListener('click',  function (e) { e.stopPropagation(); sw4ToggleReelMute(); });
+  if (reelOverlay) {
+    reelOverlay.addEventListener('click', function (e) {
+      if (e.target === reelOverlay) sw4CloseReel();
+    });
+  }
+  document.addEventListener('keydown', function (e) {
+    if (!reelOverlay || !reelOverlay.classList.contains('active')) return;
+    if (e.key === 'Escape')     sw4CloseReel();
+    if (e.key === 'ArrowLeft')  sw4NavReel(-1);
+    if (e.key === 'ArrowRight') sw4NavReel(1);
+    if (e.key === 'm' || e.key === 'M') sw4ToggleReelMute();
+  });
+  var reelTouchX = null, reelTouchY = null;
+  if (reelOverlay) {
+    reelOverlay.addEventListener('touchstart', function (e) {
+      reelTouchX = e.touches[0].clientX;
+      reelTouchY = e.touches[0].clientY;
+    }, { passive: true });
+    reelOverlay.addEventListener('touchend', function (e) {
+      if (reelTouchX === null) return;
+      var dx = e.changedTouches[0].clientX - reelTouchX;
+      var dy = e.changedTouches[0].clientY - reelTouchY;
+      if (Math.abs(dy) > Math.abs(dx) && dy < -80) {
+        sw4CloseReel();
+      } else if (Math.abs(dx) > 60) {
+        sw4NavReel(dx > 0 ? -1 : 1);
+      }
+      reelTouchX = null; reelTouchY = null;
+    }, { passive: true });
+  }
+})();
+</script>
+
+<script>
+(function () {
+  /* ── CART POLLING ── */
+  var SW4_LAST_FP = null;
+  var SW4_MAIN_VARIANT = {{ main_product.first_available_variant.id }};
+
+  function sw4PollFp(cart) {
+    return cart.items.map(function (i) { return i.variant_id + ':' + i.quantity; }).sort().join('|');
+  }
+
+  function sw4PollRebuildKit(cart) {
+    var inCart = cart.items.map(function (i) { return i.variant_id; });
+    document.querySelectorAll('.sw4-section-{{ sid }} .sw4-card-{{ sid }}:not(.locked)').forEach(function (card) {
+      var v = parseInt(card.dataset.variant, 10);
+      if (!v) return;
+      var shouldBe = inCart.indexOf(v) !== -1;
+      card.classList.toggle('selected', shouldBe);
+    });
+  }
+
+  function sw4PollUpdateTotal() {
+    var totalEl    = document.getElementById('sw4-total-{{ sid }}');
+    var compareEl  = document.getElementById('sw4-total-compare-{{ sid }}');
+    var savingsEl  = document.getElementById('sw4-total-savings-{{ sid }}');
+    var compPills  = document.getElementById('sw4-comp-pills-{{ sid }}');
+    var compCount  = document.getElementById('sw4-comp-count-{{ sid }}');
+    var heroNumEl  = document.getElementById('sw4-hero-num-{{ sid }}');
+    var basePrice   = {{ main_product.price }};
+    var baseCompare = {{ main_product.compare_at_price | default: main_product.price }};
+    var total = basePrice;
+    var compare = baseCompare;
+    document.querySelectorAll('.sw4-section-{{ sid }} .sw4-card-{{ sid }}:not(.locked).selected').forEach(function (card) {
+      var p = parseInt(card.dataset.price,   10) || 0;
+      var c = parseInt(card.dataset.compare, 10) || 0;
+      total   += p;
+      compare += (c > 0 ? c : p);
+    });
+    function money(c) { return '$' + (c / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+    function padTwo(n) { return n < 10 ? '0' + n : String(n); }
+    if (totalEl) totalEl.textContent = money(total);
+    var saved = compare - total;
+    if (saved > 0) {
+      if (compareEl) { compareEl.textContent = money(compare); compareEl.style.cssText = 'display:inline;'; }
+      if (savingsEl) { savingsEl.textContent = 'SAVE ' + money(saved); savingsEl.style.cssText = 'display:inline-flex;'; }
+    } else {
+      if (compareEl) compareEl.style.cssText = 'display:none;';
+      if (savingsEl) savingsEl.style.cssText = 'display:none;';
+    }
+    if (totalEl) {
+      totalEl.classList.remove('bump');
+      void totalEl.offsetWidth;
+      totalEl.classList.add('bump');
+      setTimeout(function () { totalEl.classList.remove('bump'); }, 300);
+    }
+    var PILL_DATA = {
+      'sw4-card-football-{{ sid }}': { name: '{{ addon_football.title | escape | split: " " | first }}', img: '{{ addon_football.featured_image | image_url: width: 80 }}' },
+      'sw4-card-og-{{ sid }}':       { name: '{{ addon_og.title       | escape | split: " " | first }}', img: '{{ addon_og.featured_image       | image_url: width: 80 }}' },
+      'sw4-card-popgolf-{{ sid }}':  { name: '{{ addon_popgolf.title  | escape | split: " " | first }}', img: '{{ addon_popgolf.featured_image  | image_url: width: 80 }}' }
+    };
+    if (compPills) {
+      var html = '<span class="sw4-comp-pill-{{ sid }}">' +
+                   '<span class="sw4-comp-pill-img-{{ sid }}"><img src="{{ main_product.featured_image | image_url: width: 80 }}" alt=""></span>' +
+                   'Frame' +
+                 '</span>';
+      var count = 1;
+      document.querySelectorAll('.sw4-section-{{ sid }} .sw4-card-{{ sid }}.selected:not(.locked)').forEach(function (card) {
+        var d = PILL_DATA[card.id];
+        if (!d) return;
+        html += '<span class="sw4-comp-plus-{{ sid }}">+</span>';
+        html += '<span class="sw4-comp-pill-{{ sid }}">' +
+                  '<span class="sw4-comp-pill-img-{{ sid }}"><img src="' + d.img + '" alt=""></span>' +
+                  d.name +
+                '</span>';
+        count++;
+      });
+      compPills.innerHTML = html;
+      if (compCount) compCount.textContent = padTwo(count) + (count === 1 ? ' ITEM' : ' ITEMS');
+      if (heroNumEl) heroNumEl.textContent = padTwo(count);
+    }
+  }
+
+  function sw4PollCart() {
+    fetch('/cart.js')
+      .then(function (r) { return r.json(); })
+      .then(function (cart) {
+        var fp = sw4PollFp(cart);
+        if (SW4_LAST_FP === null) { SW4_LAST_FP = fp; return; }
+        if (fp === SW4_LAST_FP) return;
+        SW4_LAST_FP = fp;
+        sw4PollRebuildKit(cart);
+        sw4PollUpdateTotal();
+        document.dispatchEvent(new CustomEvent('sw4:cartUpdated-{{ sid }}', { detail: { cart: cart } }));
+      })
+      .catch(function () {});
+  }
+
+  setInterval(sw4PollCart, 2500);
+  setTimeout(sw4PollCart, 600);
+})();
+</script>
+
+<script>
+(function () {
+  /* ── UPCART STYLE OVERRIDES (scoped to #CartPopup) — matches v1 clean aesthetic ── */
+  var SW4_UPCART_CSS = [
+    '#CartPopup,#CartPopup *{font-family:"Inter",-apple-system,BlinkMacSystemFont,system-ui,sans-serif!important;box-sizing:border-box!important}',
+
+    /* HEADER */
+    '#CartPopup .upcart-header{background:#000!important;padding:16px 22px!important;border-bottom:2px solid #23ff53!important}',
+    '#CartPopup .upcart-header-text{color:#fff!important;font-size:13px!important;font-weight:800!important;letter-spacing:.12em!important}',
+    '#CartPopup .upcart-header-close-button svg path{fill:#fff!important}',
+
+    /* ANNOUNCEMENT */
+    '#CartPopup .upcart-announcement{background:#f0fdf4!important;border-color:#bbf7d0!important;font-size:13px!important;font-weight:600!important;color:#16a34a!important;text-align:center!important}',
+    '#CartPopup .upcart-announcement strong{color:#111!important}',
+
+    /* PROGRESS BAR */
+    '#CartPopup [class*="segmented-progress-bar__segment-fill"]{background:#23ff53!important}',
+    '#CartPopup [class*="segmented-progress-bar__segment"]{background:#e5e7eb!important;border-radius:4px!important}',
+    '#CartPopup [class*="segmented-progress-bar__milestone-icon"]{background:#23ff53!important;border-radius:50%!important;border:2px solid #23ff53!important;padding:3px!important}',
+    '#CartPopup [class*="segmented-progress-bar__milestone-icon"] svg path{fill:#000!important}',
+    '#CartPopup [class*="segmented-progress-bar__milestone-label"]{font-size:10px!important;font-weight:700!important;color:#555!important}',
+    '#CartPopup .upcart-internal-rewards__message p{font-size:13px!important;font-weight:700!important;color:#16a34a!important;text-align:center!important}',
+
+    /* PRODUCT ROWS */
+    '#CartPopup .upcart-product-item{padding:14px 18px!important;border-bottom:1px solid #f0f0f0!important}',
+    '#CartPopup .upcart-product-item:has(.upcart-item-compare-price){background:#f0fdf4!important;border-left:3px solid #23ff53!important;padding-left:15px!important}',
+    '#CartPopup .upcart-product-image-wrapper{width:74px!important;height:74px!important;border-radius:10px!important;overflow:hidden!important;border:1.5px solid #f0f0f0!important;flex-shrink:0!important}',
+    '#CartPopup .upcart-product-image-wrapper img{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important}',
+    '#CartPopup .upcart-product-title a,#CartPopup .upcart-product-title{font-size:13px!important;font-weight:700!important;color:#111!important;text-decoration:none!important}',
+    '#CartPopup .upcart-item-price{font-size:14px!important;font-weight:800!important;color:#111!important}',
+    '#CartPopup .upcart-item-compare-price{font-size:12px!important;color:#aaa!important;text-decoration:line-through!important}',
+    '#CartPopup .upcart-product-savings{font-size:11px!important;font-weight:800!important;color:#16a34a!important}',
+
+    /* QUANTITY STEPPER */
+    '#CartPopup [class*="QuantityField"]{border:1.5px solid #e5e7eb!important;border-radius:8px!important;overflow:hidden!important;background:#fff!important;display:flex!important;align-items:center!important}',
+    '#CartPopup .upcart-product-quantity-minus,#CartPopup .upcart-product-quantity-plus{background:#f9fafb!important;width:30px!important;min-width:30px!important;height:30px!important;border:none!important;display:flex!important;align-items:center!important;justify-content:center!important;cursor:pointer!important}',
+    '#CartPopup .upcart-product-quantity-input{font-size:13px!important;font-weight:700!important;color:#111!important;width:36px!important;text-align:center!important;border:none!important;background:#fff!important}',
+    '#CartPopup .upcart-product-quantity-minus svg path,#CartPopup .upcart-product-quantity-plus svg path{fill:#111!important}',
+
+    /* TRASH */
+    '#CartPopup [class*="TrashButton"]{opacity:.35!important;cursor:pointer!important}',
+    '#CartPopup [class*="TrashButton"] svg path{stroke:#ef4444!important}',
+
+    /* DISCOUNT BADGE */
+    '#CartPopup .upcart-discount-code-badge{background:#f0fdf4!important;border:1px solid #bbf7d0!important;border-radius:20px!important;padding:3px 8px 3px 6px!important;display:inline-flex!important;align-items:center!important;gap:4px!important;margin-top:4px!important}',
+    '#CartPopup .upcart-discount-code-text{font-size:10px!important;font-weight:700!important;color:#16a34a!important;letter-spacing:.04em!important;text-transform:uppercase!important}',
+    '#CartPopup .upcart-discount-code-icon svg path{fill:#16a34a!important}',
+
+    /* FOOTER */
+    '#CartPopup .upcart-footer{background:#fff!important;border-top:1px solid #e5e7eb!important;padding:14px 18px!important}',
+    '#CartPopup .upcart-savings-amount{font-size:15px!important;font-weight:900!important;color:#16a34a!important}',
+
+    /* CHECKOUT BUTTON */
+    '#CartPopup .upcart-checkout-button{background:#23ff53!important;color:#000!important;font-family:"Inter",sans-serif!important;font-size:15px!important;font-weight:900!important;letter-spacing:.07em!important;text-transform:uppercase!important;border-radius:10px!important;padding:16px 20px!important;border:none!important;width:100%!important;display:block!important;text-align:center!important;text-decoration:none!important;box-shadow:0 4px 18px rgba(35,255,83,.4)!important}'
+  ].join('\n');
+
+  var hoverCss = [
+    '#CartPopup .upcart-product-quantity-minus:hover,#CartPopup .upcart-product-quantity-plus:hover{background:#23ff53!important}',
+    '#CartPopup [class*="TrashButton"]:hover{opacity:1!important}',
+    '#CartPopup .upcart-checkout-button:hover{background:#16a34a!important;color:#fff!important;transform:translateY(-1px)!important;box-shadow:0 8px 28px rgba(22,163,74,.45)!important}',
+    '#CartPopup .upcart-checkout-button:active{transform:translateY(0)!important}'
+  ].join('\n');
+
+  function sw4InjectUpcartCss() {
+    if (document.getElementById('sw4-upcart-styles')) return;
+    var style = document.createElement('style');
+    style.id = 'sw4-upcart-styles';
+    style.textContent = SW4_UPCART_CSS + hoverCss;
+    document.head.appendChild(style);
+  }
+
+  sw4InjectUpcartCss();
+
+  if (typeof MutationObserver !== 'undefined') {
+    var mo = new MutationObserver(function () {
+      if (!document.getElementById('sw4-upcart-styles')) sw4InjectUpcartCss();
+    });
+    mo.observe(document.documentElement, { childList: true, subtree: false });
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Swaptop Bundle v4",
+  "tag": "section",
+  "class": "swaptop-bundle-v4-wrapper",
+  "settings": [],
+  "presets": [{ "name": "Swaptop Bundle v4" }]
+}
+{% endschema %}

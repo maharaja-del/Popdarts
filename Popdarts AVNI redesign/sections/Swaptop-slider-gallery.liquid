@@ -1,0 +1,276 @@
+{% comment %}
+  Swaptop — Slider Gallery
+  Responsive ad-creative slider supporting mixed portrait (9:16) and landscape (16:9) slides.
+  Clean dark theme with a single red accent. Slides matched to a common height.
+  Scoped to section.id so multiple instances won't collide.
+{% endcomment %}
+
+{%- comment -%} Each entry is "image_url|orientation" where orientation is p (portrait) or l (landscape). {%- endcomment -%}
+{%- assign default_slides = "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/WomanclippinginSwaptop.png?v=1781213576|l,https://cdn.shopify.com/s/files/1/0471/3375/3505/files/KidsstandingonSwaptop.png?v=1781213577|l,https://cdn.shopify.com/s/files/1/0471/3375/3505/files/KidsplayingSwaptop.png?v=1781213575|l,https://cdn.shopify.com/s/files/1/0471/3375/3505/files/NEW_KickStarter-SwapTop_Kit.jpg?v=1781213574|l" | split: "," -%}
+
+<style>
+  .j4h-{{ section.id }} {
+    --red:#C8102E; --red-d:#8B0000;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    position:relative;
+    overflow:hidden;
+    background:
+      radial-gradient(80% 55% at 50% 0%, rgba(200,16,46,.16), transparent 62%),
+      #0a0c12;
+    padding:0 0 56px;
+  }
+  /* slim red accent line at the top */
+  .j4h-{{ section.id }}::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:3px;z-index:4;pointer-events:none;
+    background:linear-gradient(90deg,transparent,var(--red),transparent);
+  }
+
+  /* ── HEADER ── */
+  .j4h-{{ section.id }} .j4h-head{
+    position:relative;z-index:2;
+    max-width:760px;margin:0 auto;
+    padding:46px 20px 30px;text-align:center;
+  }
+  .j4h-{{ section.id }} .j4h-eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--red);
+    color:#fff;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+    padding:7px 16px;border-radius:999px;margin-bottom:16px;
+    box-shadow:0 6px 20px rgba(200,16,46,.45);
+  }
+  .j4h-{{ section.id }} .j4h-title{
+    margin:0;color:#fff;font-weight:900;text-transform:uppercase;
+    font-size:clamp(30px,6vw,58px);line-height:.98;letter-spacing:-.03em;
+    text-shadow:0 4px 30px rgba(0,0,0,.5);
+  }
+  .j4h-{{ section.id }} .j4h-title .r{color:#ff4d4d}
+  .j4h-{{ section.id }} .j4h-title .b{color:#5b8def}
+  .j4h-{{ section.id }} .j4h-sub{
+    margin:14px auto 0;max-width:560px;
+    color:rgba(255,255,255,.62);font-size:clamp(14px,2vw,17px);line-height:1.5;
+  }
+
+  /* ── SLIDER ── */
+  .j4h-{{ section.id }} .j4h-slider{position:relative;z-index:2;}
+  .j4h-{{ section.id }} .j4h-track{
+    display:flex;gap:16px;align-items:center;
+    overflow-x:auto;scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;scroll-behavior:smooth;
+    padding:6px 20px 18px;
+    scrollbar-width:none;
+  }
+  .j4h-{{ section.id }} .j4h-track::-webkit-scrollbar{display:none}
+  /* slide height is fixed per orientation; width follows the image's natural ratio (no cropping) */
+  .j4h-{{ section.id }} .j4h-slide{
+    flex:0 0 auto;
+    border-radius:16px;overflow:hidden;
+    scroll-snap-align:center;
+    position:relative;
+    background:#0c1020;
+    border:1px solid rgba(255,255,255,.08);
+    box-shadow:0 14px 34px rgba(0,0,0,.5);
+    transition:transform .35s cubic-bezier(.16,1,.3,1),border-color .35s,box-shadow .35s;
+  }
+  .j4h-{{ section.id }} .j4h-slide.is-portrait{height:460px;}
+  .j4h-{{ section.id }} .j4h-slide.is-landscape{height:300px;}
+  .j4h-{{ section.id }} .j4h-slide:hover{
+    transform:translateY(-6px);
+    border-color:rgba(200,16,46,.6);
+    box-shadow:0 22px 48px rgba(200,16,46,.28);
+  }
+  /* width:auto lets each slide shrink to the image's real proportions — nothing is clipped */
+  .j4h-{{ section.id }} .j4h-slide img{
+    height:100%;width:auto;object-fit:contain;display:block;
+  }
+
+  /* arrows */
+  .j4h-{{ section.id }} .j4h-arrow{
+    position:absolute;top:50%;transform:translateY(-50%);z-index:5;
+    width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;
+    background:var(--red);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 20px rgba(200,16,46,.5);
+    transition:background .2s,transform .2s,opacity .2s;
+  }
+  .j4h-{{ section.id }} .j4h-arrow:hover{background:var(--red-d);transform:translateY(-50%) scale(1.08)}
+  .j4h-{{ section.id }} .j4h-arrow svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+  .j4h-{{ section.id }} .j4h-arrow--prev{left:14px}
+  .j4h-{{ section.id }} .j4h-arrow--next{right:14px}
+  .j4h-{{ section.id }} .j4h-arrow.is-off{opacity:0;pointer-events:none}
+
+  /* CTA */
+  .j4h-{{ section.id }} .j4h-cta-wrap{position:relative;z-index:2;text-align:center;margin-top:14px}
+  .j4h-{{ section.id }} .j4h-cta{
+    display:inline-flex;align-items:center;gap:10px;
+    background:var(--red);color:#fff;text-decoration:none;
+    font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+    padding:16px 34px;border-radius:10px;
+    box-shadow:0 8px 26px rgba(200,16,46,.4);
+    transition:background .2s,transform .2s;
+  }
+  .j4h-{{ section.id }} .j4h-cta:hover{background:var(--red-d);transform:translateY(-2px)}
+
+  @media (max-width:768px){
+    .j4h-{{ section.id }} .j4h-head{padding:34px 18px 22px}
+    .j4h-{{ section.id }} .j4h-arrow{display:none}      /* swipe on mobile */
+    .j4h-{{ section.id }} .j4h-track{gap:12px;padding:6px 16px 16px}
+    .j4h-{{ section.id }} .j4h-slide.is-portrait{height:58vh;max-height:420px}
+    .j4h-{{ section.id }} .j4h-slide.is-landscape{height:34vh;max-height:240px}
+  }
+  @media (min-width:1024px){
+    .j4h-{{ section.id }} .j4h-slide.is-portrait{height:480px}
+    .j4h-{{ section.id }} .j4h-slide.is-landscape{height:310px}
+    .j4h-{{ section.id }} .j4h-track{padding:8px 64px 22px;justify-content:flex-start}
+  }
+</style>
+
+<section class="j4h-{{ section.id }}" aria-label="{{ section.settings.title | default: 'Swaptop' | escape }}">
+
+  <div class="j4h-head">
+    <span class="j4h-eyebrow">{{ section.settings.eyebrow | default: 'Swaptop' }}</span>
+    <h2 class="j4h-title">{{ section.settings.title | default: 'Meet The Swaptop' }}</h2>
+    {%- if section.settings.subtext != blank -%}
+      <p class="j4h-sub">{{ section.settings.subtext }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="j4h-slider">
+    <button class="j4h-arrow j4h-arrow--prev is-off" id="j4h-prev-{{ section.id }}" aria-label="Previous" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+
+    <div class="j4h-track" id="j4h-track-{{ section.id }}">
+      {%- for slide in default_slides -%}
+        {%- assign parts = slide | split: "|" -%}
+        {%- assign img_url = parts[0] -%}
+        {%- assign orient = parts[1] | default: 'p' -%}
+        <div class="j4h-slide {% if orient == 'l' %}is-landscape{% else %}is-portrait{% endif %}">
+          <img src="{{ img_url }}" alt="Swaptop {{ forloop.index }}" loading="lazy" decoding="async">
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <button class="j4h-arrow j4h-arrow--next" id="j4h-next-{{ section.id }}" aria-label="Next" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+
+  {%- if section.settings.button_label != blank -%}
+    {%- comment -%} Prefer a product picked in the theme editor; otherwise fall back to the Swaptop kit by handle. {%- endcomment -%}
+    {%- if section.settings.product != blank -%}
+      {%- assign cta_variant = section.settings.product.selected_or_first_available_variant -%}
+    {%- else -%}
+      {%- assign cta_variant = all_products['swaptop-kit'].selected_or_first_available_variant -%}
+    {%- endif -%}
+    <div class="j4h-cta-wrap">
+      <button class="j4h-cta" type="button" id="j4h-add-{{ section.id }}"
+        data-variant-id="{{ cta_variant.id }}">
+        <span class="j4h-cta-label">{{ section.settings.button_label }}</span>
+        <svg class="j4h-cta-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      </button>
+    </div>
+  {%- endif -%}
+
+</section>
+
+<script>
+(function(){
+  var track = document.getElementById('j4h-track-{{ section.id }}');
+  var prev  = document.getElementById('j4h-prev-{{ section.id }}');
+  var next  = document.getElementById('j4h-next-{{ section.id }}');
+  if(!track) return;
+
+  function step(){
+    var slide = track.querySelector('.j4h-slide');
+    if(!slide) return track.clientWidth * 0.8;
+    var gap = parseInt(getComputedStyle(track).columnGap || getComputedStyle(track).gap || 16, 10) || 16;
+    return slide.getBoundingClientRect().width + gap;
+  }
+
+  function syncArrows(){
+    if(!prev || !next) return;
+    prev.classList.toggle('is-off', track.scrollLeft <= 4);
+    next.classList.toggle('is-off', track.scrollLeft + track.clientWidth >= track.scrollWidth - 4);
+  }
+
+  if(prev) prev.addEventListener('click', function(){ track.scrollBy({left:-step(), behavior:'smooth'}); });
+  if(next) next.addEventListener('click', function(){ track.scrollBy({left:step(), behavior:'smooth'}); });
+  track.addEventListener('scroll', syncArrows, {passive:true});
+  window.addEventListener('resize', syncArrows);
+  syncArrows();
+
+  /* Auto-advance — pauses on hover / touch, loops back at the end */
+  var paused = false, timer = null;
+  function start(){ stop(); timer = setInterval(function(){
+    if(paused) return;
+    if(track.scrollLeft + track.clientWidth >= track.scrollWidth - 4){
+      track.scrollTo({left:0, behavior:'smooth'});
+    } else {
+      track.scrollBy({left:step(), behavior:'smooth'});
+    }
+  }, 3500); }
+  function stop(){ if(timer) clearInterval(timer); }
+
+  track.addEventListener('mouseenter', function(){ paused = true; });
+  track.addEventListener('mouseleave', function(){ paused = false; });
+  track.addEventListener('touchstart', function(){ paused = true; }, {passive:true});
+
+  /* Only autoplay when the section is on screen */
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ e.isIntersecting ? start() : stop(); });
+    }, {threshold:0.2}).observe(track);
+  } else { start(); }
+
+  /* CTA — add to cart via AJAX, no page redirect */
+  var addBtn = document.getElementById('j4h-add-{{ section.id }}');
+  if(addBtn){
+    addBtn.addEventListener('click', function(){
+      var id = addBtn.getAttribute('data-variant-id');
+      if(!id || addBtn.disabled) return;
+      var label = addBtn.querySelector('.j4h-cta-label');
+      var original = label ? label.textContent : '';
+      addBtn.disabled = true;
+
+      fetch('/cart/add.js', {
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body: JSON.stringify({ items:[{ id: id, quantity: 1 }] })
+      })
+      .then(function(r){
+        if(!r.ok) throw new Error('add failed');
+        return r.json();
+      })
+      .then(function(){
+        if(label) label.textContent = 'Added to cart ✓';
+        /* Nudge the theme to refresh its cart drawer / count without navigating */
+        document.dispatchEvent(new CustomEvent('cart:refresh', {bubbles:true}));
+        document.dispatchEvent(new CustomEvent('cart:build', {bubbles:true}));
+        setTimeout(function(){ if(label) label.textContent = original; addBtn.disabled = false; }, 2200);
+      })
+      .catch(function(){
+        if(label) label.textContent = 'Try again';
+        setTimeout(function(){ if(label) label.textContent = original; addBtn.disabled = false; }, 2200);
+      });
+    });
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Swaptop Slider Gallery",
+  "tag": "section",
+  "class": "swaptop-slider-wrapper",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Swaptop" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Meet The Swaptop" },
+    { "type": "textarea", "id": "subtext", "label": "Subtext", "default": "Swap, clip, and play — see the Swaptop in action." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Add Swaptop To Cart" },
+    { "type": "product", "id": "product", "label": "Product to add to cart", "info": "Optional. Leave empty to use the Swaptop Kit (handle: swaptop-kit). The button adds the first available variant — no redirect." }
+  ],
+  "presets": [
+    { "name": "Swaptop Slider Gallery" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,396 @@
+{% comment %}
+  Rookie Pack Footer
+  Drop into: sections/last-section-rookie.liquid
+  { "type": "last-section-rookie" }
+{% endcomment %}
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+  .spt-bottom {
+    font-family: 'Inter', sans-serif;
+    background: #000;
+    padding: 20px 24px;
+    border-top: 1px solid #1a1a1a;
+  }
+
+  .spt-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  /* ── Row 1: country selector (left) ── */
+  .spt-row-top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .spt-locale-wrap {
+    position: relative;
+    display: inline-block;
+  }
+
+  .spt-locale-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(43,153,255,0.08);
+    border: 1px solid rgba(43,153,255,0.3);
+    border-radius: 8px;
+    padding: 7px 12px;
+    color: rgba(255,255,255,0.75);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    user-select: none;
+  }
+
+  .spt-locale-trigger:hover,
+  .spt-locale-wrap.open .spt-locale-trigger {
+    background: rgba(43,153,255,0.15);
+    border-color: #2b99ff;
+    color: #fff;
+  }
+
+  .spt-locale-trigger .spt-globe { opacity: 0.7; flex-shrink: 0; }
+
+  .spt-chevron {
+    transition: transform 0.2s;
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+  .spt-locale-wrap.open .spt-chevron { transform: rotate(180deg); opacity: 1; }
+
+  /* Dropdown panel */
+  .spt-locale-panel {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 0;
+    min-width: 260px;
+    max-height: 300px;
+    background: #111;
+    border: 1px solid rgba(43,153,255,0.25);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 -8px 32px rgba(0,0,0,0.7);
+    z-index: 200;
+    flex-direction: column;
+  }
+
+  .spt-locale-wrap.open .spt-locale-panel { display: flex; }
+
+  .spt-locale-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    flex-shrink: 0;
+  }
+
+  .spt-locale-search svg { opacity: 0.4; flex-shrink: 0; }
+
+  .spt-locale-search input {
+    background: none;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    width: 100%;
+    caret-color: #2b99ff;
+  }
+
+  .spt-locale-search input::placeholder { color: rgba(255,255,255,0.3); }
+
+  .spt-locale-list {
+    overflow-y: auto;
+    flex: 1;
+    padding: 6px 0;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(43,153,255,0.3) transparent;
+  }
+
+  .spt-locale-list::-webkit-scrollbar { width: 4px; }
+  .spt-locale-list::-webkit-scrollbar-track { background: transparent; }
+  .spt-locale-list::-webkit-scrollbar-thumb { background: rgba(43,153,255,0.3); border-radius: 4px; }
+
+  .spt-locale-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    gap: 8px;
+  }
+
+  .spt-locale-option:hover { background: rgba(43,153,255,0.1); color: #fff; }
+  .spt-locale-option.active { color: #2b99ff; font-weight: 600; }
+
+  .spt-locale-option .spt-opt-currency {
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    flex-shrink: 0;
+  }
+
+  .spt-locale-option.active .spt-opt-currency { color: rgba(43,153,255,0.6); }
+
+  .spt-locale-option .spt-check { display: none; flex-shrink: 0; color: #2b99ff; }
+  .spt-locale-option.active .spt-check { display: block; }
+
+  .spt-locale-form-real { display: none; }
+
+  /* ── Row 2: copyright + links (left) | payment icons (right) ── */
+  .spt-row-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .spt-left {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .spt-copy {
+    font-size: 13px;
+    color: rgba(255,255,255,0.35);
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  .spt-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .spt-link {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    padding: 4px 10px;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+    white-space: nowrap;
+  }
+
+  .spt-link:hover { color: #fff; background: rgba(255,255,255,0.07); }
+
+  .spt-sep {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    flex-shrink: 0;
+  }
+
+  /* Payment icons */
+  .spt-payments {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .spt-pay-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 26px;
+    width: 40px;
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .spt-pay-icon svg {
+    display: block;
+    height: 18px;
+    width: auto;
+    max-width: 34px;
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 600px) {
+    .spt-bottom { padding: 20px 16px; }
+
+    .spt-row-top { justify-content: center; }
+
+    .spt-row-bottom {
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+    }
+
+    .spt-left { align-items: center; }
+    .spt-links { justify-content: center; }
+    .spt-payments { justify-content: center; }
+
+    .spt-locale-panel {
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 290px;
+    }
+  }
+
+  /* ── Large screens ── */
+  @media (min-width: 1024px) {
+    .spt-bottom { padding: 24px 40px; }
+    .spt-inner { gap: 16px; }
+  }
+</style>
+
+<div class="spt-bottom">
+  <div class="spt-inner">
+
+    <!-- Row 1: country selector -->
+    <div class="spt-row-top">
+      <div class="spt-locale-wrap" id="spt-locale-wrap">
+
+        <button class="spt-locale-trigger" id="spt-locale-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+          <svg class="spt-globe" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <span id="spt-locale-label">{{ localization.country.name }} ({{ localization.country.currency.iso_code }} {{ localization.country.currency.symbol }})</span>
+          <svg class="spt-chevron" width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        <div class="spt-locale-panel" id="spt-locale-panel" role="listbox">
+          <div class="spt-locale-search">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="spt-locale-search" placeholder="Search country…" autocomplete="off" spellcheck="false">
+          </div>
+          <div class="spt-locale-list" id="spt-locale-list">
+            {% for country in localization.available_countries %}
+              <div
+                class="spt-locale-option{% if country.iso_code == localization.country.iso_code %} active{% endif %}"
+                data-value="{{ country.iso_code }}"
+                data-label="{{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})"
+                role="option"
+                {% if country.iso_code == localization.country.iso_code %}aria-selected="true"{% endif %}
+              >
+                <span>{{ country.name }}</span>
+                <span class="spt-opt-currency">{{ country.currency.iso_code }} {{ country.currency.symbol }}</span>
+                <svg class="spt-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        {% form 'localization', id: 'SptLocalizationForm', class: 'spt-locale-form-real' %}
+          <input type="hidden" name="country_code" id="spt-country-input" value="{{ localization.country.iso_code }}">
+        {% endform %}
+
+      </div>
+    </div>
+
+    <!-- Row 2: copyright + links (left) | payment icons (right) -->
+    <div class="spt-row-bottom">
+
+      <div class="spt-left">
+        <span class="spt-copy">&copy; {{ 'now' | date: '%Y' }} PopDarts. All rights reserved.</span>
+        <nav class="spt-links">
+          <a class="spt-link" href="/policies/privacy-policy">Privacy Policy</a>
+          <span class="spt-sep"></span>
+          <a class="spt-link" href="/policies/terms-of-service">Terms of Service</a>
+          <span class="spt-sep"></span>
+          <a class="spt-link" href="/policies/shipping-policy">Shipping Policy</a>
+          <span class="spt-sep"></span>
+          <a class="spt-link" href="/policies/refund-policy">Refund Policy</a>
+        </nav>
+      </div>
+
+      <div class="spt-payments">
+        {% for type in shop.enabled_payment_types %}
+          <span class="spt-pay-icon">{{ type | payment_type_svg_tag }}</span>
+        {% endfor %}
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function() {
+  const wrap    = document.getElementById('spt-locale-wrap');
+  const trigger = document.getElementById('spt-locale-trigger');
+  const panel   = document.getElementById('spt-locale-panel');
+  const search  = document.getElementById('spt-locale-search');
+  const list    = document.getElementById('spt-locale-list');
+  const input   = document.getElementById('spt-country-input');
+  const form    = document.getElementById('SptLocalizationForm');
+  const label   = document.getElementById('spt-locale-label');
+  const options = Array.from(list.querySelectorAll('.spt-locale-option'));
+
+  function open() {
+    wrap.classList.add('open');
+    trigger.setAttribute('aria-expanded', 'true');
+    search.value = '';
+    filterOptions('');
+    search.focus();
+    const active = list.querySelector('.active');
+    if (active) active.scrollIntoView({ block: 'nearest' });
+  }
+
+  function close() {
+    wrap.classList.remove('open');
+    trigger.setAttribute('aria-expanded', 'false');
+  }
+
+  function filterOptions(query) {
+    const q = query.toLowerCase();
+    options.forEach(opt => {
+      opt.style.display = opt.dataset.label.toLowerCase().includes(q) ? '' : 'none';
+    });
+  }
+
+  trigger.addEventListener('click', () => wrap.classList.contains('open') ? close() : open());
+  search.addEventListener('input', e => filterOptions(e.target.value));
+
+  list.addEventListener('click', e => {
+    const opt = e.target.closest('.spt-locale-option');
+    if (!opt) return;
+    options.forEach(o => { o.classList.remove('active'); o.removeAttribute('aria-selected'); });
+    opt.classList.add('active');
+    opt.setAttribute('aria-selected', 'true');
+    label.textContent = opt.dataset.label;
+    input.value = opt.dataset.value;
+    close();
+    form.submit();
+  });
+
+  document.addEventListener('click', e => { if (!wrap.contains(e.target)) close(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Rookie Bottom Bar",
+  "tag": "div",
+  "class": "rookie-bottom-wrapper",
+  "settings": [],
+  "presets": [
+    { "name": "Rookie Bottom Bar" }
+  ]
+}
+{% endschema %}
