@@ -191,12 +191,28 @@
      newly-added section unwired
      ============================================================ */
   function initAll() {
-    initSliders();
-    initVideoSlides();
-    initReveal();
+    // Reveal goes first and every init is isolated: a throw in one
+    // feature must never leave the page's sections sitting at opacity 0.
+    [initReveal, initSliders, initVideoSlides].forEach((fn) => {
+      try {
+        fn();
+      } catch (err) {
+        if (window.console) console.warn("[popdarts-prodigy]", fn.name, err);
+      }
+    });
   }
 
-  document.addEventListener("DOMContentLoaded", initAll);
+  // This script is loaded from inside the hero section. If the theme
+  // renders that section after the document has already finished
+  // loading, DOMContentLoaded has come and gone — so run now in that
+  // case, and always take a second pass on window load (initAll is
+  // idempotent) to catch sections parsed after the first pass.
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initAll);
+  } else {
+    initAll();
+  }
+  window.addEventListener("load", initAll);
   document.addEventListener("shopify:section:load", initAll);
   document.addEventListener("shopify:section:reorder", initAll);
 })();

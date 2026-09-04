@@ -183,6 +183,10 @@
     opacity: 0;
     transform: translateY(28px);
     transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+    /* CSS-only dead-man's switch: if the script never adds .is-visible
+       (blocked, errored, ran too early/late), everything still shows
+       itself after 3s. No JS involved in this fallback at all. */
+    animation: pd-safety 0.7s var(--ease-out) 3s forwards;
   }
   html.pd-js section.pd-page.is-visible {
     opacity: 1;
@@ -193,7 +197,10 @@
      animation with `backwards` fill (not a transition on transform) so
      once it finishes the element's normal styles — including hover
      lifts — take over untouched. */
-  html.pd-js section.pd-page :is(.avatars__grid, .products__grid, .reviews__grid, .experience__steps, .home-trust__grid, .faq__list) > * { opacity: 0; }
+  html.pd-js section.pd-page :is(.avatars__grid, .products__grid, .reviews__grid, .experience__steps, .home-trust__grid, .faq__list) > * {
+    opacity: 0;
+    animation: pd-safety-fade 0.5s var(--ease-out) 3.2s forwards; /* same dead-man's switch */
+  }
   html.pd-js section.pd-page.is-visible :is(.avatars__grid, .products__grid, .reviews__grid, .experience__steps, .home-trust__grid, .faq__list) > * {
     opacity: 1;
     animation: pd-rise 0.65s var(--ease-out) backwards;
@@ -209,6 +216,8 @@
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+@keyframes pd-safety { to { opacity: 1; transform: translateY(0); } }
+@keyframes pd-safety-fade { to { opacity: 1; } }
 
 /* ============================================================
    BUTTONS
