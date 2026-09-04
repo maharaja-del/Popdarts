@@ -3,43 +3,83 @@
 <section class="pd-page hero" id="hero-{{ section.id }}" aria-label="Introduction">
   <div class="hero__media" aria-hidden="true">
     {%- if section.settings.background_mode == 'single' -%}
-      <img class="hero__bg hero__bg--single" loading="eager" alt="A Popdarts referee and two competitors on the APL national championship court."
-        src="{% if section.settings.single_image %}{{ section.settings.single_image | image_url: width: 1920 }}{% else %}{{ 'pd-hero-dart-strike.jpg' | asset_url }}{% endif %}">
-      <div class="hero__overlay" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 2; background-color: #000000; opacity: {{ section.settings.overlay_opacity | default: 55 }}%; pointer-events: none;"></div>
+      <img class="hero__bg hero__bg--single" loading="eager" fetchpriority="high" alt=""
+        src="{% if section.settings.single_image %}{{ section.settings.single_image | image_url: width: 2000 }}{% else %}{{ 'pd-hero-dart-strike.jpg' | asset_url }}{% endif %}">
+      <div class="hero__overlay" style="opacity: {{ section.settings.overlay_opacity | default: 55 }}%;"></div>
     {%- else -%}
-      <img class="hero__bg hero__bg--1" loading="eager" alt="A Popdarts referee and two competitors on the APL national championship court."
-        src="{% if section.settings.bg_image_1 %}{{ section.settings.bg_image_1 | image_url: width: 1920 }}{% else %}{{ 'pd-hero-dart-strike.jpg' | asset_url }}{% endif %}">
-      <img class="hero__bg hero__bg--2" loading="lazy" alt="A player celebrating with a Popdart raised over a cheering APL Championship crowd."
-        src="{% if section.settings.bg_image_2 %}{{ section.settings.bg_image_2 | image_url: width: 1920 }}{% else %}{{ 'pd-hero-arena-wide.jpg' | asset_url }}{% endif %}">
-      <img class="hero__bg hero__bg--3" loading="lazy" alt="A champion lifted on shoulders holding the Popdarts National Championship trophy."
-        src="{% if section.settings.bg_image_3 %}{{ section.settings.bg_image_3 | image_url: width: 1920 }}{% else %}{{ 'pd-hero-trophy-lift.jpg' | asset_url }}{% endif %}">
-      <div class="hero__scrim"></div>
+      <img class="hero__bg hero__bg--1" loading="eager" fetchpriority="high" alt=""
+        src="{% if section.settings.bg_image_1 %}{{ section.settings.bg_image_1 | image_url: width: 2000 }}{% else %}{{ 'pd-hero-dart-strike.jpg' | asset_url }}{% endif %}">
+      <img class="hero__bg hero__bg--2" loading="lazy" alt=""
+        src="{% if section.settings.bg_image_2 %}{{ section.settings.bg_image_2 | image_url: width: 2000 }}{% else %}{{ 'pd-hero-arena-wide.jpg' | asset_url }}{% endif %}">
+      <img class="hero__bg hero__bg--3" loading="lazy" alt=""
+        src="{% if section.settings.bg_image_3 %}{{ section.settings.bg_image_3 | image_url: width: 2000 }}{% else %}{{ 'pd-hero-trophy-lift.jpg' | asset_url }}{% endif %}">
     {%- endif -%}
+    <div class="hero__scrim"></div>
+    <div class="hero__vignette"></div>
   </div>
 
   <div class="pd-wrap">
-   <div class="hero__inner">
-    <h1 class="hero__title" style="color: #fdfdfd;">
-      <span class="hero__title-lead" style="color: rgba(253,253,253,0.78);">{{ section.settings.heading_lead | default: 'I am the' }}</span>
-      <span class="hero__title-main">
-        <span style="color: #fdfdfd;">{{ section.settings.heading_word_1 | default: 'Popdarts' }}</span>
-        <span class="c-blue" style="color: #2b99ff;">{{ section.settings.heading_word_2 | default: 'Champion.' }}</span>
-      </span>
-    </h1>
+    <div class="hero__inner">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="hero__eyebrow">
+          {%- if section.settings.eyebrow_live -%}<span class="hero__eyebrow-dot" aria-hidden="true"></span>{%- endif -%}
+          <span>{{ section.settings.eyebrow }}</span>
+        </p>
+      {%- endif -%}
 
-    <p class="hero__sub">
-      {{ section.settings.subheading | default: "Every backyard has one. Three darts, one target — the closest stick wins, and the bragging rights are yours." }}
-    </p>
+      <h1 class="hero__title" style="color: #fdfdfd;">
+        <span class="hero__title-lead" style="color: rgba(253,253,253,0.78);">{{ section.settings.heading_lead | default: 'Become the' }}</span>
+        <span class="hero__title-main">
+          <span style="color: #fdfdfd;">{{ section.settings.heading_word_1 | default: 'Popdarts' }}</span>
+          <span class="c-blue" style="color: #2b99ff;">{{ section.settings.heading_word_2 | default: 'Champion.' }}</span>
+        </span>
+      </h1>
 
-    <div class="hero__actions">
-      <a class="btn btn--primary btn--lg" href="{{ section.settings.cta_link | default: '/products/pro-pack' }}">{{ section.settings.cta_text | default: 'Get Your Pro Pack' }}</a>
-      <a class="hero__more" href="{{ section.settings.secondary_anchor | default: '#experience' }}">
-        <span>{{ section.settings.secondary_text | default: "See how it's played" }}</span>
-        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 4v14m0 0-6-6m6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
+      <p class="hero__sub">
+        {{ section.settings.subheading | default: "Every backyard has one. Three darts, one target — the closest stick wins, and the bragging rights are yours." }}
+      </p>
+
+      <div class="hero__actions">
+        <a class="btn btn--primary btn--lg" href="{{ section.settings.cta_link | default: '/products/pro-pack' }}">{{ section.settings.cta_text | default: 'Get Your Pro Pack' }}</a>
+        {%- if section.settings.secondary_text != blank -%}
+          <a class="btn btn--ghost btn--lg hero__secondary" href="{{ section.settings.secondary_anchor | default: '#experience' }}">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M8 5.5v13l10-6.5z" fill="currentColor"/></svg>
+            <span>{{ section.settings.secondary_text }}</span>
+          </a>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.stat_1_value != blank or section.settings.stat_2_value != blank or section.settings.stat_3_value != blank -%}
+        <ul class="hero__stats" aria-label="Popdarts by the numbers">
+          {%- if section.settings.stat_1_value != blank -%}
+            <li class="hero__stat">
+              <span class="hero__stat-value">{{ section.settings.stat_1_value }}</span>
+              <span class="hero__stat-label">{{ section.settings.stat_1_label }}</span>
+            </li>
+          {%- endif -%}
+          {%- if section.settings.stat_2_value != blank -%}
+            <li class="hero__stat">
+              <span class="hero__stat-value">{{ section.settings.stat_2_value }}</span>
+              <span class="hero__stat-label">{{ section.settings.stat_2_label }}</span>
+            </li>
+          {%- endif -%}
+          {%- if section.settings.stat_3_value != blank -%}
+            <li class="hero__stat">
+              <span class="hero__stat-value">{{ section.settings.stat_3_value }}</span>
+              <span class="hero__stat-label">{{ section.settings.stat_3_label }}</span>
+            </li>
+          {%- endif -%}
+        </ul>
+      {%- endif -%}
     </div>
-   </div>
   </div>
+
+  {%- if section.settings.show_scroll_cue -%}
+    <a class="hero__scroll" href="{{ section.settings.secondary_anchor | default: '#experience' }}" aria-label="Scroll down">
+      <span>Scroll</span>
+      <span class="hero__scroll-line" aria-hidden="true"></span>
+    </a>
+  {%- endif -%}
 </section>
 
 {% schema %}
@@ -90,11 +130,29 @@
       "type": "range",
       "id": "overlay_opacity",
       "label": "Black overlay opacity",
+      "info": "Single image mode only. Crossfade mode uses the built-in cinematic scrim.",
       "min": 0,
       "max": 90,
       "step": 5,
       "unit": "%",
       "default": 55
+    },
+    {
+      "type": "header",
+      "content": "Eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "info": "Leave empty to hide.",
+      "default": "As seen on ESPN · 1 Billion+ views"
+    },
+    {
+      "type": "checkbox",
+      "id": "eyebrow_live",
+      "label": "Show pulsing 'live' dot",
+      "default": true
     },
     {
       "type": "header",
@@ -104,7 +162,7 @@
       "type": "text",
       "id": "heading_lead",
       "label": "Small lead-in text",
-      "default": "I am the"
+      "default": "Become the"
     },
     {
       "type": "text",
@@ -142,14 +200,66 @@
     {
       "type": "text",
       "id": "secondary_text",
-      "label": "Secondary link text",
+      "label": "Secondary button text",
+      "info": "Leave empty to hide.",
       "default": "See how it's played"
     },
     {
       "type": "text",
       "id": "secondary_anchor",
-      "label": "Secondary link anchor",
+      "label": "Secondary button anchor",
       "default": "#experience"
+    },
+    {
+      "type": "header",
+      "content": "Stat strip",
+      "info": "Up to three. Leave a value empty to hide that stat."
+    },
+    {
+      "type": "text",
+      "id": "stat_1_value",
+      "label": "Stat 1 value",
+      "default": "1B+"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_label",
+      "label": "Stat 1 label",
+      "default": "Social media views"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_value",
+      "label": "Stat 2 value",
+      "default": "ESPN"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_label",
+      "label": "Stat 2 label",
+      "default": "Championship broadcast"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_value",
+      "label": "Stat 3 value",
+      "default": "5–95"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_label",
+      "label": "Stat 3 label",
+      "default": "Ages · any surface"
+    },
+    {
+      "type": "header",
+      "content": "Extras"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scroll_cue",
+      "label": "Show scroll cue (desktop)",
+      "default": true
     }
   ],
   "presets": [
