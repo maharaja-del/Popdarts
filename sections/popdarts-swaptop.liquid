@@ -1,14 +1,18 @@
-{%- comment -%} Photo 1 (large, portrait): picker → bundled asset → default {%- endcomment -%}
+{%- comment -%} Photo 1 (large, portrait): picker → URL → bundled asset → default {%- endcomment -%}
 {%- if section.settings.image -%}
   {%- assign img_a = section.settings.image | image_url: width: 1200 -%}
+{%- elsif section.settings.image_url != blank -%}
+  {%- assign img_a = section.settings.image_url -%}
 {%- elsif section.settings.image_asset != blank -%}
   {%- assign img_a = section.settings.image_asset | asset_url -%}
 {%- else -%}
   {%- assign img_a = 'pd-marquee-court-cheer.jpg' | asset_url -%}
 {%- endif -%}
-{%- comment -%} Photo 2 (small, square) {%- endcomment -%}
+{%- comment -%} Photo 2 (small, square) — same chain {%- endcomment -%}
 {%- if section.settings.image_2 -%}
   {%- assign img_b = section.settings.image_2 | image_url: width: 800 -%}
+{%- elsif section.settings.image_2_url != blank -%}
+  {%- assign img_b = section.settings.image_2_url -%}
 {%- elsif section.settings.image_2_asset != blank -%}
   {%- assign img_b = section.settings.image_2_asset | asset_url -%}
 {%- else -%}
@@ -93,10 +97,16 @@
       "label": "Photo 1 (large, portrait)"
     },
     {
+      "type": "url",
+      "id": "image_url",
+      "label": "Photo 1 URL",
+      "info": "Used if Photo 1 is empty."
+    },
+    {
       "type": "text",
       "id": "image_asset",
       "label": "Photo 1 bundled asset filename",
-      "info": "Used if Photo 1 is empty, e.g. pd-marquee-court-cheer.jpg"
+      "info": "Used if both above are empty, e.g. pd-marquee-court-cheer.jpg"
     },
     {
       "type": "image_picker",
@@ -104,10 +114,16 @@
       "label": "Photo 2 (small, square)"
     },
     {
+      "type": "url",
+      "id": "image_2_url",
+      "label": "Photo 2 URL",
+      "info": "Used if Photo 2 is empty."
+    },
+    {
       "type": "text",
       "id": "image_2_asset",
       "label": "Photo 2 bundled asset filename",
-      "info": "Used if Photo 2 is empty, e.g. pd-bento-family-group2.jpg"
+      "info": "Used if both above are empty, e.g. pd-bento-family-group2.jpg"
     },
     {
       "type": "text",
