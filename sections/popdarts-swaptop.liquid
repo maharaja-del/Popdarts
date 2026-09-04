@@ -1,29 +1,53 @@
+{%- comment -%} Photo 1 (large, portrait): picker → bundled asset → default {%- endcomment -%}
+{%- if section.settings.image -%}
+  {%- assign img_a = section.settings.image | image_url: width: 1200 -%}
+{%- elsif section.settings.image_asset != blank -%}
+  {%- assign img_a = section.settings.image_asset | asset_url -%}
+{%- else -%}
+  {%- assign img_a = 'pd-marquee-court-cheer.jpg' | asset_url -%}
+{%- endif -%}
+{%- comment -%} Photo 2 (small, square) {%- endcomment -%}
+{%- if section.settings.image_2 -%}
+  {%- assign img_b = section.settings.image_2 | image_url: width: 800 -%}
+{%- elsif section.settings.image_2_asset != blank -%}
+  {%- assign img_b = section.settings.image_2_asset | asset_url -%}
+{%- else -%}
+  {%- assign img_b = 'pd-bento-family-group2.jpg' | asset_url -%}
+{%- endif -%}
+
 <section class="pd-page swaptop" id="swaptop-{{ section.id }}" aria-labelledby="swaptop-title-{{ section.id }}">
   <div class="pd-wrap swaptop__grid">
     <div class="swaptop__content">
       <p class="swaptop__eyebrow">{{ section.settings.eyebrow | default: 'Swaptop™ Kit' }}</p>
-      <h2 id="swaptop-title-{{ section.id }}" style="color: #0a0c10 !important;">{{ section.settings.heading | default: 'Cornhole is outdated,' }}</h2>
-      <h2 style="color: rgba(10,12,16,0.7) !important;">{{ section.settings.heading_2a | default: 'Cornhole is dead -' }} <span style="color: #17c440;">{{ section.settings.heading_2b | default: 'Be the life of the party.' }}</span></h2>
-      <p class="swaptop__body">{{ section.settings.body | default: "The new American classic game. One Frame, Endless Games™ — Swaptop swaps between game boards with a single clip-in frame, so your backyard, patio or game night never has to stop to switch games." }}</p>
-
-      <ol class="swaptop__steps">
-        {%- for block in section.blocks -%}
-          <li {{ block.shopify_attributes }}><span>{{ block.settings.label | default: 'Frame it' }}</span></li>
-        {%- endfor -%}
-      </ol>
+      <h2 id="swaptop-title-{{ section.id }}" style="color: #0a0c10 !important;">{{ section.settings.heading | default: 'The Host.' }}</h2>
+      {%- if section.settings.heading_2b != blank -%}
+        <p class="swaptop__tagline">{{ section.settings.heading_2b }}</p>
+      {%- endif -%}
+      {%- if section.settings.body != blank -%}
+        <p class="swaptop__body">{{ section.settings.body }}</p>
+      {%- endif -%}
 
       <div class="swaptop__price">
         <span class="swaptop__price-now">{{ section.settings.price_now | default: '$159.99' }}</span>
-        <span class="swaptop__price-was">{{ section.settings.price_was | default: '$179.99' }}</span>
+        {%- if section.settings.price_was != blank -%}
+          <span class="swaptop__price-was">{{ section.settings.price_was }}</span>
+        {%- endif -%}
       </div>
-      <p class="swaptop__includes">{{ section.settings.includes | default: 'Frame · double-sided Swaptop board · carrying case · 6 Rookie darts · bonus Pro Popdart' }}</p>
 
-      <a class="btn btn--green" href="{{ section.settings.cta_link | default: '/products/swaptop-kit' }}">{{ section.settings.cta_text | default: 'Shop the Swaptop Kit' }}</a>
+      <a class="btn btn--green btn--lg" href="{{ section.settings.cta_link | default: '/products/swaptop-kit' }}">{{ section.settings.cta_text | default: 'Shop the Swaptop Kit' }}</a>
     </div>
 
     <div class="swaptop__media">
-      <img src="{% if section.settings.image %}{{ section.settings.image | image_url: width: 1200 }}{% else %}{{ 'pd-marquee-court-cheer.jpg' | asset_url }}{% endif %}" alt="Players celebrating courtside — the host of the party, not just the game." loading="lazy">
-      <span class="swaptop__media-tag">{{ section.settings.image_tag | default: 'Anyone who can play cornhole can play Swaptop' }}</span>
+      <div class="swaptop__glow" aria-hidden="true"></div>
+      <div class="swaptop__photo swaptop__photo--a">
+        <img src="{{ img_a }}" alt="Friends gathered around a Swaptop board, mid-celebration." loading="lazy">
+      </div>
+      <div class="swaptop__photo swaptop__photo--b">
+        <img src="{{ img_b }}" alt="A family playing Popdarts together." loading="lazy">
+      </div>
+      {%- if section.settings.image_tag != blank -%}
+        <span class="swaptop__chip">{{ section.settings.image_tag }}</span>
+      {%- endif -%}
     </div>
   </div>
 </section>
@@ -43,37 +67,54 @@
     {
       "type": "text",
       "id": "heading",
-      "label": "Heading line 1",
-      "default": "Cornhole is outdated,"
-    },
-    {
-      "type": "text",
-      "id": "heading_2a",
-      "label": "Heading line 2 (white)",
-      "default": "Cornhole is dead -"
+      "label": "Heading",
+      "default": "The Host."
     },
     {
       "type": "text",
       "id": "heading_2b",
-      "label": "Heading line 2, part 2 (green)",
+      "label": "Tagline (green)",
       "default": "Be the life of the party."
     },
     {
       "type": "textarea",
       "id": "body",
-      "label": "Body",
-      "default": "The new American classic game. One Frame, Endless Games™ — Swaptop swaps between game boards with a single clip-in frame, so your backyard, patio or game night never has to stop to switch games."
+      "label": "One-line body",
+      "info": "Keep it to a sentence or two.",
+      "default": "One frame, endless games. Swaptop swaps game boards with a single clip-in frame — so game night never has to stop."
+    },
+    {
+      "type": "header",
+      "content": "Photos"
     },
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Product image"
+      "label": "Photo 1 (large, portrait)"
+    },
+    {
+      "type": "text",
+      "id": "image_asset",
+      "label": "Photo 1 bundled asset filename",
+      "info": "Used if Photo 1 is empty, e.g. pd-marquee-court-cheer.jpg"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Photo 2 (small, square)"
+    },
+    {
+      "type": "text",
+      "id": "image_2_asset",
+      "label": "Photo 2 bundled asset filename",
+      "info": "Used if Photo 2 is empty, e.g. pd-bento-family-group2.jpg"
     },
     {
       "type": "text",
       "id": "image_tag",
-      "label": "Image badge text",
-      "default": "Anyone who can play cornhole can play Swaptop"
+      "label": "Floating chip text",
+      "info": "Leave empty to hide.",
+      "default": "One Frame. Endless Games™"
     },
     {
       "type": "header",
@@ -92,12 +133,6 @@
       "default": "$179.99"
     },
     {
-      "type": "text",
-      "id": "includes",
-      "label": "What's included",
-      "default": "Frame · double-sided Swaptop board · carrying case · 6 Rookie darts · bonus Pro Popdart"
-    },
-    {
       "type": "header",
       "content": "Button"
     },
@@ -113,25 +148,9 @@
       "label": "Button link"
     }
   ],
-  "blocks": [
-    {
-      "type": "step",
-      "name": "Step",
-      "settings": [
-        { "type": "text", "id": "label", "label": "Step label", "default": "Frame it" }
-      ]
-    }
-  ],
   "presets": [
     {
-      "name": "Swaptop Showcase",
-      "blocks": [
-        { "type": "step", "settings": { "label": "Frame it" } },
-        { "type": "step", "settings": { "label": "Clip it" } },
-        { "type": "step", "settings": { "label": "Play it" } },
-        { "type": "step", "settings": { "label": "Swap it" } },
-        { "type": "step", "settings": { "label": "Repeat it" } }
-      ]
+      "name": "Swaptop Showcase"
     }
   ]
 }
