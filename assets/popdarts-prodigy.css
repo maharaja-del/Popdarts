@@ -708,9 +708,9 @@
    Light section — this is the merchandising moment, not a mood board.
    ============================================================ */
 
-.products { padding-block: clamp(56px, 10vh, 100px); background: var(--white); }
+.products { padding-block: clamp(64px, 11vh, 130px); background: var(--white); }
 
-.products__head { max-width: 640px; margin-bottom: clamp(28px, 4vh, 48px); }
+.products__head { max-width: 720px; margin-bottom: clamp(32px, 5vh, 60px); }
 .products__eyebrow {
   font-family: var(--font-mono);
   font-size: 13px;
@@ -720,13 +720,13 @@
   letter-spacing: 0.06em;
   margin-bottom: 14px;
 }
-.products__head h2 { font-size: clamp(28px, 4.2vw, 46px); margin-bottom: 12px; }
-.products__head p { font-size: clamp(15px, 1.6vw, 18px); color: rgba(10, 12, 16, 0.62); }
+.products__head h2 { font-size: clamp(34px, 5.2vw, 64px); margin-bottom: 14px; }
+.products__head p { font-size: clamp(16px, 1.7vw, 20px); color: rgba(10, 12, 16, 0.62); }
 
 .products__grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(16px, 2vw, 24px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(20px, 2.6vw, 36px);
 }
 
 .product-card {
@@ -770,20 +770,20 @@
 }
 
 .product-card__media {
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 5 / 6;
   background: var(--paper);
   overflow: hidden;
 }
 .product-card__media img {
   width: 100%; height: 100%;
   object-fit: contain;
-  padding: 18px;
+  padding: 10px;
   background: var(--paper);
   transition: transform 0.7s var(--ease-out);
 }
 .product-card:hover .product-card__media img { transform: scale(1.06); }
 
-.product-card__body { padding: clamp(18px, 2.4vw, 26px); display: flex; flex-direction: column; flex: 1; }
+.product-card__body { padding: clamp(22px, 2.8vw, 34px); display: flex; flex-direction: column; flex: 1; }
 
 /* The host theme.css pins .product-card__badge absolutely at the
    card's top-left regardless — so own that: it's a tag on the image. */
@@ -813,27 +813,29 @@
   font-family: var(--font-display);
   font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: -0.01em;
-  font-size: clamp(20px, 2.4vw, 26px);
+  letter-spacing: -0.015em;
+  font-size: clamp(24px, 2.8vw, 34px);
+  line-height: 1;
   margin-bottom: 8px;
 }
-.product-card__ages { font-size: 13px; color: rgba(10, 12, 16, 0.55); margin-bottom: 16px; }
+.product-card__ages { font-size: 14px; color: rgba(10, 12, 16, 0.55); margin-bottom: 20px; }
 
 .product-card__price {
   display: flex;
   align-items: baseline;
   gap: 10px;
   font-family: var(--font-mono);
-  margin-bottom: 20px;
+  margin-bottom: 22px;
   margin-top: auto;
 }
-.product-card__price-now { font-size: 22px; font-weight: 700; color: var(--ink); }
-.product-card__price-was { font-size: 14px; color: rgba(10,12,16,0.4); text-decoration: line-through; }
+.product-card__price-now { font-size: clamp(24px, 2.4vw, 30px); font-weight: 700; color: var(--ink); }
+.product-card__price-was { font-size: 15px; color: rgba(10,12,16,0.4); text-decoration: line-through; }
 
 .product-card__cta { width: 100%; }
 
 @media (max-width: 900px) {
-  .products__grid { grid-template-columns: 1fr; }
+  .products__grid { grid-template-columns: 1fr; max-width: 560px; margin-inline: auto; }
+  .product-card__media { aspect-ratio: 1 / 1; }
 }
 
 /* ============================================================
