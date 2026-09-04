@@ -1,12 +1,4 @@
-<section
-  class="pd-page avatars"
-  id="avatars-{{ section.id }}"
-  aria-labelledby="avatars-title-{{ section.id }}"
-  data-avatars
-  data-autoplay="{{ section.settings.autoplay }}"
-  data-interval="{{ section.settings.interval | default: 6 | times: 1000 }}"
-  style="--avatars-interval: {{ section.settings.interval | default: 6 }}s;"
->
+<section class="pd-page avatars" id="avatars-{{ section.id }}" aria-labelledby="avatars-title-{{ section.id }}">
   <div class="pd-wrap">
     <div class="avatars__head">
       <p class="avatars__eyebrow">{{ section.settings.eyebrow | default: 'Find Your Player' }}</p>
@@ -17,138 +9,107 @@
       <p>{{ section.settings.subheading | default: 'For first shots. For clutch shots. For comeback shots. For everyone who makes the weekend happen.' }}</p>
     </div>
 
-    <div class="avatars__layout">
-      {%- comment -%} Tabs — desktop: vertical player list. Mobile: horizontal pill strip. {%- endcomment -%}
-      <div class="avatars__tabs" role="tablist" aria-label="Choose your player" data-avatar-tabs>
-        {%- for block in section.blocks -%}
-          <button
-            class="avatar-tab avatar-tab--{{ block.settings.style | default: 'pro' }}{% if forloop.first %} is-active{% endif %}"
-            type="button"
-            role="tab"
-            id="avatar-tab-{{ section.id }}-{{ forloop.index }}"
-            aria-controls="avatar-panel-{{ section.id }}-{{ forloop.index }}"
-            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
-            tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
-            data-avatar-tab
-          >
-            <span class="avatar-tab__num">{{ block.settings.number | default: forloop.index | prepend: '0' | slice: -2, 2 }}</span>
-            <span class="avatar-tab__text">
-              <span class="avatar-tab__name">{{ block.settings.name | default: 'The Contender' }}</span>
-              {%- if block.settings.tagline != blank -%}
-                <span class="avatar-tab__tag">{{ block.settings.tagline }}</span>
-              {%- endif -%}
-            </span>
-            <span class="avatar-tab__bar" aria-hidden="true"></span>
-          </button>
-        {%- endfor -%}
-      </div>
+    <div class="avatars__grid">
+      {%- for block in section.blocks -%}
+        {%- assign style = block.settings.style | default: 'pro' -%}
+        {%- assign num = block.settings.number | default: forloop.index | prepend: '0' | slice: -2, 2 -%}
+        {%- assign fallback_handle = block.settings.product_handle -%}
+        {%- assign p = block.settings.product | default: all_products[fallback_handle] -%}
 
-      {%- comment -%} Stage — desktop: stacked deck, one card visible. Mobile: swipeable snap track. {%- endcomment -%}
-      <div class="avatars__stage" data-avatar-stage>
-        {%- for block in section.blocks -%}
-          {%- assign style = block.settings.style | default: 'pro' -%}
-          {%- assign num = block.settings.number | default: forloop.index | prepend: '0' | slice: -2, 2 -%}
-          {%- assign fallback_handle = block.settings.product_handle -%}
-          {%- assign p = block.settings.product | default: all_products[fallback_handle] -%}
+        {%- comment -%} Backdrop photo: picker → bundled asset → URL → per-style default {%- endcomment -%}
+        {%- if block.settings.image -%}
+          {%- assign bg_src = block.settings.image | image_url: width: 1000 -%}
+        {%- elsif block.settings.asset_filename != blank -%}
+          {%- assign bg_src = block.settings.asset_filename | asset_url -%}
+        {%- elsif block.settings.image_url != blank -%}
+          {%- assign bg_src = block.settings.image_url -%}
+        {%- elsif style == 'rookie' -%}
+          {%- assign bg_src = 'pd-marquee-family-group.jpg' | asset_url -%}
+        {%- elsif style == 'elite' -%}
+          {%- assign bg_src = 'pd-dadbod-sunglasses.jpg' | asset_url -%}
+        {%- elsif style == 'swaptop' -%}
+          {%- assign bg_src = 'pd-bento-players-ready.jpg' | asset_url -%}
+        {%- else -%}
+          {%- assign bg_src = 'pd-bento-player-point.jpg' | asset_url -%}
+        {%- endif -%}
 
-          {%- comment -%} Backdrop photo: picker → bundled asset → URL → per-style default {%- endcomment -%}
-          {%- if block.settings.image -%}
-            {%- assign bg_src = block.settings.image | image_url: width: 1600 -%}
-          {%- elsif block.settings.asset_filename != blank -%}
-            {%- assign bg_src = block.settings.asset_filename | asset_url -%}
-          {%- elsif block.settings.image_url != blank -%}
-            {%- assign bg_src = block.settings.image_url -%}
-          {%- elsif style == 'rookie' -%}
-            {%- assign bg_src = 'pd-marquee-family-group.jpg' | asset_url -%}
-          {%- elsif style == 'elite' -%}
-            {%- assign bg_src = 'pd-dadbod-sunglasses.jpg' | asset_url -%}
-          {%- elsif style == 'swaptop' -%}
-            {%- assign bg_src = 'pd-bento-players-ready.jpg' | asset_url -%}
-          {%- else -%}
-            {%- assign bg_src = 'pd-bento-player-point.jpg' | asset_url -%}
-          {%- endif -%}
+        {%- comment -%} Product thumb: live product → picker → URL → bundled asset → none {%- endcomment -%}
+        {%- assign thumb_src = '' -%}
+        {%- if p and p.featured_image -%}
+          {%- assign thumb_src = p.featured_image | image_url: width: 240 -%}
+        {%- elsif block.settings.product_image -%}
+          {%- assign thumb_src = block.settings.product_image | image_url: width: 240 -%}
+        {%- elsif block.settings.product_image_url != blank -%}
+          {%- assign thumb_src = block.settings.product_image_url -%}
+        {%- elsif block.settings.product_asset_filename != blank -%}
+          {%- assign thumb_src = block.settings.product_asset_filename | asset_url -%}
+        {%- endif -%}
 
-          {%- comment -%} Product thumb: live product → picker → URL → bundled asset → none {%- endcomment -%}
-          {%- assign thumb_src = '' -%}
-          {%- if p and p.featured_image -%}
-            {%- assign thumb_src = p.featured_image | image_url: width: 300 -%}
-          {%- elsif block.settings.product_image -%}
-            {%- assign thumb_src = block.settings.product_image | image_url: width: 300 -%}
-          {%- elsif block.settings.product_image_url != blank -%}
-            {%- assign thumb_src = block.settings.product_image_url -%}
-          {%- elsif block.settings.product_asset_filename != blank -%}
-            {%- assign thumb_src = block.settings.product_asset_filename | asset_url -%}
-          {%- endif -%}
+        {%- if block.settings.cta_link != blank -%}
+          {%- assign cta_href = block.settings.cta_link -%}
+        {%- elsif p -%}
+          {%- assign cta_href = p.url -%}
+        {%- else -%}
+          {%- assign cta_href = '/products' -%}
+        {%- endif -%}
 
-          {%- if block.settings.cta_link != blank -%}
-            {%- assign cta_href = block.settings.cta_link -%}
-          {%- elsif p -%}
-            {%- assign cta_href = p.url -%}
-          {%- else -%}
-            {%- assign cta_href = '/products' -%}
-          {%- endif -%}
+        <article class="avatar-card avatar-card--{{ style }}" {{ block.shopify_attributes }}>
+          <div class="avatar-card__media" aria-hidden="true">
+            <img src="{{ bg_src }}" alt="" loading="lazy">
+            <div class="avatar-card__scrim"></div>
+            <div class="avatar-card__glow"></div>
+          </div>
 
-          <article
-            class="avatar-card avatar-card--{{ style }}{% if forloop.first %} is-active{% endif %}"
-            id="avatar-panel-{{ section.id }}-{{ forloop.index }}"
-            role="tabpanel"
-            aria-labelledby="avatar-tab-{{ section.id }}-{{ forloop.index }}"
-            data-avatar-card
-            {{ block.shopify_attributes }}
-          >
-            <div class="avatar-card__media" aria-hidden="true">
-              <img src="{{ bg_src }}" alt="" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
-              <div class="avatar-card__scrim"></div>
-            </div>
-            <span class="avatar-card__ghost" aria-hidden="true">{{ num }}</span>
+          <div class="avatar-card__top">
+            <span class="avatar-card__badge">{{ block.settings.badge | default: 'Pro Pack' }}</span>
+            <span class="avatar-card__num" aria-hidden="true">{{ num }}</span>
+          </div>
 
-            <div class="avatar-card__inner">
-              <span class="avatar-card__badge">{{ block.settings.badge | default: 'Pro Pack' }}</span>
-              {%- if block.settings.eyebrow != blank -%}
-                <p class="avatar-card__eyebrow">{{ block.settings.eyebrow }}</p>
-              {%- endif -%}
-              <h3 style="color: #fdfdfd !important;">
-                {{ block.settings.headline | default: 'Easy to Learn.' }}
-                {%- if block.settings.headline_accent != blank %} <span class="avatar-card__accent">{{ block.settings.headline_accent }}</span>{% endif -%}
-              </h3>
-              <p class="avatar-card__copy">{{ block.settings.copy | default: 'The rules are simple. The pressure is not.' }}</p>
+          <div class="avatar-card__inner">
+            <p class="avatar-card__name">{{ block.settings.name | default: 'The Contender' }}{% if block.settings.tagline != blank %} <span>· {{ block.settings.tagline }}</span>{% endif %}</p>
+            <h3 style="color: #fdfdfd !important;">
+              {{ block.settings.headline | default: 'Easy to Learn.' }}
+              {%- if block.settings.headline_accent != blank %} <span class="avatar-card__accent">{{ block.settings.headline_accent }}</span>{% endif -%}
+            </h3>
+            <p class="avatar-card__copy">{{ block.settings.copy | default: 'The rules are simple. The pressure is not.' }}</p>
 
-              {%- if block.settings.point_1 != blank or block.settings.point_2 != blank or block.settings.point_3 != blank -%}
+            {%- if block.settings.point_1 != blank or block.settings.point_2 != blank or block.settings.point_3 != blank -%}
+              <div class="avatar-card__more">
                 <ul class="avatar-card__points">
                   {%- if block.settings.point_1 != blank %}<li>{{ block.settings.point_1 }}</li>{% endif -%}
                   {%- if block.settings.point_2 != blank %}<li>{{ block.settings.point_2 }}</li>{% endif -%}
                   {%- if block.settings.point_3 != blank %}<li>{{ block.settings.point_3 }}</li>{% endif -%}
                 </ul>
-              {%- endif -%}
-
-              <div class="avatar-card__foot">
-                <div class="avatar-card__product">
-                  {%- if thumb_src != blank -%}
-                    <span class="avatar-card__thumb"><img src="{{ thumb_src }}" alt="" loading="lazy" width="120" height="120"></span>
-                  {%- endif -%}
-                  <span class="avatar-card__meta">
-                    <span class="avatar-card__pname">{% if p %}{{ p.title }}{% else %}{{ block.settings.product_title | default: block.settings.badge | default: 'Pro Pack' }}{% endif %}</span>
-                    <span class="avatar-card__price">
-                      {%- if p -%}
-                        <span class="avatar-card__price-now">{{ p.price | money }}</span>
-                        {%- if p.compare_at_price > p.price -%}
-                          <span class="avatar-card__price-was">{{ p.compare_at_price | money }}</span>
-                        {%- endif -%}
-                      {%- elsif block.settings.fallback_price != blank -%}
-                        <span class="avatar-card__price-now">{{ block.settings.fallback_price }}</span>
-                        {%- if block.settings.fallback_price_was != blank -%}
-                          <span class="avatar-card__price-was">{{ block.settings.fallback_price_was }}</span>
-                        {%- endif -%}
-                      {%- endif -%}
-                    </span>
-                  </span>
-                </div>
-                <a class="btn {% if style == 'swaptop' %}btn--green{% else %}btn--primary{% endif %}" href="{{ cta_href }}">{{ block.settings.cta_text | default: 'Shop Now' }}</a>
               </div>
+            {%- endif -%}
+
+            <div class="avatar-card__foot">
+              <div class="avatar-card__product">
+                {%- if thumb_src != blank -%}
+                  <span class="avatar-card__thumb"><img src="{{ thumb_src }}" alt="" loading="lazy" width="104" height="104"></span>
+                {%- endif -%}
+                <span class="avatar-card__meta">
+                  <span class="avatar-card__pname">{% if p %}{{ p.title }}{% else %}{{ block.settings.product_title | default: block.settings.badge | default: 'Pro Pack' }}{% endif %}</span>
+                  <span class="avatar-card__price">
+                    {%- if p -%}
+                      <span class="avatar-card__price-now">{{ p.price | money }}</span>
+                      {%- if p.compare_at_price > p.price -%}
+                        <span class="avatar-card__price-was">{{ p.compare_at_price | money }}</span>
+                      {%- endif -%}
+                    {%- elsif block.settings.fallback_price != blank -%}
+                      <span class="avatar-card__price-now">{{ block.settings.fallback_price }}</span>
+                      {%- if block.settings.fallback_price_was != blank -%}
+                        <span class="avatar-card__price-was">{{ block.settings.fallback_price_was }}</span>
+                      {%- endif -%}
+                    {%- endif -%}
+                  </span>
+                </span>
+              </div>
+              <a class="btn {% if style == 'swaptop' %}btn--green{% else %}btn--primary{% endif %}" href="{{ cta_href }}">{{ block.settings.cta_text | default: 'Shop Now' }}</a>
             </div>
-          </article>
-        {%- endfor -%}
-      </div>
+          </div>
+        </article>
+      {%- endfor -%}
     </div>
   </div>
 </section>
@@ -183,27 +144,6 @@
       "id": "subheading",
       "label": "Subheading",
       "default": "For first shots. For clutch shots. For comeback shots. For everyone who makes the weekend happen."
-    },
-    {
-      "type": "header",
-      "content": "Autoplay (desktop only)"
-    },
-    {
-      "type": "checkbox",
-      "id": "autoplay",
-      "label": "Auto-rotate players",
-      "info": "Pauses on hover, keyboard focus and when scrolled out of view. Never runs for visitors who prefer reduced motion.",
-      "default": true
-    },
-    {
-      "type": "range",
-      "id": "interval",
-      "label": "Seconds per player",
-      "min": 4,
-      "max": 12,
-      "step": 1,
-      "unit": "s",
-      "default": 6
     }
   ],
   "blocks": [
@@ -213,7 +153,7 @@
       "settings": [
         {
           "type": "header",
-          "content": "Tab"
+          "content": "Player"
         },
         {
           "type": "text",
@@ -258,8 +198,7 @@
         {
           "type": "text",
           "id": "eyebrow",
-          "label": "Eyebrow line",
-          "default": "Pro Pack · Ages 8–55"
+          "label": "Eyebrow line (unused in lineup layout)"
         },
         {
           "type": "text",
@@ -392,7 +331,6 @@
             "tagline": "The future champion",
             "style": "rookie",
             "badge": "Rookie Pack",
-            "eyebrow": "Rookie Pack · Ages 2–14",
             "headline": "Small Players.",
             "headline_accent": "Big-Time Moments.",
             "copy": "The coffee table becomes center court. The kitchen becomes a stadium. And the next throw could be the shot everyone talks about all day.",
@@ -413,7 +351,6 @@
             "tagline": "Ready to own the pressure",
             "style": "pro",
             "badge": "Pro Pack",
-            "eyebrow": "Pro Pack · Ages 8–55",
             "headline": "Easy to Learn.",
             "headline_accent": "Built to Compete.",
             "copy": "The rules are simple. The pressure is not. Call the shot. Play the angle. Chase the 10-pointer. First to 21 gets the last word.",
@@ -435,10 +372,9 @@
             "tagline": "Dad bod? No prob.",
             "style": "elite",
             "badge": "Elite Pack",
-            "eyebrow": "Elite Pack · Tournament-weight",
             "headline": "The Glory Days",
             "headline_accent": "Aren't Over.",
-            "copy": "No tryouts. No cardio. No problem. Popdarts rewards touch, nerve and the ability to deliver when the whole family is watching. One clutch throw turns the cookout into a comeback season.",
+            "copy": "No tryouts. No cardio. No problem. Popdarts rewards touch, nerve and the ability to deliver when the whole family is watching.",
             "point_1": "Skill and composure beat athleticism",
             "point_2": "Every match, a chance to be underestimated",
             "point_3": "Every clutch shot becomes family history",
@@ -456,7 +392,6 @@
             "tagline": "Makes the weekend happen",
             "style": "swaptop",
             "badge": "Swaptop™ Kit",
-            "eyebrow": "Swaptop™ Kit · One Frame, Endless Games™",
             "headline": "The Game Plan",
             "headline_accent": "For People Who Make the Plans.",
             "copy": "They booked the house. Started the group chat. Collected the Venmos. Stocked the cooler. And brought the game everyone ends up playing.",
