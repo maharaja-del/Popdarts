@@ -680,16 +680,26 @@
   border-top: 1px solid var(--line-on-dark);
 }
 .avatar-card__product { display: flex; align-items: center; gap: 14px; min-width: 0; }
+/* the product shot is a tile floating over the photo's bottom-right
+   corner, sitting just above the panel — big, without costing the
+   panel (or the photo) any height */
 .avatar-card__thumb {
+  position: absolute;
+  right: clamp(14px, 1.6vw, 20px);
+  top: -112px;
+  z-index: 3;
   display: block;
-  width: 72px; height: 72px;
-  flex: 0 0 auto;
-  border-radius: 12px;
+  width: 124px; height: 124px;
+  border-radius: 18px;
+  border: 3px solid var(--white);
   background: var(--white);
   overflow: hidden;
-  box-shadow: 0 14px 30px -12px rgba(0,0,0,0.65);
+  box-shadow: 0 22px 44px -16px rgba(0,0,0,0.7);
+  transition: transform var(--dur-med) var(--ease-out);
 }
 .avatar-card__thumb img { width: 100%; height: 100%; object-fit: cover; }
+.avatar-card:hover .avatar-card__thumb,
+.avatar-card:focus-within .avatar-card__thumb { transform: translateY(-6px) rotate(-2deg); }
 .avatar-card__price { display: flex; align-items: baseline; gap: 8px; font-family: var(--font-mono); }
 .avatar-card__price-now { font-size: 24px; font-weight: 700; }
 .avatar-card__price-was { font-size: 14px; color: rgba(253,253,253,0.5); text-decoration: line-through; }
@@ -704,7 +714,8 @@
 }
 @media (max-width: 600px) {
   .avatars__grid { grid-template-columns: 1fr; gap: 14px; }
-  .avatar-card { min-height: clamp(620px, 82vh, 720px); }
+  .avatar-card { min-height: clamp(600px, 80vh, 700px); }
+  .avatar-card__thumb { width: 112px; height: 112px; top: -100px; }
   .avatar-card__top, .avatar-card__inner { padding-inline: 18px; }
   .avatar-card h3 { font-size: clamp(26px, 7vw, 32px); }
   .avatar-card__num { font-size: 64px; }
