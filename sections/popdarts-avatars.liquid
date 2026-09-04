@@ -92,7 +92,7 @@
                   </span>
                 </span>
               </div>
-              <a class="btn {% if style == 'swaptop' %}btn--green{% else %}btn--primary{% endif %}" href="{{ cta_href }}">{{ block.settings.cta_text | default: 'Shop Now' }}</a>
+              <a class="btn {% if style == 'swaptop' or style == 'green' %}btn--green{% else %}btn--primary{% endif %}" href="{{ cta_href }}">{{ block.settings.cta_text | default: 'Shop Now' }}</a>
             </div>
           </div>
         </article>
@@ -154,23 +154,31 @@
           "label": "Accent",
           "options": [
             {
-              "value": "rookie",
-              "label": "Light blue (Rookie)"
+              "value": "blue",
+              "label": "Blue"
             },
             {
-              "value": "pro",
-              "label": "Blue (Pro)"
+              "value": "green",
+              "label": "Green"
+            },
+            {
+              "value": "rookie",
+              "label": "Light blue outline"
             },
             {
               "value": "elite",
-              "label": "Ink (Elite)"
+              "label": "White (ink text)"
+            },
+            {
+              "value": "pro",
+              "label": "Blue (legacy)"
             },
             {
               "value": "swaptop",
-              "label": "Green (Swaptop)"
+              "label": "Green (legacy)"
             }
           ],
-          "default": "pro"
+          "default": "blue"
         },
         {
           "type": "header",

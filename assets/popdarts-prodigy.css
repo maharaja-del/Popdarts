@@ -562,7 +562,8 @@
 .avatar-card:hover,
 .avatar-card:focus-within { transform: translateY(-8px); box-shadow: var(--shadow-lift); }
 .avatar-card--elite { --accent-glow: rgba(253, 253, 253, 0.22); }
-.avatar-card--swaptop { --accent: var(--green); --accent-glow: rgba(35, 255, 83, 0.34); }
+.avatar-card--swaptop,
+.avatar-card--green { --accent: var(--green); --accent-glow: rgba(35, 255, 83, 0.34); }
 
 /* photo + scrims */
 .avatar-card__media { position: absolute; inset: 0; z-index: 0; }
@@ -618,9 +619,11 @@
   -webkit-backdrop-filter: blur(6px);
 }
 .avatar-card--rookie .avatar-card__badge { color: #a9d6ff; border: 1px solid rgba(43, 153, 255, 0.65); background: rgba(43, 153, 255, 0.2); }
-.avatar-card--pro .avatar-card__badge { color: var(--white); border: 1px solid var(--blue); background: var(--blue); }
+.avatar-card--pro .avatar-card__badge,
+.avatar-card--blue .avatar-card__badge { color: var(--white); border: 1px solid var(--blue); background: var(--blue); }
 .avatar-card--elite .avatar-card__badge { color: var(--ink); border: 1px solid var(--white); background: var(--white); }
-.avatar-card--swaptop .avatar-card__badge { color: var(--white); border: 1px solid var(--green-dim); background: var(--green-dim); }
+.avatar-card--swaptop .avatar-card__badge,
+.avatar-card--green .avatar-card__badge { color: var(--white); border: 1px solid var(--green-dim); background: var(--green-dim); }
 .avatar-card__num {
   font-family: var(--font-display);
   font-weight: 900;
