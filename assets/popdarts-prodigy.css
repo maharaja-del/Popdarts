@@ -383,7 +383,10 @@
 
 .hero__inner { position: relative; z-index: 3; max-width: 840px; }
 
-.hero__title { margin: 0 0 20px; text-wrap: balance; }
+/* `.hero .x` (0,2,0) on purpose — the base reset `.pd-page p / h1 {
+   margin: 0 }` is (0,1,1) and silently beats a lone `.hero__sub`,
+   which is what was collapsing the gap above the buttons. */
+.hero .hero__title { margin: 0 0 22px; text-wrap: balance; }
 .hero__title-lead {
   display: block;
   font-family: var(--font-display);
@@ -400,12 +403,12 @@
   text-shadow: 0 6px 40px rgba(0, 0, 0, 0.35);
 }
 
-.hero__sub {
+.hero .hero__sub {
   max-width: 52ch;
   font-size: clamp(16px, 2vw, 21px);
   line-height: 1.5;
   color: rgba(253, 253, 253, 0.88);
-  margin-bottom: 30px;
+  margin: 0 0 clamp(28px, 4vh, 40px);
 }
 .hero__sub strong { color: var(--white); font-weight: 800; }
 
@@ -445,7 +448,7 @@
 @media (max-width: 640px) {
   .hero { align-items: flex-end; padding-block: clamp(100px, 18vh, 150px) 36px; }
   .hero__title-main { font-size: clamp(44px, 13vw, 64px); }
-  .hero__sub { font-size: 16px; margin-bottom: 24px; }
+  .hero .hero__sub { font-size: 16px; margin-bottom: 26px; }
   .hero__actions { flex-direction: column; align-items: stretch; gap: 10px; }
   .hero__actions .btn { width: 100%; }
 }
