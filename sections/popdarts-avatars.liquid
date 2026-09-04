@@ -1,0 +1,478 @@
+<section
+  class="pd-page avatars"
+  id="avatars-{{ section.id }}"
+  aria-labelledby="avatars-title-{{ section.id }}"
+  data-avatars
+  data-autoplay="{{ section.settings.autoplay }}"
+  data-interval="{{ section.settings.interval | default: 6 | times: 1000 }}"
+  style="--avatars-interval: {{ section.settings.interval | default: 6 }}s;"
+>
+  <div class="pd-wrap">
+    <div class="avatars__head">
+      <p class="avatars__eyebrow">{{ section.settings.eyebrow | default: 'Find Your Player' }}</p>
+      <h2 id="avatars-title-{{ section.id }}" style="color: #0a0c10 !important;">
+        {{ section.settings.heading | default: 'Which shot' }}
+        {%- if section.settings.heading_accent != blank %} <span class="c-blue" style="color: #2b99ff;">{{ section.settings.heading_accent }}</span>{% endif -%}
+      </h2>
+      <p>{{ section.settings.subheading | default: 'For first shots. For clutch shots. For comeback shots. For everyone who makes the weekend happen.' }}</p>
+    </div>
+
+    <div class="avatars__layout">
+      {%- comment -%} Tabs — desktop: vertical player list. Mobile: horizontal pill strip. {%- endcomment -%}
+      <div class="avatars__tabs" role="tablist" aria-label="Choose your player" data-avatar-tabs>
+        {%- for block in section.blocks -%}
+          <button
+            class="avatar-tab avatar-tab--{{ block.settings.style | default: 'pro' }}{% if forloop.first %} is-active{% endif %}"
+            type="button"
+            role="tab"
+            id="avatar-tab-{{ section.id }}-{{ forloop.index }}"
+            aria-controls="avatar-panel-{{ section.id }}-{{ forloop.index }}"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+            data-avatar-tab
+          >
+            <span class="avatar-tab__num">{{ block.settings.number | default: forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+            <span class="avatar-tab__text">
+              <span class="avatar-tab__name">{{ block.settings.name | default: 'The Contender' }}</span>
+              {%- if block.settings.tagline != blank -%}
+                <span class="avatar-tab__tag">{{ block.settings.tagline }}</span>
+              {%- endif -%}
+            </span>
+            <span class="avatar-tab__bar" aria-hidden="true"></span>
+          </button>
+        {%- endfor -%}
+      </div>
+
+      {%- comment -%} Stage — desktop: stacked deck, one card visible. Mobile: swipeable snap track. {%- endcomment -%}
+      <div class="avatars__stage" data-avatar-stage>
+        {%- for block in section.blocks -%}
+          {%- assign style = block.settings.style | default: 'pro' -%}
+          {%- assign num = block.settings.number | default: forloop.index | prepend: '0' | slice: -2, 2 -%}
+          {%- assign fallback_handle = block.settings.product_handle -%}
+          {%- assign p = block.settings.product | default: all_products[fallback_handle] -%}
+
+          {%- comment -%} Backdrop photo: picker → bundled asset → URL → per-style default {%- endcomment -%}
+          {%- if block.settings.image -%}
+            {%- assign bg_src = block.settings.image | image_url: width: 1600 -%}
+          {%- elsif block.settings.asset_filename != blank -%}
+            {%- assign bg_src = block.settings.asset_filename | asset_url -%}
+          {%- elsif block.settings.image_url != blank -%}
+            {%- assign bg_src = block.settings.image_url -%}
+          {%- elsif style == 'rookie' -%}
+            {%- assign bg_src = 'pd-marquee-family-group.jpg' | asset_url -%}
+          {%- elsif style == 'elite' -%}
+            {%- assign bg_src = 'pd-dadbod-sunglasses.jpg' | asset_url -%}
+          {%- elsif style == 'swaptop' -%}
+            {%- assign bg_src = 'pd-bento-players-ready.jpg' | asset_url -%}
+          {%- else -%}
+            {%- assign bg_src = 'pd-bento-player-point.jpg' | asset_url -%}
+          {%- endif -%}
+
+          {%- comment -%} Product thumb: live product → picker → URL → bundled asset → none {%- endcomment -%}
+          {%- assign thumb_src = '' -%}
+          {%- if p and p.featured_image -%}
+            {%- assign thumb_src = p.featured_image | image_url: width: 300 -%}
+          {%- elsif block.settings.product_image -%}
+            {%- assign thumb_src = block.settings.product_image | image_url: width: 300 -%}
+          {%- elsif block.settings.product_image_url != blank -%}
+            {%- assign thumb_src = block.settings.product_image_url -%}
+          {%- elsif block.settings.product_asset_filename != blank -%}
+            {%- assign thumb_src = block.settings.product_asset_filename | asset_url -%}
+          {%- endif -%}
+
+          {%- if block.settings.cta_link != blank -%}
+            {%- assign cta_href = block.settings.cta_link -%}
+          {%- elsif p -%}
+            {%- assign cta_href = p.url -%}
+          {%- else -%}
+            {%- assign cta_href = '/products' -%}
+          {%- endif -%}
+
+          <article
+            class="avatar-card avatar-card--{{ style }}{% if forloop.first %} is-active{% endif %}"
+            id="avatar-panel-{{ section.id }}-{{ forloop.index }}"
+            role="tabpanel"
+            aria-labelledby="avatar-tab-{{ section.id }}-{{ forloop.index }}"
+            data-avatar-card
+            {{ block.shopify_attributes }}
+          >
+            <div class="avatar-card__media" aria-hidden="true">
+              <img src="{{ bg_src }}" alt="" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+              <div class="avatar-card__scrim"></div>
+            </div>
+            <span class="avatar-card__ghost" aria-hidden="true">{{ num }}</span>
+
+            <div class="avatar-card__inner">
+              <span class="avatar-card__badge">{{ block.settings.badge | default: 'Pro Pack' }}</span>
+              {%- if block.settings.eyebrow != blank -%}
+                <p class="avatar-card__eyebrow">{{ block.settings.eyebrow }}</p>
+              {%- endif -%}
+              <h3 style="color: #fdfdfd !important;">
+                {{ block.settings.headline | default: 'Easy to Learn.' }}
+                {%- if block.settings.headline_accent != blank %} <span class="avatar-card__accent">{{ block.settings.headline_accent }}</span>{% endif -%}
+              </h3>
+              <p class="avatar-card__copy">{{ block.settings.copy | default: 'The rules are simple. The pressure is not.' }}</p>
+
+              {%- if block.settings.point_1 != blank or block.settings.point_2 != blank or block.settings.point_3 != blank -%}
+                <ul class="avatar-card__points">
+                  {%- if block.settings.point_1 != blank %}<li>{{ block.settings.point_1 }}</li>{% endif -%}
+                  {%- if block.settings.point_2 != blank %}<li>{{ block.settings.point_2 }}</li>{% endif -%}
+                  {%- if block.settings.point_3 != blank %}<li>{{ block.settings.point_3 }}</li>{% endif -%}
+                </ul>
+              {%- endif -%}
+
+              <div class="avatar-card__foot">
+                <div class="avatar-card__product">
+                  {%- if thumb_src != blank -%}
+                    <span class="avatar-card__thumb"><img src="{{ thumb_src }}" alt="" loading="lazy" width="120" height="120"></span>
+                  {%- endif -%}
+                  <span class="avatar-card__meta">
+                    <span class="avatar-card__pname">{% if p %}{{ p.title }}{% else %}{{ block.settings.product_title | default: block.settings.badge | default: 'Pro Pack' }}{% endif %}</span>
+                    <span class="avatar-card__price">
+                      {%- if p -%}
+                        <span class="avatar-card__price-now">{{ p.price | money }}</span>
+                        {%- if p.compare_at_price > p.price -%}
+                          <span class="avatar-card__price-was">{{ p.compare_at_price | money }}</span>
+                        {%- endif -%}
+                      {%- elsif block.settings.fallback_price != blank -%}
+                        <span class="avatar-card__price-now">{{ block.settings.fallback_price }}</span>
+                        {%- if block.settings.fallback_price_was != blank -%}
+                          <span class="avatar-card__price-was">{{ block.settings.fallback_price_was }}</span>
+                        {%- endif -%}
+                      {%- endif -%}
+                    </span>
+                  </span>
+                </div>
+                <a class="btn {% if style == 'swaptop' %}btn--green{% else %}btn--primary{% endif %}" href="{{ cta_href }}">{{ block.settings.cta_text | default: 'Shop Now' }}</a>
+              </div>
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Pick Your Player",
+  "tag": "section",
+  "class": "pd-section-avatars",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Find Your Player"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Which shot"
+    },
+    {
+      "type": "text",
+      "id": "heading_accent",
+      "label": "Heading, blue part",
+      "default": "is yours?"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "For first shots. For clutch shots. For comeback shots. For everyone who makes the weekend happen."
+    },
+    {
+      "type": "header",
+      "content": "Autoplay (desktop only)"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto-rotate players",
+      "info": "Pauses on hover, keyboard focus and when scrolled out of view. Never runs for visitors who prefer reduced motion.",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "interval",
+      "label": "Seconds per player",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "unit": "s",
+      "default": 6
+    }
+  ],
+  "blocks": [
+    {
+      "type": "avatar",
+      "name": "Player",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Tab"
+        },
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number",
+          "info": "Leave empty to auto-number (01, 02…)"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Player name",
+          "default": "The Contender"
+        },
+        {
+          "type": "text",
+          "id": "tagline",
+          "label": "Tagline",
+          "default": "Ready to own the pressure"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Accent",
+          "options": [
+            { "value": "rookie", "label": "Light blue (Rookie)" },
+            { "value": "pro", "label": "Blue (Pro)" },
+            { "value": "elite", "label": "Ink (Elite)" },
+            { "value": "swaptop", "label": "Green (Swaptop)" }
+          ],
+          "default": "pro"
+        },
+        {
+          "type": "header",
+          "content": "Card copy"
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge",
+          "default": "Pro Pack"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Eyebrow line",
+          "default": "Pro Pack · Ages 8–55"
+        },
+        {
+          "type": "text",
+          "id": "headline",
+          "label": "Headline",
+          "default": "Easy to Learn."
+        },
+        {
+          "type": "text",
+          "id": "headline_accent",
+          "label": "Headline, accent part",
+          "default": "Built to Compete."
+        },
+        {
+          "type": "textarea",
+          "id": "copy",
+          "label": "Hero copy",
+          "default": "The rules are simple. The pressure is not. Call the shot. Play the angle. Chase the 10-pointer. First to 21 gets the last word."
+        },
+        {
+          "type": "text",
+          "id": "point_1",
+          "label": "Point 1"
+        },
+        {
+          "type": "text",
+          "id": "point_2",
+          "label": "Point 2"
+        },
+        {
+          "type": "text",
+          "id": "point_3",
+          "label": "Point 3"
+        },
+        {
+          "type": "header",
+          "content": "Backdrop photo"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo"
+        },
+        {
+          "type": "text",
+          "id": "asset_filename",
+          "label": "Bundled theme asset filename",
+          "info": "Used if Photo is empty, e.g. pd-dadbod-sunglasses.jpg"
+        },
+        {
+          "type": "url",
+          "id": "image_url",
+          "label": "Photo URL",
+          "info": "Used if both above are empty. If everything is empty a photo matching the accent is used."
+        },
+        {
+          "type": "header",
+          "content": "Product"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product",
+          "info": "If left empty, the theme looks up the product handle below. If neither resolves, the fallback fields underneath are used."
+        },
+        {
+          "type": "text",
+          "id": "product_handle",
+          "label": "Fallback product handle",
+          "info": "e.g. rookie-pack, pro-pack, elite-full-pack, swaptop-kit"
+        },
+        {
+          "type": "text",
+          "id": "product_title",
+          "label": "Fallback product name"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "Fallback product image"
+        },
+        {
+          "type": "url",
+          "id": "product_image_url",
+          "label": "Fallback product image URL"
+        },
+        {
+          "type": "text",
+          "id": "product_asset_filename",
+          "label": "Fallback product image asset filename"
+        },
+        {
+          "type": "text",
+          "id": "fallback_price",
+          "label": "Fallback price text",
+          "default": "$31.99"
+        },
+        {
+          "type": "text",
+          "id": "fallback_price_was",
+          "label": "Fallback compare-at price text"
+        },
+        {
+          "type": "header",
+          "content": "Button"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "Button text",
+          "default": "Shop the Pro Pack"
+        },
+        {
+          "type": "url",
+          "id": "cta_link",
+          "label": "Button link",
+          "info": "Leave empty to link to the resolved product."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Pick Your Player",
+      "blocks": [
+        {
+          "type": "avatar",
+          "settings": {
+            "name": "The Rookie",
+            "tagline": "The future champion",
+            "style": "rookie",
+            "badge": "Rookie Pack",
+            "eyebrow": "Rookie Pack · Ages 2–14",
+            "headline": "Small Players.",
+            "headline_accent": "Big-Time Moments.",
+            "copy": "The coffee table becomes center court. The kitchen becomes a stadium. And the next throw could be the shot everyone talks about all day.",
+            "point_1": "Exciting from the first stick",
+            "point_2": "Call creative shots, try again",
+            "point_3": "Parents and kids play together",
+            "product_handle": "rookie-pack",
+            "product_title": "Rookie Pack",
+            "fallback_price": "$24.99",
+            "cta_text": "Shop the Rookie Pack",
+            "cta_link": "/products/rookie-pack"
+          }
+        },
+        {
+          "type": "avatar",
+          "settings": {
+            "name": "The Contender",
+            "tagline": "Ready to own the pressure",
+            "style": "pro",
+            "badge": "Pro Pack",
+            "eyebrow": "Pro Pack · Ages 8–55",
+            "headline": "Easy to Learn.",
+            "headline_accent": "Built to Compete.",
+            "copy": "The rules are simple. The pressure is not. Call the shot. Play the angle. Chase the 10-pointer. First to 21 gets the last word.",
+            "point_1": "Real gameplay, real rivalries",
+            "point_2": "The 10-point shot changes everything",
+            "point_3": "First to 21 wins",
+            "product_handle": "pro-pack",
+            "product_title": "Pro Pack",
+            "fallback_price": "$31.99",
+            "fallback_price_was": "$39.99",
+            "cta_text": "Shop the Pro Pack",
+            "cta_link": "/products/pro-pack"
+          }
+        },
+        {
+          "type": "avatar",
+          "settings": {
+            "name": "The Comeback King",
+            "tagline": "Dad bod? No prob.",
+            "style": "elite",
+            "badge": "Elite Pack",
+            "eyebrow": "Elite Pack · Tournament-weight",
+            "headline": "The Glory Days",
+            "headline_accent": "Aren't Over.",
+            "copy": "No tryouts. No cardio. No problem. Popdarts rewards touch, nerve and the ability to deliver when the whole family is watching. One clutch throw turns the cookout into a comeback season.",
+            "point_1": "Skill and composure beat athleticism",
+            "point_2": "Every match, a chance to be underestimated",
+            "point_3": "Every clutch shot becomes family history",
+            "product_handle": "elite-full-pack",
+            "product_title": "Elite Pack",
+            "fallback_price": "$44.99",
+            "cta_text": "Shop the Elite Pack",
+            "cta_link": "/products/elite-full-pack"
+          }
+        },
+        {
+          "type": "avatar",
+          "settings": {
+            "name": "The Host",
+            "tagline": "Makes the weekend happen",
+            "style": "swaptop",
+            "badge": "Swaptop™ Kit",
+            "eyebrow": "Swaptop™ Kit · One Frame, Endless Games™",
+            "headline": "The Game Plan",
+            "headline_accent": "For People Who Make the Plans.",
+            "copy": "They booked the house. Started the group chat. Collected the Venmos. Stocked the cooler. And brought the game everyone ends up playing.",
+            "point_1": "A playing surface wherever the group goes",
+            "point_2": "Swap game boards with one clip-in frame",
+            "point_3": "Packs alongside the weekend gear",
+            "product_handle": "swaptop-kit",
+            "product_title": "Swaptop Kit",
+            "fallback_price": "$159.99",
+            "fallback_price_was": "$179.99",
+            "cta_text": "Shop the Swaptop Kit",
+            "cta_link": "/products/swaptop-kit"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
