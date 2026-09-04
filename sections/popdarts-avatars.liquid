@@ -66,17 +66,10 @@
           </div>
 
           <div class="avatar-card__inner">
-            <p class="avatar-card__name">{{ block.settings.name | default: 'The Contender' }}</p>
             <h3 style="color: #fdfdfd !important;">
               {{ block.settings.headline | default: 'Easy to Learn.' }}
               {%- if block.settings.headline_accent != blank %} <span class="avatar-card__accent">{{ block.settings.headline_accent }}</span>{% endif -%}
             </h3>
-
-            {%- if block.settings.copy != blank -%}
-              <div class="avatar-card__more">
-                <p class="avatar-card__copy">{{ block.settings.copy }}</p>
-              </div>
-            {%- endif -%}
 
             <div class="avatar-card__foot">
               <div class="avatar-card__product">
@@ -84,7 +77,6 @@
                   <span class="avatar-card__thumb"><img src="{{ thumb_src }}" alt="" loading="lazy" width="104" height="104"></span>
                 {%- endif -%}
                 <span class="avatar-card__meta">
-                  <span class="avatar-card__pname">{% if p %}{{ p.title }}{% else %}{{ block.settings.product_title | default: block.settings.badge | default: 'Pro Pack' }}{% endif %}</span>
                   <span class="avatar-card__price">
                     {%- if p -%}
                       <span class="avatar-card__price-now">{{ p.price | money }}</span>
@@ -157,12 +149,6 @@
           "info": "Leave empty to auto-number (01, 02…)"
         },
         {
-          "type": "text",
-          "id": "name",
-          "label": "Player name",
-          "default": "The Contender"
-        },
-        {
           "type": "select",
           "id": "style",
           "label": "Accent",
@@ -209,13 +195,6 @@
           "default": "Built to Compete."
         },
         {
-          "type": "textarea",
-          "id": "copy",
-          "label": "Hover copy",
-          "info": "One or two short sentences. Slides in on hover for mouse users; hidden on touch screens to keep the card clean.",
-          "default": "The rules are simple. The pressure is not. Call the shot. Chase the 10-pointer. First to 21 wins."
-        },
-        {
           "type": "header",
           "content": "Backdrop photo"
         },
@@ -251,11 +230,6 @@
           "id": "product_handle",
           "label": "Fallback product handle",
           "info": "e.g. rookie-pack, pro-pack, elite-full-pack, swaptop-kit"
-        },
-        {
-          "type": "text",
-          "id": "product_title",
-          "label": "Fallback product name"
         },
         {
           "type": "image_picker",
@@ -309,14 +283,11 @@
         {
           "type": "avatar",
           "settings": {
-            "name": "The Rookie",
             "style": "rookie",
             "badge": "Rookie Pack",
             "headline": "Small Players.",
             "headline_accent": "Big-Time Moments.",
-            "copy": "The coffee table becomes center court. The next throw is the one everyone talks about all day.",
             "product_handle": "rookie-pack",
-            "product_title": "Rookie Pack",
             "fallback_price": "$24.99",
             "cta_text": "Shop the Rookie Pack",
             "cta_link": "/products/rookie-pack"
@@ -325,14 +296,11 @@
         {
           "type": "avatar",
           "settings": {
-            "name": "The Contender",
             "style": "pro",
             "badge": "Pro Pack",
             "headline": "Easy to Learn.",
             "headline_accent": "Built to Compete.",
-            "copy": "The rules are simple. The pressure is not. Chase the 10-pointer. First to 21 wins.",
             "product_handle": "pro-pack",
-            "product_title": "Pro Pack",
             "fallback_price": "$31.99",
             "fallback_price_was": "$39.99",
             "cta_text": "Shop the Pro Pack",
@@ -342,14 +310,11 @@
         {
           "type": "avatar",
           "settings": {
-            "name": "The Comeback King",
             "style": "elite",
             "badge": "Elite Pack",
             "headline": "The Glory Days",
             "headline_accent": "Aren't Over.",
-            "copy": "No tryouts. No cardio. No problem. One clutch throw turns the cookout into a comeback season.",
             "product_handle": "elite-full-pack",
-            "product_title": "Elite Pack",
             "fallback_price": "$44.99",
             "cta_text": "Shop the Elite Pack",
             "cta_link": "/products/elite-full-pack"
@@ -358,14 +323,11 @@
         {
           "type": "avatar",
           "settings": {
-            "name": "The Host",
             "style": "swaptop",
             "badge": "Swaptop™ Kit",
             "headline": "The Game Plan",
             "headline_accent": "For People Who Make the Plans.",
-            "copy": "Booked the house. Started the group chat. Brought the game everyone ends up playing.",
             "product_handle": "swaptop-kit",
-            "product_title": "Swaptop Kit",
             "fallback_price": "$159.99",
             "fallback_price_was": "$179.99",
             "cta_text": "Shop the Swaptop Kit",

@@ -20,13 +20,6 @@
 
   <div class="pd-wrap">
     <div class="hero__inner">
-      {%- if section.settings.eyebrow != blank -%}
-        <p class="hero__eyebrow">
-          {%- if section.settings.eyebrow_live -%}<span class="hero__eyebrow-dot" aria-hidden="true"></span>{%- endif -%}
-          <span>{{ section.settings.eyebrow }}</span>
-        </p>
-      {%- endif -%}
-
       <h1 class="hero__title" style="color: #fdfdfd;">
         <span class="hero__title-lead" style="color: rgba(253,253,253,0.78);">{{ section.settings.heading_lead | default: 'Become the' }}</span>
         <span class="hero__title-main">
@@ -48,38 +41,8 @@
           </a>
         {%- endif -%}
       </div>
-
-      {%- if section.settings.stat_1_value != blank or section.settings.stat_2_value != blank or section.settings.stat_3_value != blank -%}
-        <ul class="hero__stats" aria-label="Popdarts by the numbers">
-          {%- if section.settings.stat_1_value != blank -%}
-            <li class="hero__stat">
-              <span class="hero__stat-value">{{ section.settings.stat_1_value }}</span>
-              <span class="hero__stat-label">{{ section.settings.stat_1_label }}</span>
-            </li>
-          {%- endif -%}
-          {%- if section.settings.stat_2_value != blank -%}
-            <li class="hero__stat">
-              <span class="hero__stat-value">{{ section.settings.stat_2_value }}</span>
-              <span class="hero__stat-label">{{ section.settings.stat_2_label }}</span>
-            </li>
-          {%- endif -%}
-          {%- if section.settings.stat_3_value != blank -%}
-            <li class="hero__stat">
-              <span class="hero__stat-value">{{ section.settings.stat_3_value }}</span>
-              <span class="hero__stat-label">{{ section.settings.stat_3_label }}</span>
-            </li>
-          {%- endif -%}
-        </ul>
-      {%- endif -%}
     </div>
   </div>
-
-  {%- if section.settings.show_scroll_cue -%}
-    <a class="hero__scroll" href="{{ section.settings.secondary_anchor | default: '#experience' }}" aria-label="Scroll down">
-      <span>Scroll</span>
-      <span class="hero__scroll-line" aria-hidden="true"></span>
-    </a>
-  {%- endif -%}
 </section>
 
 {% schema %}
@@ -139,23 +102,6 @@
     },
     {
       "type": "header",
-      "content": "Eyebrow"
-    },
-    {
-      "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow text",
-      "info": "Leave empty to hide.",
-      "default": "As seen on ESPN · 1 Billion+ views"
-    },
-    {
-      "type": "checkbox",
-      "id": "eyebrow_live",
-      "label": "Show pulsing 'live' dot",
-      "default": true
-    },
-    {
-      "type": "header",
       "content": "Headline"
     },
     {
@@ -209,57 +155,6 @@
       "id": "secondary_anchor",
       "label": "Secondary button anchor",
       "default": "#experience"
-    },
-    {
-      "type": "header",
-      "content": "Stat strip",
-      "info": "Up to three. Leave a value empty to hide that stat."
-    },
-    {
-      "type": "text",
-      "id": "stat_1_value",
-      "label": "Stat 1 value",
-      "default": "1B+"
-    },
-    {
-      "type": "text",
-      "id": "stat_1_label",
-      "label": "Stat 1 label",
-      "default": "Social media views"
-    },
-    {
-      "type": "text",
-      "id": "stat_2_value",
-      "label": "Stat 2 value",
-      "default": "ESPN"
-    },
-    {
-      "type": "text",
-      "id": "stat_2_label",
-      "label": "Stat 2 label",
-      "default": "Championship broadcast"
-    },
-    {
-      "type": "text",
-      "id": "stat_3_value",
-      "label": "Stat 3 value",
-      "default": "5–95"
-    },
-    {
-      "type": "text",
-      "id": "stat_3_label",
-      "label": "Stat 3 label",
-      "default": "Ages · any surface"
-    },
-    {
-      "type": "header",
-      "content": "Extras"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_scroll_cue",
-      "label": "Show scroll cue (desktop)",
-      "default": true
     }
   ],
   "presets": [
