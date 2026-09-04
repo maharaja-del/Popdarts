@@ -1,18 +1,52 @@
 {% render 'popdarts-assets' %}
 
+{%- comment -%}
+  Background images: picker images get a responsive srcset (phones pull
+  ~800px instead of 2000px). Bundled fallbacks can't be resized by Shopify.
+{%- endcomment -%}
+{%- capture hero_sizes -%}100vw{%- endcapture -%}
+
 <section class="pd-page hero" id="hero-{{ section.id }}" aria-label="Introduction">
   <div class="hero__media" aria-hidden="true">
     {%- if section.settings.background_mode == 'single' -%}
-      <img class="hero__bg hero__bg--single" loading="eager" fetchpriority="high" alt=""
-        src="{% if section.settings.single_image %}{{ section.settings.single_image | image_url: width: 2000 }}{% else %}{{ 'pd-hero-dart-strike.jpg' | asset_url }}{% endif %}">
+      {%- assign img = section.settings.single_image -%}
+      <img class="hero__bg hero__bg--single" loading="eager" fetchpriority="high" decoding="async" alt=""
+        {%- if img %}
+          src="{{ img | image_url: width: 2000 }}"
+          srcset="{{ img | image_url: width: 800 }} 800w, {{ img | image_url: width: 1200 }} 1200w, {{ img | image_url: width: 1600 }} 1600w, {{ img | image_url: width: 2000 }} 2000w"
+          sizes="{{ hero_sizes }}"
+        {%- else %}
+          src="{{ 'pd-hero-dart-strike.jpg' | asset_url }}"
+        {%- endif %}>
       <div class="hero__overlay" style="opacity: {{ section.settings.overlay_opacity | default: 55 }}%;"></div>
     {%- else -%}
-      <img class="hero__bg hero__bg--1" loading="eager" fetchpriority="high" alt=""
-        src="{% if section.settings.bg_image_1 %}{{ section.settings.bg_image_1 | image_url: width: 2000 }}{% else %}{{ 'pd-hero-dart-strike.jpg' | asset_url }}{% endif %}">
-      <img class="hero__bg hero__bg--2" loading="lazy" alt=""
-        src="{% if section.settings.bg_image_2 %}{{ section.settings.bg_image_2 | image_url: width: 2000 }}{% else %}{{ 'pd-hero-arena-wide.jpg' | asset_url }}{% endif %}">
-      <img class="hero__bg hero__bg--3" loading="lazy" alt=""
-        src="{% if section.settings.bg_image_3 %}{{ section.settings.bg_image_3 | image_url: width: 2000 }}{% else %}{{ 'pd-hero-trophy-lift.jpg' | asset_url }}{% endif %}">
+      {%- assign img = section.settings.bg_image_1 -%}
+      <img class="hero__bg hero__bg--1" loading="eager" fetchpriority="high" decoding="async" alt=""
+        {%- if img %}
+          src="{{ img | image_url: width: 2000 }}"
+          srcset="{{ img | image_url: width: 800 }} 800w, {{ img | image_url: width: 1200 }} 1200w, {{ img | image_url: width: 1600 }} 1600w, {{ img | image_url: width: 2000 }} 2000w"
+          sizes="{{ hero_sizes }}"
+        {%- else %}
+          src="{{ 'pd-hero-dart-strike.jpg' | asset_url }}"
+        {%- endif %}>
+      {%- assign img = section.settings.bg_image_2 -%}
+      <img class="hero__bg hero__bg--2" loading="lazy" decoding="async" alt=""
+        {%- if img %}
+          src="{{ img | image_url: width: 2000 }}"
+          srcset="{{ img | image_url: width: 800 }} 800w, {{ img | image_url: width: 1200 }} 1200w, {{ img | image_url: width: 1600 }} 1600w, {{ img | image_url: width: 2000 }} 2000w"
+          sizes="{{ hero_sizes }}"
+        {%- else %}
+          src="{{ 'pd-hero-arena-wide.jpg' | asset_url }}"
+        {%- endif %}>
+      {%- assign img = section.settings.bg_image_3 -%}
+      <img class="hero__bg hero__bg--3" loading="lazy" decoding="async" alt=""
+        {%- if img %}
+          src="{{ img | image_url: width: 2000 }}"
+          srcset="{{ img | image_url: width: 800 }} 800w, {{ img | image_url: width: 1200 }} 1200w, {{ img | image_url: width: 1600 }} 1600w, {{ img | image_url: width: 2000 }} 2000w"
+          sizes="{{ hero_sizes }}"
+        {%- else %}
+          src="{{ 'pd-hero-trophy-lift.jpg' | asset_url }}"
+        {%- endif %}>
     {%- endif -%}
     <div class="hero__scrim"></div>
     <div class="hero__vignette"></div>
@@ -43,6 +77,25 @@
       </div>
     </div>
   </div>
+
+  {%- if section.settings.show_sticky_cta -%}
+    {%- assign sticky_handle = section.settings.sticky_product_handle -%}
+    {%- assign sticky_product = all_products[sticky_handle] -%}
+    <div class="pd-sticky-cta" data-sticky-cta>
+      <div class="pd-sticky-cta__text">
+        <span class="pd-sticky-cta__label">{{ section.settings.sticky_label | default: 'The Pro Pack' }}</span>
+        <span class="pd-sticky-cta__sub">
+          {%- if sticky_product -%}
+            {{ sticky_product.price | money }}
+            {%- if sticky_product.compare_at_price > sticky_product.price %} <s>{{ sticky_product.compare_at_price | money }}</s>{% endif -%}
+          {%- elsif section.settings.sticky_sub != blank -%}
+            {{ section.settings.sticky_sub }}
+          {%- endif -%}
+        </span>
+      </div>
+      <a class="btn btn--primary" href="{% if section.settings.cta_link != blank %}{{ section.settings.cta_link }}{% elsif sticky_product %}{{ sticky_product.url }}{% else %}/products/pro-pack{% endif %}">{{ section.settings.sticky_cta_text | default: 'Shop Now' }}</a>
+    </div>
+  {%- endif -%}
 </section>
 
 {% schema %}
@@ -155,6 +208,42 @@
       "id": "secondary_anchor",
       "label": "Secondary button anchor",
       "default": "#experience"
+    },
+    {
+      "type": "header",
+      "content": "Mobile sticky bar",
+      "info": "A slim bar pinned to the bottom of phone screens once the hero scrolls away. Hides over the final CTA and footer."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sticky_cta",
+      "label": "Show sticky bar on phones",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "sticky_label",
+      "label": "Label",
+      "default": "The Pro Pack"
+    },
+    {
+      "type": "text",
+      "id": "sticky_product_handle",
+      "label": "Product handle for live price",
+      "default": "pro-pack"
+    },
+    {
+      "type": "text",
+      "id": "sticky_sub",
+      "label": "Fallback sub-line",
+      "info": "Shown only if the product handle doesn't resolve.",
+      "default": "Free shipping on orders $50+"
+    },
+    {
+      "type": "text",
+      "id": "sticky_cta_text",
+      "label": "Button text",
+      "default": "Shop Now"
     }
   ],
   "presets": [

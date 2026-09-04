@@ -723,9 +723,43 @@
   .avatar-card h3 { font-size: clamp(24px, 3.4vw, 34px); }
   .avatar-card__num { font-size: clamp(64px, 9vw, 96px); }
 }
+/* phones: a native swipe row instead of four tall stacked cards — one
+   card in view with the next peeking, snap points, no scrollbar */
+.avatars__hint {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--blue-dim);
+  margin-top: -10px;
+  margin-bottom: 18px;
+}
 @media (max-width: 600px) {
-  .avatars__grid { grid-template-columns: 1fr; gap: 14px; }
-  .avatar-card { min-height: clamp(660px, 84vh, 760px); }
+  .avatars__hint { display: inline-flex; }
+  .avatars__grid {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin-inline: calc(-1 * var(--gutter));
+    padding: 4px var(--gutter) 14px;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+  .avatars__grid::-webkit-scrollbar { display: none; }
+  .avatar-card {
+    flex: 0 0 min(82vw, 380px);
+    scroll-snap-align: start;
+    min-height: clamp(620px, 78vh, 700px);
+  }
+  /* solid panel, no blur — backdrop-filter on four cards is expensive on phones */
+  .avatar-card__inner { background: rgba(10, 12, 16, 0.94); backdrop-filter: none; -webkit-backdrop-filter: none; }
   .avatar-card__thumb { width: 100px; height: 100px; }
   .avatar-card__top, .avatar-card__inner { padding-inline: 18px; }
   .avatar-card h3 { font-size: clamp(26px, 7vw, 32px); }
@@ -1710,6 +1744,85 @@
   .pd-footer__grid { grid-template-columns: 1fr; gap: 28px; }
   .pd-footer__bottom { flex-direction: column; align-items: flex-start; }
 }
+
+/* ============================================================
+   MOBILE EXPERIENCE — phone-specific behaviour for the Prodigy page
+   ============================================================ */
+
+/* Hover effects only where hover exists. On touch, :hover sticks after
+   a tap and :focus-within fires when a button inside is tapped — both
+   left cards jumped up and zoomed until the next tap somewhere else. */
+@media (hover: none) {
+  .pd-page .btn:hover { transform: none; }
+  .avatar-card:hover,
+  .avatar-card:focus-within,
+  .product-card:hover { transform: none; box-shadow: var(--shadow-soft); }
+  .product-card--featured:hover { box-shadow: 0 0 0 2px var(--blue), var(--shadow-lift); }
+  .avatar-card:hover .avatar-card__media img,
+  .avatar-card:focus-within .avatar-card__media img { transform: scale(1.02); }
+  .avatar-card:hover .avatar-card__thumb img,
+  .avatar-card:focus-within .avatar-card__thumb img,
+  .product-card:hover .product-card__media img,
+  .swaptop__media:hover .swaptop__photo--a img,
+  .swaptop__media:hover .swaptop__photo--b img { transform: none; }
+  .avatar-card:hover .avatar-card__num,
+  .avatar-card:focus-within .avatar-card__num { color: transparent; -webkit-text-stroke-color: rgba(253, 253, 253, 0.45); }
+}
+
+@media (max-width: 640px) {
+  /* hero: crossfade only — three full-screen layers all scaling at once
+     is the single heaviest thing this page asks of a phone GPU */
+  .hero__bg { animation-name: hero-crossfade, none; }
+  .hero__vignette { display: none; }
+}
+
+@media (max-width: 480px) {
+  .home-trust__grid { gap: 18px 14px; }
+  .trust-item { gap: 10px; }
+  .trust-item__icon, .trust-item__icon svg { width: 30px; height: 30px; }
+  .trust-item__label { font-size: 13px; }
+  .trust-item__sub { font-size: 11px; }
+  .final .btn, .competition__cta .btn, .championship__inner .btn { width: 100%; max-width: 380px; }
+}
+
+/* Sticky mobile CTA — slides up once the hero has scrolled away, hides
+   again over the final CTA and footer. Phones/small tablets only. */
+.pd-sticky-cta {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 60;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px var(--gutter) calc(10px + env(safe-area-inset-bottom, 0px));
+  background: rgba(10, 12, 16, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--line-on-dark);
+  color: var(--white);
+  transform: translateY(110%);
+  transition: transform 0.35s var(--ease-out);
+}
+.pd-sticky-cta__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pd-sticky-cta__label {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pd-sticky-cta__sub { font-family: var(--font-mono); font-size: 12px; color: rgba(253, 253, 253, 0.62); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pd-sticky-cta__sub s { color: rgba(253, 253, 253, 0.4); margin-left: 6px; }
+.pd-page .pd-sticky-cta .btn { height: 44px !important; padding: 0 20px !important; font-size: 14px !important; flex: 0 0 auto; }
+@media (max-width: 768px) {
+  .pd-sticky-cta { display: flex; }
+  .pd-sticky-cta.is-on { transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) { .pd-sticky-cta { transition: none; } }
 
 /* ================================================================
    HOMEPAGE — components unique to templates/page.popdarts-home.json

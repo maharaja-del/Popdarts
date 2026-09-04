@@ -147,6 +147,41 @@
   }
 
   /* ============================================================
+     STICKY MOBILE CTA — shows once the hero has left the viewport,
+     hides while the final CTA or footer is in view. CSS limits it to
+     small screens; this only toggles the class.
+     ============================================================ */
+  function initStickyCta() {
+    const bar = document.querySelector("[data-sticky-cta]");
+    if (!bar || bar.__pdStickyInit) return;
+    bar.__pdStickyInit = true;
+    if (!("IntersectionObserver" in window)) return;
+    const hero = bar.closest(".hero") || document.querySelector(".hero");
+    if (!hero) return;
+    const enders = Array.from(document.querySelectorAll(".final, .pd-footer, .shopify-section-group-footer-group"));
+    let heroIn = true;
+    const enderIn = new Set();
+    const update = () => bar.classList.toggle("is-on", !heroIn && enderIn.size === 0);
+    new IntersectionObserver(
+      (entries) => {
+        heroIn = entries[0].isIntersecting;
+        update();
+      },
+      { threshold: 0.04 }
+    ).observe(hero);
+    if (enders.length) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => (e.isIntersecting ? enderIn.add(e.target) : enderIn.delete(e.target)));
+          update();
+        },
+        { threshold: 0.05 }
+      );
+      enders.forEach((el) => io.observe(el));
+    }
+  }
+
+  /* ============================================================
      FIT LINES — any [data-fit-line] is a single no-wrap line; if it's
      wider than its container, step its font-size down (to a floor)
      until it fits. Re-run on resize. Keeps headlines at exactly the
@@ -225,7 +260,7 @@
   function initAll() {
     // Reveal goes first and every init is isolated: a throw in one
     // feature must never leave the page's sections sitting at opacity 0.
-    [initReveal, initSliders, initVideoSlides, fitLines].forEach((fn) => {
+    [initReveal, initSliders, initVideoSlides, fitLines, initStickyCta].forEach((fn) => {
       try {
         fn();
       } catch (err) {

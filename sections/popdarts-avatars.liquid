@@ -9,6 +9,11 @@
       <p>{{ section.settings.subheading | default: 'For first shots. For clutch shots. For comeback shots. For everyone who makes the weekend happen.' }}</p>
     </div>
 
+    <p class="avatars__hint" aria-hidden="true">
+      <span>Swipe</span>
+      <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M4 12h14m0 0-5-5m5 5-5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </p>
+
     <div class="avatars__grid">
       {%- for block in section.blocks -%}
         {%- assign style = block.settings.style | default: 'pro' -%}
@@ -16,13 +21,23 @@
         {%- assign fallback_handle = block.settings.product_handle -%}
         {%- assign p = block.settings.product | default: all_products[fallback_handle] -%}
 
-        {%- comment -%} Backdrop photo: picker → bundled asset → URL → per-style default {%- endcomment -%}
+        {%- comment -%}
+          Backdrop photo: picker → bundled asset → URL → per-style default.
+          Picker images and Shopify-CDN URLs get a responsive srcset so
+          phones download ~700px, not the full-size original.
+        {%- endcomment -%}
+        {%- assign bg_srcset = '' -%}
         {%- if block.settings.image -%}
-          {%- assign bg_src = block.settings.image | image_url: width: 1000 -%}
+          {%- assign bg_src = block.settings.image | image_url: width: 1400 -%}
+          {%- capture bg_srcset -%}{{ block.settings.image | image_url: width: 700 }} 700w, {{ block.settings.image | image_url: width: 1000 }} 1000w, {{ block.settings.image | image_url: width: 1400 }} 1400w{%- endcapture -%}
         {%- elsif block.settings.asset_filename != blank -%}
           {%- assign bg_src = block.settings.asset_filename | asset_url -%}
         {%- elsif block.settings.image_url != blank -%}
           {%- assign bg_src = block.settings.image_url -%}
+          {%- if bg_src contains 'cdn.shopify.com' -%}
+            {%- if bg_src contains '?' -%}{%- assign sep = '&' -%}{%- else -%}{%- assign sep = '?' -%}{%- endif -%}
+            {%- capture bg_srcset -%}{{ bg_src }}{{ sep }}width=700 700w, {{ bg_src }}{{ sep }}width=1000 1000w, {{ bg_src }}{{ sep }}width=1400 1400w{%- endcapture -%}
+          {%- endif -%}
         {%- elsif style == 'rookie' -%}
           {%- assign bg_src = 'pd-marquee-family-group.jpg' | asset_url -%}
         {%- elsif style == 'elite' -%}
@@ -55,7 +70,8 @@
 
         <article class="avatar-card avatar-card--{{ style }}" {{ block.shopify_attributes }}>
           <div class="avatar-card__media" aria-hidden="true">
-            <img src="{{ bg_src }}" alt="" loading="lazy">
+            <img src="{{ bg_src }}" alt="" loading="lazy" decoding="async"
+              {%- if bg_srcset != blank %} srcset="{{ bg_srcset }}" sizes="(max-width: 600px) 82vw, (max-width: 1100px) 50vw, 25vw"{% endif %}>
             <div class="avatar-card__scrim"></div>
             <div class="avatar-card__glow"></div>
           </div>

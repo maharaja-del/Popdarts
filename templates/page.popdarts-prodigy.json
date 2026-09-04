@@ -753,65 +753,6 @@
         "cta_text": "Get Your Pro Pack",
         "cta_link": ""
       }
-    },
-    "footer": {
-      "type": "popdarts-footer",
-      "blocks": {
-        "col1": {
-          "type": "link_column",
-          "settings": {
-            "heading": "Shop",
-            "link_1_text": "Rookie Pack",
-            "link_1_url": "/products/rookie-pack",
-            "link_2_text": "Pro Pack",
-            "link_2_url": "/products/pro-pack",
-            "link_3_text": "Elite Pack",
-            "link_3_url": "/products/elite-full-pack",
-            "link_4_text": "Swaptop Kit",
-            "link_4_url": "/products/swaptop-kit"
-          }
-        },
-        "col2": {
-          "type": "link_column",
-          "settings": {
-            "heading": "Learn",
-            "link_1_text": "How to Play",
-            "link_1_url": "#experience",
-            "link_2_text": "FAQ",
-            "link_2_url": "#faq-list",
-            "link_3_text": "",
-            "link_3_url": "",
-            "link_4_text": "",
-            "link_4_url": ""
-          }
-        },
-        "col3": {
-          "type": "link_column",
-          "settings": {
-            "heading": "Support",
-            "link_1_text": "Contact Us",
-            "link_1_url": "mailto:support@popdartsgame.com",
-            "link_2_text": "Shipping & Returns",
-            "link_2_url": "/pages/shipping",
-            "link_3_text": "",
-            "link_3_url": "",
-            "link_4_text": "",
-            "link_4_url": ""
-          }
-        }
-      },
-      "block_order": [
-        "col1",
-        "col2",
-        "col3"
-      ],
-      "settings": {
-        "tagline": "Three darts. One target. Become the Popdarts Champion.",
-        "copyright": "© 2026 Popdarts. All rights reserved.",
-        "instagram_url": "",
-        "tiktok_url": "",
-        "youtube_url": ""
-      }
     }
   },
   "order": [
@@ -827,7 +768,6 @@
     "why",
     "faq",
     "products2",
-    "final",
-    "footer"
+    "final"
   ]
 }

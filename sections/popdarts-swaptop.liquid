@@ -1,8 +1,14 @@
-{%- comment -%} Photo 1 (large, portrait): picker → URL → bundled asset → default {%- endcomment -%}
+{%- comment -%} Photo 1 (large, portrait): picker → URL → bundled asset → default. Responsive srcset for picker / Shopify-CDN sources. {%- endcomment -%}
+{%- assign img_a_srcset = '' -%}
 {%- if section.settings.image -%}
   {%- assign img_a = section.settings.image | image_url: width: 1200 -%}
+  {%- capture img_a_srcset -%}{{ section.settings.image | image_url: width: 600 }} 600w, {{ section.settings.image | image_url: width: 900 }} 900w, {{ section.settings.image | image_url: width: 1200 }} 1200w{%- endcapture -%}
 {%- elsif section.settings.image_url != blank -%}
   {%- assign img_a = section.settings.image_url -%}
+  {%- if img_a contains 'cdn.shopify.com' -%}
+    {%- if img_a contains '?' -%}{%- assign sep = '&' -%}{%- else -%}{%- assign sep = '?' -%}{%- endif -%}
+    {%- capture img_a_srcset -%}{{ img_a }}{{ sep }}width=600 600w, {{ img_a }}{{ sep }}width=900 900w, {{ img_a }}{{ sep }}width=1200 1200w{%- endcapture -%}
+  {%- endif -%}
 {%- elsif section.settings.image_asset != blank -%}
   {%- assign img_a = section.settings.image_asset | asset_url -%}
 {%- else -%}
@@ -48,10 +54,11 @@
     <div class="swaptop__media">
       <div class="swaptop__glow" aria-hidden="true"></div>
       <div class="swaptop__photo swaptop__photo--a">
-        <img src="{{ img_a }}" alt="Friends gathered around a Swaptop board, mid-celebration." loading="lazy">
+        <img src="{{ img_a }}" alt="Friends gathered around a Swaptop board, mid-celebration." loading="lazy" decoding="async"
+          {%- if img_a_srcset != blank %} srcset="{{ img_a_srcset }}" sizes="(max-width: 860px) 72vw, 40vw"{% endif %}>
       </div>
       <div class="swaptop__photo swaptop__photo--b">
-        <img src="{{ img_b }}" alt="A family playing Popdarts together." loading="lazy">
+        <img src="{{ img_b }}" alt="The Swaptop Kit." loading="lazy" decoding="async">
       </div>
       {%- if section.settings.image_tag != blank -%}
         <span class="swaptop__chip">{{ section.settings.image_tag }}</span>
