@@ -148,6 +148,7 @@
   text-transform: uppercase;
   letter-spacing: -0.02em;
   line-height: 0.96;
+  text-wrap: balance;
 }
 
 .c-green { color: var(--green-dim); }
@@ -175,15 +176,38 @@
    timeout that force-reveals everything after 2.5s regardless).
    ============================================================ */
 @media (prefers-reduced-motion: no-preference) {
-  html.pd-js .pd-page section:not(.hero):not(.home-hero) {
+  /* NOTE: `section.pd-page`, not `.pd-page section` — every Prodigy
+     section IS the .pd-page element (nothing wraps them in one), so the
+     descendant form matched nothing and the whole page loaded static. */
+  html.pd-js section.pd-page:not(.hero):not(.home-hero) {
     opacity: 0;
     transform: translateY(28px);
     transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
   }
-  html.pd-js .pd-page section.is-visible {
+  html.pd-js section.pd-page.is-visible {
     opacity: 1;
     transform: translateY(0);
   }
+
+  /* Card grids stagger in a beat behind their section. Uses an
+     animation with `backwards` fill (not a transition on transform) so
+     once it finishes the element's normal styles — including hover
+     lifts — take over untouched. */
+  html.pd-js section.pd-page :is(.avatars__grid, .products__grid, .reviews__grid, .experience__steps, .home-trust__grid, .faq__list) > * { opacity: 0; }
+  html.pd-js section.pd-page.is-visible :is(.avatars__grid, .products__grid, .reviews__grid, .experience__steps, .home-trust__grid, .faq__list) > * {
+    opacity: 1;
+    animation: pd-rise 0.65s var(--ease-out) backwards;
+  }
+  html.pd-js section.pd-page.is-visible :is(.avatars__grid, .products__grid, .reviews__grid, .experience__steps, .home-trust__grid, .faq__list) > :nth-child(1) { animation-delay: 0.1s; }
+  html.pd-js section.pd-page.is-visible :is(.avatars__grid, .products__grid, .reviews__grid, .experience__steps, .home-trust__grid, .faq__list) > :nth-child(2) { animation-delay: 0.18s; }
+  html.pd-js section.pd-page.is-visible :is(.avatars__grid, .products__grid, .reviews__grid, .experience__steps, .home-trust__grid, .faq__list) > :nth-child(3) { animation-delay: 0.26s; }
+  html.pd-js section.pd-page.is-visible :is(.avatars__grid, .products__grid, .reviews__grid, .experience__steps, .home-trust__grid, .faq__list) > :nth-child(4) { animation-delay: 0.34s; }
+  html.pd-js section.pd-page.is-visible :is(.avatars__grid, .products__grid, .reviews__grid, .experience__steps, .home-trust__grid, .faq__list) > :nth-child(5) { animation-delay: 0.42s; }
+  html.pd-js section.pd-page.is-visible :is(.avatars__grid, .products__grid, .reviews__grid, .experience__steps, .home-trust__grid, .faq__list) > :nth-child(n+6) { animation-delay: 0.5s; }
+}
+@keyframes pd-rise {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ============================================================
@@ -402,6 +426,24 @@
   font-size: clamp(46px, 8vw, 120px);
   text-shadow: 0 6px 40px rgba(0, 0, 0, 0.35);
 }
+/* slow light sweep across the blue word — the inline color on the span
+   is neutralised by text-fill-color, so this wins without touching it */
+.hero__title-main .c-blue {
+  display: inline-block;
+  background: linear-gradient(100deg, var(--blue) 0%, var(--blue) 35%, #b8e0ff 50%, var(--blue) 65%, var(--blue) 100%);
+  background-size: 260% 100%;
+  background-position: 120% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+  animation: hero-shimmer 7s ease-in-out infinite;
+}
+@keyframes hero-shimmer {
+  0%, 55% { background-position: 120% 0; }
+  100% { background-position: -120% 0; }
+}
+@media (prefers-reduced-motion: reduce) { .hero__title-main .c-blue { animation: none; } }
 
 .hero .hero__sub {
   max-width: 52ch;
@@ -691,17 +733,57 @@
 }
 .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lift); border-color: rgba(10,12,16,0.2); }
 
+/* featured tier — blue ring, lifted a notch above its neighbours on
+   desktop, with a "Most Popular" tag on the image */
+.product-card--featured {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 2px var(--blue), var(--shadow-lift);
+}
+.product-card--featured:hover { border-color: var(--blue); box-shadow: 0 0 0 2px var(--blue), 0 34px 60px -22px rgba(43, 153, 255, 0.35); }
+@media (min-width: 901px) {
+  .product-card--featured { transform: translateY(-10px); }
+  .product-card--featured:hover { transform: translateY(-16px); }
+}
+.product-card__featured {
+  position: absolute;
+  top: 14px; right: 14px;
+  z-index: 2;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--blue);
+  padding: 6px 10px;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 8px 20px -8px rgba(43, 153, 255, 0.7);
+}
+
 .product-card__media {
   aspect-ratio: 1 / 1;
   background: var(--paper);
   overflow: hidden;
 }
-.product-card__media img { width: 100%; height: 100%; object-fit: contain; padding: 18px; background: var(--paper); }
+.product-card__media img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  padding: 18px;
+  background: var(--paper);
+  transition: transform 0.7s var(--ease-out);
+}
+.product-card:hover .product-card__media img { transform: scale(1.06); }
 
 .product-card__body { padding: clamp(18px, 2.4vw, 26px); display: flex; flex-direction: column; flex: 1; }
 
-.product-card__badge {
-  align-self: flex-start;
+/* The host theme.css pins .product-card__badge absolutely at the
+   card's top-left regardless — so own that: it's a tag on the image. */
+.pd-page .product-card__badge {
+  position: absolute;
+  top: 14px; left: 14px;
+  inset-inline-start: 14px;
+  z-index: 2;
+  margin: 0;
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 700;
@@ -1410,7 +1492,9 @@
 
 .final {
   padding-block: clamp(80px, 14vh, 160px);
-  background: var(--ink);
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 0%, rgba(43, 153, 255, 0.3), transparent 65%),
+    var(--ink);
   color: var(--white);
   text-align: center;
 }
@@ -1568,6 +1652,11 @@
   animation: home-ticker-scroll 26s linear infinite;
 }
 .home-ticker__track .dot { color: rgba(253,253,253,0.6); }
+/* every other phrase is outlined — solid / hollow / solid rhythm */
+.home-ticker__track > span:not(.dot):nth-of-type(4n + 3) {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--white);
+}
 @keyframes home-ticker-scroll {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }

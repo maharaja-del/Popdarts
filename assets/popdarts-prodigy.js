@@ -155,7 +155,9 @@
      ============================================================ */
   function initReveal() {
     if (prefersReducedMotion) return;
-    const targets = Array.from(document.querySelectorAll(".pd-page section:not(.hero):not(.home-hero)")).filter(
+    // `section.pd-page`, not `.pd-page section` — the sections ARE the
+    // .pd-page elements; the descendant form matched nothing (see CSS).
+    const targets = Array.from(document.querySelectorAll("section.pd-page:not(.hero):not(.home-hero)")).filter(
       (el) => !el.__pdRevealInit
     );
     if (!targets.length) return;

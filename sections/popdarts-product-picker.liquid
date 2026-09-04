@@ -10,7 +10,10 @@
       {%- for block in section.blocks -%}
         {%- assign fallback_product = block.settings.product_handle -%}
         {%- assign p = block.settings.product | default: all_products[fallback_product] -%}
-        <article class="product-card product-card--{{ block.settings.style }}" {{ block.shopify_attributes }}>
+        <article class="product-card product-card--{{ block.settings.style }}{% if block.settings.featured %} product-card--featured{% endif %}" {{ block.shopify_attributes }}>
+          {%- if block.settings.featured -%}
+            <span class="product-card__featured">{{ block.settings.featured_text | default: 'Most Popular' }}</span>
+          {%- endif -%}
           <div class="product-card__media">
             {%- if p and p.featured_image -%}
               <img src="{{ p.featured_image | image_url: width: 800 }}" alt="{{ p.featured_image.alt | default: p.title | escape }}" loading="lazy" width="800" height="800">
@@ -113,6 +116,19 @@
           "id": "badge",
           "label": "Badge text",
           "default": "Pack"
+        },
+        {
+          "type": "checkbox",
+          "id": "featured",
+          "label": "Featured tier",
+          "info": "Blue ring, lifted above its neighbours, with the tag below on the image.",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "featured_text",
+          "label": "Featured tag",
+          "default": "Most Popular"
         },
         {
           "type": "text",
