@@ -549,7 +549,7 @@
   justify-content: space-between;
   /* tall enough that the bottom panel (~250px) never takes more than
      ~38% — the photo always owns at least 60% of the card */
-  min-height: clamp(690px, 78vh, 820px);
+  min-height: clamp(720px, 80vh, 840px);
   padding: 0;
   border-radius: 20px;
   overflow: hidden;
@@ -672,24 +672,25 @@
 .avatar-card__accent { color: var(--accent); }
 
 /* product strip + CTA */
-/* panel foot: a big square product tile on the left spanning both
-   rows, price on the top-right, button on the bottom-right */
+/* panel foot — row 1: product tile | stacked price; row 2: full-width
+   button. The button never has to share a row with the tile, so long
+   labels ("Shop The Swaptop Kit") and compare-at prices always fit. */
 .avatar-card__foot {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
-  grid-template-rows: 1fr auto;
-  column-gap: 14px;
-  row-gap: 10px;
+  grid-template-rows: auto auto;
+  column-gap: 16px;
+  row-gap: 12px;
   align-items: center;
-  padding-top: 12px;
+  padding-top: 14px;
   border-top: 1px solid var(--line-on-dark);
 }
 .avatar-card__product { display: contents; }
 .avatar-card__thumb {
   grid-column: 1;
-  grid-row: 1 / 3;
+  grid-row: 1;
   display: block;
-  width: 136px; height: 136px;
+  width: 108px; height: 108px;
   border-radius: 16px;
   background: var(--white);
   overflow: hidden;
@@ -699,11 +700,17 @@
 .avatar-card__thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease-out); }
 .avatar-card:hover .avatar-card__thumb img,
 .avatar-card:focus-within .avatar-card__thumb img { transform: scale(1.06); }
-.avatar-card__meta { grid-column: 2; grid-row: 1; align-self: center; }
-.pd-page .avatar-card__foot .btn { grid-column: 2; grid-row: 2; }
-.avatar-card__price { display: flex; align-items: baseline; gap: 8px; font-family: var(--font-mono); }
-.avatar-card__price-now { font-size: 24px; font-weight: 700; }
-.avatar-card__price-was { font-size: 14px; color: rgba(253,253,253,0.5); text-decoration: line-through; }
+.avatar-card__meta { grid-column: 2; grid-row: 1; align-self: center; min-width: 0; }
+.pd-page .avatar-card__foot .btn { grid-column: 1 / -1; grid-row: 2; width: 100%; }
+.avatar-card__price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  font-family: var(--font-mono);
+}
+.avatar-card__price-now { font-size: clamp(26px, 2.2vw, 32px); font-weight: 700; line-height: 1; }
+.avatar-card__price-was { font-size: 15px; color: rgba(253,253,253,0.5); text-decoration: line-through; line-height: 1; }
 .pd-page .avatar-card__foot .btn { width: 100%; height: 46px !important; font-size: 14px !important; padding: 0 18px !important; }
 
 /* ---- Responsive ---- */
@@ -715,8 +722,8 @@
 }
 @media (max-width: 600px) {
   .avatars__grid { grid-template-columns: 1fr; gap: 14px; }
-  .avatar-card { min-height: clamp(640px, 82vh, 740px); }
-  .avatar-card__thumb { width: 120px; height: 120px; }
+  .avatar-card { min-height: clamp(660px, 84vh, 760px); }
+  .avatar-card__thumb { width: 100px; height: 100px; }
   .avatar-card__top, .avatar-card__inner { padding-inline: 18px; }
   .avatar-card h3 { font-size: clamp(26px, 7vw, 32px); }
   .avatar-card__num { font-size: 64px; }
