@@ -549,7 +549,7 @@
   justify-content: space-between;
   /* tall enough that the bottom panel (~250px) never takes more than
      ~38% — the photo always owns at least 60% of the card */
-  min-height: clamp(660px, 76vh, 800px);
+  min-height: clamp(690px, 78vh, 820px);
   padding: 0;
   border-radius: 20px;
   overflow: hidden;
@@ -672,34 +672,35 @@
 .avatar-card__accent { color: var(--accent); }
 
 /* product strip + CTA */
+/* panel foot: a big square product tile on the left spanning both
+   rows, price on the top-right, button on the bottom-right */
 .avatar-card__foot {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: 1fr auto;
+  column-gap: 14px;
+  row-gap: 10px;
+  align-items: center;
   padding-top: 12px;
   border-top: 1px solid var(--line-on-dark);
 }
-.avatar-card__product { display: flex; align-items: center; gap: 14px; min-width: 0; }
-/* the product shot is a tile floating over the photo's bottom-right
-   corner, sitting just above the panel — big, without costing the
-   panel (or the photo) any height */
+.avatar-card__product { display: contents; }
 .avatar-card__thumb {
-  position: absolute;
-  right: clamp(14px, 1.6vw, 20px);
-  top: -112px;
-  z-index: 3;
+  grid-column: 1;
+  grid-row: 1 / 3;
   display: block;
-  width: 124px; height: 124px;
-  border-radius: 18px;
-  border: 3px solid var(--white);
+  width: 136px; height: 136px;
+  border-radius: 16px;
   background: var(--white);
   overflow: hidden;
-  box-shadow: 0 22px 44px -16px rgba(0,0,0,0.7);
+  box-shadow: 0 16px 34px -14px rgba(0,0,0,0.7);
   transition: transform var(--dur-med) var(--ease-out);
 }
-.avatar-card__thumb img { width: 100%; height: 100%; object-fit: cover; }
-.avatar-card:hover .avatar-card__thumb,
-.avatar-card:focus-within .avatar-card__thumb { transform: translateY(-6px) rotate(-2deg); }
+.avatar-card__thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease-out); }
+.avatar-card:hover .avatar-card__thumb img,
+.avatar-card:focus-within .avatar-card__thumb img { transform: scale(1.06); }
+.avatar-card__meta { grid-column: 2; grid-row: 1; align-self: center; }
+.pd-page .avatar-card__foot .btn { grid-column: 2; grid-row: 2; }
 .avatar-card__price { display: flex; align-items: baseline; gap: 8px; font-family: var(--font-mono); }
 .avatar-card__price-now { font-size: 24px; font-weight: 700; }
 .avatar-card__price-was { font-size: 14px; color: rgba(253,253,253,0.5); text-decoration: line-through; }
@@ -714,8 +715,8 @@
 }
 @media (max-width: 600px) {
   .avatars__grid { grid-template-columns: 1fr; gap: 14px; }
-  .avatar-card { min-height: clamp(600px, 80vh, 700px); }
-  .avatar-card__thumb { width: 112px; height: 112px; top: -100px; }
+  .avatar-card { min-height: clamp(640px, 82vh, 740px); }
+  .avatar-card__thumb { width: 120px; height: 120px; }
   .avatar-card__top, .avatar-card__inner { padding-inline: 18px; }
   .avatar-card h3 { font-size: clamp(26px, 7vw, 32px); }
   .avatar-card__num { font-size: 64px; }
