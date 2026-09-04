@@ -69,6 +69,7 @@
             <h3 style="color: #fdfdfd !important;">
               <span class="avatar-card__line" data-fit-line>{{ block.settings.headline | default: 'Easy to Learn.' }}</span>
               {%- if block.settings.headline_accent != blank -%}
+                <br>
                 <span class="avatar-card__line avatar-card__accent" data-fit-line>{{ block.settings.headline_accent }}</span>
               {%- endif -%}
             </h3>

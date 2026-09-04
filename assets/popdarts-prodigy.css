@@ -671,7 +671,7 @@
 }
 /* exactly two lines: each part is its own block and never wraps —
    the script shrinks a line's font-size if it's too long for the card */
-.avatar-card__line { display: block; white-space: nowrap; }
+.avatar-card__line { display: inline-block; max-width: 100%; white-space: nowrap; vertical-align: top; }
 .avatar-card__accent { color: var(--accent); }
 
 /* product strip + CTA */
