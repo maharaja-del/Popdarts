@@ -327,12 +327,12 @@
         "spec_1": "",
         "spec_2": "",
         "spec_3": "",
-        "product": "popdarts-pro-pack-usa-slightly-used-returned",
+        "product": "",
         "product_handle": "american-classic",
         "fallback_price": "$39.99",
         "fallback_price_was": "",
         "cta_text": "Shop the American Classic",
-        "cta_link": "",
+        "cta_link": "shopify://products/pro-pack",
         "note": "Free shipping over $50 · 30-day returns"
       }
     },
