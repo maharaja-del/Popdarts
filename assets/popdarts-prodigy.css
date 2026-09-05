@@ -2012,6 +2012,139 @@
 }
 
 /* ============================================================
+   AMERICAN CLASSIC — colorway feature. Editorial two-photo stack
+   (portrait hero + a smaller tile riding its corner) beside a copy
+   column with a red/white/blue stripe mark. Light section; the only
+   red on the page is the stripe, the badge and the price flag.
+   ============================================================ */
+
+.amc {
+  padding-block: clamp(64px, 11vh, 130px);
+  background: var(--white);
+  color: var(--ink);
+  overflow: hidden;
+}
+.amc__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  gap: clamp(36px, 6vw, 96px);
+  align-items: center;
+}
+
+/* ---- photos ---- */
+.amc__media { position: relative; aspect-ratio: 1 / 1.02; isolation: isolate; }
+.amc__photo {
+  position: absolute;
+  overflow: hidden;
+  border-radius: 22px;
+  background: var(--paper);
+  box-shadow: var(--shadow-lift);
+}
+.amc__photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.4s var(--ease-out); }
+.amc__photo--main { top: 0; left: 0; width: 74%; aspect-ratio: 4 / 5; z-index: 1; }
+.amc__photo--main img { object-position: 60% 50%; }
+.amc__photo--tile {
+  right: 0; bottom: 0;
+  width: 46%;
+  aspect-ratio: 1 / 1;
+  z-index: 2;
+  border: 6px solid var(--white);
+  border-radius: 24px;
+  box-shadow: 0 30px 60px -24px rgba(10, 12, 16, 0.45);
+}
+/* second slot empty → the same photo, zoomed on the darts on the hood */
+.amc__photo--detail img { object-position: 66% 63%; transform: scale(2.3); transform-origin: 66% 63%; }
+.amc__media:hover .amc__photo--main img { transform: scale(1.05); }
+.amc__media:hover .amc__photo--detail img { transform: scale(2.45); }
+.amc__media:hover .amc__photo--tile:not(.amc__photo--detail) img { transform: scale(1.07); }
+.amc__badge {
+  position: absolute;
+  top: 5%; left: 5%;
+  z-index: 3;
+  padding: 9px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--red);
+  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  box-shadow: 0 14px 30px -12px rgba(255, 63, 63, 0.7);
+}
+
+/* ---- copy ---- */
+.amc__content { max-width: 480px; }
+.amc__stripes { display: inline-flex; gap: 4px; margin-bottom: 18px; }
+.amc__stripes i { display: block; width: 28px; height: 4px; border-radius: 2px; }
+.amc__stripes i:nth-child(1) { background: var(--red); }
+.amc__stripes i:nth-child(2) { background: var(--ink); opacity: 0.18; }
+.amc__stripes i:nth-child(3) { background: var(--blue); }
+.amc .amc__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--blue-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 14px;
+}
+.amc .amc__content h2 { font-size: clamp(42px, 6vw, 88px); line-height: 0.92; margin: 0 0 12px; }
+.amc__accent { color: var(--blue); }
+.amc .amc__tagline {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  font-size: clamp(18px, 2.1vw, 26px);
+  color: var(--red);
+  margin: 0 0 18px;
+}
+.amc .amc__body { font-size: clamp(15px, 1.5vw, 18px); line-height: 1.55; color: rgba(10, 12, 16, 0.64); max-width: 40ch; margin: 0 0 22px; }
+.amc__specs { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 26px; }
+.amc__specs li {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(10, 12, 16, 0.7);
+  padding: 7px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+}
+.amc__buy { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.amc__price { display: inline-flex; align-items: baseline; gap: 10px; font-family: var(--font-mono); }
+.amc__price-now { font-size: clamp(28px, 3vw, 38px); font-weight: 700; line-height: 1; }
+.amc__price-was { font-size: 15px; color: rgba(10, 12, 16, 0.4); text-decoration: line-through; }
+.amc .amc__note { margin: 14px 0 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: rgba(10, 12, 16, 0.45); }
+
+/* photos slide in one after another on reveal (same js-gated contract) */
+@media (prefers-reduced-motion: no-preference) {
+  html.pd-js .amc .amc__media > * { opacity: 0; animation: pd-safety-fade 0.5s var(--ease-out) 3.2s forwards; }
+  html.pd-js .amc.is-visible .amc__media > * { opacity: 1; animation: pd-rise 0.75s var(--ease-out) backwards; }
+  html.pd-js .amc.is-visible .amc__media > :nth-child(2) { animation-delay: 0.2s; }
+  html.pd-js .amc.is-visible .amc__media > :nth-child(3) { animation-delay: 0.4s; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .amc__photo img, .amc__media:hover .amc__photo img { transition: none; }
+}
+@media (max-width: 900px) {
+  .amc__grid { grid-template-columns: 1fr; gap: 36px; }
+  .amc__media { aspect-ratio: 1 / 1.05; margin-inline: 6px; }
+  .amc__content { max-width: none; }
+  .amc .amc__content h2 { font-size: clamp(40px, 12vw, 64px); }
+  .amc__photo--tile { border-width: 4px; }
+}
+@media (max-width: 480px) {
+  .amc__buy { flex-direction: column; align-items: stretch; }
+  .amc__buy .btn { width: 100%; }
+  .amc__badge { font-size: 11px; padding: 8px 12px; }
+}
+
+/* ============================================================
    MOBILE EXPERIENCE — phone-specific behaviour for the Prodigy page
    ============================================================ */
 

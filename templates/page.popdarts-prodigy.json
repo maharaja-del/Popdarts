@@ -767,6 +767,27 @@
         "note": "While supplies last",
         "end_date": "2026-11-01T00:00"
       }
+    },
+    "american": {
+      "type": "popdarts-american-classic",
+      "settings": {
+        "image_1_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_Sep_5_2026_04_41_54_AM.png?v=1788566249",
+        "image_2_url": "",
+        "image_1_alt": "Red, white and blue Popdarts on the hood of a vintage car outside a roadside café.",
+        "badge": "Limited colorway",
+        "eyebrow": "New colorway",
+        "heading": "The American",
+        "heading_accent": "Classic.",
+        "tagline": "Red, white and blue. Built for the tailgate.",
+        "body": "The colorway of the New American Classic Game — same tournament-weight darts, dressed for game day.",
+        "spec_1": "6 Pro Popdarts",
+        "spec_2": "Pro Target Marker",
+        "spec_3": "Carry bag + rules",
+        "product_handle": "american-classic",
+        "fallback_price": "$39.99",
+        "cta_text": "Shop the American Classic",
+        "note": "Free shipping over $50 · 30-day returns"
+      }
     }
   },
   "order": [
@@ -776,6 +797,7 @@
     "avatars",
     "products",
     "trust",
+    "american",
     "experience",
     "competition",
     "championship",

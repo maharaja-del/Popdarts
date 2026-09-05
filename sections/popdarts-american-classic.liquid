@@ -1,0 +1,136 @@
+{%- comment -%}
+  The American Classic — colorway feature. Two photos (portrait hero +
+  a smaller tile; if the second is empty, a tight detail crop of the
+  first is used) beside a copy column with live product price + CTA.
+  Images: picker → URL (Shopify-CDN URLs get a srcset) → nothing.
+{%- endcomment -%}
+{%- assign fallback_handle = section.settings.product_handle -%}
+{%- assign p = section.settings.product | default: all_products[fallback_handle] -%}
+
+{%- assign src_1 = '' -%}{%- assign set_1 = '' -%}
+{%- if section.settings.image_1 -%}
+  {%- assign src_1 = section.settings.image_1 | image_url: width: 1400 -%}
+  {%- capture set_1 -%}{{ section.settings.image_1 | image_url: width: 700 }} 700w, {{ section.settings.image_1 | image_url: width: 1000 }} 1000w, {{ section.settings.image_1 | image_url: width: 1400 }} 1400w{%- endcapture -%}
+{%- elsif section.settings.image_1_url != blank -%}
+  {%- assign src_1 = section.settings.image_1_url -%}
+  {%- if src_1 contains 'cdn.shopify.com' -%}
+    {%- if src_1 contains '?' -%}{%- assign sep = '&' -%}{%- else -%}{%- assign sep = '?' -%}{%- endif -%}
+    {%- capture set_1 -%}{{ src_1 }}{{ sep }}width=700 700w, {{ src_1 }}{{ sep }}width=1000 1000w, {{ src_1 }}{{ sep }}width=1400 1400w{%- endcapture -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- assign src_2 = '' -%}{%- assign set_2 = '' -%}{%- assign detail = false -%}
+{%- if section.settings.image_2 -%}
+  {%- assign src_2 = section.settings.image_2 | image_url: width: 900 -%}
+  {%- capture set_2 -%}{{ section.settings.image_2 | image_url: width: 500 }} 500w, {{ section.settings.image_2 | image_url: width: 900 }} 900w{%- endcapture -%}
+{%- elsif section.settings.image_2_url != blank -%}
+  {%- assign src_2 = section.settings.image_2_url -%}
+  {%- if src_2 contains 'cdn.shopify.com' -%}
+    {%- if src_2 contains '?' -%}{%- assign sep2 = '&' -%}{%- else -%}{%- assign sep2 = '?' -%}{%- endif -%}
+    {%- capture set_2 -%}{{ src_2 }}{{ sep2 }}width=500 500w, {{ src_2 }}{{ sep2 }}width=900 900w{%- endcapture -%}
+  {%- endif -%}
+{%- else -%}
+  {%- assign src_2 = src_1 -%}{%- assign set_2 = set_1 -%}{%- assign detail = true -%}
+{%- endif -%}
+
+{%- if section.settings.cta_link != blank -%}
+  {%- assign cta_href = section.settings.cta_link -%}
+{%- elsif p -%}
+  {%- assign cta_href = p.url -%}
+{%- else -%}
+  {%- assign cta_href = '/products/pro-pack' -%}
+{%- endif -%}
+
+<section class="pd-page amc" id="american-classic-{{ section.id }}" aria-labelledby="amc-title-{{ section.id }}">
+  <div class="pd-wrap amc__grid">
+    <div class="amc__media">
+      <div class="amc__photo amc__photo--main">
+        {%- if src_1 != blank -%}
+          <img src="{{ src_1 }}" alt="{{ section.settings.image_1_alt | escape }}" loading="lazy" decoding="async"
+            {%- if set_1 != blank %} srcset="{{ set_1 }}" sizes="(max-width: 900px) 92vw, 46vw"{% endif %}>
+        {%- endif -%}
+      </div>
+      {%- if src_2 != blank -%}
+        <div class="amc__photo amc__photo--tile{% if detail %} amc__photo--detail{% endif %}">
+          <img src="{{ src_2 }}" alt="" loading="lazy" decoding="async"
+            {%- if set_2 != blank %} srcset="{{ set_2 }}" sizes="(max-width: 900px) 42vw, 20vw"{% endif %}>
+        </div>
+      {%- endif -%}
+      {%- if section.settings.badge != blank -%}
+        <span class="amc__badge">{{ section.settings.badge }}</span>
+      {%- endif -%}
+    </div>
+
+    <div class="amc__content">
+      <span class="amc__stripes" aria-hidden="true"><i></i><i></i><i></i></span>
+      <p class="amc__eyebrow">{{ section.settings.eyebrow | default: 'New colorway' }}</p>
+      <h2 id="amc-title-{{ section.id }}" style="color: #0a0c10 !important;">
+        {{ section.settings.heading | default: 'The American' }}
+        {%- if section.settings.heading_accent != blank %} <span class="amc__accent">{{ section.settings.heading_accent }}</span>{% endif -%}
+      </h2>
+      {%- if section.settings.tagline != blank -%}
+        <p class="amc__tagline">{{ section.settings.tagline }}</p>
+      {%- endif -%}
+      {%- if section.settings.body != blank -%}
+        <p class="amc__body">{{ section.settings.body }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.spec_1 != blank or section.settings.spec_2 != blank or section.settings.spec_3 != blank -%}
+        <ul class="amc__specs">
+          {%- if section.settings.spec_1 != blank -%}<li>{{ section.settings.spec_1 }}</li>{%- endif -%}
+          {%- if section.settings.spec_2 != blank -%}<li>{{ section.settings.spec_2 }}</li>{%- endif -%}
+          {%- if section.settings.spec_3 != blank -%}<li>{{ section.settings.spec_3 }}</li>{%- endif -%}
+        </ul>
+      {%- endif -%}
+
+      <div class="amc__buy">
+        <span class="amc__price">
+          {%- if p -%}
+            <span class="amc__price-now">{{ p.price | money }}</span>
+            {%- if p.compare_at_price > p.price -%}<span class="amc__price-was">{{ p.compare_at_price | money }}</span>{%- endif -%}
+          {%- elsif section.settings.fallback_price != blank -%}
+            <span class="amc__price-now">{{ section.settings.fallback_price }}</span>
+            {%- if section.settings.fallback_price_was != blank -%}<span class="amc__price-was">{{ section.settings.fallback_price_was }}</span>{%- endif -%}
+          {%- endif -%}
+        </span>
+        <a class="btn btn--primary btn--lg" href="{{ cta_href }}">{{ section.settings.cta_text | default: 'Shop the American Classic' }}</a>
+      </div>
+      {%- if section.settings.note != blank -%}<p class="amc__note">{{ section.settings.note }}</p>{%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "American Classic",
+  "tag": "section",
+  "class": "pd-section-american-classic",
+  "settings": [
+    { "type": "header", "content": "Photos" },
+    { "type": "image_picker", "id": "image_1", "label": "Photo 1 (large, portrait)" },
+    { "type": "url", "id": "image_1_url", "label": "Photo 1 URL", "info": "Used if Photo 1 is empty." },
+    { "type": "text", "id": "image_1_alt", "label": "Photo 1 alt text", "default": "Red, white and blue Popdarts on the hood of a vintage car outside a roadside café." },
+    { "type": "image_picker", "id": "image_2", "label": "Photo 2 (small tile)" },
+    { "type": "url", "id": "image_2_url", "label": "Photo 2 URL", "info": "If both Photo 2 fields are empty, a close-up crop of Photo 1 is used." },
+    { "type": "text", "id": "badge", "label": "Badge on the photo", "default": "Limited colorway" },
+    { "type": "header", "content": "Copy" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "New colorway" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The American" },
+    { "type": "text", "id": "heading_accent", "label": "Heading, blue part", "default": "Classic." },
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "Red, white and blue. Built for the tailgate." },
+    { "type": "textarea", "id": "body", "label": "One line", "default": "The colorway of the New American Classic Game — same tournament-weight darts, dressed for game day." },
+    { "type": "text", "id": "spec_1", "label": "Spec 1", "default": "6 Pro Popdarts" },
+    { "type": "text", "id": "spec_2", "label": "Spec 2", "default": "Pro Target Marker" },
+    { "type": "text", "id": "spec_3", "label": "Spec 3", "default": "Carry bag + rules" },
+    { "type": "header", "content": "Product" },
+    { "type": "product", "id": "product", "label": "Product", "info": "If empty, the handle below is used; if that doesn't resolve, the fallback fields are shown." },
+    { "type": "text", "id": "product_handle", "label": "Product handle", "default": "american-classic" },
+    { "type": "text", "id": "fallback_price", "label": "Fallback price", "default": "$39.99" },
+    { "type": "text", "id": "fallback_price_was", "label": "Fallback compare-at price" },
+    { "type": "text", "id": "cta_text", "label": "Button text", "default": "Shop the American Classic" },
+    { "type": "url", "id": "cta_link", "label": "Button link", "info": "Empty = the resolved product's page." },
+    { "type": "text", "id": "note", "label": "Note under the button", "default": "Free shipping over $50 · 30-day returns" }
+  ],
+  "presets": [{ "name": "American Classic" }]
+}
+{% endschema %}
