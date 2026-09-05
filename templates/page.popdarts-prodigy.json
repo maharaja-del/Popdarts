@@ -25,7 +25,12 @@
         "cta_text": "Get Your Pro Pack",
         "cta_link": "",
         "secondary_text": "See how it's played",
-        "secondary_anchor": "#experience"
+        "secondary_anchor": "#experience",
+        "show_sticky_cta": true,
+        "sticky_label": "The Pro Pack",
+        "sticky_product_handle": "pro-pack",
+        "sticky_sub": "Free shipping on orders $50+",
+        "sticky_cta_text": "Shop Now"
       }
     },
     "ticker": {
@@ -76,7 +81,23 @@
         "p5",
         "p6"
       ],
-      "settings": {}
+      "settings": {
+        "scheme": "blue"
+      }
+    },
+    "halloween": {
+      "type": "popdarts-halloween-promo",
+      "settings": {
+        "image_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/halloween.png?v=1788488443",
+        "eyebrow": "Limited Edition · Halloween",
+        "heading": "Something Wicked",
+        "heading_accent": "This Way Throws.",
+        "body": "",
+        "cta_text": "Shop the Halloween Sale",
+        "cta_link": "/pages/pro-pack-halloween",
+        "end_date": "2026-11-01T00:00",
+        "note": "While supplies last"
+      }
     },
     "avatars": {
       "type": "popdarts-avatars",
@@ -290,6 +311,30 @@
         "t4"
       ],
       "settings": {}
+    },
+    "american": {
+      "type": "popdarts-american-classic",
+      "settings": {
+        "image_1_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_Sep_5_2026_04_41_54_AM.png?v=1788566249",
+        "image_1_alt": "Red, white and blue Popdarts on the hood of a vintage car outside a roadside café.",
+        "image_2_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_Sep_5_2026_05_05_07_AM.png?v=1788567026\\",
+        "badge": "Limited colorway",
+        "eyebrow": "New colorway",
+        "heading": "The American",
+        "heading_accent": "Classic.",
+        "tagline": "Red, white and blue. Built for the tailgate.",
+        "body": "The colorway of the New American Classic Game — same tournament-weight darts, dressed for game day.",
+        "spec_1": "",
+        "spec_2": "",
+        "spec_3": "",
+        "product": "popdarts-pro-pack-usa-slightly-used-returned",
+        "product_handle": "american-classic",
+        "fallback_price": "$39.99",
+        "fallback_price_was": "",
+        "cta_text": "Shop the American Classic",
+        "cta_link": "",
+        "note": "Free shipping over $50 · 30-day returns"
+      }
     },
     "experience": {
       "type": "popdarts-experience",
@@ -752,41 +797,6 @@
         "body": "You've seen the shot. You know the rules. The only thing left is the throw.",
         "cta_text": "Get Your Pro Pack",
         "cta_link": ""
-      }
-    },
-    "halloween": {
-      "type": "popdarts-halloween-promo",
-      "settings": {
-        "image_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/halloween.png?v=1788488443",
-        "eyebrow": "Limited Edition · Halloween",
-        "heading": "Something Wicked",
-        "heading_accent": "This Way Throws.",
-        "body": "",
-        "cta_text": "Shop the Halloween Sale",
-        "cta_link": "/pages/pro-pack-halloween",
-        "note": "While supplies last",
-        "end_date": "2026-11-01T00:00"
-      }
-    },
-    "american": {
-      "type": "popdarts-american-classic",
-      "settings": {
-        "image_1_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_Sep_5_2026_04_41_54_AM.png?v=1788566249",
-        "image_2_url": "",
-        "image_1_alt": "Red, white and blue Popdarts on the hood of a vintage car outside a roadside café.",
-        "badge": "Limited colorway",
-        "eyebrow": "New colorway",
-        "heading": "The American",
-        "heading_accent": "Classic.",
-        "tagline": "Red, white and blue. Built for the tailgate.",
-        "body": "The colorway of the New American Classic Game — same tournament-weight darts, dressed for game day.",
-        "spec_1": "6 Pro Popdarts",
-        "spec_2": "Pro Target Marker",
-        "spec_3": "Carry bag + rules",
-        "product_handle": "american-classic",
-        "fallback_price": "$39.99",
-        "cta_text": "Shop the American Classic",
-        "note": "Free shipping over $50 · 30-day returns"
       }
     }
   },
