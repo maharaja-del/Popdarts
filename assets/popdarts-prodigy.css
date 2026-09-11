@@ -2145,6 +2145,52 @@
 }
 
 /* ============================================================
+   DARK FOOTER — Halloween page only (templates/page.pro-pack-halloween.json).
+   The theme's shared footer-group renders on every page; nothing here
+   touches that file or its section settings, so every other page keeps
+   its normal light footer. `body.pro-pack-halloween` is the template
+   suffix class Shopify puts on <body> (layout/theme.liquid, `{{
+   template.suffix }}`), so this is a pure CSS reskin scoped to one page.
+
+   Values below are hand-copied from the theme's built-in "scheme-inverse"
+   color scheme (config/settings_data.json) — the same numbers
+   snippets/css-variables.liquid would generate for that scheme — so the
+   footer reads as an existing dark theme scheme, not a one-off hack.
+   Every element in footer.liquid is styled through these custom
+   properties, so overriding them here re-themes borders, links,
+   buttons, form fields and socials together. --color-button-before and
+   the two --color-foreground-lighten-* values use Liquid filters
+   (color_lighten / color_mix) that can't run in a stylesheet, so
+   those three are eyeballed approximations of the same output — fine,
+   since they only affect a button hover-fill and two subtle dividers.
+   ============================================================ */
+body.pro-pack-halloween .footer {
+  --color-background: 10, 10, 10;
+  --color-secondary-background: 10, 10, 10;
+  --color-primary: 214, 58, 47;
+  --color-text-heading: 253, 253, 253;
+  --color-foreground: 253, 253, 253;
+  --color-border: 255, 255, 255;
+  --color-button: 253, 253, 253;
+  --color-button-text: 10, 10, 10;
+  --color-secondary-button: 253, 253, 253;
+  --color-secondary-button-border: 230, 230, 230;
+  --color-secondary-button-text: 10, 10, 10;
+  --color-button-hover-background: 10, 10, 10;
+  --color-button-hover-text: 255, 255, 255;
+  --color-button-before: #2e2e2e; /* approximates color_lighten(#0a0a0a, 20) */
+  --color-field: 253, 253, 253;
+  --color-field-text: 10, 10, 10;
+  --color-link: 253, 253, 253;
+  --color-link-hover: 253, 253, 253;
+  --color-product-price-sale: 214, 58, 47;
+  --color-foreground-lighten-60: #6b6b6b; /* approximates color_mix(bg, text, 40%) */
+  --color-foreground-lighten-19: #cfcfcf; /* approximates color_mix(bg, text, 81%) */
+  color: rgb(var(--color-foreground));
+  background-color: rgb(var(--color-background));
+}
+
+/* ============================================================
    MOBILE EXPERIENCE — phone-specific behaviour for the Prodigy page
    ============================================================ */
 
