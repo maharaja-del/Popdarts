@@ -2420,6 +2420,21 @@ body.pro-pack-halloween .footer {
 /* ---- HERO ---- */
 .hwp-hero { background: var(--hwp-bg); }
 .hwp-hero .hwp-hero__bg { object-position: 62% 55%; }
+/* Full, even darken over the whole photo — below the text, above the
+   image. The existing scrim/light/flash below are directional/decorative
+   effects layered on TOP of this; they were never meant to carry
+   readability on their own, and any part of the photo they don't
+   reach (bright sky, a lit window) stayed too bright for the text
+   over it. This flat layer guarantees the whole frame gets darker,
+   everywhere, regardless of what's in the photo. Opacity is a section
+   setting (Background → Darkening overlay opacity). */
+.hwp-hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-color: #06050a;
+  pointer-events: none;
+}
 .hwp-hero__scrim {
   position: absolute;
   inset: 0;

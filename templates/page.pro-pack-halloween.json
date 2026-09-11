@@ -24,7 +24,8 @@
         "trust_3": "No restocks after Halloween",
         "show_sticky": true,
         "sticky_label": "Halloween Pro Pack",
-        "sticky_cta_text": "Add to cart"
+        "sticky_cta_text": "Add to cart",
+        "overlay_opacity": 55
       }
     },
     "ticker": {

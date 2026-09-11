@@ -24,6 +24,7 @@
   <div class="hero__media" aria-hidden="true">
     <img class="hero__bg hero__bg--single hwp-hero__bg" loading="eager" fetchpriority="high" decoding="async" alt=""
       src="{{ bg_src }}"{% if bg_srcset != blank %} srcset="{{ bg_srcset }}" sizes="100vw"{% endif %}>
+    <div class="hwp-hero__overlay" style="opacity: {{ section.settings.overlay_opacity | default: 55 }}%;"></div>
     <div class="hwp-hero__scrim"></div>
     <div class="hwp-hero__light"></div>
     <div class="hwp-hero__flash"></div>
@@ -102,6 +103,7 @@
     { "type": "header", "content": "Background" },
     { "type": "image_picker", "id": "image", "label": "Background image" },
     { "type": "url", "id": "image_url", "label": "Background image URL", "info": "Used if the image above is empty." },
+    { "type": "range", "id": "overlay_opacity", "label": "Darkening overlay opacity", "info": "A full, even dark layer over the whole photo, under the text, so the headline reads clearly everywhere — not just where the directional scrim already darkens it.", "min": 0, "max": 90, "step": 5, "unit": "%", "default": 55 },
     { "type": "header", "content": "Countdown pill" },
     { "type": "text", "id": "pill_text", "label": "Pill text", "default": "Vanishes in" },
     { "type": "text", "id": "deadline", "label": "Deadline (date/time)", "info": "e.g. 2026-10-31T23:59:00-04:00. Leave empty for a static pill.", "default": "2026-10-31T23:59:00-04:00" },
