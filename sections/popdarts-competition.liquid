@@ -19,8 +19,10 @@
               <button class="slide__play" type="button" data-slide-playbtn aria-label="Play video">▶</button>
             </article>
           {%- elsif block.type == 'photo' -%}
-            <article class="slide slide--story slide--photo" {{ block.shopify_attributes }}>
-              <img class="slide__media" src="{% if block.settings.image %}{{ block.settings.image | image_url: width: 800 }}{% elsif block.settings.fallback_url != blank %}{{ block.settings.fallback_url }}{% else %}{{ block.settings.asset_filename | asset_url }}{% endif %}" alt="{{ block.settings.label | escape }}" loading="lazy">
+            {%- assign is_landscape = false -%}
+            {%- if block.settings.orientation == 'landscape' -%}{%- assign is_landscape = true -%}{%- endif -%}
+            <article class="slide slide--photo{% if is_landscape %} slide--wide{% else %} slide--story{% endif %}" {{ block.shopify_attributes }}>
+              <img class="slide__media" src="{% if block.settings.image %}{{ block.settings.image | image_url: width: 1200 }}{% elsif block.settings.fallback_url != blank %}{{ block.settings.fallback_url }}{% else %}{{ block.settings.asset_filename | asset_url }}{% endif %}" alt="{{ block.settings.label | escape }}" loading="lazy">
             </article>
           {%- endif -%}
         {%- endfor -%}
@@ -125,6 +127,7 @@
         { "type": "image_picker", "id": "image", "label": "Image" },
         { "type": "url", "id": "fallback_url", "label": "Fallback image URL (used if no image chosen)" },
         { "type": "text", "id": "asset_filename", "label": "Bundled theme asset filename", "info": "Used only if Image and Fallback URL are both empty, e.g. pd-marquee-example.jpg" },
+        { "type": "select", "id": "orientation", "label": "Photo orientation", "info": "Landscape photos get a wider, shorter card so nothing gets cropped.", "options": [ { "value": "portrait", "label": "Portrait / square (default)" }, { "value": "landscape", "label": "Landscape" } ], "default": "portrait" },
         { "type": "text", "id": "label", "label": "Accessible label", "default": "A photo from a Popdarts match." }
       ]
     },

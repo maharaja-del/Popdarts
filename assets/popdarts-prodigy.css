@@ -1059,6 +1059,11 @@
 }
 
 .slide--story { aspect-ratio: 9 / 16; }
+/* Real event photography (broadcast desk, tournament floor, crowd) comes
+   in as 16:9 stills — force-cropping those into the 9:16 story slides
+   above would cut off exactly the wide shots that make them work, so
+   landscape photo blocks get their own wider, shorter card instead. */
+.slide--wide { aspect-ratio: 16 / 9; width: min(560px, 86vw); }
 
 .slide--stat {
   display: flex;

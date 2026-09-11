@@ -542,6 +542,102 @@
             "quote": "Ordered on a Tuesday, throwing by Wednesday. Shipping was faster than I expected.",
             "reviewer": "Verified Buyer"
           }
+        },
+        "espn1": {
+          "type": "photo",
+          "settings": {
+            "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/PD_ESPN_2025-34.jpg?v=1789169378",
+            "label": "Live from the ESPN broadcast desk.",
+            "orientation": "landscape"
+          }
+        },
+        "nightcrowd": {
+          "type": "photo",
+          "settings": {
+            "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Copy_of_Still_2026-08-28_174415_1.64.1.jpg?v=1789169389",
+            "label": "Lights out and darts in the air.",
+            "orientation": "landscape"
+          }
+        },
+        "trickwall": {
+          "type": "photo",
+          "settings": {
+            "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Copy_of_Still_2026-08-28_174415_2.89.1.jpg?v=1789169389",
+            "label": "A trick shot off the glass wall.",
+            "orientation": "landscape"
+          }
+        },
+        "familynight": {
+          "type": "photo",
+          "settings": {
+            "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Copy_of_Still_2026-08-28_174415_1.17.1.jpg?v=1789169388",
+            "label": "Family night at the Popdarts arena.",
+            "orientation": "landscape"
+          }
+        },
+        "lineup": {
+          "type": "photo",
+          "settings": {
+            "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Copy_of_Still_2026-08-28_174415_1.44.1.jpg?v=1789169388",
+            "label": "Player introductions before the match.",
+            "orientation": "landscape"
+          }
+        },
+        "trophyhoist": {
+          "type": "photo",
+          "settings": {
+            "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Copy_of_Still_2026-08-28_174415_2.37.3.jpg?v=1789169388",
+            "label": "Hoisting the championship trophy.",
+            "orientation": "landscape"
+          }
+        },
+        "fistbump": {
+          "type": "photo",
+          "settings": {
+            "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Copy_of_Still_2026-08-28_174415_2.197.1.jpg?v=1789169386",
+            "label": "A fist bump after the match.",
+            "orientation": "landscape"
+          }
+        },
+        "release": {
+          "type": "photo",
+          "settings": {
+            "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Copy_of_Still_2026-08-28_174415_1.219.1.jpg?v=1789169385",
+            "label": "Dialing in the release.",
+            "orientation": "landscape"
+          }
+        },
+        "teamsline": {
+          "type": "photo",
+          "settings": {
+            "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/PD_ESPN_2025-13.jpg?v=1789169378",
+            "label": "The APL lineup takes the stage.",
+            "orientation": "landscape"
+          }
+        },
+        "teamphoto": {
+          "type": "photo",
+          "settings": {
+            "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/PD_ESPN_2025-36.jpg?v=1789169378",
+            "label": "Team photo after the championship.",
+            "orientation": "landscape"
+          }
+        },
+        "settarget": {
+          "type": "photo",
+          "settings": {
+            "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/PD_ESPN_2025-25.jpg?v=1789169378",
+            "label": "Setting the target before the throw.",
+            "orientation": "landscape"
+          }
+        },
+        "espninterview": {
+          "type": "photo",
+          "settings": {
+            "fallback_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/PD_ESPN_2025-5.jpg?v=1789169378",
+            "label": "An ESPN interview after the win.",
+            "orientation": "landscape"
+          }
         }
       },
       "block_order": [
@@ -564,7 +660,19 @@
         "review5",
         "review6",
         "review7",
-        "review8"
+        "review8",
+        "espn1",
+        "nightcrowd",
+        "trickwall",
+        "familynight",
+        "lineup",
+        "trophyhoist",
+        "fistbump",
+        "release",
+        "teamsline",
+        "teamphoto",
+        "settarget",
+        "espninterview"
       ],
       "settings": {
         "heading_part1": "Over 1 Billion Views.",
