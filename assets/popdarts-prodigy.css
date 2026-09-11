@@ -2102,7 +2102,7 @@
   margin: 0 0 18px;
 }
 .amc .amc__body { font-size: clamp(15px, 1.5vw, 18px); line-height: 1.55; color: rgba(10, 12, 16, 0.64); max-width: 40ch; margin: 0 0 22px; }
-.amc__specs { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 26px; }
+.amc .amc__specs { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 26px; }
 .amc__specs li {
   font-family: var(--font-mono);
   font-size: 12px;
@@ -2326,9 +2326,9 @@
 .pd-page .hwp-btn.is-busy { opacity: 0.75; pointer-events: none; }
 .pd-page .hwp-btn.is-done { background: var(--hwp-green) !important; }
 
-.hwp-micro { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: rgba(253, 253, 253, 0.5); margin: 14px 0 0; }
+.hwp .hwp-micro, .hwp-hero .hwp-micro { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: rgba(253, 253, 253, 0.5); margin: 16px 0 0; }
 
-.hwp-checks { display: flex; flex-direction: column; gap: 10px; margin: 0 0 22px; }
+.hwp .hwp-checks { display: flex; flex-direction: column; gap: 10px; margin: 0 0 24px; }
 .hwp-checks li { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; color: rgba(253, 253, 253, 0.85); }
 .hwp-checks li::before {
   content: "✓";
@@ -2344,7 +2344,7 @@
   font-weight: 900;
 }
 
-.hwp-cwchips { display: flex; gap: 10px; flex-wrap: wrap; margin: 0 0 24px; }
+.hwp .hwp-cwchips { display: flex; gap: 10px; flex-wrap: wrap; margin: 0 0 26px; }
 .hwp-cwchip {
   display: inline-flex;
   align-items: center;
@@ -2423,7 +2423,7 @@
   animation: hero-shimmer 7s ease-in-out infinite;
 }
 .hwp-hero .hero__sub { color: rgba(253, 253, 253, 0.85); }
-.hwp-trust {
+.hwp-hero .hwp-trust {
   display: flex;
   flex-wrap: wrap;
   gap: 8px 22px;
@@ -2673,6 +2673,7 @@
 .hwp .hwp-final__inner h2 { font-size: clamp(36px, 6.4vw, 88px); margin: 0 0 16px; max-width: 14ch; }
 .hwp .hwp-final__body { font-size: clamp(16px, 1.8vw, 20px); color: rgba(253, 253, 253, 0.75); margin: 0 0 30px; max-width: 42ch; }
 .hwp-final__actions { display: flex; justify-content: center; }
+.hwp .hwp-final__inner .hwp-micro { margin-top: 18px; }
 
 /* ---- responsive ---- */
 @media (prefers-reduced-motion: reduce) {
