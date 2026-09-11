@@ -1,0 +1,12 @@
+{
+  "layout": "none",
+  "sections": {
+    "main": {
+      "type": "prodigy-replo",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

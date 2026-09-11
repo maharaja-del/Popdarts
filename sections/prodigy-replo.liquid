@@ -1,0 +1,754 @@
+{%- comment -%}
+  ============================================================
+  PRODIGY REPLICA — static, 1:1 snapshot of templates/page.popdarts-
+  prodigy.json as it currently renders (2026), baked into ONE section
+  with no schema settings or blocks. Every value that used to be a
+  customizer setting is now a hardcoded Liquid variable below each
+  section's comment header; block loops are unrolled into literal
+  repeated markup. The only things still resolved live are real
+  Shopify objects (product price/compare-at/image/url via
+  all_products[handle]) — hardcoding those as static text would show
+  customers stale prices, so they stay dynamic on purpose.
+
+  Excluded on purpose: the "experience", "why" and "products2" sections
+  are currently DISABLED on the live page, so they render nothing there
+  — this replica matches what actually shows, not what merely exists
+  in the template file.
+
+  Known-as-is quirks carried over unchanged (present on the live page
+  today, not introduced here):
+    - American Classic's second photo URL has a stray trailing
+      backslash in its configured value, which breaks that one image.
+    - American Classic's "american-classic" product handle doesn't
+      match a real product, so its price renders blank rather than
+      falling back to the configured fallback price (an existing
+      Liquid/data quirk, reproduced faithfully here).
+
+  This section renders no header or footer of its own — sections never
+  do. To get a page with NO site header/footer at all, assign a page to
+  a template with "layout": "none" (see templates/page.prodigy-replo.json)
+  and give that template only this one section.
+  ============================================================
+{%- endcomment -%}
+
+{% render 'popdarts-assets' %}
+
+{%- comment -%} ============ HERO ============ {%- endcomment -%}
+{%- liquid
+  assign hero_lead = 'Become the'
+  assign hero_word1 = 'Popdarts'
+  assign hero_word2 = 'Champion.'
+  assign hero_sub = 'Join The New American Classic Game that has taken over ESPN and gotten over a BILLION social media views.'
+  assign hero_cta_text = 'Get Your Pro Pack'
+  assign hero_cta_link = '/products/pro-pack'
+  assign hero_secondary_text = "See how it's played"
+  assign hero_secondary_anchor = '#experience'
+  assign hero_bg1 = 'https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_13_08_2026_10_29_35_1.png?v=1786659640'
+  assign hero_bg2 = 'https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_13_08_2026_10_18_43_1.png?v=1786659640'
+  assign hero_bg3 = 'https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_13_08_2026_10_19_07_1.png?v=1786659641'
+  assign hero_sticky_label = 'The Pro Pack'
+  assign hero_sticky_handle = 'pro-pack'
+  assign hero_sticky_sub = 'Free shipping on orders $50+'
+  assign hero_sticky_cta_text = 'Shop Now'
+  assign hero_sticky_product = all_products[hero_sticky_handle]
+-%}
+<section class="pd-page hero" id="hero-{{ section.id }}" aria-label="Introduction">
+  <div class="hero__media" aria-hidden="true">
+    <img class="hero__bg hero__bg--1" loading="eager" fetchpriority="high" decoding="async" alt=""
+      src="{{ hero_bg1 }}&width=2000"
+      srcset="{{ hero_bg1 }}&width=800 800w, {{ hero_bg1 }}&width=1200 1200w, {{ hero_bg1 }}&width=1600 1600w, {{ hero_bg1 }}&width=2000 2000w"
+      sizes="100vw">
+    <img class="hero__bg hero__bg--2" loading="lazy" decoding="async" alt=""
+      src="{{ hero_bg2 }}&width=2000"
+      srcset="{{ hero_bg2 }}&width=800 800w, {{ hero_bg2 }}&width=1200 1200w, {{ hero_bg2 }}&width=1600 1600w, {{ hero_bg2 }}&width=2000 2000w"
+      sizes="100vw">
+    <img class="hero__bg hero__bg--3" loading="lazy" decoding="async" alt=""
+      src="{{ hero_bg3 }}&width=2000"
+      srcset="{{ hero_bg3 }}&width=800 800w, {{ hero_bg3 }}&width=1200 1200w, {{ hero_bg3 }}&width=1600 1600w, {{ hero_bg3 }}&width=2000 2000w"
+      sizes="100vw">
+    <div class="hero__scrim"></div>
+    <div class="hero__vignette"></div>
+  </div>
+
+  <div class="pd-wrap">
+    <div class="hero__inner">
+      <h1 class="hero__title" style="color: #fdfdfd;">
+        <span class="hero__title-lead" style="color: rgba(253,253,253,0.78);">{{ hero_lead }}</span>
+        <span class="hero__title-main">
+          <span style="color: #fdfdfd;">{{ hero_word1 }}</span>
+          <span class="c-blue" style="color: #2b99ff;">{{ hero_word2 }}</span>
+        </span>
+      </h1>
+
+      <p class="hero__sub">{{ hero_sub }}</p>
+
+      <div class="hero__actions">
+        <a class="btn btn--primary btn--lg" href="{{ hero_cta_link }}">{{ hero_cta_text }}</a>
+        <a class="btn btn--ghost btn--lg hero__secondary" href="{{ hero_secondary_anchor }}">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M8 5.5v13l10-6.5z" fill="currentColor"/></svg>
+          <span>{{ hero_secondary_text }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="pd-sticky-cta" data-sticky-cta>
+    <div class="pd-sticky-cta__text">
+      <span class="pd-sticky-cta__label">{{ hero_sticky_label }}</span>
+      <span class="pd-sticky-cta__sub">
+        {%- if hero_sticky_product -%}
+          {{ hero_sticky_product.price | money }}
+          {%- if hero_sticky_product.compare_at_price > hero_sticky_product.price %} <s>{{ hero_sticky_product.compare_at_price | money }}</s>{% endif -%}
+        {%- else -%}
+          {{ hero_sticky_sub }}
+        {%- endif -%}
+      </span>
+    </div>
+    <a class="btn btn--primary" href="{% if hero_sticky_product %}{{ hero_sticky_product.url }}{% else %}/products/pro-pack{% endif %}">{{ hero_sticky_cta_text }}</a>
+  </div>
+</section>
+
+{%- comment -%} ============ TICKER ============ {%- endcomment -%}
+{%- liquid
+  assign ticker_phrases = 'The New American Classic Game|As Seen On ESPN|1 Billion+ Views|Play Anywhere. Anytime.|Ages 5 to 95|Free Shipping $50+' | split: '|'
+-%}
+<section class="pd-page home-ticker" id="home-ticker-{{ section.id }}">
+  <p class="pd-sr-only">{{ ticker_phrases | join: ', ' }}</p>
+  <div class="home-ticker__track" aria-hidden="true">
+    {%- for i in (1..2) -%}
+      {%- for phrase in ticker_phrases -%}
+        <span>{{ phrase }}</span><span class="dot" aria-hidden="true">&middot;</span>
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{%- comment -%} ============ HALLOWEEN PROMO ============ {%- endcomment -%}
+{%- liquid
+  assign hw_src = 'https://cdn.shopify.com/s/files/1/0471/3375/3505/files/halloween.png?v=1788488443'
+  assign hw_eyebrow = 'Limited Edition · Halloween'
+  assign hw_heading = 'Something Wicked'
+  assign hw_heading_accent = 'This Way Throws.'
+  assign hw_cta_text = 'Shop the Halloween Sale'
+  assign hw_cta_link = '/pages/pro-pack-halloween'
+  assign hw_end_date = '2026-11-01T00:00'
+  assign hw_note = 'While supplies last'
+-%}
+<section class="pd-page hw-promo" id="hw-promo-{{ section.id }}" aria-labelledby="hw-promo-title-{{ section.id }}">
+  <div class="pd-wrap">
+    <div class="hw-card is-auto" data-hw-card>
+      <a class="hw-card__media" href="{{ hw_cta_link }}" aria-hidden="true" tabindex="-1">
+        <img src="{{ hw_src }}" alt="" loading="lazy" decoding="async"
+          srcset="{{ hw_src }}&width=800 800w, {{ hw_src }}&width=1200 1200w, {{ hw_src }}&width=1600 1600w, {{ hw_src }}&width=2000 2000w"
+          sizes="(max-width: 1440px) 100vw, 1400px">
+        <span class="hw-card__vignette"></span>
+        <span class="hw-card__light"></span>
+        <span class="hw-card__flash"></span>
+      </a>
+
+      <div class="hw-card__bar">
+        <div class="hw-card__text">
+          <p class="hw-card__eyebrow">{{ hw_eyebrow }}</p>
+          <h2 id="hw-promo-title-{{ section.id }}" style="color: #fdfdfd !important;">
+            {{ hw_heading }} <span class="hw-card__accent">{{ hw_heading_accent }}</span>
+          </h2>
+        </div>
+        <div class="hw-card__cta">
+          <a class="btn btn--lg hw-card__btn" href="{{ hw_cta_link }}">{{ hw_cta_text }}</a>
+          <span class="hw-card__note" data-hw-countdown data-end="{{ hw_end_date }}" data-ended="{{ hw_note | escape }}">
+            <span>Sale ends in</span> <strong data-hw-countdown-value>—</strong>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ============ AVATARS ("Which shot is yours?") ============ {%- endcomment -%}
+<section class="pd-page avatars" id="avatars-{{ section.id }}" aria-labelledby="avatars-title-{{ section.id }}">
+  <div class="pd-wrap">
+    <div class="avatars__head">
+      <p class="avatars__eyebrow">Find Your Player</p>
+      <h2 id="avatars-title-{{ section.id }}" style="color: #0a0c10 !important;">
+        Which shot <span class="c-blue" style="color: #2b99ff;">is yours?</span>
+      </h2>
+      <p>For first shots. For clutch shots. For comeback shots. For everyone who makes the weekend happen.</p>
+    </div>
+
+    <p class="avatars__hint" aria-hidden="true">
+      <span>Swipe</span>
+      <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M4 12h14m0 0-5-5m5 5-5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </p>
+
+    <div class="avatars__grid">
+      {%- comment -%} ---- Card 01 · Rookie ---- {%- endcomment -%}
+      {%- liquid
+        assign p = all_products['rookie-pack']
+        assign cta_href = '/products/rookie-pack'
+      -%}
+      <article class="avatar-card avatar-card--blue">
+        <div class="avatar-card__media" aria-hidden="true">
+          <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Popdarts_Avatars3_1_10a9fa55-2c09-471a-93e4-452ed25e60a2.png?v=1788485168" alt="" loading="lazy" decoding="async"
+            srcset="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Popdarts_Avatars3_1_10a9fa55-2c09-471a-93e4-452ed25e60a2.png?v=1788485168&width=700 700w, https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Popdarts_Avatars3_1_10a9fa55-2c09-471a-93e4-452ed25e60a2.png?v=1788485168&width=1000 1000w, https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Popdarts_Avatars3_1_10a9fa55-2c09-471a-93e4-452ed25e60a2.png?v=1788485168&width=1400 1400w"
+            sizes="(max-width: 600px) 82vw, (max-width: 1100px) 50vw, 25vw">
+          <div class="avatar-card__scrim"></div>
+          <div class="avatar-card__glow"></div>
+        </div>
+        <div class="avatar-card__top">
+          <span class="avatar-card__badge">The Rookie Pack</span>
+          <span class="avatar-card__num" aria-hidden="true">01</span>
+        </div>
+        <div class="avatar-card__inner">
+          <h3 style="color: #fdfdfd !important;">
+            <span class="avatar-card__line" data-fit-line>Small Players.</span>
+            <br>
+            <span class="avatar-card__line avatar-card__accent" data-fit-line>Big Darts.</span>
+          </h3>
+          <div class="avatar-card__foot">
+            <div class="avatar-card__product">
+              <span class="avatar-card__thumb"><img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Rookie-PDP-1-BG.png" alt="" loading="lazy" width="104" height="104"></span>
+              <span class="avatar-card__meta">
+                <span class="avatar-card__price">
+                  {%- if p -%}
+                    <span class="avatar-card__price-now">{{ p.price | money }}</span>
+                    {%- if p.compare_at_price > p.price -%}<span class="avatar-card__price-was">{{ p.compare_at_price | money }}</span>{%- endif -%}
+                  {%- else -%}
+                    <span class="avatar-card__price-now">$24.99</span>
+                  {%- endif -%}
+                </span>
+              </span>
+            </div>
+            <a class="btn btn--primary" href="{{ cta_href }}">Shop the Rookie Pack</a>
+          </div>
+        </div>
+      </article>
+
+      {%- comment -%} ---- Card 02 · Contender ---- {%- endcomment -%}
+      {%- liquid
+        assign p = all_products['pro-pack']
+        assign cta_href = '/products/pro-pack'
+      -%}
+      <article class="avatar-card avatar-card--green">
+        <div class="avatar-card__media" aria-hidden="true">
+          <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Popdarts_Avatars1_1.png?v=1788484242" alt="" loading="lazy" decoding="async"
+            srcset="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Popdarts_Avatars1_1.png?v=1788484242&width=700 700w, https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Popdarts_Avatars1_1.png?v=1788484242&width=1000 1000w, https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Popdarts_Avatars1_1.png?v=1788484242&width=1400 1400w"
+            sizes="(max-width: 600px) 82vw, (max-width: 1100px) 50vw, 25vw">
+          <div class="avatar-card__scrim"></div>
+          <div class="avatar-card__glow"></div>
+        </div>
+        <div class="avatar-card__top">
+          <span class="avatar-card__badge">The Pro Pack</span>
+          <span class="avatar-card__num" aria-hidden="true">02</span>
+        </div>
+        <div class="avatar-card__inner">
+          <h3 style="color: #fdfdfd !important;">
+            <span class="avatar-card__line" data-fit-line>Glory Days</span>
+            <br>
+            <span class="avatar-card__line avatar-card__accent" data-fit-line>Ahead.</span>
+          </h3>
+          <div class="avatar-card__foot">
+            <div class="avatar-card__product">
+              <span class="avatar-card__thumb"><img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/PRO_PDP_1-USA_9a3cdf5f-4cef-499a-8478-94bd471750b5.jpg" alt="" loading="lazy" width="104" height="104"></span>
+              <span class="avatar-card__meta">
+                <span class="avatar-card__price">
+                  {%- if p -%}
+                    <span class="avatar-card__price-now">{{ p.price | money }}</span>
+                    {%- if p.compare_at_price > p.price -%}<span class="avatar-card__price-was">{{ p.compare_at_price | money }}</span>{%- endif -%}
+                  {%- else -%}
+                    <span class="avatar-card__price-now">$31.99</span><span class="avatar-card__price-was">$39.99</span>
+                  {%- endif -%}
+                </span>
+              </span>
+            </div>
+            <a class="btn btn--green" href="{{ cta_href }}">Shop the Pro Pack</a>
+          </div>
+        </div>
+      </article>
+
+      {%- comment -%} ---- Card 03 · Comeback (Elite) ---- {%- endcomment -%}
+      {%- liquid
+        assign p = all_products['elite-full-pack']
+        assign cta_href = '/products/elite-full-pack'
+      -%}
+      <article class="avatar-card avatar-card--blue">
+        <div class="avatar-card__media" aria-hidden="true">
+          <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_Sep_4_2026_06_46_30_AM.png?v=1788486373" alt="" loading="lazy" decoding="async"
+            srcset="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_Sep_4_2026_06_46_30_AM.png?v=1788486373&width=700 700w, https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_Sep_4_2026_06_46_30_AM.png?v=1788486373&width=1000 1000w, https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_Sep_4_2026_06_46_30_AM.png?v=1788486373&width=1400 1400w"
+            sizes="(max-width: 600px) 82vw, (max-width: 1100px) 50vw, 25vw">
+          <div class="avatar-card__scrim"></div>
+          <div class="avatar-card__glow"></div>
+        </div>
+        <div class="avatar-card__top">
+          <span class="avatar-card__badge">The Elite Pack</span>
+          <span class="avatar-card__num" aria-hidden="true">03</span>
+        </div>
+        <div class="avatar-card__inner">
+          <h3 style="color: #fdfdfd !important;">
+            <span class="avatar-card__line" data-fit-line>Popdarts</span>
+            <br>
+            <span class="avatar-card__line avatar-card__accent" data-fit-line>Prodigy</span>
+          </h3>
+          <div class="avatar-card__foot">
+            <div class="avatar-card__product">
+              <span class="avatar-card__thumb"><img src="{{ 'pd-why-target-macro.jpg' | asset_url }}" alt="" loading="lazy" width="104" height="104"></span>
+              <span class="avatar-card__meta">
+                <span class="avatar-card__price">
+                  {%- if p -%}
+                    <span class="avatar-card__price-now">{{ p.price | money }}</span>
+                    {%- if p.compare_at_price > p.price -%}<span class="avatar-card__price-was">{{ p.compare_at_price | money }}</span>{%- endif -%}
+                  {%- else -%}
+                    <span class="avatar-card__price-now">$44.99</span>
+                  {%- endif -%}
+                </span>
+              </span>
+            </div>
+            <a class="btn btn--primary" href="{{ cta_href }}">Shop the Elite Pack</a>
+          </div>
+        </div>
+      </article>
+
+      {%- comment -%} ---- Card 04 · Host (Swaptop) ---- {%- endcomment -%}
+      {%- liquid
+        assign p = all_products['swaptop-kit']
+        assign cta_href = '/products/swaptop-kit'
+      -%}
+      <article class="avatar-card avatar-card--green">
+        <div class="avatar-card__media" aria-hidden="true">
+          <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Popdarts_The_Host.png?v=1788484073" alt="" loading="lazy" decoding="async"
+            srcset="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Popdarts_The_Host.png?v=1788484073&width=700 700w, https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Popdarts_The_Host.png?v=1788484073&width=1000 1000w, https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Popdarts_The_Host.png?v=1788484073&width=1400 1400w"
+            sizes="(max-width: 600px) 82vw, (max-width: 1100px) 50vw, 25vw">
+          <div class="avatar-card__scrim"></div>
+          <div class="avatar-card__glow"></div>
+        </div>
+        <div class="avatar-card__top">
+          <span class="avatar-card__badge">Swaptop™ Kit</span>
+          <span class="avatar-card__num" aria-hidden="true">04</span>
+        </div>
+        <div class="avatar-card__inner">
+          <h3 style="color: #fdfdfd !important;">
+            <span class="avatar-card__line" data-fit-line>The Game Plan</span>
+            <br>
+            <span class="avatar-card__line avatar-card__accent" data-fit-line>For People Who Make Plans</span>
+          </h3>
+          <div class="avatar-card__foot">
+            <div class="avatar-card__product">
+              {%- if p and p.featured_image -%}
+                <span class="avatar-card__thumb"><img src="{{ p.featured_image | image_url: width: 240 }}" alt="" loading="lazy" width="104" height="104"></span>
+              {%- endif -%}
+              <span class="avatar-card__meta">
+                <span class="avatar-card__price">
+                  {%- if p -%}
+                    <span class="avatar-card__price-now">{{ p.price | money }}</span>
+                    {%- if p.compare_at_price > p.price -%}<span class="avatar-card__price-was">{{ p.compare_at_price | money }}</span>{%- endif -%}
+                  {%- else -%}
+                    <span class="avatar-card__price-now">$159.99</span><span class="avatar-card__price-was">$179.99</span>
+                  {%- endif -%}
+                </span>
+              </span>
+            </div>
+            <a class="btn btn--green" href="{{ cta_href }}">Shop the Swaptop Kit</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ============ SELECT YOUR PACK ============ {%- endcomment -%}
+<section class="pd-page products" id="select-pack-{{ section.id }}" aria-labelledby="products-title-{{ section.id }}">
+  <div class="pd-wrap">
+    <div class="products__head">
+      <p class="products__eyebrow">Select Your Pack</p>
+      <h2 id="products-title-{{ section.id }}" style="color: #0a0c10 !important;">Rookie. Pro. Elite.</h2>
+      <p>Every pack gets you on the board. Elite is where APL competitors start. Want the Swaptop board instead? Keep scrolling.</p>
+    </div>
+
+    <div class="products__grid">
+      {%- comment -%} ---- Rookie ---- {%- endcomment -%}
+      {%- assign p = all_products['rookie-pack'] -%}
+      <article class="product-card product-card--rookie">
+        <div class="product-card__media">
+          {%- if p and p.featured_image -%}
+            <img src="{{ p.featured_image | image_url: width: 800 }}" alt="{{ p.featured_image.alt | default: p.title | escape }}" loading="lazy" width="800" height="800">
+          {%- else -%}
+            <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Rookie-PDP-1-BG.png" alt="Rookie Pack" loading="lazy">
+          {%- endif -%}
+        </div>
+        <div class="product-card__body">
+          <span class="product-card__badge">Rookie Pack</span>
+          <h3 class="product-card__title" style="color: #0a0c10 !important;">{% if p %}{{ p.title }}{% else %}Rookie Pack{% endif %}</h3>
+          <p class="product-card__ages">Ages 2–14</p>
+          <div class="product-card__price">
+            {%- if p -%}
+              <span class="product-card__price-now">{{ p.price | money }}</span>
+              {%- if p.compare_at_price > p.price -%}<span class="product-card__price-was">{{ p.compare_at_price | money }}</span>{%- endif -%}
+            {%- else -%}
+              <span class="product-card__price-now">$24.99</span>
+            {%- endif -%}
+          </div>
+          <a class="btn btn--primary product-card__cta" href="{% if p %}{{ p.url }}{% else %}/products/rookie-pack{% endif %}">Shop the Rookie Pack</a>
+        </div>
+      </article>
+
+      {%- comment -%} ---- Pro (featured) ---- {%- endcomment -%}
+      {%- assign p = all_products['pro-pack'] -%}
+      <article class="product-card product-card--pro product-card--featured">
+        <span class="product-card__featured">Most Popular</span>
+        <div class="product-card__media">
+          {%- if p and p.featured_image -%}
+            <img src="{{ p.featured_image | image_url: width: 800 }}" alt="{{ p.featured_image.alt | default: p.title | escape }}" loading="lazy" width="800" height="800">
+          {%- else -%}
+            <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/PRO_PDP_1-USA_9a3cdf5f-4cef-499a-8478-94bd471750b5.jpg" alt="Pro Pack" loading="lazy">
+          {%- endif -%}
+        </div>
+        <div class="product-card__body">
+          <span class="product-card__badge">Pro Pack</span>
+          <h3 class="product-card__title" style="color: #0a0c10 !important;">{% if p %}{{ p.title }}{% else %}Pro Pack{% endif %}</h3>
+          <p class="product-card__ages">Ages 8–55</p>
+          <div class="product-card__price">
+            {%- if p -%}
+              <span class="product-card__price-now">{{ p.price | money }}</span>
+              {%- if p.compare_at_price > p.price -%}<span class="product-card__price-was">{{ p.compare_at_price | money }}</span>{%- endif -%}
+            {%- else -%}
+              <span class="product-card__price-now">$31.99</span><span class="product-card__price-was">$39.99</span>
+            {%- endif -%}
+          </div>
+          <a class="btn btn--primary product-card__cta" href="{% if p %}{{ p.url }}{% else %}/products/pro-pack{% endif %}">Shop the Pro Pack</a>
+        </div>
+      </article>
+
+      {%- comment -%} ---- Elite ---- {%- endcomment -%}
+      {%- assign p = all_products['elite-full-pack'] -%}
+      <article class="product-card product-card--elite">
+        <div class="product-card__media">
+          {%- if p and p.featured_image -%}
+            <img src="{{ p.featured_image | image_url: width: 800 }}" alt="{{ p.featured_image.alt | default: p.title | escape }}" loading="lazy" width="800" height="800">
+          {%- else -%}
+            <img src="{{ 'pd-why-target-macro.jpg' | asset_url }}" alt="Elite Pack" loading="lazy">
+          {%- endif -%}
+        </div>
+        <div class="product-card__body">
+          <span class="product-card__badge">Elite Pack</span>
+          <h3 class="product-card__title" style="color: #0a0c10 !important;">{% if p %}{{ p.title }}{% else %}Elite Pack{% endif %}</h3>
+          <p class="product-card__ages">Tournament-weight · APL players</p>
+          <div class="product-card__price">
+            {%- if p -%}
+              <span class="product-card__price-now">{{ p.price | money }}</span>
+              {%- if p.compare_at_price > p.price -%}<span class="product-card__price-was">{{ p.compare_at_price | money }}</span>{%- endif -%}
+            {%- else -%}
+              <span class="product-card__price-now">$44.99</span>
+            {%- endif -%}
+          </div>
+          <a class="btn btn--primary product-card__cta" href="{% if p %}{{ p.url }}{% else %}/products/elite-full-pack{% endif %}">Shop the Elite Pack</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ============ TRUST BAR ============ {%- endcomment -%}
+<section class="pd-page home-trust" id="home-trust-{{ section.id }}" aria-label="Why shop with Popdarts">
+  <div class="pd-wrap home-trust__grid">
+    <div class="trust-item">
+      <span class="trust-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg></span>
+      <span><span class="trust-item__label">Live on ESPN</span><span class="trust-item__sub">The Popdarts Championship</span></span>
+    </div>
+    <div class="trust-item">
+      <span class="trust-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8.5" cy="8" r="3"/><circle cx="16" cy="9" r="2.4"/><path d="M2.5 20c0-3.6 2.7-6.2 6-6.2s6 2.6 6 6.2"/><path d="M14.7 14.2c2.6.3 4.5 2.6 4.8 5.8"/></svg></span>
+      <span><span class="trust-item__label">1B+ Social Views</span><span class="trust-item__sub">And counting</span></span>
+    </div>
+    <div class="trust-item">
+      <span class="trust-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="6" width="14" height="11" rx="1.5"/><path d="M15 10h4l3 3v4h-7z"/><circle cx="6" cy="19" r="1.8"/><circle cx="17.5" cy="19" r="1.8"/></svg></span>
+      <span><span class="trust-item__label">Ships Next Day</span><span class="trust-item__sub">Free on orders $50+</span></span>
+    </div>
+    <div class="trust-item">
+      <span class="trust-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 3v5h5"/></svg></span>
+      <span><span class="trust-item__label">Easy Returns</span><span class="trust-item__sub">30-day window</span></span>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ============ AMERICAN CLASSIC ============ {%- endcomment -%}
+{%- comment -%}
+  As-is quirk carried over: image_2's configured URL has a literal
+  trailing backslash before the query string ends, exactly as it's
+  set in the live customizer today — reproduced here, not fixed.
+{%- endcomment -%}
+{%- liquid
+  assign p = all_products['american-classic']
+  assign src_1 = 'https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_Sep_5_2026_04_41_54_AM.png?v=1788566249'
+  assign src_2 = 'https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_Sep_5_2026_05_05_07_AM.png?v=1788567026\'
+  assign cta_href = '/products/pro-pack'
+-%}
+<section class="pd-page amc" id="american-classic-{{ section.id }}" aria-labelledby="amc-title-{{ section.id }}">
+  <div class="pd-wrap amc__grid">
+    <div class="amc__media">
+      <div class="amc__photo amc__photo--main">
+        <img src="{{ src_1 }}" alt="Red, white and blue Popdarts on the hood of a vintage car outside a roadside café." loading="lazy" decoding="async"
+          srcset="{{ src_1 }}&width=700 700w, {{ src_1 }}&width=1000 1000w, {{ src_1 }}&width=1400 1400w"
+          sizes="(max-width: 900px) 92vw, 46vw">
+      </div>
+      <div class="amc__photo amc__photo--tile">
+        <img src="{{ src_2 }}" alt="" loading="lazy" decoding="async"
+          srcset="{{ src_2 }}&width=500 500w, {{ src_2 }}&width=900 900w"
+          sizes="(max-width: 900px) 42vw, 20vw">
+      </div>
+      <span class="amc__badge">Limited colorway</span>
+    </div>
+
+    <div class="amc__content">
+      <span class="amc__stripes" aria-hidden="true"><i></i><i></i><i></i></span>
+      <p class="amc__eyebrow">New colorway</p>
+      <h2 id="amc-title-{{ section.id }}" style="color: #0a0c10 !important;">
+        The American <span class="amc__accent">Classic.</span>
+      </h2>
+      <p class="amc__tagline">Red, white and blue. Built for the tailgate.</p>
+      <p class="amc__body">The colorway of the New American Classic Game — same tournament-weight darts, dressed for game day.</p>
+
+      <div class="amc__buy">
+        <span class="amc__price">
+          {%- if p -%}
+            <span class="amc__price-now">{{ p.price | money }}</span>
+            {%- if p.compare_at_price > p.price -%}<span class="amc__price-was">{{ p.compare_at_price | money }}</span>{%- endif -%}
+          {%- endif -%}
+        </span>
+        <a class="btn btn--primary btn--lg" href="{{ cta_href }}">Shop the American Classic</a>
+      </div>
+      <p class="amc__note">Free shipping over $50 · 30-day returns</p>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ============ GAMEPLAY + COMMUNITY (Competition) ============ {%- endcomment -%}
+<section class="pd-page competition" id="competition-{{ section.id }}" aria-labelledby="competition-title-{{ section.id }}">
+  <div class="pd-wrap pd-wrap--bleed">
+    <div class="pd-wrap">
+      <div class="competition__head">
+        <h2 id="competition-title-{{ section.id }}">
+          <span class="c-green" style="color: #17c440;">Over 1 Billion Views.</span><br>
+          <span class="c-red" style="color: #ff3f3f;">ESPN</span>
+          <span class="c-blue" style="color: #2b99ff;">Tournament.</span>
+        </h2>
+      </div>
+    </div>
+
+    <div class="slider" data-slider aria-roledescription="carousel" aria-label="Popdarts gameplay and community moments">
+      <div class="slider__track" data-slider-track tabindex="0" role="group" aria-label="Slides">
+        <article class="slide slide--story"><video class="slide__media" src="https://cdn.shopify.com/videos/c/o/v/95bbe2abdb884992a8241d2f4dc69f0f.mp4" muted loop playsinline preload="metadata" data-slide-video aria-label="The biggest steal of the round."></video><button class="slide__play" type="button" data-slide-playbtn aria-label="Play video">▶</button></article>
+        <article class="slide slide--story slide--photo"><img class="slide__media" src="{{ 'pd-marquee-give-kiss-sign.jpg' | asset_url }}" alt="A fan celebrating courtside." loading="lazy"></article>
+        <article class="slide slide--story"><video class="slide__media" src="https://cdn.shopify.com/videos/c/o/v/55983ee6e1554267aa8a6a644290022a.mp4" muted loop playsinline preload="metadata" data-slide-video aria-label="A player pulls off an unexpected win, broadcast live on ESPN."></video><button class="slide__play" type="button" data-slide-playbtn aria-label="Play video">▶</button></article>
+        <article class="slide slide--story slide--photo"><img class="slide__media" src="{{ 'pd-marquee-glowstick-fan.jpg' | asset_url }}" alt="A fan in the stands." loading="lazy"></article>
+        <article class="slide slide--story"><video class="slide__media" src="https://cdn.shopify.com/videos/c/o/v/b7eadc0e2ccf4158ab0b7e5e9036fde3.mp4" muted loop playsinline preload="metadata" data-slide-video aria-label="Confetti falls over the arena at the Popdarts Championship."></video><button class="slide__play" type="button" data-slide-playbtn aria-label="Play video">▶</button></article>
+        <article class="slide slide--story slide--photo"><img class="slide__media" src="{{ 'pd-marquee-facepaint-crowd.jpg' | asset_url }}" alt="The crowd at the Popdarts Championship." loading="lazy"></article>
+        <article class="slide slide--story"><video class="slide__media" src="https://cdn.shopify.com/videos/c/o/v/d0f3dd37a81e444a835ae51069650f36.mp4" muted loop playsinline preload="metadata" data-slide-video aria-label="A double doink finale moment at the Popdarts Championship."></video><button class="slide__play" type="button" data-slide-playbtn aria-label="Play video">▶</button></article>
+        <article class="slide slide--story slide--photo"><img class="slide__media" src="{{ 'pd-marquee-court-cheer.jpg' | asset_url }}" alt="Players celebrating on the court." loading="lazy"></article>
+        <article class="slide slide--story slide--photo"><img class="slide__media" src="{{ 'pd-marquee-players-greet.jpg' | asset_url }}" alt="Players greeting each other after a match." loading="lazy"></article>
+        <article class="slide slide--story slide--photo"><img class="slide__media" src="{{ 'pd-marquee-celebration.jpg' | asset_url }}" alt="A team celebrating a win." loading="lazy"></article>
+        <article class="slide slide--story slide--photo"><img class="slide__media" src="{{ 'pd-marquee-family-group.jpg' | asset_url }}" alt="A family at the Popdarts Championship." loading="lazy"></article>
+        <article class="slide slide--story slide--photo"><img class="slide__media" src="{{ 'pd-marquee-espn8-ocho.jpg' | asset_url }}" alt="Fans celebrating an ESPN8: The Ocho broadcast." loading="lazy"></article>
+        <article class="slide slide--wide slide--photo"><img class="slide__media" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/PD_ESPN_2025-34.jpg?v=1789169378" alt="Live from the ESPN broadcast desk." loading="lazy"></article>
+        <article class="slide slide--wide slide--photo"><img class="slide__media" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Copy_of_Still_2026-08-28_174415_1.64.1.jpg?v=1789169389" alt="Lights out and darts in the air." loading="lazy"></article>
+        <article class="slide slide--wide slide--photo"><img class="slide__media" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Copy_of_Still_2026-08-28_174415_2.89.1.jpg?v=1789169389" alt="A trick shot off the glass wall." loading="lazy"></article>
+        <article class="slide slide--wide slide--photo"><img class="slide__media" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Copy_of_Still_2026-08-28_174415_1.17.1.jpg?v=1789169388" alt="Family night at the Popdarts arena." loading="lazy"></article>
+        <article class="slide slide--wide slide--photo"><img class="slide__media" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Copy_of_Still_2026-08-28_174415_1.44.1.jpg?v=1789169388" alt="Player introductions before the match." loading="lazy"></article>
+        <article class="slide slide--wide slide--photo"><img class="slide__media" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Copy_of_Still_2026-08-28_174415_2.37.3.jpg?v=1789169388" alt="Hoisting the championship trophy." loading="lazy"></article>
+        <article class="slide slide--wide slide--photo"><img class="slide__media" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Copy_of_Still_2026-08-28_174415_2.197.1.jpg?v=1789169386" alt="A fist bump after the match." loading="lazy"></article>
+        <article class="slide slide--wide slide--photo"><img class="slide__media" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Copy_of_Still_2026-08-28_174415_1.219.1.jpg?v=1789169385" alt="Dialing in the release." loading="lazy"></article>
+        <article class="slide slide--wide slide--photo"><img class="slide__media" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/PD_ESPN_2025-13.jpg?v=1789169378" alt="The APL lineup takes the stage." loading="lazy"></article>
+        <article class="slide slide--wide slide--photo"><img class="slide__media" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/PD_ESPN_2025-36.jpg?v=1789169378" alt="Team photo after the championship." loading="lazy"></article>
+        <article class="slide slide--wide slide--photo"><img class="slide__media" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/PD_ESPN_2025-25.jpg?v=1789169378" alt="Setting the target before the throw." loading="lazy"></article>
+        <article class="slide slide--wide slide--photo"><img class="slide__media" src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/PD_ESPN_2025-5.jpg?v=1789169378" alt="An ESPN interview after the win." loading="lazy"></article>
+      </div>
+
+      <div class="slider__controls">
+        <button class="slider__arrow" type="button" data-slider-prev aria-label="Previous slide">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="slider__arrow" type="button" data-slider-next aria-label="Next slide">
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="pd-wrap competition__cta">
+      <a class="btn btn--primary btn--lg" href="/products/pro-pack">Get Your Pro Pack</a>
+    </div>
+
+    <div class="pd-wrap competition__reviews">
+      <p class="home-reviews__eyebrow">What Players Are Saying</p>
+      <div class="quote-carousel">
+        <div class="quote-slide">
+          <div class="quote-slide__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="quote-slide__text">&ldquo;First game in years that gets my teenagers off their phones. We play every weekend now.&rdquo;</p>
+          <p class="quote-slide__name">Verified Buyer</p>
+        </div>
+        <div class="quote-slide">
+          <div class="quote-slide__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="quote-slide__text">&ldquo;Bought the Pro Pack for a backyard party and it turned into a full tournament. Ten out of ten.&rdquo;</p>
+          <p class="quote-slide__name">Verified Buyer</p>
+        </div>
+        <div class="quote-slide">
+          <div class="quote-slide__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="quote-slide__text">&ldquo;Swaptop replaced three other games in our garage. Easiest setup of any yard game we own.&rdquo;</p>
+          <p class="quote-slide__name">Verified Buyer</p>
+        </div>
+        <div class="quote-slide">
+          <div class="quote-slide__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+          <p class="quote-slide__text">&ldquo;Kids picked it up in one throw, I'm still working on my aim. Great for all ages.&rdquo;</p>
+          <p class="quote-slide__name">Verified Buyer</p>
+        </div>
+        <div class="quote-slide">
+          <div class="quote-slide__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="quote-slide__text">&ldquo;Watched the Championship on ESPN and had a Pro Pack on my porch by the weekend.&rdquo;</p>
+          <p class="quote-slide__name">Verified Buyer</p>
+        </div>
+        <div class="quote-slide">
+          <div class="quote-slide__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="quote-slide__text">&ldquo;Cancellation scoring took two minutes to learn and now every family gathering turns into a bracket.&rdquo;</p>
+          <p class="quote-slide__name">Verified Buyer</p>
+        </div>
+        <div class="quote-slide">
+          <div class="quote-slide__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="quote-slide__text">&ldquo;The Elite Pack is legitimately tournament-weight. Big step up once you're hooked.&rdquo;</p>
+          <p class="quote-slide__name">Verified Buyer</p>
+        </div>
+        <div class="quote-slide">
+          <div class="quote-slide__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9734;</div>
+          <p class="quote-slide__text">&ldquo;Ordered on a Tuesday, throwing by Wednesday. Shipping was faster than I expected.&rdquo;</p>
+          <p class="quote-slide__name">Verified Buyer</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ============ CHAMPIONSHIP ============ {%- endcomment -%}
+{%- comment -%}
+  The live page scopes `a {margin: 30px 10px;}` to just this section
+  via Shopify's per-section custom_css. Reproduced here as inline
+  styles on the same two anchors instead, so it can't leak into the
+  rest of this merged, single-section page.
+{%- endcomment -%}
+{%- assign champ_bg = 'https://cdn.shopify.com/s/files/1/0471/3375/3505/files/ChatGPT_Image_13_08_2026_10_18_43_1.png?v=1786659640' -%}
+<section class="pd-page championship" id="championship-{{ section.id }}" aria-labelledby="championship-title-{{ section.id }}">
+  <div class="championship__media" aria-hidden="true">
+    <img src="{{ champ_bg }}&width=1920" alt="A packed arena crowd cheering at the Popdarts National Championship.">
+    <div class="championship__scrim"></div>
+    <div class="championship__overlay" style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 1; background-color: #000000; opacity: 0%; pointer-events: none;"></div>
+  </div>
+
+  <div class="pd-wrap">
+    <div class="championship__inner">
+      <p class="championship__eyebrow">
+        The Popdarts Championship · Presented by APL
+        <a class="championship__apl-link" href="https://iplayapl.com/pages/get-a-membership" style="margin: 30px 10px;">Join APL &rarr;</a>
+      </p>
+      <h2 id="championship-title-{{ section.id }}" style="color: #fdfdfd;">The whole arena is watching.</h2>
+      <p class="championship__body">What starts in your driveway can end in a sold-out arena, broadcast live on ESPN. This is the top of the game — and it started exactly where you're standing right now.</p>
+
+      <a class="btn btn--primary btn--lg" href="/products/elite-full-pack" style="margin: 30px 10px;">Get Your Elite Pack</a>
+
+      <p class="championship__stat">
+        <strong>1B+</strong> Social Views
+        &nbsp;·&nbsp; Live on ESPN
+      </p>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ============ SWAPTOP / THE HOST ============ {%- endcomment -%}
+{%- liquid
+  assign swap_a = 'https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Popdarts_The_Host.png?v=1788484073'
+  assign swap_b_product = all_products['swaptop-kit']
+  if swap_b_product and swap_b_product.featured_image
+    assign swap_b = swap_b_product.featured_image | image_url: width: 800
+  else
+    assign swap_b = 'pd-bento-family-group2.jpg' | asset_url
+  endif
+-%}
+<section class="pd-page swaptop" id="swaptop-{{ section.id }}" aria-labelledby="swaptop-title-{{ section.id }}">
+  <div class="pd-wrap swaptop__grid">
+    <div class="swaptop__content">
+      <p class="swaptop__eyebrow">Swaptop™ Kit</p>
+      <h2 id="swaptop-title-{{ section.id }}" style="color: #0a0c10 !important;">The Host.</h2>
+      <p class="swaptop__tagline">Be the life of the party.</p>
+      <p class="swaptop__body">One frame, endless games. Swaptop swaps game boards with a single clip-in frame — so game night never has to stop.</p>
+
+      <div class="swaptop__price">
+        <span class="swaptop__price-now">$159.99</span>
+        <span class="swaptop__price-was">$179.99</span>
+      </div>
+
+      <a class="btn btn--green btn--lg" href="/products/swaptop-kit">Shop the Swaptop Kit</a>
+    </div>
+
+    <div class="swaptop__media">
+      <div class="swaptop__glow" aria-hidden="true"></div>
+      <div class="swaptop__photo swaptop__photo--a">
+        <img src="{{ swap_a }}" alt="Friends gathered around a Swaptop board, mid-celebration." loading="lazy" decoding="async"
+          srcset="{{ swap_a }}&width=600 600w, {{ swap_a }}&width=900 900w, {{ swap_a }}&width=1200 1200w"
+          sizes="(max-width: 860px) 72vw, 40vw">
+      </div>
+      <div class="swaptop__photo swaptop__photo--b">
+        <img src="{{ swap_b }}" alt="The Swaptop Kit." loading="lazy" decoding="async">
+      </div>
+      <span class="swaptop__chip">One Frame. Endless Games™</span>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ============ FAQ ============ {%- endcomment -%}
+<section class="pd-page faq" id="faq-list-{{ section.id }}" aria-labelledby="faq-title-{{ section.id }}">
+  <div class="pd-wrap faq__grid">
+    <div class="faq__head">
+      <h2 id="faq-title-{{ section.id }}" style="color: #0a0c10 !important;">Questions?<br>We've got sticks.</h2>
+      <p>Everything you need to know before your first throw.</p>
+    </div>
+
+    <div class="faq__list">
+      <details class="faq__item">
+        <summary>What surfaces does Popdarts work on?</summary>
+        <p>Any smooth, flat surface — driveways, patios, hardwood, tile, even carpet with the Swaptop board. Indoors or out, it sets up in under a minute.</p>
+      </details>
+      <details class="faq__item">
+        <summary>What age is Popdarts good for?</summary>
+        <p>5 to 95. The Rookie Pack uses softer darts built for younger throwers; the Pro Pack is tournament-weight for older kids and adults. Most families end up owning both.</p>
+      </details>
+      <details class="faq__item">
+        <summary>How is a round scored?</summary>
+        <p>Closest dart to the Target Marker scores 3, every other stuck dart adds 1, and a dart landing directly on the marker is an instant 10. Cancellation scoring settles the round, and first team to 21 wins the match.</p>
+      </details>
+      <details class="faq__item">
+        <summary>What's included in the Pro Pack?</summary>
+        <p>6 Pro Popdarts (2 sets of 3), 1 Pro Target Marker, game rules, a carrying bag with a built-in ruler, and 4 stickers — everything you need for your first match.</p>
+      </details>
+      <details class="faq__item">
+        <summary>How fast does it ship?</summary>
+        <p>Orders ship next business day, with free shipping on orders $50 and up. Returns are easy — just reach out to support@popdartsgame.com.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+{%- comment -%} ============ FINAL CTA ============ {%- endcomment -%}
+<section class="pd-page final" id="final-{{ section.id }}" aria-labelledby="final-title-{{ section.id }}">
+  <div class="pd-texture" aria-hidden="true"></div>
+  <div class="pd-wrap final__inner">
+    <h2 id="final-title-{{ section.id }}" style="color: #fdfdfd;">Your rival<br>is waiting.</h2>
+    <p>You've seen the shot. You know the rules. The only thing left is the throw.</p>
+    <a class="btn btn--primary btn--lg" href="/products/pro-pack">Get Your Pro Pack</a>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Prodigy Replica (static)",
+  "tag": "section",
+  "class": "pd-section-prodigy-replo",
+  "presets": [
+    {
+      "name": "prodigy-replo"
+    }
+  ]
+}
+{% endschema %}
