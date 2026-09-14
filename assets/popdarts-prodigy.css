@@ -168,56 +168,11 @@
   pointer-events: none;
 }
 
-/* ============================================================
-   SCROLL REVEAL — progressive enhancement only. Gated behind an
-   `pd-js` class the script sets immediately on load, so if the
-   script is ever blocked/fails, nothing in this file can hide
-   content (see popdarts-prodigy.js for the matching safety-net
-   timeout that force-reveals everything after 2.5s regardless).
-   ============================================================ */
-@media (prefers-reduced-motion: no-preference) {
-  /* NOTE: `section.pd-page`, not `.pd-page section` — every Prodigy
-     section IS the .pd-page element (nothing wraps them in one), so the
-     descendant form matched nothing and the whole page loaded static. */
-  html.pd-js section.pd-page:not(.hero):not(.home-hero) {
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
-    /* CSS-only dead-man's switch: if the script never adds .is-visible
-       (blocked, errored, ran too early/late), everything still shows
-       itself after 3s. No JS involved in this fallback at all. */
-    animation: pd-safety 0.7s var(--ease-out) 3s forwards;
-  }
-  html.pd-js section.pd-page.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Card grids stagger in a beat behind their section. Uses an
-     animation with `backwards` fill (not a transition on transform) so
-     once it finishes the element's normal styles — including hover
-     lifts — take over untouched. */
-  html.pd-js section.pd-page :is(.avatars__grid, .products__grid, .reviews__grid, .experience__steps, .home-trust__grid, .faq__list) > * {
-    opacity: 0;
-    animation: pd-safety-fade 0.5s var(--ease-out) 3.2s forwards; /* same dead-man's switch */
-  }
-  html.pd-js section.pd-page.is-visible :is(.avatars__grid, .products__grid, .reviews__grid, .experience__steps, .home-trust__grid, .faq__list) > * {
-    opacity: 1;
-    animation: pd-rise 0.65s var(--ease-out) backwards;
-  }
-  html.pd-js section.pd-page.is-visible :is(.avatars__grid, .products__grid, .reviews__grid, .experience__steps, .home-trust__grid, .faq__list) > :nth-child(1) { animation-delay: 0.1s; }
-  html.pd-js section.pd-page.is-visible :is(.avatars__grid, .products__grid, .reviews__grid, .experience__steps, .home-trust__grid, .faq__list) > :nth-child(2) { animation-delay: 0.18s; }
-  html.pd-js section.pd-page.is-visible :is(.avatars__grid, .products__grid, .reviews__grid, .experience__steps, .home-trust__grid, .faq__list) > :nth-child(3) { animation-delay: 0.26s; }
-  html.pd-js section.pd-page.is-visible :is(.avatars__grid, .products__grid, .reviews__grid, .experience__steps, .home-trust__grid, .faq__list) > :nth-child(4) { animation-delay: 0.34s; }
-  html.pd-js section.pd-page.is-visible :is(.avatars__grid, .products__grid, .reviews__grid, .experience__steps, .home-trust__grid, .faq__list) > :nth-child(5) { animation-delay: 0.42s; }
-  html.pd-js section.pd-page.is-visible :is(.avatars__grid, .products__grid, .reviews__grid, .experience__steps, .home-trust__grid, .faq__list) > :nth-child(n+6) { animation-delay: 0.5s; }
-}
-@keyframes pd-rise {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes pd-safety { to { opacity: 1; transform: translateY(0); } }
-@keyframes pd-safety-fade { to { opacity: 1; } }
+/* Scroll-reveal-on-load was removed sitewide: sections and card grids
+   started at opacity:0 waiting for JS (or a 3s CSS fallback) to show
+   them, which meant the page could sit visibly blank for up to three
+   seconds on a slow load. Everything now just renders normally,
+   visible immediately, no entrance animation. */
 
 /* ============================================================
    BUTTONS
@@ -1490,18 +1445,6 @@
   box-shadow: 0 14px 30px -12px rgba(23, 196, 64, 0.7);
 }
 
-/* photos + chip slide in one after another when the section reveals
-   (same contract as the grid stagger: js-gated, 3s dead-man's switch) */
-@media (prefers-reduced-motion: no-preference) {
-  html.pd-js .swaptop .swaptop__media > * {
-    opacity: 0;
-    animation: pd-safety-fade 0.5s var(--ease-out) 3.2s forwards;
-  }
-  html.pd-js .swaptop.is-visible .swaptop__media > * { opacity: 1; animation: pd-rise 0.75s var(--ease-out) backwards; }
-  html.pd-js .swaptop.is-visible .swaptop__media > :nth-child(2) { animation-delay: 0.1s; }
-  html.pd-js .swaptop.is-visible .swaptop__media > :nth-child(3) { animation-delay: 0.3s; }
-  html.pd-js .swaptop.is-visible .swaptop__media > :nth-child(4) { animation-delay: 0.5s; }
-}
 
 @media (max-width: 860px) {
   .swaptop__grid { grid-template-columns: 1fr; gap: 36px; }
@@ -2126,13 +2069,6 @@
 .amc__price-was { font-size: 15px; color: rgba(10, 12, 16, 0.4); text-decoration: line-through; }
 .amc .amc__note { margin: 14px 0 0; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: rgba(10, 12, 16, 0.45); }
 
-/* photos slide in one after another on reveal (same js-gated contract) */
-@media (prefers-reduced-motion: no-preference) {
-  html.pd-js .amc .amc__media > * { opacity: 0; animation: pd-safety-fade 0.5s var(--ease-out) 3.2s forwards; }
-  html.pd-js .amc.is-visible .amc__media > * { opacity: 1; animation: pd-rise 0.75s var(--ease-out) backwards; }
-  html.pd-js .amc.is-visible .amc__media > :nth-child(2) { animation-delay: 0.2s; }
-  html.pd-js .amc.is-visible .amc__media > :nth-child(3) { animation-delay: 0.4s; }
-}
 @media (prefers-reduced-motion: reduce) {
   .amc__photo img, .amc__media:hover .amc__photo img { transition: none; }
 }
@@ -2411,16 +2347,6 @@ body.pro-pack-halloween .footer {
 .hwp-cwchip--green { border-color: rgba(168, 243, 33, 0.35); }
 .hwp-cwchip--orange { border-color: rgba(255, 138, 31, 0.4); }
 
-/* grid children stagger in a beat behind their section (same contract
-   as the Prodigy grids: js-gated, 3s dead-man's switch) */
-@media (prefers-reduced-motion: no-preference) {
-  html.pd-js section.pd-page .hwp-grid > * { opacity: 0; animation: pd-safety-fade 0.5s var(--ease-out) 3.2s forwards; }
-  html.pd-js section.pd-page.is-visible .hwp-grid > * { opacity: 1; animation: pd-rise 0.65s var(--ease-out) backwards; }
-  html.pd-js section.pd-page.is-visible .hwp-grid > :nth-child(2) { animation-delay: 0.12s; }
-  html.pd-js section.pd-page.is-visible .hwp-grid > :nth-child(3) { animation-delay: 0.24s; }
-  html.pd-js section.pd-page.is-visible .hwp-grid > :nth-child(4) { animation-delay: 0.36s; }
-  html.pd-js section.pd-page.is-visible .hwp-grid > :nth-child(n+5) { animation-delay: 0.48s; }
-}
 
 /* ---- HERO ---- */
 .hwp-hero { background: var(--hwp-bg); }

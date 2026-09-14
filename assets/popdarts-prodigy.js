@@ -341,53 +341,13 @@
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitLines);
 
   /* ============================================================
-     SCROLL REVEAL — fade/rise sections in as they enter view.
-     Belt-and-suspenders against ever getting stuck invisible:
-     a 2.5s timeout force-reveals anything the observer hasn't
-     caught yet (slow layout, an element that never intersects,
-     browser quirks), regardless of what triggered it.
-     ============================================================ */
-  function initReveal() {
-    if (prefersReducedMotion) return;
-    // `section.pd-page`, not `.pd-page section` — the sections ARE the
-    // .pd-page elements; the descendant form matched nothing (see CSS).
-    const targets = Array.from(document.querySelectorAll("section.pd-page:not(.hero):not(.home-hero)")).filter(
-      (el) => !el.__pdRevealInit
-    );
-    if (!targets.length) return;
-    targets.forEach((el) => (el.__pdRevealInit = true));
-
-    const reveal = (el) => el.classList.add("is-visible");
-
-    if ("IntersectionObserver" in window) {
-      const io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              reveal(entry.target);
-              io.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
-      );
-      targets.forEach((el) => io.observe(el));
-    } else {
-      targets.forEach(reveal);
-    }
-
-    setTimeout(() => targets.forEach(reveal), 2500);
-  }
-
-  /* ============================================================
      INIT — runs on first paint and again on Shopify section
      load/reorder events, so the customizer never leaves a
      newly-added section unwired
      ============================================================ */
   function initAll() {
-    // Reveal goes first and every init is isolated: a throw in one
-    // feature must never leave the page's sections sitting at opacity 0.
-    [initReveal, initSliders, initVideoSlides, fitLines, initStickyCta, initHalloween, initAtc].forEach((fn) => {
+    // Every init is isolated so a throw in one feature can't block the rest.
+    [initSliders, initVideoSlides, fitLines, initStickyCta, initHalloween, initAtc].forEach((fn) => {
       try {
         fn();
       } catch (err) {
