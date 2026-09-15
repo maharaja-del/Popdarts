@@ -87,6 +87,7 @@
         "p5",
         "p6"
       ],
+      "disabled": true,
       "settings": {
         "scheme": "orange"
       }
