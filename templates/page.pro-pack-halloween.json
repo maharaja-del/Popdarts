@@ -1,9 +1,20 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
       "type": "popdarts-hw-hero",
       "settings": {
+        "image": "shopify://shop_images/spooky-halloween-scene.jpg",
         "image_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/halloween.png?v=1788488443",
+        "overlay_opacity": 55,
         "pill_text": "Vanishes in",
         "deadline": "2026-10-31T23:59:00-04:00",
         "ended_text": "Gone for good",
@@ -17,6 +28,7 @@
         "compare_text": "",
         "price_tag": "Final run",
         "cta_text": "Claim Your Pack",
+        "cta_fallback": "",
         "secondary_text": "See what's inside",
         "secondary_anchor": "#hw-box",
         "trust_1": "250+ verified reviews",
@@ -24,8 +36,7 @@
         "trust_3": "No restocks after Halloween",
         "show_sticky": true,
         "sticky_label": "Halloween Pro Pack",
-        "sticky_cta_text": "Add to cart",
-        "overlay_opacity": 55
+        "sticky_cta_text": "Add to cart"
       }
     },
     "ticker": {
@@ -128,6 +139,7 @@
         "cw2_name": "Pumpkin Fright",
         "cw_note": "3 darts",
         "cta_label": "Add to cart",
+        "cta_fallback": "",
         "micro": "In stock now. No restocks after Halloween."
       }
     },
@@ -370,6 +382,7 @@
         "product_handle": "pro-pack",
         "variant_id": "",
         "cta_text": "Add to cart",
+        "cta_fallback": "",
         "note": "Ships fast · Free over $50 · 30-day returns"
       }
     }
