@@ -705,7 +705,8 @@
         "stat_number": "",
         "stat_label": "",
         "stat_secondary": ""
-      }
+      },
+      "disabled": true
     },
     "swaptop": {
       "type": "popdarts-swaptop",
