@@ -179,7 +179,8 @@
             "fallback_price": "$159.99",
             "fallback_price_was": "$179.99",
             "cta_text": "Shop the Swaptop Kit",
-            "cta_link": "/products/swaptop-kit"
+            "cta_link": "/products/swaptop-kit",
+            "video_url": "https://cdn.shopify.com/videos/c/o/v/a29a5a6db8b54a468631455d4882896f.mp4"
           }
         }
       },
@@ -720,7 +721,8 @@
         "price_now": "$159.99",
         "price_was": "$179.99",
         "cta_text": "Shop the Swaptop Kit",
-        "cta_link": "shopify://products/swaptop-kit"
+        "cta_link": "shopify://products/swaptop-kit",
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/a29a5a6db8b54a468631455d4882896f.mp4"
       }
     },
     "why": {

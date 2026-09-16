@@ -522,7 +522,8 @@
 
 /* photo + scrims */
 .avatar-card__media { position: absolute; inset: 0; z-index: 0; }
-.avatar-card__media img {
+.avatar-card__media img,
+.avatar-card__media video {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -531,7 +532,9 @@
   transition: transform 1.4s var(--ease-out);
 }
 .avatar-card:hover .avatar-card__media img,
-.avatar-card:focus-within .avatar-card__media img { transform: scale(1.09); }
+.avatar-card:focus-within .avatar-card__media img,
+.avatar-card:hover .avatar-card__media video,
+.avatar-card:focus-within .avatar-card__media video { transform: scale(1.09); }
 .avatar-card__scrim {
   position: absolute;
   inset: 0;
@@ -1403,7 +1406,8 @@
   background: var(--paper);
   box-shadow: var(--shadow-lift);
 }
-.swaptop__photo img {
+.swaptop__photo img,
+.swaptop__photo video {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -1415,7 +1419,8 @@
   aspect-ratio: 4 / 5;
   z-index: 1;
 }
-.swaptop__photo--a img { object-position: 50% 30%; }
+.swaptop__photo--a img,
+.swaptop__photo--a video { object-position: 50% 30%; }
 .swaptop__photo--b {
   left: 0; bottom: 0;
   width: 48%;
@@ -1425,7 +1430,8 @@
   border-radius: 24px;
   box-shadow: 0 30px 60px -24px rgba(10, 12, 16, 0.4);
 }
-.swaptop__media:hover .swaptop__photo--a img { transform: scale(1.05); }
+.swaptop__media:hover .swaptop__photo--a img,
+.swaptop__media:hover .swaptop__photo--a video { transform: scale(1.05); }
 .swaptop__media:hover .swaptop__photo--b img { transform: scale(1.07); }
 
 .swaptop__chip {
@@ -2145,11 +2151,14 @@ body.pro-pack-halloween .footer {
   .product-card:hover { transform: none; box-shadow: var(--shadow-soft); }
   .product-card--featured:hover { box-shadow: 0 0 0 2px var(--blue), var(--shadow-lift); }
   .avatar-card:hover .avatar-card__media img,
-  .avatar-card:focus-within .avatar-card__media img { transform: scale(1.02); }
+  .avatar-card:focus-within .avatar-card__media img,
+  .avatar-card:hover .avatar-card__media video,
+  .avatar-card:focus-within .avatar-card__media video { transform: scale(1.02); }
   .avatar-card:hover .avatar-card__thumb img,
   .avatar-card:focus-within .avatar-card__thumb img,
   .product-card:hover .product-card__media img,
   .swaptop__media:hover .swaptop__photo--a img,
+  .swaptop__media:hover .swaptop__photo--a video,
   .swaptop__media:hover .swaptop__photo--b img { transform: none; }
   .avatar-card:hover .avatar-card__num,
   .avatar-card:focus-within .avatar-card__num { color: transparent; -webkit-text-stroke-color: rgba(253, 253, 253, 0.45); }

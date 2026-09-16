@@ -54,8 +54,14 @@
     <div class="swaptop__media">
       <div class="swaptop__glow" aria-hidden="true"></div>
       <div class="swaptop__photo swaptop__photo--a">
-        <img src="{{ img_a }}" alt="Friends gathered around a Swaptop board, mid-celebration." loading="lazy" decoding="async"
-          {%- if img_a_srcset != blank %} srcset="{{ img_a_srcset }}" sizes="(max-width: 860px) 72vw, 40vw"{% endif %}>
+        {%- if section.settings.video_url != blank -%}
+          <video autoplay muted loop playsinline preload="metadata" poster="{{ img_a }}">
+            <source src="{{ section.settings.video_url }}" type="video/mp4">
+          </video>
+        {%- else -%}
+          <img src="{{ img_a }}" alt="Friends gathered around a Swaptop board, mid-celebration." loading="lazy" decoding="async"
+            {%- if img_a_srcset != blank %} srcset="{{ img_a_srcset }}" sizes="(max-width: 860px) 72vw, 40vw"{% endif %}>
+        {%- endif -%}
       </div>
       <div class="swaptop__photo swaptop__photo--b">
         <img src="{{ img_b }}" alt="The Swaptop Kit." loading="lazy" decoding="async">
@@ -118,6 +124,12 @@
       "id": "image_asset",
       "label": "Photo 1 bundled asset filename",
       "info": "Used if both above are empty, e.g. pd-marquee-court-cheer.jpg"
+    },
+    {
+      "type": "url",
+      "id": "video_url",
+      "label": "Photo 1 video URL (overrides the photo)",
+      "info": "A Shopify CDN .mp4 link. Plays autoplaying, muted and looped in place of Photo 1; Photo 1 is still used as the poster frame while it loads."
     },
     {
       "type": "image_picker",

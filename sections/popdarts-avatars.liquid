@@ -70,8 +70,14 @@
 
         <article class="avatar-card avatar-card--{{ style }}" {{ block.shopify_attributes }}>
           <div class="avatar-card__media" aria-hidden="true">
-            <img src="{{ bg_src }}" alt="" loading="lazy" decoding="async"
-              {%- if bg_srcset != blank %} srcset="{{ bg_srcset }}" sizes="(max-width: 600px) 82vw, (max-width: 1100px) 50vw, 25vw"{% endif %}>
+            {%- if block.settings.video_url != blank -%}
+              <video autoplay muted loop playsinline preload="metadata" poster="{{ bg_src }}">
+                <source src="{{ block.settings.video_url }}" type="video/mp4">
+              </video>
+            {%- else -%}
+              <img src="{{ bg_src }}" alt="" loading="lazy" decoding="async"
+                {%- if bg_srcset != blank %} srcset="{{ bg_srcset }}" sizes="(max-width: 600px) 82vw, (max-width: 1100px) 50vw, 25vw"{% endif %}>
+            {%- endif -%}
             <div class="avatar-card__scrim"></div>
             <div class="avatar-card__glow"></div>
           </div>
@@ -241,6 +247,12 @@
           "id": "image_url",
           "label": "Photo URL",
           "info": "Used if both above are empty. If everything is empty a photo matching the accent is used."
+        },
+        {
+          "type": "url",
+          "id": "video_url",
+          "label": "Backdrop video URL (overrides the photo)",
+          "info": "A Shopify CDN .mp4 link. Plays autoplaying, muted and looped in place of the photo above; the photo is still used as the poster frame while it loads."
         },
         {
           "type": "header",
