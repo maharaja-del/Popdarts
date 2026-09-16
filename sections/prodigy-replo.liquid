@@ -125,11 +125,11 @@
 
 {%- comment -%}
   ============ HALLOWEEN PROMO — hidden for now ============
-  Wrapped in {% if false %} rather than deleted or {% comment %}'d out,
-  so the markup is preserved exactly and safe to re-enable (this block
-  contains no comment tags of its own, but American Classic below
-  does, and Liquid comments don't nest — if-false is the reliable way
-  to disable a chunk that may contain its own comments).
+  Wrapped in an if-false block rather than deleted, so the markup is
+  preserved exactly and safe to re-enable. Not wrapped in a second
+  comment tag: this section is fine on its own, but American Classic
+  below has a comment tag of its own, and Liquid comment tags cannot
+  be nested inside one another — if-false avoids that entirely.
 {%- endcomment -%}
 {%- if false -%}
 {%- liquid
