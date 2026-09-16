@@ -83,7 +83,8 @@
       ],
       "settings": {
         "scheme": "blue"
-      }
+      },
+      "disabled": true
     },
     "halloween": {
       "type": "popdarts-halloween-promo",
@@ -312,7 +313,8 @@
         "t3",
         "t4"
       ],
-      "settings": {}
+      "settings": {},
+      "disabled": true
     },
     "american": {
       "type": "popdarts-american-classic",
