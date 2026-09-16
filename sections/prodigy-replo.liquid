@@ -123,7 +123,15 @@
   </div>
 </section>
 
-{%- comment -%} ============ HALLOWEEN PROMO ============ {%- endcomment -%}
+{%- comment -%}
+  ============ HALLOWEEN PROMO — hidden for now ============
+  Wrapped in {% if false %} rather than deleted or {% comment %}'d out,
+  so the markup is preserved exactly and safe to re-enable (this block
+  contains no comment tags of its own, but American Classic below
+  does, and Liquid comments don't nest — if-false is the reliable way
+  to disable a chunk that may contain its own comments).
+{%- endcomment -%}
+{%- if false -%}
 {%- liquid
   assign hw_src = 'https://cdn.shopify.com/s/files/1/0471/3375/3505/files/halloween.png?v=1788488443'
   assign hw_eyebrow = 'Limited Edition · Halloween'
@@ -163,6 +171,7 @@
     </div>
   </div>
 </section>
+{%- endif -%}
 
 {%- comment -%} ============ AVATARS ("Which shot is yours?") ============ {%- endcomment -%}
 <section class="pd-page avatars" id="avatars-{{ section.id }}" aria-labelledby="avatars-title-{{ section.id }}">
@@ -468,7 +477,8 @@
   </div>
 </section>
 
-{%- comment -%} ============ AMERICAN CLASSIC ============ {%- endcomment -%}
+{%- comment -%} ============ AMERICAN CLASSIC — hidden for now ============ {%- endcomment -%}
+{%- if false -%}
 {%- comment -%}
   As-is quirk carried over: image_2's configured URL has a literal
   trailing backslash before the query string ends, exactly as it's
@@ -518,6 +528,7 @@
     </div>
   </div>
 </section>
+{%- endif -%}
 
 {%- comment -%} ============ GAMEPLAY + COMMUNITY (Competition) ============ {%- endcomment -%}
 <section class="pd-page competition" id="competition-{{ section.id }}" aria-labelledby="competition-title-{{ section.id }}">

@@ -97,7 +97,8 @@
         "cta_link": "/pages/pro-pack-halloween",
         "end_date": "2026-11-01T00:00",
         "note": "While supplies last"
-      }
+      },
+      "disabled": true
     },
     "avatars": {
       "type": "popdarts-avatars",
@@ -335,7 +336,8 @@
         "cta_text": "Shop the American Classic",
         "cta_link": "shopify://products/pro-pack",
         "note": "Free shipping over $50 · 30-day returns"
-      }
+      },
+      "disabled": true
     },
     "experience": {
       "type": "popdarts-experience",
