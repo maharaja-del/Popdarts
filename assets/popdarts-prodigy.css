@@ -1087,6 +1087,7 @@
 }
 .slider__arrow {
   width: 46px; height: 46px;
+  padding: 0;
   border-radius: 50%;
   border: 1.5px solid var(--line-strong);
   color: var(--ink) !important;
@@ -3246,49 +3247,56 @@ body.pro-pack-halloween .footer {
 }
 
 /* Full-screen reel viewer — the theme's own header/cart-drawer use
-   z-index: 9999, so this has to clear that or they render on top of it. */
-.pd-ig-modal { position: fixed; inset: 0; z-index: 100000; }
+   z-index: 9999, so this has to clear that or they render on top of it.
+   The card is deliberately smaller than the viewport (not edge-to-edge)
+   so there's always a visible, tappable backdrop margin to close it from,
+   even on a phone screen — tapping the card itself toggles play/pause. */
+.pd-ig-modal { position: fixed; inset: 0; z-index: 100000; display: flex; align-items: center; justify-content: center; }
 .pd-ig-modal[hidden] { display: none; }
 .pd-ig-modal__backdrop {
   position: absolute;
   inset: 0;
   background: rgba(6, 7, 10, 0.92);
   backdrop-filter: blur(6px);
+  cursor: pointer;
 }
 .pd-ig-modal__panel {
   position: relative;
   z-index: 1;
-  width: min(420px, 100vw);
-  height: min(100vh, 100dvh);
-  margin-inline: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: min(90vw, 420px);
+  aspect-ratio: 9 / 16;
+  max-height: min(84dvh, 820px);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px -24px rgba(0, 0, 0, 0.6);
 }
 .pd-ig-modal__video {
+  display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   background: var(--ink);
+  cursor: pointer;
 }
 .pd-ig-modal__close {
-  position: absolute;
-  top: max(16px, env(safe-area-inset-top));
-  right: 16px;
+  position: fixed;
+  top: max(16px, env(safe-area-inset-top) + 8px);
+  right: max(16px, env(safe-area-inset-right) + 8px);
   z-index: 2;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
+  padding: 0 !important;
+  border: 0 !important;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  border: 0;
-  background: rgba(253, 253, 253, 0.14);
+  background: rgba(10, 12, 16, 0.55);
   cursor: pointer;
 }
 .pd-ig-modal__close svg { width: 18px; height: 18px; }
 .pd-ig-modal__follow {
-  position: absolute;
+  position: fixed;
   left: 50%;
   bottom: max(24px, env(safe-area-inset-bottom) + 16px);
   z-index: 2;
@@ -3308,11 +3316,6 @@ body.pro-pack-halloween .footer {
   white-space: nowrap;
 }
 .pd-ig-modal__follow svg { width: 18px; height: 18px; }
-
-@media (max-width: 640px) {
-  .pd-ig-modal__panel { width: 100vw; }
-  .pd-ig-modal__video { object-fit: cover; }
-}
 
 body.pd-ig-modal-open { overflow: hidden; }
 .newsletter-form__message { margin-top: 14px; font-size: 14px; color: var(--ink); }
