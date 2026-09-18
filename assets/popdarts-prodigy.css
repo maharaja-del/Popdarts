@@ -2494,11 +2494,14 @@ body.pro-pack-halloween .footer {
   left: 50%; top: 50%;
   width: 86%;
   height: auto;
+  opacity: 0;
   transform: translate(-50%, -50%) translate3d(var(--hw-px), var(--hw-py), 0);
   filter: drop-shadow(0 40px 50px rgba(0, 0, 0, 0.8));
   animation: hwp-bob 9s ease-in-out infinite;
-  transition: transform 0.5s var(--ease-out);
+  transition: transform 0.5s var(--ease-out), opacity 0.7s var(--ease-out);
+  pointer-events: none;
 }
+.hwp-buy__box.is-active { opacity: 1; }
 .hwp-buy__dart { position: absolute; width: 22%; height: auto; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.8)); pointer-events: none; transition: transform 0.5s var(--ease-out); }
 .hwp-buy__dart--a { left: 4%; bottom: 6%; transform: rotate(-18deg) translate3d(calc(var(--hw-px) * 2), calc(var(--hw-py) * 2), 0); animation: hwp-bob 7s ease-in-out infinite; }
 .hwp-buy__dart--b { right: 3%; top: 6%; transform: rotate(24deg) translate3d(calc(var(--hw-px) * 2.6), calc(var(--hw-py) * 2.6), 0); animation: hwp-bob 6.4s ease-in-out infinite; animation-delay: -3s; }

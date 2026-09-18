@@ -6,8 +6,7 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */
-{
+ */{
   "sections": {
     "hero": {
       "type": "popdarts-hw-hero",
@@ -141,7 +140,11 @@
         "cw_note": "3 darts",
         "cta_label": "Add to cart",
         "cta_fallback": "",
-        "micro": "In stock now. No restocks after Halloween."
+        "micro": "In stock now. No restocks after Halloween.",
+        "image_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Halloween-Pro-Ad-1.png?v=1789699001",
+        "image_2_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Halloween-Pro-Ad-2.png?v=1789699002",
+        "image_3_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Halloween-Pro-Ad-3.png?v=1789699001",
+        "image_4_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Halloween-Pro-Ad-4.png?v=1789699002"
       }
     },
     "colorways": {

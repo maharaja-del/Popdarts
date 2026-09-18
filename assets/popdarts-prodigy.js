@@ -210,6 +210,26 @@
   }
 
   /* ============================================================
+     HW BUY BOX — auto-playing product image slider (crossfades between
+     .hwp-buy__box siblings via .is-active). Static on the first image
+     when reduced motion is requested or there's only one slide.
+     ============================================================ */
+  function initHwAutoSlide() {
+    document.querySelectorAll("[data-hw-autoslide]").forEach((el) => {
+      if (el.__pdHwSlideInit) return;
+      el.__pdHwSlideInit = true;
+      const slides = Array.from(el.children);
+      if (slides.length < 2 || prefersReducedMotion) return;
+      let i = 0;
+      setInterval(() => {
+        slides[i].classList.remove("is-active");
+        i = (i + 1) % slides.length;
+        slides[i].classList.add("is-active");
+      }, 3800);
+    });
+  }
+
+  /* ============================================================
      HALLOWEEN CARD — flashlight follows the pointer (CSS vars --hw-mx/
      --hw-my), the card tilts toward it and the artwork shifts for a
      little parallax. With no pointer the card keeps .is-auto and CSS
@@ -410,7 +430,7 @@
      ============================================================ */
   function initAll() {
     // Every init is isolated so a throw in one feature can't block the rest.
-    [initSliders, initVideoSlides, initInstagramReels, fitLines, initStickyCta, initHalloween, initAtc].forEach((fn) => {
+    [initSliders, initVideoSlides, initInstagramReels, initHwAutoSlide, fitLines, initStickyCta, initHalloween, initAtc].forEach((fn) => {
       try {
         fn();
       } catch (err) {

@@ -1,15 +1,35 @@
 {%- assign handle = section.settings.product_handle | default: 'pro-pack' -%}
-{%- if section.settings.image -%}
-  {%- assign box_src = section.settings.image | image_url: width: 1400 -%}
-{%- else -%}
-  {%- assign box_src = 'pd-hw-box.png' | asset_url -%}
-{%- endif -%}
+{%- liquid
+  if section.settings.image
+    assign box_src = section.settings.image | image_url: width: 1400
+  elsif section.settings.image_url != blank
+    assign box_src = section.settings.image_url
+  else
+    assign box_src = 'pd-hw-box.png' | asset_url
+  endif
+
+  assign box_slides = box_src | append: '::'
+  if section.settings.image_2_url != blank
+    assign box_slides = box_slides | append: section.settings.image_2_url | append: '::'
+  endif
+  if section.settings.image_3_url != blank
+    assign box_slides = box_slides | append: section.settings.image_3_url | append: '::'
+  endif
+  if section.settings.image_4_url != blank
+    assign box_slides = box_slides | append: section.settings.image_4_url | append: '::'
+  endif
+  assign box_slides = box_slides | split: '::'
+-%}
 
 <section class="pd-page hwp hwp-buy" id="hw-buy" aria-labelledby="hw-buy-title-{{ section.id }}">
   <div class="pd-wrap hwp-buy__grid">
     <div class="hwp-buy__stage" data-hw-card>
       <div class="hwp-buy__glow" aria-hidden="true"></div>
-      <img class="hwp-buy__box" src="{{ box_src }}" alt="{{ section.settings.image_alt | escape }}" width="1466" height="861" loading="lazy" decoding="async">
+      <div class="hwp-buy__slider" data-hw-autoslide>
+        {%- for src in box_slides -%}
+          <img class="hwp-buy__box{% if forloop.first %} is-active{% endif %}" src="{{ src }}" alt="{{ section.settings.image_alt | escape }}" width="1466" height="861" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" decoding="async">
+        {%- endfor -%}
+      </div>
       <img class="hwp-buy__dart hwp-buy__dart--a" src="{{ 'pd-hw-dart-6.png' | asset_url }}" alt="" width="935" height="1000" loading="lazy" decoding="async" aria-hidden="true">
       <img class="hwp-buy__dart hwp-buy__dart--b" src="{{ 'pd-hw-dart-1.png' | asset_url }}" alt="" width="901" height="1000" loading="lazy" decoding="async" aria-hidden="true">
     </div>
@@ -47,7 +67,11 @@
   "tag": "section",
   "class": "pd-section-hw-buy",
   "settings": [
-    { "type": "image_picker", "id": "image", "label": "Product image", "info": "Empty = the built-in box render" },
+    { "type": "image_picker", "id": "image", "label": "Product image (slide 1)", "info": "Empty = the built-in box render" },
+    { "type": "url", "id": "image_url", "label": "Slide 1 URL", "info": "Used if the picker above is empty." },
+    { "type": "url", "id": "image_2_url", "label": "Slide 2 URL", "info": "Optional — adding any of slides 2-4 turns the product image into an auto-playing slider." },
+    { "type": "url", "id": "image_3_url", "label": "Slide 3 URL" },
+    { "type": "url", "id": "image_4_url", "label": "Slide 4 URL" },
     { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "Popdarts PRO Pack Halloween edition retail box" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Limited Halloween colorway" },
     { "type": "text", "id": "title", "label": "Product title", "default": "Halloween Pro Pack" },
