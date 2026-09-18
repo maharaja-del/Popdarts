@@ -913,6 +913,10 @@
         "cta_text": "Get Your Pro Pack",
         "cta_link": ""
       }
+    },
+    "app": {
+      "type": "popdarts-home-press",
+      "settings": {}
     }
   },
   "order": [
@@ -930,6 +934,7 @@
     "why",
     "faq",
     "products2",
-    "final"
+    "final",
+    "app"
   ]
 }
