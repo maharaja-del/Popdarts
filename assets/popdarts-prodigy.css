@@ -1326,6 +1326,12 @@
   color: var(--ink);
   overflow: hidden;
 }
+/* Championship is hidden on this page, so Swaptop directly follows
+   Competition — without this, their two padding-blocks stack into a
+   big empty gap where the (now-absent) Championship section used to be. */
+.competition + .swaptop {
+  padding-top: 0;
+}
 
 .swaptop__grid {
   display: grid;

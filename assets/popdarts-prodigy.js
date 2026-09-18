@@ -170,11 +170,25 @@
     }
 
     const video = modal.querySelector("[data-ig-modal-video]");
+    const backdrop = modal.querySelector(".pd-ig-modal__backdrop");
     const closeEls = modal.querySelectorAll("[data-ig-close]");
     let lastFocus = null;
 
+    // Belt-and-suspenders: force the dark overlay via inline style too, so
+    // it can't be silently lost to a stylesheet load/cache issue — inline
+    // styles win over any non-!important CSS rule regardless of source order.
+    const paintBackdrop = () => {
+      if (!backdrop) return;
+      backdrop.style.position = "absolute";
+      backdrop.style.inset = "0";
+      backdrop.style.zIndex = "0";
+      backdrop.style.backgroundColor = "#06070a";
+      backdrop.style.opacity = "0.92";
+    };
+
     const open = (src) => {
       lastFocus = document.activeElement;
+      paintBackdrop();
       video.src = src;
       modal.hidden = false;
       document.body.classList.add("pd-ig-modal-open");
@@ -200,10 +214,9 @@
       tile.addEventListener("click", () => open(tile.dataset.igSrc));
     });
     closeEls.forEach((el) => el.addEventListener("click", close));
-    video.addEventListener("click", () => {
-      if (video.paused) video.play();
-      else video.pause();
-    });
+    // Tapping the open video closes the reel, matching how Instagram's own
+    // full-screen viewer behaves — there's no separate play/pause toggle.
+    video.addEventListener("click", close);
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && !modal.hidden) close();
     });
