@@ -159,6 +159,16 @@
     if (modal.__pdIgInit) return;
     modal.__pdIgInit = true;
 
+    // Shopify wraps every section in its own .shopify-section element, and
+    // the theme has a content-visibility:auto rule that can apply to those
+    // wrappers during initial load — that property forces a new containing
+    // block, which would trap this fixed-position modal inside the section
+    // and stop it from ever covering the header, no matter the z-index.
+    // Moving it to be a direct child of <body> rules that out entirely.
+    if (modal.parentElement !== document.body) {
+      document.body.appendChild(modal);
+    }
+
     const video = modal.querySelector("[data-ig-modal-video]");
     const closeEls = modal.querySelectorAll("[data-ig-close]");
     let lastFocus = null;
