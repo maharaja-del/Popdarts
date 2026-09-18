@@ -2607,14 +2607,20 @@ body.pro-pack-halloween .footer {
 
 /* ---- IN THE BOX ---- */
 .hwp-box__grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 80px); align-items: center; }
-.hwp-box__stage { position: relative; border-radius: 24px; overflow: hidden; background: #000; border: 1px solid var(--hwp-line); }
+.hwp-box__stage { position: relative; border-radius: 24px; overflow: hidden; background: #000; border: 1px solid var(--hwp-line); aspect-ratio: 1600 / 1038; }
 .hwp-box__stage img {
   display: block;
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.7s var(--ease-out);
   -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 55%, transparent 100%);
   mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 55%, transparent 100%);
 }
+.hwp-box__stage img.is-active { opacity: 1; }
 .hwp-box__content .hwp__head { margin-bottom: 26px; }
 .hwp-list { display: flex; flex-direction: column; }
 .hwp-list li { display: grid; grid-template-columns: 44px 1fr; gap: 16px; padding: 18px 0; border-top: 1px solid var(--hwp-line); }
