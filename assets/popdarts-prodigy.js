@@ -210,22 +210,44 @@
   }
 
   /* ============================================================
-     HW BUY BOX — auto-playing product image slider (crossfades between
-     .hwp-buy__box siblings via .is-active). Static on the first image
-     when reduced motion is requested or there's only one slide.
+     HW AUTO SLIDE — crossfading image slider used by the Halloween buy
+     box and "what's in the box" photo (toggles .is-active between the
+     img children of [data-hw-autoslide]). Prev/next arrows are siblings
+     of that element, not children of it, so they never get mistaken for
+     a slide; clicking one restarts the auto-advance timer. Static on the
+     first image when reduced motion is requested or there's only one.
      ============================================================ */
   function initHwAutoSlide() {
     document.querySelectorAll("[data-hw-autoslide]").forEach((el) => {
       if (el.__pdHwSlideInit) return;
       el.__pdHwSlideInit = true;
-      const slides = Array.from(el.children);
-      if (slides.length < 2 || prefersReducedMotion) return;
+      const slides = Array.from(el.children).filter((c) => c.tagName === "IMG");
+      if (slides.length < 2) return;
       let i = 0;
-      setInterval(() => {
+      let timer = null;
+
+      const show = (n) => {
         slides[i].classList.remove("is-active");
-        i = (i + 1) % slides.length;
+        i = (n + slides.length) % slides.length;
         slides[i].classList.add("is-active");
-      }, 3800);
+      };
+      const stop = () => {
+        if (timer) clearInterval(timer);
+        timer = null;
+      };
+      const start = () => {
+        stop();
+        if (prefersReducedMotion) return;
+        timer = setInterval(() => show(i + 1), 3800);
+      };
+
+      const scope = el.parentElement;
+      const prevBtn = scope && scope.querySelector("[data-hw-prev]");
+      const nextBtn = scope && scope.querySelector("[data-hw-next]");
+      if (prevBtn) prevBtn.addEventListener("click", () => { show(i - 1); start(); });
+      if (nextBtn) nextBtn.addEventListener("click", () => { show(i + 1); start(); });
+
+      start();
     });
   }
 

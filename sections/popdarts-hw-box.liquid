@@ -22,10 +22,20 @@
 
 <section class="pd-page hwp hwp-box" id="hw-box" aria-labelledby="hw-box-title-{{ section.id }}">
   <div class="pd-wrap hwp-box__grid">
-    <div class="hwp-box__stage" data-hw-autoslide>
-      {%- for src in lineup_slides -%}
-        <img class="{% if forloop.first %}is-active{% endif %}" src="{{ src }}" alt="{{ section.settings.image_alt | escape }}" width="1600" height="1038" loading="lazy" decoding="async">
-      {%- endfor -%}
+    <div class="hwp-box__stage">
+      <div class="hwp-box__slider" data-hw-autoslide>
+        {%- for src in lineup_slides -%}
+          <img class="{% if forloop.first %}is-active{% endif %}" src="{{ src }}" alt="{{ section.settings.image_alt | escape }}" width="1600" height="1038" loading="lazy" decoding="async">
+        {%- endfor -%}
+      </div>
+      {%- if lineup_slides.size > 1 -%}
+        <button class="hwp-slide-arrow hwp-slide-arrow--prev" type="button" data-hw-prev aria-label="Previous image">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="hwp-slide-arrow hwp-slide-arrow--next" type="button" data-hw-next aria-label="Next image">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      {%- endif -%}
     </div>
     <div class="hwp-box__content">
       <div class="hwp__head">

@@ -30,6 +30,14 @@
           <img class="hwp-buy__box{% if forloop.first %} is-active{% endif %}" src="{{ src }}" alt="{{ section.settings.image_alt | escape }}" width="1466" height="861" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}" decoding="async">
         {%- endfor -%}
       </div>
+      {%- if box_slides.size > 1 -%}
+        <button class="hwp-slide-arrow hwp-slide-arrow--prev" type="button" data-hw-prev aria-label="Previous image">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="hwp-slide-arrow hwp-slide-arrow--next" type="button" data-hw-next aria-label="Next image">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      {%- endif -%}
       <img class="hwp-buy__dart hwp-buy__dart--a" src="{{ 'pd-hw-dart-6.png' | asset_url }}" alt="" width="935" height="1000" loading="lazy" decoding="async" aria-hidden="true">
       <img class="hwp-buy__dart hwp-buy__dart--b" src="{{ 'pd-hw-dart-1.png' | asset_url }}" alt="" width="901" height="1000" loading="lazy" decoding="async" aria-hidden="true">
     </div>

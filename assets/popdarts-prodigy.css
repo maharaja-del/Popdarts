@@ -2489,10 +2489,13 @@ body.pro-pack-halloween .footer {
 }
 .hwp-buy__stage.is-hover { transition-duration: 0.12s; }
 .hwp-buy__glow { position: absolute; inset: -20%; background: radial-gradient(40% 40% at 50% 65%, rgba(168, 243, 33, 0.28), transparent 70%); filter: blur(30px); pointer-events: none; }
+.hwp-buy__slider { position: absolute; inset: 0; }
 .hwp-buy__box {
   position: absolute;
   left: 50%; top: 50%;
-  width: 86%;
+  max-width: 86%;
+  max-height: 86%;
+  width: auto;
   height: auto;
   opacity: 0;
   transform: translate(-50%, -50%) translate3d(var(--hw-px), var(--hw-py), 0);
@@ -2505,6 +2508,29 @@ body.pro-pack-halloween .footer {
 .hwp-buy__dart { position: absolute; width: 22%; height: auto; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.8)); pointer-events: none; transition: transform 0.5s var(--ease-out); }
 .hwp-buy__dart--a { left: 4%; bottom: 6%; transform: rotate(-18deg) translate3d(calc(var(--hw-px) * 2), calc(var(--hw-py) * 2), 0); animation: hwp-bob 7s ease-in-out infinite; }
 .hwp-buy__dart--b { right: 3%; top: 6%; transform: rotate(24deg) translate3d(calc(var(--hw-px) * 2.6), calc(var(--hw-py) * 2.6), 0); animation: hwp-bob 6.4s ease-in-out infinite; animation-delay: -3s; }
+
+.hwp-slide-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 12, 16, 0.55);
+  color: #fdfdfd;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out);
+}
+.hwp-slide-arrow:hover { background: rgba(10, 12, 16, 0.82); }
+.hwp-slide-arrow svg { width: 18px; height: 18px; }
+.hwp-slide-arrow--prev { left: 12px; }
+.hwp-slide-arrow--next { right: 12px; }
 .hwp-buy__panel { max-width: 520px; }
 .hwp .hwp-buy__panel h2 { font-size: clamp(34px, 4.6vw, 60px); margin: 0 0 12px; }
 .hwp .hwp-buy__rating { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 13px; color: rgba(253, 253, 253, 0.65); margin: 0 0 18px; }
@@ -2608,19 +2634,20 @@ body.pro-pack-halloween .footer {
 /* ---- IN THE BOX ---- */
 .hwp-box__grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 80px); align-items: center; }
 .hwp-box__stage { position: relative; border-radius: 24px; overflow: hidden; background: #000; border: 1px solid var(--hwp-line); aspect-ratio: 1600 / 1038; }
-.hwp-box__stage img {
+.hwp-box__slider { position: absolute; inset: 0; }
+.hwp-box__slider img {
   display: block;
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   opacity: 0;
   transition: opacity 0.7s var(--ease-out);
   -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 55%, transparent 100%);
   mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 55%, transparent 100%);
 }
-.hwp-box__stage img.is-active { opacity: 1; }
+.hwp-box__slider img.is-active { opacity: 1; }
 .hwp-box__content .hwp__head { margin-bottom: 26px; }
 .hwp-list { display: flex; flex-direction: column; }
 .hwp-list li { display: grid; grid-template-columns: 44px 1fr; gap: 16px; padding: 18px 0; border-top: 1px solid var(--hwp-line); }
@@ -3260,13 +3287,21 @@ body.pro-pack-halloween .footer {
    The card is deliberately smaller than the viewport (not edge-to-edge)
    so there's always a visible, tappable backdrop margin to close it from,
    even on a phone screen — tapping the card itself toggles play/pause. */
-.pd-ig-modal { position: fixed; inset: 0; z-index: 100000; display: flex; align-items: center; justify-content: center; }
-.pd-ig-modal[hidden] { display: none; }
+.pd-ig-modal {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 100000 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+.pd-ig-modal[hidden] { display: none !important; }
 .pd-ig-modal__backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(6, 7, 10, 0.92);
-  backdrop-filter: blur(6px);
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0;
+  background-color: rgb(6, 7, 10) !important;
+  opacity: 0.92 !important;
   cursor: pointer;
 }
 .pd-ig-modal__panel {
