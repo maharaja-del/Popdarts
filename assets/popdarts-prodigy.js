@@ -214,9 +214,10 @@
       tile.addEventListener("click", () => open(tile.dataset.igSrc));
     });
     closeEls.forEach((el) => el.addEventListener("click", close));
-    // Tapping the open video closes the reel, matching how Instagram's own
-    // full-screen viewer behaves — there's no separate play/pause toggle.
-    video.addEventListener("click", close);
+    video.addEventListener("click", () => {
+      if (video.paused) video.play();
+      else video.pause();
+    });
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && !modal.hidden) close();
     });
