@@ -3204,9 +3204,12 @@ body.pro-pack-halloween .footer {
   position: relative;
   flex: 0 0 auto;
   width: min(240px, 62vw);
+  height: auto !important;
   aspect-ratio: 9 / 16;
-  border: 0;
-  padding: 0;
+  min-height: 0;
+  border: 0 !important;
+  padding: 0 !important;
+  line-height: normal;
   border-radius: var(--radius-soft);
   overflow: hidden;
   scroll-snap-align: start;
