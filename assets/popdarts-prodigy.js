@@ -147,6 +147,59 @@
   }
 
   /* ============================================================
+     INSTAGRAM REEL WALL — click a tile to open a full-screen,
+     Reels-style player. The tile videos stay muted/looping in place;
+     the modal video gets the real src set on open (so it isn't
+     downloaded twice) and plays with sound since it's a real click.
+     ============================================================ */
+  function initInstagramReels() {
+    const modal = document.querySelector("[data-ig-modal]");
+    const tiles = Array.from(document.querySelectorAll("[data-ig-open]"));
+    if (!modal || !tiles.length) return;
+    if (modal.__pdIgInit) return;
+    modal.__pdIgInit = true;
+
+    const video = modal.querySelector("[data-ig-modal-video]");
+    const closeEls = modal.querySelectorAll("[data-ig-close]");
+    let lastFocus = null;
+
+    const open = (src) => {
+      lastFocus = document.activeElement;
+      video.src = src;
+      modal.hidden = false;
+      document.body.classList.add("pd-ig-modal-open");
+      video.currentTime = 0;
+      video.muted = false;
+      video.play().catch(() => {
+        // Autoplay-with-sound can be blocked; fall back to muted so it still plays.
+        video.muted = true;
+        video.play().catch(() => {});
+      });
+    };
+
+    const close = () => {
+      modal.hidden = true;
+      document.body.classList.remove("pd-ig-modal-open");
+      video.pause();
+      video.removeAttribute("src");
+      video.load();
+      if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+    };
+
+    tiles.forEach((tile) => {
+      tile.addEventListener("click", () => open(tile.dataset.igSrc));
+    });
+    closeEls.forEach((el) => el.addEventListener("click", close));
+    video.addEventListener("click", () => {
+      if (video.paused) video.play();
+      else video.pause();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !modal.hidden) close();
+    });
+  }
+
+  /* ============================================================
      HALLOWEEN CARD — flashlight follows the pointer (CSS vars --hw-mx/
      --hw-my), the card tilts toward it and the artwork shifts for a
      little parallax. With no pointer the card keeps .is-auto and CSS
@@ -347,7 +400,7 @@
      ============================================================ */
   function initAll() {
     // Every init is isolated so a throw in one feature can't block the rest.
-    [initSliders, initVideoSlides, fitLines, initStickyCta, initHalloween, initAtc].forEach((fn) => {
+    [initSliders, initVideoSlides, initInstagramReels, fitLines, initStickyCta, initHalloween, initAtc].forEach((fn) => {
       try {
         fn();
       } catch (err) {
