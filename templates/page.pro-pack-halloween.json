@@ -196,6 +196,7 @@
         "f2",
         "f3"
       ],
+      "disabled": true,
       "settings": {
         "eyebrow": "Why now",
         "heading": "One final run.",
@@ -375,6 +376,7 @@
     "final": {
       "type": "popdarts-hw-final",
       "settings": {
+        "image": "shopify://shop_images/Scarecrow.png",
         "asset_filename": "pd-hw-reaper.jpg",
         "eyebrow": "Last call",
         "heading": "Claim yours",
