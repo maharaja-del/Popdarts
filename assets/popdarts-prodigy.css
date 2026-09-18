@@ -3140,8 +3140,8 @@ body.pro-pack-halloween .footer {
 .pd-ig { padding-block: clamp(56px, 9vh, 108px); background: var(--white); }
 .pd-ig__head {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 20px;
   margin-bottom: clamp(24px, 4vh, 40px);
 }
@@ -3183,48 +3183,16 @@ body.pro-pack-halloween .footer {
 .pd-ig__follow svg { width: 18px; height: 18px; flex: 0 0 auto; }
 .pd-ig__follow:hover { background: var(--ink); color: var(--white); }
 
-.pd-ig__slider { position: relative; }
-.pd-ig__track {
-  display: flex;
-  gap: clamp(12px, 1.8vw, 20px);
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding-inline: var(--gutter);
-  margin-inline: calc(var(--gutter) * -1);
-  scroll-padding-inline: var(--gutter);
-  padding-bottom: 8px;
-  scrollbar-width: none;
-  cursor: grab;
-}
-.pd-ig__track:active { cursor: grabbing; }
-.pd-ig__track::-webkit-scrollbar { display: none; }
-
+/* Reuses the .slider / .slide framework (same sizing as the ESPN
+   tournament slider) so the tiles read at the same scale; these rules
+   only patch the bits that differ for a clickable <button> tile. */
 .pd-ig__tile {
-  display: block;
-  position: relative;
-  flex: 0 0 auto;
-  width: min(240px, 62vw);
   height: auto !important;
-  aspect-ratio: 9 / 16;
-  min-height: 0;
   border: 0 !important;
   padding: 0 !important;
   line-height: normal;
-  border-radius: var(--radius-soft);
-  overflow: hidden;
-  scroll-snap-align: start;
   background: linear-gradient(160deg, var(--blue), var(--ink));
-  box-shadow: var(--shadow-soft);
   cursor: pointer;
-  isolation: isolate;
-}
-.pd-ig__vid {
-  display: block;
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 .pd-ig__badge {
   position: absolute;
