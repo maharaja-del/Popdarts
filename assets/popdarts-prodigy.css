@@ -3245,8 +3245,9 @@ body.pro-pack-halloween .footer {
   .pd-ig__follow { align-self: flex-start; }
 }
 
-/* Full-screen reel viewer */
-.pd-ig-modal { position: fixed; inset: 0; z-index: 999; }
+/* Full-screen reel viewer — the theme's own header/cart-drawer use
+   z-index: 9999, so this has to clear that or they render on top of it. */
+.pd-ig-modal { position: fixed; inset: 0; z-index: 100000; }
 .pd-ig-modal[hidden] { display: none; }
 .pd-ig-modal__backdrop {
   position: absolute;
