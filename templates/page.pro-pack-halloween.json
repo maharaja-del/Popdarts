@@ -6,8 +6,7 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */
-{
+ */{
   "sections": {
     "hero": {
       "type": "popdarts-hw-hero",
@@ -171,8 +170,8 @@
           "type": "fact",
           "settings": {
             "icon": "⚰️",
-            "title": "One final run",
-            "text": "This is the last batch of the Halloween colorway we will make.",
+            "title": "Limited Halloween run",
+            "text": "The Halloween colorway is back for a limited seasonal release.",
             "asset_filename": "pd-hw-graves.jpg"
           }
         },
@@ -189,8 +188,8 @@
           "type": "fact",
           "settings": {
             "icon": "🪦",
-            "title": "No restocks",
-            "text": "When it sells out, it stays sold out.",
+            "title": "Available while supplies last",
+            "text": "Once this year's batch sells out, it's gone for the season.",
             "asset_filename": "pd-hw-tower.jpg"
           }
         }
@@ -204,7 +203,7 @@
         "eyebrow": "Why now",
         "heading": "One final run.",
         "heading_accent": "Then it stays buried.",
-        "subheading": "Sold out last October. Back for the last time."
+        "subheading": "Sold out last October. Back for a limited Halloween run."
       }
     },
     "box": {
