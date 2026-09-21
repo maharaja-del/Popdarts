@@ -6,7 +6,8 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */{
+ */
+{
   "sections": {
     "hero": {
       "type": "popdarts-hw-hero",
@@ -126,6 +127,10 @@
         "i4"
       ],
       "settings": {
+        "image_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Halloween-Pro-Ad-1.png?v=1789699001",
+        "image_2_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Halloween-Pro-Ad-2.png?v=1789699002",
+        "image_3_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Halloween-Pro-Ad-3.png?v=1789699001",
+        "image_4_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Halloween-Pro-Ad-4.png?v=1789699002",
         "image_alt": "Popdarts PRO Pack Halloween edition retail box",
         "eyebrow": "Limited Halloween colorway",
         "title": "Halloween Pro Pack",
@@ -140,11 +145,7 @@
         "cw_note": "3 darts",
         "cta_label": "Add to cart",
         "cta_fallback": "",
-        "micro": "In stock now. No restocks after Halloween.",
-        "image_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Halloween-Pro-Ad-1.png?v=1789699001",
-        "image_2_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Halloween-Pro-Ad-2.png?v=1789699002",
-        "image_3_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Halloween-Pro-Ad-3.png?v=1789699001",
-        "image_4_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Halloween-Pro-Ad-4.png?v=1789699002"
+        "micro": "In stock now. No restocks after Halloween."
       }
     },
     "colorways": {
@@ -199,7 +200,6 @@
         "f2",
         "f3"
       ],
-      "disabled": true,
       "settings": {
         "eyebrow": "Why now",
         "heading": "One final run.",
@@ -246,14 +246,14 @@
         "b4"
       ],
       "settings": {
-        "image_alt": "The full Halloween Pro Pack lineup — Toxic Slime and Pumpkin Fright Popdarts",
-        "eyebrow": "What’s in the box",
-        "heading": "Everything for a",
-        "heading_accent": "two-player showdown.",
         "image_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Halloween-Pro-Ad-1.png?v=1789699001",
         "image_2_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Halloween-Pro-Ad-2.png?v=1789699002",
         "image_3_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Halloween-Pro-Ad-3.png?v=1789699001",
-        "image_4_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Halloween-Pro-Ad-4.png?v=1789699002"
+        "image_4_url": "https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Halloween-Pro-Ad-4.png?v=1789699002",
+        "image_alt": "The full Halloween Pro Pack lineup — Toxic Slime and Pumpkin Fright Popdarts",
+        "eyebrow": "What’s in the box",
+        "heading": "Everything for a",
+        "heading_accent": "two-player showdown."
       }
     },
     "steps": {
