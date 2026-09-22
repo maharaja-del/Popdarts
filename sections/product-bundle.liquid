@@ -68,6 +68,7 @@
   }
 
   .bnd-thumb {
+    position: relative;
     width: calc(25% - 6px);
     aspect-ratio: 1 / 1;
     border-radius: 10px;
@@ -88,6 +89,17 @@
     object-fit: cover;
     display: block;
   }
+
+  .bnd-thumb-play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .bnd-thumb-play svg { width: 22px; height: 22px; }
 
   /* ─────────────────────────────
      RIGHT — INFO
@@ -1635,11 +1647,28 @@
         >
       </div>
       <div class="bnd-thumbs">
-        {% for image in main_product.images limit: 8 %}
-          <div class="bnd-thumb{% if forloop.first %} active{% endif %}" data-src="{{ image | image_url: width: 800 }}">
-            <img src="{{ image | image_url: width: 200 }}" alt="{{ main_product.title }} {{ forloop.index }}" loading="eager"{% if forloop.first %} fetchpriority="high"{% endif %}>
-          </div>
-        {% endfor %}
+        {%- assign first_image_marked = false -%}
+        {%- for media in main_product.media limit: 8 -%}
+          {%- if media.media_type == 'video' -%}
+            {%- assign mp4_sources = media.sources | where: 'mime_type', 'video/mp4' | sort: 'width' -%}
+            {%- assign video_src = mp4_sources | last -%}
+            <div class="bnd-thumb bnd-thumb--video" data-type="video" data-video-src="{{ video_src.url }}" data-video-label="{{ main_product.title | escape }}">
+              <img src="{{ media.preview_image | image_url: width: 200 }}" alt="{{ main_product.title }} video" loading="eager">
+              <span class="bnd-thumb-play" aria-hidden="true">
+                <svg viewBox="0 0 34 34" fill="none"><circle cx="17" cy="17" r="17" fill="rgba(0,0,0,0.4)"/><polygon points="14,11 24,17 14,23" fill="white"/></svg>
+              </span>
+            </div>
+          {%- else -%}
+            {%- assign is_first_img = false -%}
+            {%- unless first_image_marked -%}
+              {%- assign is_first_img = true -%}
+              {%- assign first_image_marked = true -%}
+            {%- endunless -%}
+            <div class="bnd-thumb{% if is_first_img %} active{% endif %}" data-type="image" data-src="{{ media | image_url: width: 800 }}">
+              <img src="{{ media | image_url: width: 200 }}" alt="{{ main_product.title }} {{ forloop.index }}" loading="eager"{% if is_first_img %} fetchpriority="high"{% endif %}>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
       </div>
     </div>
 
@@ -2207,6 +2236,7 @@ document.querySelectorAll('.bnd-accordion .bnd-acc-trigger').forEach(function (t
   /* ── THUMBNAIL SWITCHING ── */
   var mainImg = document.getElementById('bnd-main-img');
   document.querySelectorAll('.bnd-thumb').forEach(function (t) {
+    if (t.dataset.type === 'video') return; // handled below, opens the reel player instead
     t.addEventListener('click', function () {
       document.querySelectorAll('.bnd-thumb').forEach(function (x) { x.classList.remove('active'); });
       t.classList.add('active');
@@ -2547,8 +2577,34 @@ document.querySelectorAll('.bnd-accordion .bnd-acc-trigger').forEach(function (t
   function pdOpen(i) { pdMuted = false; pdOverlay.classList.add('active'); document.body.style.overflow = 'hidden'; pdLoadReel(i); }
   function pdClose() { pdOverlay.classList.remove('active'); document.body.style.overflow = ''; pdReelVideo.pause(); pdReelVideo.removeAttribute('src'); pdReelVideo.load(); }
 
+  // Opens the same reel player for a video that isn't part of the fixed
+  // PD_VIDEOS row (e.g. a video attached to the product's own media) — no
+  // prev/next since it isn't part of that indexed set.
+  function pdOpenCustom(src, label) {
+    pdMuted = false;
+    pdOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    pdReelVideo.src = src;
+    pdReelVideo.muted = pdMuted;
+    pdReelTitle.textContent = label || '';
+    pdSyncMute();
+    pdReelVideo.load();
+    pdReelVideo.play().catch(function () {
+      pdReelVideo.muted = true; pdMuted = true; pdSyncMute();
+      pdReelVideo.play().catch(function () {});
+    });
+    pdPrevBtn.classList.add('pd-hidden');
+    pdNextBtn.classList.add('pd-hidden');
+  }
+
   pdCards.forEach(function (card) {
     card.addEventListener('click', function () { pdOpen(parseInt(card.dataset.index, 10)); });
+  });
+
+  document.querySelectorAll('.bnd-thumb--video').forEach(function (thumb) {
+    thumb.addEventListener('click', function () {
+      pdOpenCustom(thumb.dataset.videoSrc, thumb.dataset.videoLabel);
+    });
   });
 
   pdCloseBtn.addEventListener('click', pdClose);
