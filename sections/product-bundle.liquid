@@ -1635,27 +1635,10 @@
         >
       </div>
       <div class="bnd-thumbs">
-        {% comment %} First product image {% endcomment %}
-        {% assign first_img = main_product.images | first %}
-        <div class="bnd-thumb active" data-src="{{ first_img | image_url: width: 800 }}">
-          <img src="{{ first_img | image_url: width: 200 }}" alt="{{ main_product.title }} 1" loading="eager" fetchpriority="high">
-        </div>
-
-        {% comment %} Two custom added images {% endcomment %}
-        <div class="bnd-thumb" data-src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Images_Popdarts_Images1.jpg?v=1778015525">
-          <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Images_Popdarts_Images1.jpg?v=1778015525" alt="{{ main_product.title }} lifestyle" loading="eager">
-        </div>
-        <div class="bnd-thumb" data-src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Group_1484581343.png?v=1778015640">
-          <img src="https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Group_1484581343.png?v=1778015640" alt="{{ main_product.title }} bundle" loading="eager">
-        </div>
-
-        {% comment %} Remaining product images (skip first, show up to 2 more) {% endcomment %}
-        {% for image in main_product.images limit: 3 %}
-          {% unless forloop.first %}
-            <div class="bnd-thumb" data-src="{{ image | image_url: width: 800 }}">
-              <img src="{{ image | image_url: width: 200 }}" alt="{{ main_product.title }} {{ forloop.index }}" loading="eager">
-            </div>
-          {% endunless %}
+        {% for image in main_product.images limit: 8 %}
+          <div class="bnd-thumb{% if forloop.first %} active{% endif %}" data-src="{{ image | image_url: width: 800 }}">
+            <img src="{{ image | image_url: width: 200 }}" alt="{{ main_product.title }} {{ forloop.index }}" loading="eager"{% if forloop.first %} fetchpriority="high"{% endif %}>
+          </div>
         {% endfor %}
       </div>
     </div>
@@ -2593,17 +2576,9 @@ document.querySelectorAll('.bnd-accordion .bnd-acc-trigger').forEach(function (t
 
   /* ── LIGHTBOX ── */
   var BND_IMAGES = [
-    {% comment %} First product image {% endcomment %}
-    {% assign first_img = main_product.images | first %}
-    '{{ first_img | image_url: width: 1600 }}',
-    {% comment %} Two custom images {% endcomment %}
-    'https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Images_Popdarts_Images1.jpg?v=1778015525',
-    'https://cdn.shopify.com/s/files/1/0471/3375/3505/files/Group_1484581343.png?v=1778015640'
-    {% comment %} Remaining product images {% endcomment %}
     {% for image in main_product.images limit: 8 %}
-      {% unless forloop.first %},
+      {% unless forloop.first %},{% endunless %}
       '{{ image | image_url: width: 1600 }}'
-      {% endunless %}
     {% endfor %}
   ];
   var BND_IMAGES_DEFAULT = BND_IMAGES.slice();
