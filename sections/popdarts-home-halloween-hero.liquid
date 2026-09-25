@@ -1,0 +1,301 @@
+{%- comment -%}
+  Homepage → Halloween page redirect banner (hero style).
+  Self-contained: own scoped styles/JS, only depends on bundled pd-hw-*
+  image assets already shipped with the theme. Safe to drop onto any
+  page/template; presets it below "Add section" as "Halloween Hero Banner".
+{%- endcomment -%}
+{%- assign hwr1_link = section.settings.button_link | default: '/pages/halloween' -%}
+{%- assign hwr1_box = section.settings.box_image | default: 'pd-hw-box.png' | asset_url -%}
+{%- assign hwr1_dart_a = 'pd-hw-dart-6.png' | asset_url -%}
+{%- assign hwr1_dart_b = 'pd-hw-dart-1.png' | asset_url -%}
+
+<section class="hwr1" id="hwr1-{{ section.id }}" aria-labelledby="hwr1-title-{{ section.id }}">
+  <a class="hwr1__hit" href="{{ hwr1_link }}" aria-label="{{ section.settings.heading | default: 'Shop the Halloween Pro Pack' }}"></a>
+  <div class="hwr1__glow hwr1__glow--a" aria-hidden="true"></div>
+  <div class="hwr1__glow hwr1__glow--b" aria-hidden="true"></div>
+
+  <div class="hwr1__wrap">
+    <div class="hwr1__content">
+      <p class="hwr1__eyebrow">{{ section.settings.eyebrow | default: '🎃 Limited Halloween Drop' }}</p>
+      <h2 class="hwr1__heading" id="hwr1-title-{{ section.id }}">
+        {{ section.settings.heading | default: 'The dead walk again.' }}
+        <span class="hwr1__accent">{{ section.settings.heading_accent | default: 'Halloween Pro Pack is live.' }}</span>
+      </h2>
+      <p class="hwr1__body">{{ section.settings.body | default: 'Toxic Slime and Pumpkin Fright colorways, only around for the season.' }}</p>
+
+      {%- if section.settings.show_countdown -%}
+        <div class="hwr1__countdown" data-hwr1-countdown data-target="{{ section.settings.countdown_date | default: '2026-10-31T23:59:59' }}" role="timer" aria-label="Time left of the Halloween drop">
+          <div class="hwr1__unit"><span data-hwr1-d>00</span><small>Days</small></div>
+          <div class="hwr1__unit"><span data-hwr1-h>00</span><small>Hrs</small></div>
+          <div class="hwr1__unit"><span data-hwr1-m>00</span><small>Min</small></div>
+          <div class="hwr1__unit"><span data-hwr1-s>00</span><small>Sec</small></div>
+        </div>
+      {%- endif -%}
+
+      <a class="hwr1__btn" href="{{ hwr1_link }}">
+        {{ section.settings.button_text | default: 'Shop The Halloween Drop' }}
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+
+    <div class="hwr1__stage" data-hwr1-card>
+      <div class="hwr1__box-wrap">
+        <img class="hwr1__box" src="{{ hwr1_box }}" alt="{{ section.settings.box_alt | default: 'Popdarts Halloween Pro Pack' }}" width="1466" height="861" loading="lazy" decoding="async">
+        <img class="hwr1__dart hwr1__dart--a" src="{{ hwr1_dart_a }}" alt="" width="935" height="1000" loading="lazy" decoding="async" aria-hidden="true">
+        <img class="hwr1__dart hwr1__dart--b" src="{{ hwr1_dart_b }}" alt="" width="901" height="1000" loading="lazy" decoding="async" aria-hidden="true">
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #hwr1-{{ section.id }} {
+    --hwr1-orange: #ff8a1f;
+    --hwr1-green: #a8f321;
+    --hwr1-purple: #7c3aed;
+    --hwr1-ink: #0a0710;
+    --hwr1-line: rgba(255, 255, 255, 0.1);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--hwr1-ink);
+    padding: clamp(56px, 9vh, 112px) 0;
+  }
+  #hwr1-{{ section.id }} * { box-sizing: border-box; }
+  #hwr1-{{ section.id }} .hwr1__hit { position: absolute; inset: 0; z-index: 1; }
+  #hwr1-{{ section.id }} .hwr1__glow {
+    position: absolute;
+    width: 60vw;
+    max-width: 640px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    filter: blur(90px);
+    pointer-events: none;
+    opacity: 0.35;
+  }
+  #hwr1-{{ section.id }} .hwr1__glow--a { top: -20%; left: -10%; background: var(--hwr1-purple); }
+  #hwr1-{{ section.id }} .hwr1__glow--b { bottom: -25%; right: -10%; background: var(--hwr1-orange); }
+
+  #hwr1-{{ section.id }} .hwr1__wrap {
+    position: relative;
+    z-index: 2;
+    max-width: 1320px;
+    margin-inline: auto;
+    padding-inline: clamp(20px, 5vw, 56px);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(32px, 6vw, 72px);
+  }
+
+  #hwr1-{{ section.id }} .hwr1__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    font-family: ui-monospace, "JetBrains Mono", monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--hwr1-orange);
+    margin: 0 0 16px;
+  }
+
+  #hwr1-{{ section.id }} .hwr1__heading {
+    font-family: inherit;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 1.04;
+    font-size: clamp(32px, 5vw, 56px);
+    color: #fdfdfd;
+    margin: 0 0 16px;
+  }
+  #hwr1-{{ section.id }} .hwr1__accent { display: block; color: var(--hwr1-green); }
+
+  #hwr1-{{ section.id }} .hwr1__body {
+    font-size: clamp(15px, 1.6vw, 18px);
+    line-height: 1.6;
+    color: rgba(253, 253, 253, 0.68);
+    max-width: 46ch;
+    margin: 0 0 28px;
+  }
+
+  #hwr1-{{ section.id }} .hwr1__countdown {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  #hwr1-{{ section.id }} .hwr1__unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--hwr1-line);
+  }
+  #hwr1-{{ section.id }} .hwr1__unit span {
+    font-family: ui-monospace, "JetBrains Mono", monospace;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fdfdfd;
+    line-height: 1.1;
+  }
+  #hwr1-{{ section.id }} .hwr1__unit small {
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(253, 253, 253, 0.5);
+    margin-top: 2px;
+  }
+
+  #hwr1-{{ section.id }} .hwr1__btn {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 56px;
+    padding-inline: 30px;
+    border-radius: 999px;
+    background: var(--hwr1-orange);
+    color: #0a0710;
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    box-shadow: 0 20px 44px -16px rgba(255, 138, 31, 0.75);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  #hwr1-{{ section.id }} .hwr1__btn svg { transition: transform 0.2s ease; }
+  #hwr1-{{ section.id }}:hover .hwr1__btn,
+  #hwr1-{{ section.id }} .hwr1__hit:focus-visible ~ .hwr1__wrap .hwr1__btn {
+    transform: translateY(-2px);
+    box-shadow: 0 26px 54px -14px rgba(255, 138, 31, 0.9);
+  }
+  #hwr1-{{ section.id }}:hover .hwr1__btn svg { transform: translateX(3px); }
+
+  #hwr1-{{ section.id }} .hwr1__stage {
+    --hwr1-rx: 0deg; --hwr1-ry: 0deg;
+    position: relative;
+    aspect-ratio: 1.15 / 1;
+    transform: perspective(1200px) rotateX(var(--hwr1-ry)) rotateY(var(--hwr1-rx));
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  #hwr1-{{ section.id }} .hwr1__box-wrap { position: relative; width: 100%; height: 100%; }
+  #hwr1-{{ section.id }} .hwr1__box {
+    position: absolute;
+    left: 50%; top: 50%;
+    max-width: 88%;
+    max-height: 88%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    filter: drop-shadow(0 40px 50px rgba(0, 0, 0, 0.75));
+    animation: hwr1-bob 9s ease-in-out infinite;
+  }
+  #hwr1-{{ section.id }} .hwr1__dart {
+    position: absolute;
+    width: 20%;
+    height: auto;
+    filter: drop-shadow(0 20px 26px rgba(0, 0, 0, 0.75));
+    pointer-events: none;
+  }
+  #hwr1-{{ section.id }} .hwr1__dart--a { left: 2%; bottom: 8%; transform: rotate(-18deg); animation: hwr1-bob 7s ease-in-out infinite; }
+  #hwr1-{{ section.id }} .hwr1__dart--b { right: 0%; top: 6%; transform: rotate(24deg); animation: hwr1-bob 6.4s ease-in-out infinite; animation-delay: -3s; }
+
+  @keyframes hwr1-bob {
+    0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+    50% { transform: translate(-50%, -50%) translateY(-10px); }
+  }
+  #hwr1-{{ section.id }} .hwr1__dart--a { animation-name: hwr1-bob-a; }
+  #hwr1-{{ section.id }} .hwr1__dart--b { animation-name: hwr1-bob-b; }
+  @keyframes hwr1-bob-a { 0%, 100% { transform: rotate(-18deg) translateY(0); } 50% { transform: rotate(-18deg) translateY(-8px); } }
+  @keyframes hwr1-bob-b { 0%, 100% { transform: rotate(24deg) translateY(0); } 50% { transform: rotate(24deg) translateY(-8px); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    #hwr1-{{ section.id }} .hwr1__box, #hwr1-{{ section.id }} .hwr1__dart { animation: none; }
+    #hwr1-{{ section.id }} .hwr1__stage { transform: none; }
+  }
+
+  @media (max-width: 860px) {
+    #hwr1-{{ section.id }} .hwr1__wrap { grid-template-columns: 1fr; text-align: center; }
+    #hwr1-{{ section.id }} .hwr1__eyebrow { justify-content: center; width: 100%; }
+    #hwr1-{{ section.id }} .hwr1__body { margin-inline: auto; }
+    #hwr1-{{ section.id }} .hwr1__countdown { justify-content: center; }
+    #hwr1-{{ section.id }} .hwr1__stage { order: -1; max-width: 360px; margin-inline: auto; aspect-ratio: 1.05 / 1; }
+  }
+
+  @media (max-width: 420px) {
+    #hwr1-{{ section.id }} .hwr1__unit { width: 54px; height: 54px; }
+    #hwr1-{{ section.id }} .hwr1__unit span { font-size: 17px; }
+    #hwr1-{{ section.id }} .hwr1__btn { width: 100%; justify-content: center; }
+  }
+</style>
+
+<script>
+  (function () {
+    var root = document.getElementById('hwr1-{{ section.id }}');
+    if (!root || root.__hwr1Init) return;
+    root.__hwr1Init = true;
+
+    var cd = root.querySelector('[data-hwr1-countdown]');
+    if (cd) {
+      var target = new Date(cd.dataset.target).getTime();
+      var dEl = cd.querySelector('[data-hwr1-d]'), hEl = cd.querySelector('[data-hwr1-h]'),
+          mEl = cd.querySelector('[data-hwr1-m]'), sEl = cd.querySelector('[data-hwr1-s]');
+      var pad = function (n) { return String(Math.max(n, 0)).padStart(2, '0'); };
+      var tick = function () {
+        var diff = target - Date.now();
+        if (diff <= 0) { dEl.textContent = hEl.textContent = mEl.textContent = sEl.textContent = '00'; return; }
+        var d = Math.floor(diff / 86400000);
+        var h = Math.floor((diff % 86400000) / 3600000);
+        var m = Math.floor((diff % 3600000) / 60000);
+        var s = Math.floor((diff % 60000) / 1000);
+        dEl.textContent = pad(d); hEl.textContent = pad(h); mEl.textContent = pad(m); sEl.textContent = pad(s);
+      };
+      tick();
+      setInterval(tick, 1000);
+    }
+
+    var stage = root.querySelector('[data-hwr1-card]');
+    var canHover = window.matchMedia('(hover: hover)').matches;
+    if (stage && canHover && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      root.addEventListener('pointermove', function (e) {
+        var r = root.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - 0.5;
+        var py = (e.clientY - r.top) / r.height - 0.5;
+        stage.style.setProperty('--hwr1-rx', (px * 8).toFixed(2) + 'deg');
+        stage.style.setProperty('--hwr1-ry', (py * -8).toFixed(2) + 'deg');
+      });
+      root.addEventListener('pointerleave', function () {
+        stage.style.setProperty('--hwr1-rx', '0deg');
+        stage.style.setProperty('--hwr1-ry', '0deg');
+      });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Halloween Hero Banner",
+  "tag": "section",
+  "class": "pd-section-hwr1",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "🎃 Limited Halloween Drop" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "The dead walk again." },
+    { "type": "text", "id": "heading_accent", "label": "Heading, green line", "default": "Halloween Pro Pack is live." },
+    { "type": "textarea", "id": "body", "label": "Body text", "default": "Toxic Slime and Pumpkin Fright colorways, only around for the season." },
+    { "type": "text", "id": "button_text", "label": "Button text", "default": "Shop The Halloween Drop" },
+    { "type": "url", "id": "button_link", "label": "Button link", "info": "Defaults to /pages/halloween if left empty." },
+    { "type": "image_picker", "id": "box_image", "label": "Box image", "info": "Empty = the built-in Halloween Pro Pack render." },
+    { "type": "text", "id": "box_alt", "label": "Box image alt text", "default": "Popdarts Halloween Pro Pack" },
+    { "type": "header", "content": "Countdown" },
+    { "type": "checkbox", "id": "show_countdown", "label": "Show countdown timer", "default": true },
+    { "type": "text", "id": "countdown_date", "label": "Countdown end (ISO date)", "info": "Format: YYYY-MM-DDTHH:MM:SS. Example: 2026-10-31T23:59:59", "default": "2026-10-31T23:59:59" }
+  ],
+  "presets": [{ "name": "Halloween Hero Banner" }]
+}
+{% endschema %}
