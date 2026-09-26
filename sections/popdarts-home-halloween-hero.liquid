@@ -8,9 +8,21 @@
 {%- assign hwr1_box = section.settings.box_image | default: 'pd-hw-box.png' | asset_url -%}
 {%- assign hwr1_dart_a = 'pd-hw-dart-6.png' | asset_url -%}
 {%- assign hwr1_dart_b = 'pd-hw-dart-1.png' | asset_url -%}
+{%- liquid
+  assign hwr1_product = section.settings.product | default: all_products['pro-pack']
+  assign hwr1_variant_id = section.settings.variant_id | default: '48376550260972' | plus: 0
+  assign hwr1_variant = nil
+  for v in hwr1_product.variants
+    if v.id == hwr1_variant_id
+      assign hwr1_variant = v
+    endif
+  endfor
+  unless hwr1_variant
+    assign hwr1_variant = hwr1_product.selected_or_first_available_variant
+  endunless
+-%}
 
 <section class="hwr1" id="hwr1-{{ section.id }}" aria-labelledby="hwr1-title-{{ section.id }}">
-  <a class="hwr1__hit" href="{{ hwr1_link }}" aria-label="{{ section.settings.heading | default: 'Shop the Halloween Pro Pack' }}"></a>
   <div class="hwr1__glow hwr1__glow--a" aria-hidden="true"></div>
   <div class="hwr1__glow hwr1__glow--b" aria-hidden="true"></div>
 
@@ -32,10 +44,30 @@
         </div>
       {%- endif -%}
 
-      <a class="hwr1__btn" href="{{ hwr1_link }}">
-        {{ section.settings.button_text | default: 'Shop The Halloween Drop' }}
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
+      {%- if hwr1_variant -%}
+        <div class="hwr1__price">
+          <span class="hwr1__price-now">{{ hwr1_variant.price | money }}</span>
+          {%- if hwr1_variant.compare_at_price > hwr1_variant.price -%}
+            <span class="hwr1__price-was">{{ hwr1_variant.compare_at_price | money }}</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <div class="hwr1__actions">
+        {%- if hwr1_variant and hwr1_variant.available -%}
+          <button type="button" class="hwr1__btn hwr1__btn--primary" data-hwr1-atc data-variant-id="{{ hwr1_variant.id }}" data-cart-url="/cart">
+            <span data-hwr1-atc-label>{{ section.settings.button_text | default: 'Add To Cart' }}</span>
+          </button>
+        {%- else -%}
+          <a class="hwr1__btn hwr1__btn--primary" href="{{ hwr1_product.url | default: '/products/pro-pack' }}">
+            {{ section.settings.button_text | default: 'Add To Cart' }}
+          </a>
+        {%- endif -%}
+        <a class="hwr1__btn hwr1__btn--secondary" href="{{ hwr1_link }}">
+          {{ section.settings.secondary_button_text | default: 'View Halloween Page' }}
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
     </div>
 
     <div class="hwr1__stage" data-hwr1-card>
@@ -62,7 +94,6 @@
     padding: clamp(56px, 9vh, 112px) 0;
   }
   #hwr1-{{ section.id }} * { box-sizing: border-box; }
-  #hwr1-{{ section.id }} .hwr1__hit { position: absolute; inset: 0; z-index: 1; }
   #hwr1-{{ section.id }} .hwr1__glow {
     position: absolute;
     width: 60vw;
@@ -151,31 +182,59 @@
     margin-top: 2px;
   }
 
+  #hwr1-{{ section.id }} .hwr1__price {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  #hwr1-{{ section.id }} .hwr1__price-now { font-size: 24px; font-weight: 800; color: #fdfdfd; }
+  #hwr1-{{ section.id }} .hwr1__price-was { font-size: 16px; color: rgba(253, 253, 253, 0.45); text-decoration: line-through; }
+
+  #hwr1-{{ section.id }} .hwr1__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
   #hwr1-{{ section.id }} .hwr1__btn {
     position: relative;
     z-index: 2;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     height: 56px;
-    padding-inline: 30px;
+    padding-inline: 28px;
     border-radius: 999px;
-    background: var(--hwr1-orange);
-    color: #0a0710;
     font-weight: 800;
     font-size: 15px;
     letter-spacing: 0.01em;
     text-decoration: none;
-    box-shadow: 0 20px 44px -16px rgba(255, 138, 31, 0.75);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 0;
+    cursor: pointer;
+    font-family: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   }
   #hwr1-{{ section.id }} .hwr1__btn svg { transition: transform 0.2s ease; }
-  #hwr1-{{ section.id }}:hover .hwr1__btn,
-  #hwr1-{{ section.id }} .hwr1__hit:focus-visible ~ .hwr1__wrap .hwr1__btn {
-    transform: translateY(-2px);
-    box-shadow: 0 26px 54px -14px rgba(255, 138, 31, 0.9);
+  #hwr1-{{ section.id }} .hwr1__btn:hover { transform: translateY(-2px); }
+  #hwr1-{{ section.id }} .hwr1__btn:hover svg { transform: translateX(3px); }
+
+  #hwr1-{{ section.id }} .hwr1__btn--primary {
+    background: var(--hwr1-orange);
+    color: #0a0710;
+    box-shadow: 0 20px 44px -16px rgba(255, 138, 31, 0.75);
   }
-  #hwr1-{{ section.id }}:hover .hwr1__btn svg { transform: translateX(3px); }
+  #hwr1-{{ section.id }} .hwr1__btn--primary:hover { box-shadow: 0 26px 54px -14px rgba(255, 138, 31, 0.9); }
+  #hwr1-{{ section.id }} .hwr1__btn--primary.is-busy { opacity: 0.75; pointer-events: none; }
+  #hwr1-{{ section.id }} .hwr1__btn--primary.is-done { background: var(--hwr1-green); }
+
+  #hwr1-{{ section.id }} .hwr1__btn--secondary {
+    background: transparent;
+    color: #fdfdfd;
+    border: 1.5px solid rgba(253, 253, 253, 0.3);
+  }
+  #hwr1-{{ section.id }} .hwr1__btn--secondary:hover { background: rgba(253, 253, 253, 0.08); border-color: rgba(253, 253, 253, 0.55); }
 
   #hwr1-{{ section.id }} .hwr1__stage {
     --hwr1-rx: 0deg; --hwr1-ry: 0deg;
@@ -231,7 +290,9 @@
   @media (max-width: 420px) {
     #hwr1-{{ section.id }} .hwr1__unit { width: 54px; height: 54px; }
     #hwr1-{{ section.id }} .hwr1__unit span { font-size: 17px; }
+    #hwr1-{{ section.id }} .hwr1__actions { flex-direction: column; }
     #hwr1-{{ section.id }} .hwr1__btn { width: 100%; justify-content: center; }
+    #hwr1-{{ section.id }} .hwr1__price { justify-content: center; }
   }
 </style>
 
@@ -275,6 +336,51 @@
         stage.style.setProperty('--hwr1-ry', '0deg');
       });
     }
+
+    var atcBtn = root.querySelector('[data-hwr1-atc]');
+    if (atcBtn) {
+      atcBtn.addEventListener('click', function () {
+        if (atcBtn.classList.contains('is-busy')) return;
+        var id = parseInt(atcBtn.dataset.variantId, 10);
+        if (!id) return;
+        var label = atcBtn.querySelector('[data-hwr1-atc-label]') || atcBtn;
+        var original = label.textContent;
+        atcBtn.classList.add('is-busy');
+        label.textContent = 'Adding…';
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ items: [{ id: id, quantity: 1 }] }),
+        })
+          .then(function (res) {
+            if (!res.ok) throw new Error('add failed');
+            return fetch('/cart.js').then(function (r) { return r.json(); });
+          })
+          .then(function (cart) {
+            atcBtn.classList.remove('is-busy');
+            atcBtn.classList.add('is-done');
+            label.textContent = 'Added to cart ✓';
+            document.querySelectorAll('[data-cart-count], .cart-count, .cart-count-bubble, [data-header-cart-count]').forEach(function (el) {
+              el.textContent = cart.item_count;
+            });
+            ['cart:refresh', 'cart:change', 'cart:build', 'cart-drawer:refresh'].forEach(function (name) {
+              document.documentElement.dispatchEvent(new CustomEvent(name, { bubbles: true, detail: { cart: cart } }));
+            });
+            // Try the theme's own cart drawer/toggle first; fall back to the cart page.
+            var toggle = document.querySelector('[data-cart-toggle], .cart-toggle, #cart-toggle, .js-cart-open');
+            if (toggle) { toggle.click(); }
+            setTimeout(function () {
+              atcBtn.classList.remove('is-done');
+              label.textContent = original;
+            }, 2600);
+          })
+          .catch(function () {
+            atcBtn.classList.remove('is-busy');
+            label.textContent = original;
+            window.location.href = atcBtn.dataset.cartUrl || '/cart';
+          });
+      });
+    }
   })();
 </script>
 
@@ -288,10 +394,15 @@
     { "type": "text", "id": "heading", "label": "Heading", "default": "The dead walk again." },
     { "type": "text", "id": "heading_accent", "label": "Heading, green line", "default": "Halloween Pro Pack is live." },
     { "type": "textarea", "id": "body", "label": "Body text", "default": "Toxic Slime and Pumpkin Fright colorways, only around for the season." },
-    { "type": "text", "id": "button_text", "label": "Button text", "default": "Shop The Halloween Drop" },
-    { "type": "url", "id": "button_link", "label": "Button link", "info": "Defaults to /pages/halloween if left empty." },
     { "type": "image_picker", "id": "box_image", "label": "Box image", "info": "Empty = the built-in Halloween Pro Pack render." },
     { "type": "text", "id": "box_alt", "label": "Box image alt text", "default": "Popdarts Halloween Pro Pack" },
+    { "type": "header", "content": "Add to cart button" },
+    { "type": "product", "id": "product", "label": "Product", "info": "Empty = the Pro Pack product." },
+    { "type": "text", "id": "variant_id", "label": "Variant ID", "info": "Which variant \"Add To Cart\" adds. Defaults to the Halloween colorway.", "default": "48376550260972" },
+    { "type": "text", "id": "button_text", "label": "Add to cart button text", "default": "Add To Cart" },
+    { "type": "header", "content": "View page button" },
+    { "type": "text", "id": "secondary_button_text", "label": "Button text", "default": "View Halloween Page" },
+    { "type": "url", "id": "button_link", "label": "Button link", "info": "Defaults to /pages/halloween if left empty." },
     { "type": "header", "content": "Countdown" },
     { "type": "checkbox", "id": "show_countdown", "label": "Show countdown timer", "default": true },
     { "type": "text", "id": "countdown_date", "label": "Countdown end (ISO date)", "info": "Format: YYYY-MM-DDTHH:MM:SS. Example: 2026-10-31T23:59:59", "default": "2026-10-31T23:59:59" }
