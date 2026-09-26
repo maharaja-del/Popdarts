@@ -86,6 +86,7 @@
     --hwr1-green: #a8f321;
     --hwr1-purple: #7c3aed;
     --hwr1-ink: #0a0710;
+    --hwr1-panel: #14111c;
     --hwr1-line: rgba(255, 255, 255, 0.1);
     position: relative;
     isolation: isolate;
@@ -240,6 +241,13 @@
     --hwr1-rx: 0deg; --hwr1-ry: 0deg;
     position: relative;
     aspect-ratio: 1.15 / 1;
+    border-radius: 24px;
+    padding: clamp(20px, 4vw, 40px);
+    background: radial-gradient(70% 60% at 50% 60%, rgba(124, 58, 231, 0.22), transparent 70%), var(--hwr1-panel);
+    border: 1px solid var(--hwr1-line);
+    box-shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+    isolation: isolate;
     transform: perspective(1200px) rotateX(var(--hwr1-ry)) rotateY(var(--hwr1-rx));
     transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   }
