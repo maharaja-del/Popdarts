@@ -22,6 +22,11 @@
 
 <section class="pd-page hwp hwp-box" id="hw-box" aria-labelledby="hw-box-title-{{ section.id }}">
   <div class="pd-wrap hwp-box__grid">
+    {%- if section.settings.figure_image != blank -%}
+      <div class="hwp-box__figure" aria-hidden="true">
+        <img src="{{ section.settings.figure_image | image_url: width: 420 }}" alt="" width="420" height="908" loading="lazy" decoding="async">
+      </div>
+    {%- endif -%}
     <div class="hwp-box__stage">
       <div class="hwp-box__slider" data-hw-autoslide>
         {%- for src in lineup_slides -%}
@@ -71,7 +76,9 @@
     { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "The full Halloween Pro Pack lineup — Toxic Slime and Pumpkin Fright Popdarts" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "What’s in the box" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Everything for a" },
-    { "type": "text", "id": "heading_accent", "label": "Heading, orange part", "default": "two-player showdown." }
+    { "type": "text", "id": "heading_accent", "label": "Heading, orange part", "default": "two-player showdown." },
+    { "type": "header", "content": "Background figure (optional)" },
+    { "type": "image_picker", "id": "figure_image", "label": "Figure image", "info": "Tall portrait image, ~853 x 1844px. Shown small and faded behind the box art, hidden on mobile. Leave empty to hide." }
   ],
   "blocks": [
     { "type": "item", "name": "Item", "settings": [

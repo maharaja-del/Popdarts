@@ -2638,8 +2638,29 @@ body.pro-pack-halloween .footer {
 .hwp .hwp-pcard__body p { font-size: 15px; color: rgba(253, 253, 253, 0.72); margin: 0; }
 
 /* ---- IN THE BOX ---- */
-.hwp-box__grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 80px); align-items: center; }
-.hwp-box__stage { position: relative; border-radius: 24px; overflow: hidden; background: #000; border: 1px solid var(--hwp-line); aspect-ratio: 1600 / 1038; }
+.hwp-box__grid { position: relative; display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 80px); align-items: center; }
+.hwp-box__stage { position: relative; z-index: 1; border-radius: 24px; overflow: hidden; background: #000; border: 1px solid var(--hwp-line); aspect-ratio: 1600 / 1038; }
+
+/* Optional background figure — sits behind the stage, deliberately
+   subdued (low opacity, desaturated, faded at the bottom) so it reads
+   as atmosphere rather than competing with the product shot. */
+.hwp-box__figure {
+  position: absolute;
+  z-index: 0;
+  right: 2%;
+  bottom: -4%;
+  width: clamp(110px, 15vw, 210px);
+  aspect-ratio: 853 / 1844;
+  opacity: 0.25;
+  filter: grayscale(0.45) brightness(0.75) contrast(1.05);
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to top, black 55%, transparent 100%);
+  mask-image: linear-gradient(to top, black 55%, transparent 100%);
+}
+.hwp-box__figure img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: bottom center; }
+@media (max-width: 900px) {
+  .hwp-box__figure { display: none; }
+}
 .hwp-box__slider { position: absolute; inset: 0; }
 .hwp-box__slider img {
   display: block;
