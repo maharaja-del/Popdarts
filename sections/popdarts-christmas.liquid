@@ -1,0 +1,688 @@
+{%- comment -%}
+  Popdarts Christmas gift-guide page. Self-contained (own scoped styles/
+  JS), uses the theme's already-loaded Inter fonts, live product data
+  for the 4 core packs (no hardcoded prices/images), and the brand
+  token set supplied for this page: PRIMARY #2B99FF family + INK/MIST/
+  PAPER/LINE/NIGHT neutrals. Root class .pd-campaign, elements prefixed
+  pd-campaign__ throughout.
+{%- endcomment -%}
+{%- liquid
+  assign rookie = all_products['rookie-pack']
+  assign pro = all_products['pro-pack']
+  assign elite = all_products['elite-full-pack']
+  assign swaptop = all_products['swaptop-kit']
+-%}
+
+<section class="pd-campaign" id="pd-campaign-{{ section.id }}">
+
+  {%- comment -%} ============ HERO ============ {%- endcomment -%}
+  <header class="pd-campaign__hero">
+    <div class="pd-campaign__snow" aria-hidden="true">
+      {%- for i in (1..24) -%}<span class="pd-campaign__flake"></span>{%- endfor -%}
+    </div>
+    <div class="pd-campaign__hero-glow" aria-hidden="true"></div>
+
+    <div class="pd-campaign__wrap pd-campaign__hero-grid">
+      <div class="pd-campaign__hero-content">
+        <p class="pd-campaign__eyebrow">{{ section.settings.eyebrow | default: '🎄 Holiday Gift Guide' }}</p>
+        <h1 class="pd-campaign__hero-heading">
+          {{ section.settings.heading | default: 'Game night is the best gift.' }}
+          <span class="pd-campaign__hero-accent">{{ section.settings.heading_accent | default: 'Shop the holiday lineup.' }}</span>
+        </h1>
+        <p class="pd-campaign__hero-body">{{ section.settings.body | default: "From first-timers to tournament champs — there's a Popdarts pack under the tree for everyone." }}</p>
+
+        {%- if section.settings.show_countdown -%}
+          <div class="pd-campaign__countdown" data-pd-campaign-countdown data-target="{{ section.settings.countdown_date | default: '2026-12-25T00:00:00' }}">
+            <span class="pd-campaign__countdown-dot" aria-hidden="true"></span>
+            <span data-pd-campaign-countdown-text>{{ section.settings.countdown_label | default: 'days until Christmas' }}</span>
+          </div>
+        {%- endif -%}
+
+        <div class="pd-campaign__hero-actions">
+          <a class="pd-campaign__btn pd-campaign__btn--primary" href="#pd-campaign-guide-{{ section.id }}">
+            {{ section.settings.button_text | default: 'Shop The Gift Guide' }}
+          </a>
+          <a class="pd-campaign__btn pd-campaign__btn--ghost" href="{{ section.settings.collection_link | default: '/collections/all' }}">
+            {{ section.settings.secondary_button_text | default: 'Shop All Packs' }}
+          </a>
+        </div>
+      </div>
+
+      <div class="pd-campaign__hero-stage">
+        <div class="pd-campaign__hero-panel">
+          {%- if pro.featured_image -%}
+            <img src="{{ pro.featured_image | image_url: width: 900 }}" alt="{{ pro.title }}" width="900" height="900" loading="eager" fetchpriority="high" decoding="async">
+          {%- endif -%}
+        </div>
+        {%- if swaptop.featured_image -%}
+          <div class="pd-campaign__hero-chip">
+            <img src="{{ swaptop.featured_image | image_url: width: 300 }}" alt="{{ swaptop.title }}" width="300" height="300" loading="lazy" decoding="async">
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </header>
+
+  {%- comment -%} ============ GIFT GUIDE GRID ============ {%- endcomment -%}
+  <div class="pd-campaign__guide" id="pd-campaign-guide-{{ section.id }}">
+    <div class="pd-campaign__wrap">
+      <div class="pd-campaign__guide-head">
+        <p class="pd-campaign__eyebrow pd-campaign__eyebrow--ink">{{ section.settings.guide_eyebrow | default: '🎁 Pick a pack' }}</p>
+        <h2 class="pd-campaign__guide-heading">{{ section.settings.guide_heading | default: 'Find their perfect match.' }}</h2>
+      </div>
+
+      <div class="pd-campaign__cards">
+        {%- comment -%} Rookie {%- endcomment -%}
+        {%- if rookie -%}
+          {%- assign v = rookie.selected_or_first_available_variant -%}
+          <div class="pd-campaign__card">
+            <span class="pd-campaign__card-tag">{{ section.settings.card_1_tag | default: 'Best for first-timers' }}</span>
+            <a class="pd-campaign__card-media" href="{{ rookie.url }}">
+              {%- if rookie.featured_image -%}<img src="{{ rookie.featured_image | image_url: width: 600 }}" alt="{{ rookie.title }}" width="600" height="600" loading="lazy" decoding="async">{%- endif -%}
+            </a>
+            <div class="pd-campaign__card-body">
+              <h3 class="pd-campaign__card-title">{{ rookie.title }}</h3>
+              <p class="pd-campaign__card-blurb">{{ section.settings.card_1_blurb | default: 'Softer darts built for little hands and first throws. Ages 5+.' }}</p>
+              <div class="pd-campaign__card-foot">
+                <span class="pd-campaign__card-price">{{ v.price | money }}</span>
+                {%- if v and v.available -%}
+                  <button type="button" class="pd-campaign__btn pd-campaign__btn--accessible pd-campaign__btn--sm" data-pd-campaign-atc data-variant-id="{{ v.id }}">
+                    <span data-pd-campaign-atc-label>{{ section.settings.card_cta_text | default: 'Add To Cart' }}</span>
+                  </button>
+                {%- else -%}
+                  <a class="pd-campaign__btn pd-campaign__btn--accessible pd-campaign__btn--sm" href="{{ rookie.url }}">{{ section.settings.card_cta_text | default: 'Add To Cart' }}</a>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Pro {%- endcomment -%}
+        {%- if pro -%}
+          {%- assign v = pro.selected_or_first_available_variant -%}
+          <div class="pd-campaign__card pd-campaign__card--featured">
+            <span class="pd-campaign__card-tag pd-campaign__card-tag--primary">{{ section.settings.card_2_tag | default: 'Most popular' }}</span>
+            <a class="pd-campaign__card-media" href="{{ pro.url }}">
+              {%- if pro.featured_image -%}<img src="{{ pro.featured_image | image_url: width: 600 }}" alt="{{ pro.title }}" width="600" height="600" loading="lazy" decoding="async">{%- endif -%}
+            </a>
+            <div class="pd-campaign__card-body">
+              <h3 class="pd-campaign__card-title">{{ pro.title }}</h3>
+              <p class="pd-campaign__card-blurb">{{ section.settings.card_2_blurb | default: 'Tournament-weight darts and a Pro Target Marker — the all-around gift.' }}</p>
+              <div class="pd-campaign__card-foot">
+                <span class="pd-campaign__card-price">{{ v.price | money }}</span>
+                {%- if v and v.available -%}
+                  <button type="button" class="pd-campaign__btn pd-campaign__btn--primary pd-campaign__btn--sm" data-pd-campaign-atc data-variant-id="{{ v.id }}">
+                    <span data-pd-campaign-atc-label>{{ section.settings.card_cta_text | default: 'Add To Cart' }}</span>
+                  </button>
+                {%- else -%}
+                  <a class="pd-campaign__btn pd-campaign__btn--primary pd-campaign__btn--sm" href="{{ pro.url }}">{{ section.settings.card_cta_text | default: 'Add To Cart' }}</a>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Elite {%- endcomment -%}
+        {%- if elite -%}
+          {%- assign v = elite.selected_or_first_available_variant -%}
+          <div class="pd-campaign__card">
+            <span class="pd-campaign__card-tag">{{ section.settings.card_3_tag | default: 'The ultimate gift' }}</span>
+            <a class="pd-campaign__card-media" href="{{ elite.url }}">
+              {%- if elite.featured_image -%}<img src="{{ elite.featured_image | image_url: width: 600 }}" alt="{{ elite.title }}" width="600" height="600" loading="lazy" decoding="async">{%- endif -%}
+            </a>
+            <div class="pd-campaign__card-body">
+              <h3 class="pd-campaign__card-title">{{ elite.title }}</h3>
+              <p class="pd-campaign__card-blurb">{{ section.settings.card_3_blurb | default: 'Every colorway, every accessory — for the player who has everything.' }}</p>
+              <div class="pd-campaign__card-foot">
+                <span class="pd-campaign__card-price">{{ v.price | money }}</span>
+                {%- if v and v.available -%}
+                  <button type="button" class="pd-campaign__btn pd-campaign__btn--accessible pd-campaign__btn--sm" data-pd-campaign-atc data-variant-id="{{ v.id }}">
+                    <span data-pd-campaign-atc-label>{{ section.settings.card_cta_text | default: 'Add To Cart' }}</span>
+                  </button>
+                {%- else -%}
+                  <a class="pd-campaign__btn pd-campaign__btn--accessible pd-campaign__btn--sm" href="{{ elite.url }}">{{ section.settings.card_cta_text | default: 'Add To Cart' }}</a>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Swaptop {%- endcomment -%}
+        {%- if swaptop -%}
+          {%- assign v = swaptop.selected_or_first_available_variant -%}
+          <div class="pd-campaign__card">
+            <span class="pd-campaign__card-tag">{{ section.settings.card_4_tag | default: 'For the host' }}</span>
+            <a class="pd-campaign__card-media" href="{{ swaptop.url }}">
+              {%- if swaptop.featured_image -%}<img src="{{ swaptop.featured_image | image_url: width: 600 }}" alt="{{ swaptop.title }}" width="600" height="600" loading="lazy" decoding="async">{%- endif -%}
+            </a>
+            <div class="pd-campaign__card-body">
+              <h3 class="pd-campaign__card-title">{{ swaptop.title }}</h3>
+              <p class="pd-campaign__card-blurb">{{ section.settings.card_4_blurb | default: 'One frame, endless games — swap boards and keep the party going.' }}</p>
+              <div class="pd-campaign__card-foot">
+                <span class="pd-campaign__card-price">{{ v.price | money }}</span>
+                {%- if v and v.available -%}
+                  <button type="button" class="pd-campaign__btn pd-campaign__btn--accessible pd-campaign__btn--sm" data-pd-campaign-atc data-variant-id="{{ v.id }}">
+                    <span data-pd-campaign-atc-label>{{ section.settings.card_cta_text | default: 'Add To Cart' }}</span>
+                  </button>
+                {%- else -%}
+                  <a class="pd-campaign__btn pd-campaign__btn--accessible pd-campaign__btn--sm" href="{{ swaptop.url }}">{{ section.settings.card_cta_text | default: 'Add To Cart' }}</a>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ============ WHY GIFT POPDARTS ============ {%- endcomment -%}
+  <div class="pd-campaign__why">
+    <div class="pd-campaign__wrap pd-campaign__why-grid">
+      <div class="pd-campaign__why-item">
+        <svg class="pd-campaign__why-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 7h13v10H3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M16 10h3.5L21 13v4h-5" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="7.5" cy="17.5" r="1.8" stroke="currentColor" stroke-width="1.8"/><circle cx="17" cy="17.5" r="1.8" stroke="currentColor" stroke-width="1.8"/></svg>
+        <h3>{{ section.settings.why_1_title | default: 'Fast, trackable shipping' }}</h3>
+        <p>{{ section.settings.why_1_text | default: 'Order tracking the moment it leaves our warehouse.' }}</p>
+      </div>
+      <div class="pd-campaign__why-item">
+        <svg class="pd-campaign__why-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l2.6 5.6 6.2.6-4.6 4.2 1.3 6.1L12 16.6 6.5 19.5l1.3-6.1-4.6-4.2 6.2-.6z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        <h3>{{ section.settings.why_2_title | default: 'Rated 4.9 by thousands' }}</h3>
+        <p>{{ section.settings.why_2_text | default: 'Verified reviews from real game nights.' }}</p>
+      </div>
+      <div class="pd-campaign__why-item">
+        <svg class="pd-campaign__why-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 9h18M8 4v4M16 4v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <h3>{{ section.settings.why_3_title | default: 'Ages 5 to 95' }}</h3>
+        <p>{{ section.settings.why_3_text | default: 'Rookie darts for kids, pro-weight for everyone else.' }}</p>
+      </div>
+      <div class="pd-campaign__why-item">
+        <svg class="pd-campaign__why-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s-7-4.35-9.5-8.5C.8 9 2.6 5.5 6 5.5c2 0 3.3 1 4 2.2.7-1.2 2-2.2 4-2.2 3.4 0 5.2 3.5 3.5 7C19 16.65 12 21 12 21z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+        <h3>{{ section.settings.why_4_title | default: 'Loved the moment it opens' }}</h3>
+        <p>{{ section.settings.why_4_text | default: "If it's not a hit, our team will make it right." }}</p>
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ============ REVIEWS ============ {%- endcomment -%}
+  <div class="pd-campaign__reviews">
+    <div class="pd-campaign__wrap">
+      <p class="pd-campaign__eyebrow pd-campaign__eyebrow--ink pd-campaign__center">{{ section.settings.reviews_eyebrow | default: '⭐ Verified reviews' }}</p>
+      <h2 class="pd-campaign__reviews-heading">{{ section.settings.reviews_heading | default: 'Already a family favorite.' }}</h2>
+      <div class="pd-campaign__quotes">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'review' -%}
+            <div class="pd-campaign__quote" {{ block.shopify_attributes }}>
+              <div class="pd-campaign__quote-stars" aria-hidden="true">★★★★★</div>
+              <p class="pd-campaign__quote-text">&ldquo;{{ block.settings.text | default: 'Opened it Christmas morning and we were playing before breakfast was even over.' }}&rdquo;</p>
+              <p class="pd-campaign__quote-name">{{ block.settings.name | default: 'Verified Buyer' }}</p>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ============ FAQ ============ {%- endcomment -%}
+  <div class="pd-campaign__faq">
+    <div class="pd-campaign__wrap pd-campaign__faq-grid">
+      <div class="pd-campaign__faq-head">
+        <h2>{{ section.settings.faq_heading | default: 'Questions before you order.' }}</h2>
+        <p>{{ section.settings.faq_body | default: 'Everything you need to know before it ships.' }}</p>
+      </div>
+      <div class="pd-campaign__faq-list">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'faq' -%}
+            <details class="pd-campaign__faq-item" {{ block.shopify_attributes }}>
+              <summary>{{ block.settings.question }}<svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true"><path d="M5 12h14M12 5v14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></summary>
+              <p>{{ block.settings.answer }}</p>
+            </details>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ============ FINAL CTA ============ {%- endcomment -%}
+  <div class="pd-campaign__final">
+    <div class="pd-campaign__wrap pd-campaign__final-inner">
+      <h2>{{ section.settings.final_heading | default: 'Still deciding?' }}<span>{{ section.settings.final_heading_accent | default: 'Start with the Pro Pack.' }}</span></h2>
+      <p>{{ section.settings.final_body | default: "It's the one we recommend most — tournament-weight darts, a target marker, and everything needed for game night one." }}</p>
+      <a class="pd-campaign__btn pd-campaign__btn--white" href="{{ pro.url | default: '/products/pro-pack' }}">{{ section.settings.final_button_text | default: 'Shop The Pro Pack' }}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  #pd-campaign-{{ section.id }} {
+    --pc-primary: #2B99FF;
+    --pc-primary-light: #55ADFF;
+    --pc-primary-deep: #278AE6;
+    --pc-primary-tint: #EAF5FF;
+    --pc-primary-glow: rgba(43, 153, 255, 0.45);
+    --pc-primary-grad: linear-gradient(135deg, #55ADFF 0%, #2B99FF 55%, #278AE6 100%);
+    --pc-primary-accessible: #1E6BB3;
+    --pc-primary-accessible-hover: #1A5C99;
+    --pc-ink: #0A0A0A;
+    --pc-ink-2: #414B57;
+    --pc-muted: #626D79;
+    --pc-paper: #FFFFFF;
+    --pc-mist: #F4F9FD;
+    --pc-line: #DFE3E8;
+    --pc-night: #0B1522;
+    --pc-success: #187647;
+    --pc-success-tint: #E8F1ED;
+    --pc-heading-font: var(--font-heading-family, Inter, sans-serif);
+    --pc-body-font: var(--font-body-family, Inter, sans-serif);
+    background: var(--pc-paper);
+    color: var(--pc-ink);
+    font-family: var(--pc-body-font);
+  }
+  #pd-campaign-{{ section.id }} * { box-sizing: border-box; }
+  #pd-campaign-{{ section.id }} h1, #pd-campaign-{{ section.id }} h2, #pd-campaign-{{ section.id }} h3 {
+    font-family: var(--pc-heading-font);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  #pd-campaign-{{ section.id }} p { margin: 0; }
+  #pd-campaign-{{ section.id }} .pd-campaign__wrap { max-width: 1280px; margin-inline: auto; padding-inline: clamp(20px, 5vw, 56px); }
+
+  #pd-campaign-{{ section.id }} .pd-campaign__eyebrow {
+    display: inline-flex;
+    font-family: ui-monospace, "JetBrains Mono", monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--pc-primary-light);
+    margin: 0 0 16px;
+  }
+  #pd-campaign-{{ section.id }} .pd-campaign__eyebrow--ink { color: var(--pc-primary-accessible); }
+  #pd-campaign-{{ section.id }} .pd-campaign__center { justify-content: center; width: 100%; text-align: center; }
+
+  #pd-campaign-{{ section.id }} .pd-campaign__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 54px;
+    padding-inline: 28px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    border: 0;
+    cursor: pointer;
+    font-family: var(--pc-body-font);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    white-space: nowrap;
+  }
+  #pd-campaign-{{ section.id }} .pd-campaign__btn:hover { transform: translateY(-2px); }
+  #pd-campaign-{{ section.id }} .pd-campaign__btn--sm { height: 44px; padding-inline: 18px; font-size: 13px; }
+  #pd-campaign-{{ section.id }} .pd-campaign__btn--primary { background: var(--pc-primary-grad); color: var(--pc-ink); box-shadow: 0 18px 38px -16px var(--pc-primary-glow); }
+  #pd-campaign-{{ section.id }} .pd-campaign__btn--ghost { background: transparent; color: #fdfdfd; border: 1.5px solid rgba(253,253,253,0.3); }
+  #pd-campaign-{{ section.id }} .pd-campaign__btn--ghost:hover { background: rgba(253,253,253,0.08); }
+  #pd-campaign-{{ section.id }} .pd-campaign__btn--accessible { background: var(--pc-primary-accessible); color: #fff; }
+  #pd-campaign-{{ section.id }} .pd-campaign__btn--accessible:hover { background: var(--pc-primary-accessible-hover); }
+  #pd-campaign-{{ section.id }} .pd-campaign__btn--white { background: var(--pc-paper); color: var(--pc-ink); }
+  #pd-campaign-{{ section.id }} .pd-campaign__btn.is-busy { opacity: 0.7; pointer-events: none; }
+  #pd-campaign-{{ section.id }} .pd-campaign__btn.is-done { background: var(--pc-success); color: #fff; }
+
+  /* ---- HERO ---- */
+  #pd-campaign-{{ section.id }} .pd-campaign__hero {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: var(--pc-night);
+    padding-block: clamp(64px, 10vh, 120px);
+  }
+  #pd-campaign-{{ section.id }} .pd-campaign__hero-glow {
+    position: absolute;
+    top: -30%; left: 50%;
+    width: 80vw; max-width: 900px; aspect-ratio: 1;
+    transform: translateX(-50%);
+    background: var(--pc-primary-grad);
+    opacity: 0.22;
+    filter: blur(110px);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  #pd-campaign-{{ section.id }} .pd-campaign__snow { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; }
+  #pd-campaign-{{ section.id }} .pd-campaign__flake {
+    position: absolute;
+    top: -8px;
+    width: 5px; height: 5px;
+    background: rgba(255,255,255,0.65);
+    border-radius: 50%;
+    animation: pc-fall linear infinite;
+  }
+  @keyframes pc-fall { to { transform: translateY(620px); } }
+  #pd-campaign-{{ section.id }} .pd-campaign__flake:nth-child(odd) { width: 3px; height: 3px; background: rgba(255,255,255,0.4); }
+  #pd-campaign-{{ section.id }} .pd-campaign__hero-grid {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(32px, 6vw, 72px);
+  }
+  #pd-campaign-{{ section.id }} .pd-campaign__hero-heading {
+    font-size: clamp(32px, 5vw, 54px);
+    line-height: 1.05;
+    color: #fdfdfd;
+    margin-bottom: 16px;
+  }
+  #pd-campaign-{{ section.id }} .pd-campaign__hero-accent { display: block; color: var(--pc-primary-light); }
+  #pd-campaign-{{ section.id }} .pd-campaign__hero-body { font-size: clamp(15px, 1.6vw, 18px); color: rgba(253,253,253,0.68); max-width: 46ch; margin-bottom: 26px; }
+  #pd-campaign-{{ section.id }} .pd-campaign__countdown {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: ui-monospace, "JetBrains Mono", monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fdfdfd;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 999px;
+    padding: 10px 18px;
+    margin-bottom: 26px;
+  }
+  #pd-campaign-{{ section.id }} .pd-campaign__countdown-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--pc-primary-light); box-shadow: 0 0 10px var(--pc-primary-glow); }
+  #pd-campaign-{{ section.id }} .pd-campaign__hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  #pd-campaign-{{ section.id }} .pd-campaign__hero-stage { position: relative; }
+  #pd-campaign-{{ section.id }} .pd-campaign__hero-panel {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 24px;
+    background: radial-gradient(70% 60% at 50% 60%, rgba(43,153,255,0.25), transparent 70%), #10192a;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 30px 70px -30px rgba(0,0,0,0.7);
+    overflow: hidden;
+  }
+  #pd-campaign-{{ section.id }} .pd-campaign__hero-panel img { width: 72%; height: 72%; object-fit: contain; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); filter: drop-shadow(0 30px 40px rgba(0,0,0,0.5)); }
+  #pd-campaign-{{ section.id }} .pd-campaign__hero-chip {
+    position: absolute;
+    right: -6%; bottom: -8%;
+    width: clamp(90px, 16%, 140px);
+    aspect-ratio: 1;
+    border-radius: 18px;
+    background: var(--pc-paper);
+    border: 4px solid var(--pc-night);
+    box-shadow: 0 16px 34px -14px rgba(0,0,0,0.5);
+    overflow: hidden;
+  }
+  #pd-campaign-{{ section.id }} .pd-campaign__hero-chip img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* ---- GUIDE GRID ---- */
+  #pd-campaign-{{ section.id }} .pd-campaign__guide { background: var(--pc-mist); padding-block: clamp(56px, 9vh, 104px); }
+  #pd-campaign-{{ section.id }} .pd-campaign__guide-head { text-align: center; max-width: 560px; margin: 0 auto clamp(32px, 5vh, 52px); }
+  #pd-campaign-{{ section.id }} .pd-campaign__guide-head .pd-campaign__eyebrow { display: flex; justify-content: center; }
+  #pd-campaign-{{ section.id }} .pd-campaign__guide-heading { font-size: clamp(26px, 4vw, 38px); color: var(--pc-ink); }
+  #pd-campaign-{{ section.id }} .pd-campaign__cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(14px, 2vw, 22px); }
+
+  #pd-campaign-{{ section.id }} .pd-campaign__card {
+    display: flex;
+    flex-direction: column;
+    background: var(--pc-paper);
+    border: 1px solid var(--pc-line);
+    border-radius: 18px;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  #pd-campaign-{{ section.id }} .pd-campaign__card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -24px rgba(10,10,10,0.3); }
+  #pd-campaign-{{ section.id }} .pd-campaign__card--featured { border-color: var(--pc-primary); box-shadow: 0 0 0 1px var(--pc-primary); }
+
+  #pd-campaign-{{ section.id }} .pd-campaign__card-tag {
+    position: absolute;
+    margin: 12px;
+    display: inline-flex;
+    align-self: flex-start;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--pc-ink-2);
+    background: var(--pc-paper);
+    border: 1px solid var(--pc-line);
+    border-radius: 999px;
+    padding: 6px 12px;
+    z-index: 1;
+  }
+  #pd-campaign-{{ section.id }} .pd-campaign__card-tag--primary { color: var(--pc-ink); background: var(--pc-primary-light); border-color: transparent; }
+
+  #pd-campaign-{{ section.id }} .pd-campaign__card-media { position: relative; display: block; aspect-ratio: 1; background: var(--pc-mist); }
+  #pd-campaign-{{ section.id }} .pd-campaign__card-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  #pd-campaign-{{ section.id }} .pd-campaign__card-body { padding: 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  #pd-campaign-{{ section.id }} .pd-campaign__card-title { font-size: 17px; color: var(--pc-ink); }
+  #pd-campaign-{{ section.id }} .pd-campaign__card-blurb { font-size: 13px; color: var(--pc-muted); line-height: 1.5; flex: 1; }
+  #pd-campaign-{{ section.id }} .pd-campaign__card-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 4px; }
+  #pd-campaign-{{ section.id }} .pd-campaign__card-price { font-size: 17px; font-weight: 800; color: var(--pc-ink); }
+
+  /* ---- WHY ---- */
+  #pd-campaign-{{ section.id }} .pd-campaign__why { background: var(--pc-paper); padding-block: clamp(48px, 7vh, 80px); border-bottom: 1px solid var(--pc-line); }
+  #pd-campaign-{{ section.id }} .pd-campaign__why-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(20px, 3vw, 36px); }
+  #pd-campaign-{{ section.id }} .pd-campaign__why-item { text-align: center; }
+  #pd-campaign-{{ section.id }} .pd-campaign__why-icon { width: 36px; height: 36px; color: var(--pc-primary-accessible); margin-bottom: 14px; }
+  #pd-campaign-{{ section.id }} .pd-campaign__why-item h3 { font-size: 15px; text-transform: none; letter-spacing: 0; color: var(--pc-ink); margin-bottom: 6px; }
+  #pd-campaign-{{ section.id }} .pd-campaign__why-item p { font-size: 13px; color: var(--pc-muted); line-height: 1.5; }
+
+  /* ---- REVIEWS ---- */
+  #pd-campaign-{{ section.id }} .pd-campaign__reviews { background: var(--pc-mist); padding-block: clamp(56px, 9vh, 100px); text-align: center; }
+  #pd-campaign-{{ section.id }} .pd-campaign__reviews-heading { font-size: clamp(26px, 4vw, 38px); color: var(--pc-ink); margin-bottom: clamp(28px, 4vh, 44px); }
+  #pd-campaign-{{ section.id }} .pd-campaign__quotes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; text-align: left; }
+  #pd-campaign-{{ section.id }} .pd-campaign__quote { background: var(--pc-paper); border: 1px solid var(--pc-line); border-radius: 16px; padding: 24px; }
+  #pd-campaign-{{ section.id }} .pd-campaign__quote-stars { color: var(--pc-primary-accessible); letter-spacing: 2px; font-size: 14px; margin-bottom: 12px; }
+  #pd-campaign-{{ section.id }} .pd-campaign__quote-text { font-size: 15px; color: var(--pc-ink-2); line-height: 1.6; margin-bottom: 14px; }
+  #pd-campaign-{{ section.id }} .pd-campaign__quote-name { font-family: ui-monospace, "JetBrains Mono", monospace; font-size: 12px; color: var(--pc-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* ---- FAQ ---- */
+  #pd-campaign-{{ section.id }} .pd-campaign__faq { background: var(--pc-paper); padding-block: clamp(56px, 9vh, 100px); }
+  #pd-campaign-{{ section.id }} .pd-campaign__faq-grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(28px, 5vw, 64px); align-items: start; }
+  #pd-campaign-{{ section.id }} .pd-campaign__faq-head h2 { font-size: clamp(26px, 4vw, 38px); color: var(--pc-ink); margin-bottom: 12px; }
+  #pd-campaign-{{ section.id }} .pd-campaign__faq-head p { font-size: 15px; color: var(--pc-muted); }
+  #pd-campaign-{{ section.id }} .pd-campaign__faq-item { border-top: 1px solid var(--pc-line); padding-block: 18px; }
+  #pd-campaign-{{ section.id }} .pd-campaign__faq-item:last-child { border-bottom: 1px solid var(--pc-line); }
+  #pd-campaign-{{ section.id }} .pd-campaign__faq-item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    list-style: none;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--pc-ink);
+  }
+  #pd-campaign-{{ section.id }} .pd-campaign__faq-item summary::-webkit-details-marker { display: none; }
+  #pd-campaign-{{ section.id }} .pd-campaign__faq-item summary svg { flex-shrink: 0; transition: transform 0.2s ease; color: var(--pc-primary-accessible); }
+  #pd-campaign-{{ section.id }} .pd-campaign__faq-item[open] summary svg { transform: rotate(45deg); }
+  #pd-campaign-{{ section.id }} .pd-campaign__faq-item p { font-size: 14px; color: var(--pc-muted); line-height: 1.6; margin-top: 12px; }
+
+  /* ---- FINAL CTA ---- */
+  #pd-campaign-{{ section.id }} .pd-campaign__final { background: var(--pc-primary-grad); padding-block: clamp(64px, 10vh, 110px); text-align: center; }
+  #pd-campaign-{{ section.id }} .pd-campaign__final-inner { max-width: 620px; margin-inline: auto; }
+  #pd-campaign-{{ section.id }} .pd-campaign__final h2 { font-size: clamp(28px, 4.4vw, 44px); color: var(--pc-ink); margin-bottom: 14px; }
+  #pd-campaign-{{ section.id }} .pd-campaign__final h2 span { display: block; }
+  #pd-campaign-{{ section.id }} .pd-campaign__final p { font-size: 16px; color: rgba(10,10,10,0.72); margin-bottom: 28px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    #pd-campaign-{{ section.id }} .pd-campaign__flake { animation: none; display: none; }
+  }
+
+  @media (max-width: 980px) {
+    #pd-campaign-{{ section.id }} .pd-campaign__cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    #pd-campaign-{{ section.id }} .pd-campaign__why-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    #pd-campaign-{{ section.id }} .pd-campaign__quotes { grid-template-columns: 1fr; }
+    #pd-campaign-{{ section.id }} .pd-campaign__faq-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 860px) {
+    #pd-campaign-{{ section.id }} .pd-campaign__hero-grid { grid-template-columns: 1fr; text-align: center; }
+    #pd-campaign-{{ section.id }} .pd-campaign__hero-body { margin-inline: auto; }
+    #pd-campaign-{{ section.id }} .pd-campaign__hero-actions { justify-content: center; }
+    #pd-campaign-{{ section.id }} .pd-campaign__hero-stage { order: -1; width: 100%; max-width: 360px; margin-inline: auto; }
+    #pd-campaign-{{ section.id }} .pd-campaign__hero-panel { aspect-ratio: 1; }
+  }
+
+  @media (max-width: 640px) {
+    #pd-campaign-{{ section.id }} .pd-campaign__cards { grid-template-columns: 1fr; }
+    #pd-campaign-{{ section.id }} .pd-campaign__why-grid { grid-template-columns: 1fr; }
+    #pd-campaign-{{ section.id }} .pd-campaign__hero-actions { flex-direction: column; }
+    #pd-campaign-{{ section.id }} .pd-campaign__hero-actions .pd-campaign__btn { width: 100%; }
+    #pd-campaign-{{ section.id }} .pd-campaign__card-foot { flex-direction: column; align-items: flex-start; gap: 10px; }
+    #pd-campaign-{{ section.id }} .pd-campaign__card-foot .pd-campaign__btn { width: 100%; }
+  }
+</style>
+
+<script>
+  (function () {
+    var root = document.getElementById('pd-campaign-{{ section.id }}');
+    if (!root || root.__pdCampaignInit) return;
+    root.__pdCampaignInit = true;
+
+    var flakes = root.querySelectorAll('.pd-campaign__flake');
+    flakes.forEach(function (f) {
+      f.style.left = (Math.random() * 100).toFixed(2) + '%';
+      f.style.animationDuration = (7 + Math.random() * 8).toFixed(2) + 's';
+      f.style.animationDelay = (Math.random() * -12).toFixed(2) + 's';
+    });
+
+    var cd = root.querySelector('[data-pd-campaign-countdown]');
+    if (cd) {
+      var target = new Date(cd.dataset.target).getTime();
+      var textEl = cd.querySelector('[data-pd-campaign-countdown-text]');
+      var label = textEl.textContent;
+      var tick = function () {
+        var diff = target - Date.now();
+        var days = Math.max(Math.ceil(diff / 86400000), 0);
+        textEl.textContent = days + ' ' + label.replace(/^\d+\s*/, '');
+      };
+      tick();
+      setInterval(tick, 3600000);
+    }
+
+    root.querySelectorAll('[data-pd-campaign-atc]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (btn.classList.contains('is-busy')) return;
+        var id = parseInt(btn.dataset.variantId, 10);
+        if (!id) return;
+        var label = btn.querySelector('[data-pd-campaign-atc-label]') || btn;
+        var original = label.textContent;
+        btn.classList.add('is-busy');
+        label.textContent = 'Adding…';
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ items: [{ id: id, quantity: 1 }] }),
+        })
+          .then(function (res) {
+            if (!res.ok) throw new Error('add failed');
+            return fetch('/cart.js').then(function (r) { return r.json(); });
+          })
+          .then(function (cart) {
+            btn.classList.remove('is-busy');
+            btn.classList.add('is-done');
+            label.textContent = 'Added ✓';
+            document.querySelectorAll('[data-cart-count], .cart-count, .cart-count-bubble, [data-header-cart-count]').forEach(function (el) {
+              el.textContent = cart.item_count;
+            });
+            ['cart:refresh', 'cart:change', 'cart:build', 'cart-drawer:refresh'].forEach(function (name) {
+              document.documentElement.dispatchEvent(new CustomEvent(name, { bubbles: true, detail: { cart: cart } }));
+            });
+            var toggle = document.querySelector('[data-cart-toggle], .cart-toggle, #cart-toggle, .js-cart-open');
+            if (toggle) toggle.click();
+            setTimeout(function () {
+              btn.classList.remove('is-done');
+              label.textContent = original;
+            }, 2400);
+          })
+          .catch(function () {
+            btn.classList.remove('is-busy');
+            label.textContent = original;
+            window.location.href = '/cart';
+          });
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Christmas Gift Guide",
+  "tag": "section",
+  "class": "pd-section-christmas",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "🎄 Holiday Gift Guide" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Game night is the best gift." },
+    { "type": "text", "id": "heading_accent", "label": "Heading, blue line", "default": "Shop the holiday lineup." },
+    { "type": "textarea", "id": "body", "label": "Body text", "default": "From first-timers to tournament champs — there's a Popdarts pack under the tree for everyone." },
+    { "type": "text", "id": "button_text", "label": "Primary button text", "default": "Shop The Gift Guide" },
+    { "type": "text", "id": "secondary_button_text", "label": "Secondary button text", "default": "Shop All Packs" },
+    { "type": "url", "id": "collection_link", "label": "Secondary button link" },
+    { "type": "checkbox", "id": "show_countdown", "label": "Show days-until-Christmas countdown", "default": true },
+    { "type": "text", "id": "countdown_date", "label": "Countdown target (ISO date)", "default": "2026-12-25T00:00:00" },
+    { "type": "text", "id": "countdown_label", "label": "Countdown label", "default": "days until Christmas" },
+
+    { "type": "header", "content": "Gift guide grid" },
+    { "type": "text", "id": "guide_eyebrow", "label": "Eyebrow", "default": "🎁 Pick a pack" },
+    { "type": "text", "id": "guide_heading", "label": "Heading", "default": "Find their perfect match." },
+    { "type": "text", "id": "card_cta_text", "label": "Card button text", "default": "Add To Cart" },
+    { "type": "text", "id": "card_1_tag", "label": "Rookie Pack tag", "default": "Best for first-timers" },
+    { "type": "textarea", "id": "card_1_blurb", "label": "Rookie Pack blurb", "default": "Softer darts built for little hands and first throws. Ages 5+." },
+    { "type": "text", "id": "card_2_tag", "label": "Pro Pack tag", "default": "Most popular" },
+    { "type": "textarea", "id": "card_2_blurb", "label": "Pro Pack blurb", "default": "Tournament-weight darts and a Pro Target Marker — the all-around gift." },
+    { "type": "text", "id": "card_3_tag", "label": "Elite Pack tag", "default": "The ultimate gift" },
+    { "type": "textarea", "id": "card_3_blurb", "label": "Elite Pack blurb", "default": "Every colorway, every accessory — for the player who has everything." },
+    { "type": "text", "id": "card_4_tag", "label": "Swaptop Kit tag", "default": "For the host" },
+    { "type": "textarea", "id": "card_4_blurb", "label": "Swaptop Kit blurb", "default": "One frame, endless games — swap boards and keep the party going." },
+
+    { "type": "header", "content": "Why gift Popdarts" },
+    { "type": "text", "id": "why_1_title", "label": "Item 1 title", "default": "Fast, trackable shipping" },
+    { "type": "text", "id": "why_1_text", "label": "Item 1 text", "default": "Order tracking the moment it leaves our warehouse." },
+    { "type": "text", "id": "why_2_title", "label": "Item 2 title", "default": "Rated 4.9 by thousands" },
+    { "type": "text", "id": "why_2_text", "label": "Item 2 text", "default": "Verified reviews from real game nights." },
+    { "type": "text", "id": "why_3_title", "label": "Item 3 title", "default": "Ages 5 to 95" },
+    { "type": "text", "id": "why_3_text", "label": "Item 3 text", "default": "Rookie darts for kids, pro-weight for everyone else." },
+    { "type": "text", "id": "why_4_title", "label": "Item 4 title", "default": "Loved the moment it opens" },
+    { "type": "text", "id": "why_4_text", "label": "Item 4 text", "default": "If it's not a hit, our team will make it right." },
+
+    { "type": "header", "content": "Reviews" },
+    { "type": "text", "id": "reviews_eyebrow", "label": "Eyebrow", "default": "⭐ Verified reviews" },
+    { "type": "text", "id": "reviews_heading", "label": "Heading", "default": "Already a family favorite." },
+
+    { "type": "header", "content": "FAQ" },
+    { "type": "text", "id": "faq_heading", "label": "Heading", "default": "Questions before you order." },
+    { "type": "text", "id": "faq_body", "label": "Body text", "default": "Everything you need to know before it ships." },
+
+    { "type": "header", "content": "Final CTA" },
+    { "type": "text", "id": "final_heading", "label": "Heading", "default": "Still deciding?" },
+    { "type": "text", "id": "final_heading_accent", "label": "Heading, second line", "default": "Start with the Pro Pack." },
+    { "type": "textarea", "id": "final_body", "label": "Body text", "default": "It's the one we recommend most — tournament-weight darts, a target marker, and everything needed for game night one." },
+    { "type": "text", "id": "final_button_text", "label": "Button text", "default": "Shop The Pro Pack" }
+  ],
+  "blocks": [
+    { "type": "review", "name": "Review", "settings": [
+      { "type": "textarea", "id": "text", "label": "Quote", "default": "Opened it Christmas morning and we were playing before breakfast was even over." },
+      { "type": "text", "id": "name", "label": "Name", "default": "Verified Buyer" }
+    ] },
+    { "type": "faq", "name": "FAQ item", "settings": [
+      { "type": "text", "id": "question", "label": "Question", "default": "What age is Popdarts good for?" },
+      { "type": "textarea", "id": "answer", "label": "Answer", "default": "5 to 95. Rookie Pack uses softer darts for younger throwers; Pro and Elite are tournament-weight." }
+    ] }
+  ],
+  "max_blocks": 9,
+  "presets": [{
+    "name": "Christmas Gift Guide",
+    "blocks": [
+      { "type": "review", "settings": { "text": "Opened it Christmas morning and we were playing before breakfast was even over.", "name": "Verified Buyer" } },
+      { "type": "review", "settings": { "text": "Ordered the Pro Pack for my husband — best stocking stuffer we've ever done.", "name": "Verified Buyer" } },
+      { "type": "review", "settings": { "text": "The whole family fights over the Swaptop board now. Worth every penny.", "name": "Verified Buyer" } },
+      { "type": "faq", "settings": { "question": "What age is Popdarts good for?", "answer": "5 to 95. The Rookie Pack uses softer darts built for younger throwers; the Pro and Elite packs are tournament-weight for older kids and adults." } },
+      { "type": "faq", "settings": { "question": "Will it arrive in time for Christmas?", "answer": "Order processing times and carrier transit windows vary by location — check the shipping estimate at checkout for your address." } },
+      { "type": "faq", "settings": { "question": "What's the return policy?", "answer": "Reach out to support@popdartsgame.com and our team will help make it right." } }
+    ]
+  }]
+}
+{% endschema %}
