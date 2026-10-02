@@ -2,6 +2,118 @@
   "sections": {
     "main": {
       "type": "popdarts-christmas",
+      "blocks": {
+        "gift_1": {
+          "type": "gift",
+          "settings": {
+            "persona": "The little ones",
+            "product_handle": "rookie-pack",
+            "badge": "Ages 5+",
+            "description": "Our easiest Popdarts to land — made for first throws and little hands, so nobody sits out game night.",
+            "bullet_1": "6 Popdarts + Rookie Target Marker™",
+            "bullet_2": "Carrying bag with rules & built-in ruler",
+            "bullet_3": "Sticks to windows, glass & countertops"
+          }
+        },
+        "gift_2": {
+          "type": "gift",
+          "settings": {
+            "persona": "The competitor",
+            "product_handle": "pro-pack",
+            "badge": "Most popular",
+            "description": "Easy to learn, tough to master. Land on top of the PRO Target Marker™ for an instant 10-point flex.",
+            "bullet_1": "6 Popdarts + PRO Target Marker™",
+            "bullet_2": "Carrying bag with rules & built-in ruler",
+            "bullet_3": "Dishwasher-safe darts"
+          }
+        },
+        "gift_3": {
+          "type": "gift",
+          "settings": {
+            "persona": "The upgrader",
+            "product_handle": "elite-full-pack",
+            "badge": "Most advanced",
+            "description": "Our most advanced Popdarts yet — more grip, more stick, and a smaller Elite Target Marker™ for tighter shots.",
+            "bullet_1": "3 blue vs 3 green Elite Popdarts",
+            "bullet_2": "Elite Target Marker™",
+            "bullet_3": "Carrying bag with rules & ruler"
+          }
+        },
+        "gift_4": {
+          "type": "gift",
+          "settings": {
+            "persona": "The party host",
+            "product_handle": "swaptop-kit",
+            "badge": "Biggest gift",
+            "description": "A full game-night setup: an all-weather frame with a built-in score keeper and swappable game boards.",
+            "bullet_1": "All-weather frame + built-in score keeper",
+            "bullet_2": "Double-sided Swaptop (Darts & Circle Shot)",
+            "bullet_3": "6 Rookie darts + a bonus Pro Popdart"
+          }
+        },
+        "review_5": {
+          "type": "review",
+          "settings": {
+            "quote": "First game in years that gets my teenagers off their phones. We play every weekend now.",
+            "name": "Verified Buyer"
+          }
+        },
+        "review_6": {
+          "type": "review",
+          "settings": {
+            "quote": "Kids picked it up in one throw, I'm still working on my aim. Great for all ages.",
+            "name": "Verified Buyer"
+          }
+        },
+        "review_7": {
+          "type": "review",
+          "settings": {
+            "quote": "Cancellation scoring took two minutes to learn and now every family gathering turns into a bracket.",
+            "name": "Verified Buyer"
+          }
+        },
+        "faq_8": {
+          "type": "faq",
+          "settings": {
+            "question": "Which pack should I get?",
+            "answer": "<p>For kids and first-timers, the Rookie Pack. For most families, the Pro Pack — it's our most popular. Already hooked? Go Elite. Hosting the whole family? The Swaptop Kit.</p>"
+          }
+        },
+        "faq_9": {
+          "type": "faq",
+          "settings": {
+            "question": "What surfaces does it work on?",
+            "answer": "<p>Any smooth, flat surface — windows, glass doors, countertops, the fridge. Indoors or out.</p>"
+          }
+        },
+        "faq_10": {
+          "type": "faq",
+          "settings": {
+            "question": "What ages is it for?",
+            "answer": "<p>5 to 95. The Rookie Pack is built for younger throwers; Pro and Elite are for older kids and adults.</p>"
+          }
+        },
+        "faq_11": {
+          "type": "faq",
+          "settings": {
+            "question": "Will it arrive before Christmas?",
+            "answer": "<p>Delivery times depend on your address and carrier — you'll see the estimate at checkout before you pay.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "gift_1",
+        "gift_2",
+        "gift_3",
+        "gift_4",
+        "review_5",
+        "review_6",
+        "review_7",
+        "faq_8",
+        "faq_9",
+        "faq_10",
+        "faq_11"
+      ],
       "settings": {}
     }
   },
