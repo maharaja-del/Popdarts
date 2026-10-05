@@ -6,11 +6,12 @@
     render 'popdarts-campaign-pct', product: product
   endcapture
   assign pct = pct_s | strip | plus: 0
+  assign pct_tok = '%7Bpct%7D' | url_decode
   if section.settings.up_to_override != blank
     assign pct = section.settings.up_to_override | plus: 0
   endif
   assign pct_text = pct | append: ''
-  assign sticker_text = section.settings.sticker_text | replace: '{pct}', pct_text | upcase
+  assign sticker_text = section.settings.sticker_text | replace: '[pct]', pct_text | replace: pct_tok, pct_text | upcase
 
   assign wanted = section.settings.featured_colors | split: ','
   assign default_name = section.settings.default_color | strip
@@ -181,7 +182,7 @@
     { "type": "text", "id": "featured_colors", "label": "Colorways to show as swatches", "info": "Exact variant names, comma separated, in order.", "default": "Rizzle, Fire & Ice, Blue & Green GLOW, USA" },
     { "type": "text", "id": "default_color", "label": "Default colorway", "info": "Falls back to the first available colorway if this one is sold out.", "default": "Rizzle" },
     { "type": "text", "id": "details_text", "label": "Details link text", "default": "Details" },
-    { "type": "text", "id": "sticker_text", "label": "Rotating sticker text", "info": "{pct} is replaced with the live discount.", "default": "Up to {pct}% off · Oct 6–7 only · " },
+    { "type": "text", "id": "sticker_text", "label": "Rotating sticker text", "info": "[pct] is replaced with the live discount.", "default": "Up to [pct]% off · Oct 6–7 only · " },
     { "type": "product", "id": "mini_product", "label": "Floating mini card product" },
     { "type": "text", "id": "mini_prefix", "label": "Mini card price prefix", "default": "From" },
     { "type": "url", "id": "mini_link", "label": "Mini card link", "info": "Empty = jumps to the pack comparison." }

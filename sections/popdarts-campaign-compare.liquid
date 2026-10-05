@@ -16,6 +16,7 @@
             render 'popdarts-campaign-pct', product: p
           endcapture
           assign pct = pct_s | strip | plus: 0
+          assign pct_tok = '%7Bpct%7D' | url_decode
           assign sel = p.selected_or_first_available_variant
           assign sel_img = sel.featured_image | default: p.featured_image
           assign sel_pct = 0
@@ -27,10 +28,10 @@
             assign many = true
           endif
           assign ribbon = block.settings.ribbon
-          if ribbon contains '{pct}' and pct == 0
+          if pct == 0 and ribbon contains '[pct]' or ribbon contains pct_tok
             assign ribbon = block.settings.ribbon_fallback
           endif
-          assign ribbon = ribbon | replace: '{pct}', pct
+          assign ribbon = ribbon | replace: '[pct]', pct | replace: pct_tok, pct
         -%}
         <article class="popdarts-pack{% if block.settings.featured %} popdarts-pack--featured{% endif %}" {{ block.shopify_attributes }}>
           {%- if ribbon != blank -%}
@@ -120,7 +121,7 @@
       "name": "Pack",
       "settings": [
         { "type": "product", "id": "product", "label": "Product" },
-        { "type": "text", "id": "ribbon", "label": "Ribbon", "info": "{pct} becomes the product's biggest live discount. Leave empty to hide." },
+        { "type": "text", "id": "ribbon", "label": "Ribbon", "info": "[pct] becomes the product's biggest live discount. Leave empty to hide." },
         { "type": "text", "id": "ribbon_fallback", "label": "Ribbon when there is no discount" },
         { "type": "checkbox", "id": "featured", "label": "Highlight this pack", "default": false },
         { "type": "text", "id": "best_for", "label": "Best for" },

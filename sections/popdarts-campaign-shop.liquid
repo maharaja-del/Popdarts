@@ -4,7 +4,8 @@
     render 'popdarts-campaign-pct', product: product
   endcapture
   assign pct = pct_s | strip
-  assign eyebrow = section.settings.eyebrow | replace: '{pct}', pct
+  assign pct_tok = '%7Bpct%7D' | url_decode
+  assign eyebrow = section.settings.eyebrow | replace: '[pct]', pct | replace: pct_tok, pct
   assign variants = product.variants | sort: 'price'
   assign soldout = ''
 -%}
@@ -82,7 +83,7 @@
   "class": "popdarts-campaign-shop-section",
   "settings": [
     { "type": "product", "id": "product", "label": "Product", "info": "Every available colorway (variant) gets its own card, cheapest first." },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "info": "{pct} becomes the biggest live discount.", "default": "Up to {pct}% off · Oct 6–7" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "info": "[pct] becomes the biggest live discount.", "default": "Up to [pct]% off · Oct 6–7" },
     { "type": "text", "id": "title", "label": "Heading", "default": "Pick your colors." },
     { "type": "richtext", "id": "support", "label": "Support text", "default": "<p>Every Pro Pack comes with <strong>6 Popdarts, a PRO Target Marker™, a carrying bag with rules and a built-in ruler, and 2 stickers.</strong></p>" },
     { "type": "text", "id": "dates_text", "label": "Dates text (shown without JavaScript)", "default": "Oct 6–7 only" },

@@ -4,8 +4,9 @@
     render 'popdarts-campaign-pct', product: product
   endcapture
   assign pct = pct_s | strip
-  assign sub_text = section.settings.sub | replace: '{pct}', pct
-  assign sticky_text = section.settings.sticky_text | replace: '{pct}', pct
+  assign pct_tok = '%7Bpct%7D' | url_decode
+  assign sub_text = section.settings.sub | replace: '[pct]', pct | replace: pct_tok, pct
+  assign sticky_text = section.settings.sticky_text | replace: '[pct]', pct | replace: pct_tok, pct
   assign chips = section.settings.chips | split: '|'
 -%}
 {% render 'popdarts-campaign-assets' %}
@@ -64,9 +65,9 @@
   "tag": "div",
   "class": "popdarts-campaign-closing-section",
   "settings": [
-    { "type": "product", "id": "product", "label": "Product used for {pct}" },
+    { "type": "product", "id": "product", "label": "Product used for [pct]" },
     { "type": "text", "id": "title", "label": "Heading (during sale)", "default": "Take your shot." },
-    { "type": "text", "id": "sub", "label": "Subheading (during sale)", "info": "{pct} becomes the biggest live discount.", "default": "Up to {pct}% off Popdarts Pro Packs. Oct 6–7 only." },
+    { "type": "text", "id": "sub", "label": "Subheading (during sale)", "info": "[pct] becomes the biggest live discount.", "default": "Up to [pct]% off Popdarts Pro Packs. Oct 6–7 only." },
     { "type": "text", "id": "chips", "label": "Chips", "info": "Separate with |", "default": "Keep one|Gift one|Let the competition begin" },
     { "type": "text", "id": "button_text", "label": "Button", "default": "Shop the sale" },
     { "type": "url", "id": "button_link", "label": "Button link", "info": "Empty = jumps to the colorway grid." },
@@ -78,7 +79,7 @@
     { "type": "header", "content": "Sticky mobile bar" },
     { "type": "checkbox", "id": "show_sticky", "label": "Show sticky bar on mobile", "info": "Shows the colorway picked in the hero with a one-tap add to cart. Falls back to a link when the pick is sold out.", "default": true },
     { "type": "text", "id": "sticky_add", "label": "Add-to-cart button", "default": "Add to cart" },
-    { "type": "text", "id": "sticky_text", "label": "Text (during sale)", "default": "Up to {pct}% off" },
+    { "type": "text", "id": "sticky_text", "label": "Text (during sale)", "default": "Up to [pct]% off" },
     { "type": "text", "id": "sticky_ended_text", "label": "Text (after sale)", "default": "Find your pack" },
     { "type": "text", "id": "sticky_button", "label": "Button", "default": "Shop sale" }
   ],

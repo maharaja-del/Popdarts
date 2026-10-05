@@ -32,7 +32,7 @@
         "featured_colors": "Rizzle, Fire & Ice, Blue & Green GLOW, USA",
         "default_color": "Rizzle",
         "details_text": "Details",
-        "sticker_text": "Up to {pct}% off · Oct 6–7 only · ",
+        "sticker_text": "Up to [pct]% off · Oct 6–7 only · ",
         "mini_product": "rookie-pack",
         "mini_prefix": "From",
         "mini_link": ""
@@ -42,7 +42,7 @@
       "type": "popdarts-campaign-shop",
       "settings": {
         "product": "pro-pack",
-        "eyebrow": "Up to {pct}% off · Oct 6–7",
+        "eyebrow": "Up to [pct]% off · Oct 6–7",
         "title": "Pick your colors.",
         "support": "<p>Every Pro Pack comes with <strong>6 Popdarts, a PRO Target Marker™, a carrying bag with rules and a built-in ruler, and 2 stickers.</strong></p>",
         "dates_text": "Oct 6–7 only",
@@ -55,7 +55,7 @@
       "type": "popdarts-campaign-ticker",
       "settings": {
         "product": "pro-pack",
-        "items": "Up to {pct}% off Pro Packs|Oct 6–7 only|Keep one, gift one|Ages 5 to 95|Play indoors or out",
+        "items": "Up to [pct]% off Pro Packs|Oct 6–7 only|Keep one, gift one|Ages 5 to 95|Play indoors or out",
         "items_after": "Easy to learn, tough to master|Ages 5 to 95|Play indoors or out|Dishwasher-safe darts"
       }
     },
@@ -75,7 +75,7 @@
             "choose_text": "Choose colors",
             "choose_link": "",
             "product": "rookie-pack",
-            "ribbon": "Up to {pct}% off",
+            "ribbon": "Up to [pct]% off",
             "ribbon_fallback": "Easiest to land",
             "featured": false,
             "best_for": "kids and first-time players",
@@ -92,7 +92,7 @@
             "choose_text": "Choose colors",
             "choose_link": "",
             "product": "pro-pack",
-            "ribbon": "Up to {pct}% off · on sale",
+            "ribbon": "Up to [pct]% off · on sale",
             "ribbon_fallback": "PRO Target Marker™ included",
             "featured": true,
             "best_for": "family game nights and competitive play",
@@ -395,7 +395,7 @@
       "settings": {
         "product": "pro-pack",
         "title": "Take your shot.",
-        "sub": "Up to {pct}% off Popdarts Pro Packs. Oct 6–7 only.",
+        "sub": "Up to [pct]% off Popdarts Pro Packs. Oct 6–7 only.",
         "chips": "Keep one|Gift one|Let the competition begin",
         "button_text": "Shop the sale",
         "button_link": "",
@@ -404,7 +404,7 @@
         "ended_button": "Choose your pack",
         "ended_link": "",
         "show_sticky": true,
-        "sticky_text": "Up to {pct}% off",
+        "sticky_text": "Up to [pct]% off",
         "sticky_ended_text": "Find your pack",
         "sticky_button": "Shop sale"
       }
