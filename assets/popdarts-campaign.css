@@ -34,7 +34,7 @@
   --night: #0a0a0a;
   --night-2: #12161c;
   --sale: #d63a2f;
-  --sale-grad: linear-gradient(135deg, #ff5a4f 0%, #d63a2f 100%);
+  --sale-grad: linear-gradient(135deg, #d63a2f 0%, #b42a22 100%);
   --hot: #23ff53;
   --success: #187647;
   --success-tint: #e8f1ed;
@@ -73,6 +73,20 @@
 .popdarts-campaign img,
 .popdarts-campaign video { display: block; max-width: 100%; height: auto; }
 .popdarts-campaign :where(h1, h2, h3, h4, p, ul, ol, figure, blockquote, dl, dd) { margin: 0; }
+/* theme.css styles every h1–h6 (color: --color-foreground, size, spacing, transform); headings here follow their section instead */
+.popdarts-campaign :where(h1, h2, h3, h4, h5, h6) {
+  color: inherit;
+  font-family: var(--font-head);
+  font-style: normal;
+  font-size: inherit;
+  font-weight: 700;
+  letter-spacing: normal;
+  text-transform: none;
+  line-height: 1.1;
+  word-break: normal;
+}
+/* theme.css also styles every blockquote (italic, faded, left rule) */
+.popdarts-campaign :where(blockquote) { font-style: normal; color: inherit; border: 0; padding: 0; }
 .popdarts-campaign :where(ul, ol) { padding: 0; list-style: none; }
 .popdarts-campaign a { color: inherit; text-decoration: none; }
 .popdarts-campaign button {
@@ -569,10 +583,10 @@ html:not([data-popdarts-state]) .popdarts-campaign [data-popdarts-timer] { displ
 .popdarts-howto__video video { width: 100%; height: 100%; object-fit: cover; }
 .popdarts-howto__video-tag { position: absolute; left: 14px; bottom: 14px; padding: 6px 12px; border-radius: var(--r-pill); background: rgba(10, 10, 10, 0.7); color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
 .popdarts-steps { display: grid; gap: 14px; margin-top: 28px; }
-.popdarts-step { display: grid; grid-template-columns: 52px 1fr; gap: 16px; padding: 20px; border-radius: var(--r-card); background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); }
+.popdarts-step { display: grid; grid-template-columns: 52px 1fr; gap: 16px; padding: 20px; border-radius: var(--r-card); background: linear-gradient(135deg, rgba(43, 153, 255, 0.14), rgba(43, 153, 255, 0.04) 60%); border: 1px solid rgba(85, 173, 255, 0.24); }
 .popdarts-step__n { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: var(--primary-grad); color: var(--ink); font-family: var(--font-head); font-weight: 900; font-size: 22px; }
-.popdarts-step h3 { font-family: var(--font-head); font-weight: 900; font-size: 20px; text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.1; }
-.popdarts-step p { margin-top: 6px; font-size: 15px; line-height: 1.55; color: rgba(255, 255, 255, 0.76); }
+.popdarts-step h3 { font-family: var(--font-head); font-weight: 900; font-size: 20px; text-transform: uppercase; letter-spacing: -0.01em; line-height: 1.1; color: #fff; }
+.popdarts-step p { margin-top: 6px; font-size: 15px; line-height: 1.55; color: rgba(255, 255, 255, 0.8); }
 .popdarts-points { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 .popdarts-points span { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: var(--r-pill); background: rgba(43, 153, 255, 0.16); border: 1px solid rgba(43, 153, 255, 0.4); font-size: 13px; color: #fff; }
 .popdarts-points b { color: var(--primary-light); font-weight: 900; }
@@ -629,7 +643,7 @@ html:not([data-popdarts-state]) .popdarts-campaign [data-popdarts-timer] { displ
   border: 1px solid var(--line);
 }
 .popdarts-review::before { content: "\201C"; position: absolute; top: 6px; right: 20px; font-family: Georgia, serif; font-size: 90px; line-height: 1; color: var(--primary); opacity: 0.35; }
-.popdarts-stars { color: var(--primary); font-size: 18px; letter-spacing: 3px; }
+.popdarts-stars { color: var(--primary-deep); font-size: 18px; letter-spacing: 3px; }
 .popdarts-review blockquote { flex: 1; font-size: 18px; line-height: 1.5; font-weight: 700; color: var(--ink); }
 .popdarts-review figcaption { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
 
