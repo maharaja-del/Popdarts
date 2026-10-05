@@ -39,7 +39,7 @@
 
   <div class="popdarts-wrap popdarts-hero__grid">
     <div class="popdarts-hero__copy">
-      <span class="popdarts-glass-pill"><span class="popdarts-dot" aria-hidden="true"></span>{{ section.settings.eyebrow }}</span>
+      <span class="popdarts-glass-pill" data-popdarts-when="active"><span class="popdarts-dot" aria-hidden="true"></span>{{ section.settings.eyebrow }}</span>
 
       <h1 class="popdarts-hero__title" id="popdarts-hero-title-{{ section.id }}">
         <span data-popdarts-when="active">{{ section.settings.heading }}</span>
@@ -62,9 +62,20 @@
       {%- endif -%}
 
       <div class="popdarts-hero__actions">
-        <a class="popdarts-btn popdarts-btn--primary popdarts-btn--lg popdarts-btn--shine" href="{{ section.settings.cta_link | default: '#popdarts-shop' }}">{{ section.settings.cta_text }}</a>
+        <a class="popdarts-btn popdarts-btn--primary popdarts-btn--lg popdarts-btn--shine" href="{{ section.settings.cta_link | default: '#popdarts-shop' }}"><span data-popdarts-when="active">{{ section.settings.cta_text }}</span><span data-popdarts-when="after">{{ section.settings.cta_text_after }}</span></a>
         <a class="popdarts-btn popdarts-btn--ghost-light popdarts-btn--lg" href="{{ section.settings.secondary_link | default: '#popdarts-howto' }}">{{ section.settings.secondary_text }}</a>
       </div>
+
+      {%- comment -%} Mobile only: swipeable jump links replace the two stacked buttons. Links to sections missing from the page are hidden by JS. {%- endcomment -%}
+      {%- if section.settings.show_jump -%}
+        <nav class="popdarts-jump" aria-label="On this page" data-popdarts-jump>
+          <a href="{{ section.settings.cta_link | default: '#popdarts-shop' }}"><span data-popdarts-when="active">{{ section.settings.cta_text }}</span><span data-popdarts-when="after">{{ section.settings.cta_text_after }}</span><svg width="14" height="14" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12m0 0l-5-5m5 5l5-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="#popdarts-compare">{{ section.settings.jump_compare }}</a>
+          <a href="{{ section.settings.secondary_link | default: '#popdarts-howto' }}">{{ section.settings.secondary_text }}</a>
+          <a href="#popdarts-reviews">{{ section.settings.jump_reviews }}</a>
+          <a href="#popdarts-faq">{{ section.settings.jump_faq }}</a>
+        </nav>
+      {%- endif -%}
 
       <ul class="popdarts-hero__trust">
         {%- for i in (1..3) -%}
@@ -151,9 +162,14 @@
     { "type": "richtext", "id": "support", "label": "Support text (during sale)", "default": "<p><strong>USA or Rizzle? Fire & Ice or Blue & Green GLOW?</strong> Popdarts packs are on sale now. Keep one, gift one, and let the competition begin.</p>" },
     { "type": "checkbox", "id": "show_timer", "label": "Show countdown", "default": true },
     { "type": "text", "id": "cta_text", "label": "Primary button", "default": "Shop the sale" },
+    { "type": "text", "id": "cta_text_after", "label": "Primary button (after the sale)", "default": "Shop all colors" },
     { "type": "url", "id": "cta_link", "label": "Primary button link", "info": "Empty = jumps to the colorway grid." },
     { "type": "text", "id": "secondary_text", "label": "Secondary button", "default": "How to play" },
     { "type": "url", "id": "secondary_link", "label": "Secondary button link", "info": "Empty = jumps to How to play." },
+    { "type": "checkbox", "id": "show_jump", "label": "Mobile: show jump links", "info": "On phones, a swipeable row of section links replaces the two buttons.", "default": true },
+    { "type": "text", "id": "jump_compare", "label": "Jump link: packs", "default": "Compare packs" },
+    { "type": "text", "id": "jump_reviews", "label": "Jump link: reviews", "default": "Reviews" },
+    { "type": "text", "id": "jump_faq", "label": "Jump link: FAQ", "default": "FAQ" },
     { "type": "text", "id": "trust_1", "label": "Trust point 1", "default": "Ages 5 to 95" },
     { "type": "text", "id": "trust_2", "label": "Trust point 2", "default": "Play indoors or out" },
     { "type": "text", "id": "trust_3", "label": "Trust point 3", "default": "Dishwasher-safe darts" },

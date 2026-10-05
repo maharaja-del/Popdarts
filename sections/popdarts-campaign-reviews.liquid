@@ -1,11 +1,11 @@
 {% render 'popdarts-campaign-assets' %}
-<section class="popdarts-campaign popdarts-section popdarts-bg--paper" aria-labelledby="popdarts-reviews-title-{{ section.id }}">
+<section class="popdarts-campaign popdarts-section popdarts-bg--paper popdarts-reviews" id="popdarts-reviews" aria-labelledby="popdarts-reviews-title-{{ section.id }}">
   <div class="popdarts-wrap">
     <div class="popdarts-head">
       <p class="popdarts-eyebrow">{{ section.settings.eyebrow }}</p>
       <h2 class="popdarts-h2" id="popdarts-reviews-title-{{ section.id }}">{{ section.settings.title }}</h2>
     </div>
-    <div class="popdarts-reviews__grid">
+    <div class="popdarts-reviews__grid" data-popdarts-slider>
       {%- for block in section.blocks -%}
         <figure class="popdarts-review" {{ block.shopify_attributes }}>
           <div class="popdarts-stars" role="img" aria-label="{{ block.settings.stars }} out of 5 stars">{%- for i in (1..block.settings.stars) -%}★{%- endfor -%}</div>
@@ -14,6 +14,11 @@
         </figure>
       {%- endfor -%}
     </div>
+    {%- if section.blocks.size > 1 -%}
+      <div class="popdarts-dots" data-popdarts-dots aria-label="Review slides">
+        {%- for block in section.blocks -%}<button type="button" aria-label="Show review {{ forloop.index }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}"></button>{%- endfor -%}
+      </div>
+    {%- endif -%}
   </div>
 </section>
 

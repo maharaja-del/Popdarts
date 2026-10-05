@@ -690,26 +690,44 @@ html:not([data-popdarts-state]) .popdarts-campaign [data-popdarts-timer] { displ
 .popdarts-closing__chips li { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: var(--r-pill); background: #fff; color: var(--ink); font-size: 14px; font-weight: 700; }
 .popdarts-closing__chips li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--primary); }
 
+/* floating buy dock (phones/tablets only — hidden ≥900px) */
 .popdarts-sticky {
   position: fixed;
-  left: 0; right: 0; bottom: 0;
+  left: 10px; right: 10px;
+  bottom: calc(10px + env(safe-area-inset-bottom, 0px));
   z-index: 40;
   display: none;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
-  background: var(--primary-grad);
+  padding: 8px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.94);
+  -webkit-backdrop-filter: blur(16px) saturate(1.6);
+  backdrop-filter: blur(16px) saturate(1.6);
+  border: 1px solid rgba(10, 10, 10, 0.08);
   color: var(--ink);
-  box-shadow: 0 -12px 30px -18px rgba(0, 0, 0, 0.5);
-  transform: translateY(110%);
-  transition: transform var(--dur-std) var(--ease-out);
+  text-align: left;
+  box-shadow: 0 22px 44px -18px rgba(10, 10, 10, 0.55), 0 2px 8px rgba(10, 10, 10, 0.08);
+  transform: translateY(calc(100% + 32px));
+  transition: transform var(--dur-slow) var(--ease-emph);
 }
 .popdarts-sticky.is-visible { transform: none; }
+.popdarts-sticky__buy,
+.popdarts-sticky__link { display: flex; align-items: center; gap: 10px; }
+.popdarts-sticky__link { justify-content: space-between; padding-left: 8px; }
+.popdarts-sticky__thumb { position: relative; flex-shrink: 0; width: 52px; height: 52px; }
+.popdarts-sticky__clip { display: block; width: 100%; height: 100%; border-radius: 14px; overflow: hidden; background: var(--studio); }
+.popdarts-sticky__clip img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.5); transform-origin: 50% 58%; }
+.popdarts-sticky__off { position: absolute; top: -7px; left: -7px; padding: 3px 6px; border-radius: var(--r-pill); background: var(--sale-grad); color: #fff; font-size: 11px; font-weight: 700; line-height: 1; box-shadow: 0 4px 10px -4px rgba(214, 58, 47, 0.8); }
+.popdarts-sticky__info { flex: 1; min-width: 0; display: grid; gap: 2px; line-height: 1.15; }
+.popdarts-sticky__name { font-family: var(--font-head); font-weight: 900; font-size: 14px; text-transform: uppercase; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.popdarts-sticky__price { display: flex; align-items: baseline; gap: 6px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.popdarts-sticky__price b { font-size: 17px; font-weight: 900; }
+.popdarts-sticky__price s { font-size: 12px; color: var(--muted); text-decoration-color: var(--primary); text-decoration-thickness: 2px; }
+.popdarts-sticky__timer { display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: var(--ink-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.popdarts-sticky__timer::before { content: ""; flex-shrink: 0; width: 6px; height: 6px; border-radius: 50%; background: var(--sale); }
 .popdarts-sticky__text { min-width: 0; line-height: 1.2; }
 .popdarts-sticky__text strong { display: block; font-family: var(--font-head); font-weight: 900; text-transform: uppercase; font-size: 16px; letter-spacing: -0.01em; }
-.popdarts-sticky__text span { font-size: 13px; font-weight: 700; }
-.popdarts-campaign .popdarts-sticky .popdarts-btn { min-height: 46px; padding: 0 20px; font-size: 14px; flex-shrink: 0; }
+.popdarts-sticky__text span { font-size: 13px; font-weight: 700; color: var(--ink-2); }
+.popdarts-campaign .popdarts-sticky .popdarts-btn { min-height: 50px; padding: 0 18px; border-radius: 16px; font-size: 13px; letter-spacing: 0.05em; flex-shrink: 0; }
 
 /* ==========================================================================
    RESPONSIVE
@@ -728,8 +746,15 @@ html:not([data-popdarts-state]) .popdarts-campaign [data-popdarts-timer] { displ
   .popdarts-faq__grid { grid-template-columns: 1fr; }
   .popdarts-faq__head { position: static; text-align: center; }
   .popdarts-faq__head .popdarts-lede { margin-inline: auto; }
-  .popdarts-sticky { display: flex; }
-  body.popdarts-has-sticky { padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px)); }
+  .popdarts-sticky { display: block; }
+  body.popdarts-has-sticky { padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
+  /* Gorgias chat sits bottom-right (inline bottom: 65px) — lift it above the dock while the dock shows.
+     Deliberately unscoped: only active on campaign pages (this file) and only while body.popdarts-dock-on. */
+  #gorgias-chat-container #chat-button,
+  #gorgias-chat-container #mount-floating-engagement-widget { transition: bottom 0.3s ease; }
+  body.popdarts-dock-on #gorgias-chat-container #chat-button,
+  body.popdarts-dock-on #gorgias-chat-container #chat-input,
+  body.popdarts-dock-on #gorgias-chat-container #mount-floating-engagement-widget { bottom: calc(96px + env(safe-area-inset-bottom, 0px)) !important; }
 
   /* compare: real slider with the next card peeking */
   .popdarts-compare__track {
@@ -747,12 +772,8 @@ html:not([data-popdarts-state]) .popdarts-campaign [data-popdarts-timer] { displ
   .popdarts-dots { display: flex; }
 }
 @media (max-width: 767px) {
-  .popdarts-shop__grid,
-  .popdarts-discover__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .popdarts-discover__grid .popdarts-card--wide { grid-column: 1 / -1; }
-  .popdarts-shop__grid > .popdarts-card:last-child:nth-child(odd),
-  .popdarts-discover__grid > .popdarts-card:last-child:nth-child(odd):not(.popdarts-card--wide):not(.popdarts-card--wide ~ *),
-  .popdarts-discover__grid > .popdarts-card--wide ~ .popdarts-card:last-child:nth-child(even) { grid-column: 1 / -1; }
+  .popdarts-shop__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .popdarts-shop__grid > .popdarts-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
   .popdarts-card__body { padding: 12px 12px 14px; gap: 8px; }
   .popdarts-card__title { font-size: 16px; }
   .popdarts-card__note { font-size: 13px; }
@@ -761,8 +782,6 @@ html:not([data-popdarts-state]) .popdarts-campaign [data-popdarts-timer] { displ
   .popdarts-price__now { font-size: 18px; }
   .popdarts-price__was { font-size: 13px; }
   .popdarts-card .popdarts-save { font-size: 12px; padding: 4px 8px; }
-  .popdarts-hero__actions { width: 100%; }
-  .popdarts-hero__actions .popdarts-btn { flex: 1 1 100%; }
   .popdarts-timer__tile { min-width: 0; flex: 1; }
   .popdarts-timer, .popdarts-timer__tiles { width: 100%; }
   .popdarts-tabs { overflow-x: auto; justify-content: flex-start; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); scrollbar-width: none; }
@@ -773,9 +792,6 @@ html:not([data-popdarts-state]) .popdarts-campaign [data-popdarts-timer] { displ
   .popdarts-step { grid-template-columns: 44px 1fr; padding: 16px; gap: 14px; }
   .popdarts-step__n { width: 44px; height: 44px; font-size: 19px; }
   .popdarts-howto__links .popdarts-btn { flex: 1 1 100%; }
-  .popdarts-sticker { width: 92px; height: 92px; top: -4px; right: -2px; }
-  .popdarts-sticker__center { font-size: 21px; }
-  .popdarts-mini { left: 0; }
 }
 @media (max-width: 380px) {
   .popdarts-shop__grid { grid-template-columns: 1fr; }
@@ -805,4 +821,142 @@ html[data-popdarts-state="after"] .popdarts-campaign [data-popdarts-timer] { dis
   .popdarts-timer__tile { padding: 8px 8px 6px; }
   .popdarts-timer__tile b { font-size: 22px; }
   .popdarts-spot__media { aspect-ratio: 16 / 9.5; }
+}
+
+/* ==========================================================================
+   MOBILE EXPERIENCE (≤767px) — buy-first hero, swipe rails, compact grid
+   ========================================================================== */
+/* jump links (mobile only) */
+.popdarts-jump { display: none; }
+.popdarts-campaign .popdarts-jump a {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: var(--r-pill);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.popdarts-campaign .popdarts-jump a:first-child { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+
+/* touch: no grey flash, no double-tap zoom delay, tactile press */
+.popdarts-campaign a,
+.popdarts-campaign button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+@media (hover: none) {
+  .popdarts-campaign .popdarts-btn:not([disabled]):active { transform: scale(0.97); }
+  .popdarts-campaign .popdarts-btn--primary:not([disabled]):active { background: var(--primary-deep); }
+  .popdarts-campaign .popdarts-btn--outline:not([disabled]):active,
+  .popdarts-campaign .popdarts-btn--ghost-light:active { background: rgba(43, 153, 255, 0.12); }
+  .popdarts-campaign .popdarts-swatch:active { transform: scale(0.92); }
+  .popdarts-campaign .popdarts-tab:active,
+  .popdarts-campaign .popdarts-jump a:active { transform: scale(0.96); }
+}
+/* in-page jumps clear the theme's scroll-up header */
+.popdarts-campaign[id],
+.popdarts-campaign [id^="popdarts-"] { scroll-margin-top: 72px; }
+.popdarts-campaign[tabindex="-1"]:focus { outline: none; }
+
+@media (min-width: 768px) {
+  .popdarts-discover .popdarts-dots,
+  .popdarts-reviews .popdarts-dots { display: none; }
+}
+
+@media (max-width: 767px) {
+  /* --- hero: headline, deal, countdown, then the buy card — before anything else --- */
+  .popdarts-hero { padding-block: 18px 30px; }
+  .popdarts-hero__grid { gap: 12px; }
+  .popdarts-hero__copy { display: contents; }
+  .popdarts-hero__copy > .popdarts-glass-pill { order: 1; justify-self: start; padding: 5px 12px 5px 9px; font-size: 11px; }
+  .popdarts-hero__title { order: 2; font-size: clamp(34px, 10.6vw, 46px); }
+  .popdarts-lockup { order: 3; margin-top: -6px; }
+  .popdarts-lockup__num { font-size: clamp(68px, 20vw, 90px); }
+  .popdarts-lockup__side { font-size: 19px; }
+  .popdarts-hero__copy > .popdarts-timer { order: 4; flex-direction: row; align-items: center; gap: 12px; }
+  .popdarts-hero__copy > .popdarts-timer .popdarts-timer__label { flex: 0 0 62px; font-size: 11px; line-height: 1.25; letter-spacing: 0.1em; }
+  .popdarts-hero__copy > .popdarts-timer .popdarts-timer__tile { padding: 7px 4px 6px; border-radius: 10px; }
+  .popdarts-hero__copy > .popdarts-timer .popdarts-timer__tile b { font-size: 21px; }
+  .popdarts-hero__copy > .popdarts-timer .popdarts-timer__tile small { margin-top: 3px; font-size: 9px; }
+  .popdarts-spot-wrap { order: 5; padding: 8px 0 2px; }
+  .popdarts-hero__support,
+  .popdarts-hero__ended { order: 6; font-size: 15px; }
+  .popdarts-hero__actions { display: none; }
+  .popdarts-jump {
+    order: 7;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: var(--gutter);
+    margin-inline: calc(-1 * var(--gutter));
+    padding: 2px var(--gutter);
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - 36px), transparent);
+  }
+  .popdarts-jump::-webkit-scrollbar { display: none; }
+  .popdarts-hero__trust { order: 8; gap: 6px 14px; font-size: 13px; }
+
+  .popdarts-spot { max-width: none; border-radius: 20px; }
+  .popdarts-spot__inner { border-radius: 18px; }
+  .popdarts-spot__media { aspect-ratio: 16 / 8.5; }
+  /* name + picked color share the first row; the PDP link drops on phones */
+  .popdarts-spot__body { grid-template-columns: minmax(0, 1fr) auto; gap: 10px 12px; padding: 14px 16px 16px; }
+  .popdarts-spot__body > * { grid-column: 1 / -1; }
+  .popdarts-spot__body > .popdarts-spot__name { grid-column: 1; grid-row: 1; }
+  .popdarts-spot__name a { display: none; }
+  .popdarts-spot__body > .popdarts-swatch-label { grid-column: 2; grid-row: 1; align-self: center; max-width: 190px; font-size: 13px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .popdarts-spot__name h2 { font-size: 22px; }
+  .popdarts-sticker { width: 78px; height: 78px; top: -2px; right: -6px; }
+  .popdarts-sticker svg text { font-size: 11.5px; }
+  .popdarts-sticker__center { font-size: 19px; }
+  .popdarts-sticker__center small { font-size: 9px; }
+  .popdarts-mini { display: none; }
+
+  /* --- colorway grid: tighter cards, every color closer to a thumb --- */
+  .popdarts-band { padding-block: 36px 96px; }
+  .popdarts-band__pill { margin-bottom: 14px; font-size: 13px; }
+  .popdarts-band__title { font-size: clamp(40px, 12.4vw, 54px); }
+  .popdarts-band__support { margin-top: 12px; font-size: 15px; }
+  .popdarts-shop__grid { margin-top: -72px; gap: 10px; }
+  .popdarts-shop__grid .popdarts-card__kicker { display: none; }
+  .popdarts-shop__grid .popdarts-card__media { aspect-ratio: 5 / 4; }
+  .popdarts-shop__grid .popdarts-card__body { gap: 6px; padding: 10px 12px 12px; }
+  .popdarts-shop__grid .popdarts-card__foot { gap: 10px; }
+  .popdarts-campaign .popdarts-shop__grid .popdarts-btn { min-height: 44px; }
+
+  /* --- swipe rails: Swaptop/accessories + reviews --- */
+  .popdarts-discover__grid,
+  .popdarts-reviews__grid {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    margin-inline: calc(-1 * var(--gutter));
+    padding: 4px var(--gutter) 12px;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+  .popdarts-discover__grid::-webkit-scrollbar,
+  .popdarts-reviews__grid::-webkit-scrollbar { display: none; }
+  .popdarts-discover__grid > .popdarts-card { flex: 0 0 68%; scroll-snap-align: start; }
+  .popdarts-discover__grid > .popdarts-card--wide { flex-basis: 86%; }
+  .popdarts-reviews__grid > .popdarts-review { flex: 0 0 86%; scroll-snap-align: start; padding: 22px; }
+  .popdarts-review blockquote { font-size: 17px; }
+  .popdarts-discover .popdarts-dots,
+  .popdarts-reviews .popdarts-dots { margin-top: 10px; }
+  .popdarts-tabpanel__intro { margin-bottom: 16px; }
+
+  /* --- how to play: less scroll --- */
+  .popdarts-howto__video { max-width: 340px; }
+  .popdarts-steps { margin-top: 20px; gap: 10px; }
+  .popdarts-step h3 { font-size: 18px; }
+  .popdarts-step p { font-size: 14px; }
 }

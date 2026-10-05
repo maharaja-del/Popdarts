@@ -1,5 +1,5 @@
 {% render 'popdarts-campaign-assets' %}
-<section class="popdarts-campaign popdarts-section popdarts-bg--mist" id="popdarts-discover" aria-labelledby="popdarts-discover-title-{{ section.id }}">
+<section class="popdarts-campaign popdarts-section popdarts-bg--mist popdarts-discover" id="popdarts-discover" aria-labelledby="popdarts-discover-title-{{ section.id }}">
   <div class="popdarts-wrap">
     <div class="popdarts-head">
       <p class="popdarts-eyebrow">{{ section.settings.eyebrow }}</p>
@@ -16,14 +16,17 @@
 
       {%- for g in (1..2) -%}
         {%- assign ik = 'tab_' | append: g | append: '_intro' -%}
+        {%- assign lk = 'tab_' | append: g | append: '_label' -%}
         {%- assign group = g | append: '' -%}
         <div class="popdarts-tabpanel" role="tabpanel" id="popdarts-dpanel-{{ section.id }}-{{ g }}" aria-labelledby="popdarts-dtab-{{ section.id }}-{{ g }}"{% if g > 1 %} hidden{% endif %}>
           {%- if section.settings[ik] != blank -%}<p class="popdarts-tabpanel__intro">{{ section.settings[ik] }}</p>{%- endif -%}
-          <div class="popdarts-discover__grid">
+          <div class="popdarts-discover__grid" data-popdarts-slider>
+            {%- assign group_count = 0 -%}
             {%- for block in section.blocks -%}
               {%- if block.settings.group != group -%}{%- continue -%}{%- endif -%}
               {%- assign p = block.settings.product -%}
               {%- if p == blank -%}{%- continue -%}{%- endif -%}
+              {%- assign group_count = group_count | plus: 1 -%}
               {%- liquid
                 assign v = p.selected_or_first_available_variant
                 assign pct = 0
@@ -67,6 +70,12 @@
               </article>
             {%- endfor -%}
           </div>
+          {%- comment -%} Phones: the grid becomes a swipe rail; dots track position {%- endcomment -%}
+          {%- if group_count > 1 -%}
+            <div class="popdarts-dots" data-popdarts-dots aria-label="{{ section.settings[lk] | escape }} slides">
+              {%- for i in (1..group_count) -%}<button type="button" aria-label="Show item {{ i }}" aria-current="{% if i == 1 %}true{% else %}false{% endif %}"></button>{%- endfor -%}
+            </div>
+          {%- endif -%}
         </div>
       {%- endfor -%}
     </div>

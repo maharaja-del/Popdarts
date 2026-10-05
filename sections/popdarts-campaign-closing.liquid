@@ -29,13 +29,31 @@
 
   {%- if section.settings.show_sticky -%}
     <div class="popdarts-sticky" data-popdarts-sticky aria-hidden="true">
-      <div class="popdarts-sticky__text">
-        <strong data-popdarts-when="active">{% if pct == '0' %}{{ section.settings.sticky_ended_text }}{% else %}{{ sticky_text }}{% endif %}</strong>
-        <strong data-popdarts-when="after">{{ section.settings.sticky_ended_text }}</strong>
-        <span data-popdarts-timer><span data-popdarts-label>Sale ends in</span> <span class="popdarts-timer-compact" data-popdarts-compact></span></span>
+      {%- comment -%}
+        Buy mode: mirrors the colorway picked in the hero (image, name, price) and adds it in one tap.
+        Filled by popdarts-campaign.js; stays hidden when there's no hero picker or the pick is sold out.
+      {%- endcomment -%}
+      <div class="popdarts-sticky__buy" data-popdarts-sticky-buy hidden>
+        <span class="popdarts-sticky__thumb">
+          <span class="popdarts-sticky__clip"><img data-popdarts-sticky-img alt="" width="52" height="52" decoding="async"></span>
+          <span class="popdarts-sticky__off" data-popdarts-sticky-off hidden></span>
+        </span>
+        <span class="popdarts-sticky__info">
+          <span class="popdarts-sticky__name" data-popdarts-sticky-name></span>
+          <span class="popdarts-sticky__price"><b data-popdarts-sticky-now></b><s data-popdarts-sticky-was hidden></s></span>
+          <span class="popdarts-sticky__timer" data-popdarts-timer data-popdarts-when="active"><span data-popdarts-label>Sale ends in</span> <span data-popdarts-compact></span></span>
+        </span>
+        <button type="button" class="popdarts-btn popdarts-btn--primary" data-popdarts-atc data-variant-id="" data-label-add="{{ section.settings.sticky_add }}" data-label-soldout="Sold out" tabindex="-1"><span class="popdarts-btn__label">{{ section.settings.sticky_add }}</span></button>
       </div>
-      <a class="popdarts-btn popdarts-btn--white" href="{{ section.settings.button_link | default: '#popdarts-shop' }}" tabindex="-1" data-popdarts-when="active">{{ section.settings.sticky_button }}</a>
-      <a class="popdarts-btn popdarts-btn--white" href="{{ section.settings.ended_link | default: '#popdarts-compare' }}" tabindex="-1" data-popdarts-when="after">{{ section.settings.ended_button }}</a>
+      <div class="popdarts-sticky__link" data-popdarts-sticky-link>
+        <div class="popdarts-sticky__text">
+          <strong data-popdarts-when="active">{% if pct == '0' %}{{ section.settings.sticky_ended_text }}{% else %}{{ sticky_text }}{% endif %}</strong>
+          <strong data-popdarts-when="after">{{ section.settings.sticky_ended_text }}</strong>
+          <span data-popdarts-timer><span data-popdarts-label>Sale ends in</span> <span class="popdarts-timer-compact" data-popdarts-compact></span></span>
+        </div>
+        <a class="popdarts-btn popdarts-btn--primary" href="{{ section.settings.button_link | default: '#popdarts-shop' }}" tabindex="-1" data-popdarts-when="active">{{ section.settings.sticky_button }}</a>
+        <a class="popdarts-btn popdarts-btn--primary" href="{{ section.settings.ended_link | default: '#popdarts-compare' }}" tabindex="-1" data-popdarts-when="after">{{ section.settings.ended_button }}</a>
+      </div>
     </div>
   {%- endif -%}
 </section>
@@ -58,7 +76,8 @@
     { "type": "text", "id": "ended_button", "label": "Button", "default": "Choose your pack" },
     { "type": "url", "id": "ended_link", "label": "Button link", "info": "Empty = jumps to the pack comparison." },
     { "type": "header", "content": "Sticky mobile bar" },
-    { "type": "checkbox", "id": "show_sticky", "label": "Show sticky bar on mobile", "default": true },
+    { "type": "checkbox", "id": "show_sticky", "label": "Show sticky bar on mobile", "info": "Shows the colorway picked in the hero with a one-tap add to cart. Falls back to a link when the pick is sold out.", "default": true },
+    { "type": "text", "id": "sticky_add", "label": "Add-to-cart button", "default": "Add to cart" },
     { "type": "text", "id": "sticky_text", "label": "Text (during sale)", "default": "Up to {pct}% off" },
     { "type": "text", "id": "sticky_ended_text", "label": "Text (after sale)", "default": "Find your pack" },
     { "type": "text", "id": "sticky_button", "label": "Button", "default": "Shop sale" }
