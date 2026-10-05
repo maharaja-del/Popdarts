@@ -3,10 +3,8 @@
     "settings": {
       "type": "popdarts-campaign-settings",
       "settings": {
-        "sale_start": "2026-10-06 00:00",
         "sale_end": "2026-10-07 23:59",
         "timezone_offset": "",
-        "label_before": "Sale starts in",
         "label_live": "Sale ends in",
         "label_after": "Sale has ended"
       }
