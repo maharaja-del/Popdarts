@@ -1,0 +1,45 @@
+{%- liquid
+  assign product = section.settings.product | default: all_products['pro-pack']
+  capture pct_s
+    render 'popdarts-campaign-pct', product: product
+  endcapture
+  assign pct = pct_s | strip
+  assign raw = section.settings.items | split: '|'
+  assign kept = ''
+  for it in raw
+    if it contains '{pct}' and pct == '0'
+      continue
+    endif
+    assign kept = kept | append: it | append: '|'
+  endfor
+  assign items = kept | replace: '{pct}', pct | split: '|'
+  assign items_after = section.settings.items_after | split: '|'
+-%}
+{% render 'popdarts-campaign-assets' %}
+<div class="popdarts-campaign popdarts-ticker" aria-label="Offer highlights">
+  {%- for set in (1..2) -%}
+    {%- if set == 1 -%}{%- assign list = items -%}{%- assign when = 'active' -%}{%- else -%}{%- assign list = items_after -%}{%- assign when = 'after' -%}{%- endif -%}
+    <div class="popdarts-ticker__track" data-popdarts-when="{{ when }}">
+      {%- for round in (1..2) -%}
+        <ul class="popdarts-ticker__list"{% if round == 2 %} aria-hidden="true"{% endif %}>
+          {%- for item in list -%}<li>{{ item | strip }}</li>{%- endfor -%}
+          {%- for item in list -%}<li>{{ item | strip }}</li>{%- endfor -%}
+        </ul>
+      {%- endfor -%}
+    </div>
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Campaign: Ticker",
+  "tag": "div",
+  "class": "popdarts-campaign-ticker-section",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Product used for {pct}" },
+    { "type": "textarea", "id": "items", "label": "Items during the sale", "info": "Separate with |. {pct} becomes the biggest live discount.", "default": "Up to {pct}% off Pro Packs|Oct 6–7 only|Keep one, gift one|Ages 5 to 95|Play indoors or out" },
+    { "type": "textarea", "id": "items_after", "label": "Items after the sale", "default": "Easy to learn, tough to master|Ages 5 to 95|Play indoors or out|Dishwasher-safe darts" }
+  ],
+  "presets": [{ "name": "Campaign: Ticker" }]
+}
+{% endschema %}

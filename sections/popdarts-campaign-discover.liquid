@@ -1,0 +1,106 @@
+{% render 'popdarts-campaign-assets' %}
+<section class="popdarts-campaign popdarts-section popdarts-bg--mist" id="popdarts-discover" aria-labelledby="popdarts-discover-title-{{ section.id }}">
+  <div class="popdarts-wrap">
+    <div class="popdarts-head">
+      <p class="popdarts-eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2 class="popdarts-h2" id="popdarts-discover-title-{{ section.id }}">{{ section.settings.title }}</h2>
+    </div>
+
+    <div data-popdarts-tabs>
+      <div class="popdarts-tabs" role="tablist" aria-label="{{ section.settings.title | escape }}">
+        {%- for g in (1..2) -%}
+          {%- assign lk = 'tab_' | append: g | append: '_label' -%}
+          <button type="button" role="tab" id="popdarts-dtab-{{ section.id }}-{{ g }}" aria-controls="popdarts-dpanel-{{ section.id }}-{{ g }}" aria-selected="{% if g == 1 %}true{% else %}false{% endif %}" tabindex="{% if g == 1 %}0{% else %}-1{% endif %}" class="popdarts-tab">{{ section.settings[lk] }}</button>
+        {%- endfor -%}
+      </div>
+
+      {%- for g in (1..2) -%}
+        {%- assign ik = 'tab_' | append: g | append: '_intro' -%}
+        {%- assign group = g | append: '' -%}
+        <div class="popdarts-tabpanel" role="tabpanel" id="popdarts-dpanel-{{ section.id }}-{{ g }}" aria-labelledby="popdarts-dtab-{{ section.id }}-{{ g }}"{% if g > 1 %} hidden{% endif %}>
+          {%- if section.settings[ik] != blank -%}<p class="popdarts-tabpanel__intro">{{ section.settings[ik] }}</p>{%- endif -%}
+          <div class="popdarts-discover__grid">
+            {%- for block in section.blocks -%}
+              {%- if block.settings.group != group -%}{%- continue -%}{%- endif -%}
+              {%- assign p = block.settings.product -%}
+              {%- if p == blank -%}{%- continue -%}{%- endif -%}
+              {%- liquid
+                assign v = p.selected_or_first_available_variant
+                assign pct = 0
+                if v.compare_at_price > v.price
+                  assign pct = v.compare_at_price | minus: v.price | times: 100.0 | divided_by: v.compare_at_price | round
+                endif
+              -%}
+              <article class="popdarts-card{% if block.settings.wide %} popdarts-card--wide{% endif %}{% unless p.available %} is-soldout{% endunless %}" {{ block.shopify_attributes }}>
+                <a class="popdarts-card__media" href="{{ p.url }}" tabindex="-1" aria-hidden="true">
+                  {%- if block.settings.wide -%}
+                    {{ p.featured_image | image_url: width: 1200 | image_tag: widths: '400, 600, 800, 1200', sizes: '(min-width: 1080px) 620px, (min-width: 900px) 58vw, 92vw', loading: 'lazy', alt: '' }}
+                  {%- else -%}
+                    {{ p.featured_image | image_url: width: 800 | image_tag: widths: '300, 500, 800', sizes: '(min-width: 1080px) 300px, 46vw', loading: 'lazy', alt: '' }}
+                  {%- endif -%}
+                  {%- if pct > 0 and p.available -%}<span class="popdarts-off">{{ pct }}% off</span>{%- endif -%}
+                  {%- unless p.available -%}<span class="popdarts-card__flag">Sold out</span>{%- endunless -%}
+                </a>
+                <div class="popdarts-card__body">
+                  {%- if block.settings.label != blank -%}<span class="popdarts-label{% if block.settings.label_style == 'kit' %} popdarts-label--kit{% endif %}">{{ block.settings.label }}</span>{%- endif -%}
+                  <h3 class="popdarts-card__title"><a href="{{ p.url }}">{{ p.title }}</a></h3>
+                  {%- if block.settings.note != blank -%}<p class="popdarts-card__note">{{ block.settings.note }}</p>{%- endif -%}
+                  {%- if block.settings.requires != blank -%}
+                    <p class="popdarts-req"><svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10 6v5M10 13.6v.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>{{ block.settings.requires }}</p>
+                  {%- endif -%}
+                  <div class="popdarts-card__foot">
+                    <div class="popdarts-price">
+                      <span class="popdarts-price__now">{% if p.has_only_default_variant == false and p.price_varies %}From {% endif %}{{ v.price | money }}</span>
+                      {%- if pct > 0 -%}<s class="popdarts-price__was">{{ v.compare_at_price | money }}</s>{%- endif -%}
+                    </div>
+                    {%- if p.available and p.has_only_default_variant -%}
+                      <button type="button" class="popdarts-btn popdarts-btn--outline popdarts-btn--block" data-popdarts-atc data-variant-id="{{ v.id }}" data-product-title="{{ p.title | escape }}">
+                        <span class="popdarts-btn__label">Add to cart</span>
+                      </button>
+                    {%- elsif p.available -%}
+                      <a class="popdarts-btn popdarts-btn--outline popdarts-btn--block" href="{{ p.url }}">Choose options</a>
+                    {%- else -%}
+                      <a class="popdarts-btn popdarts-btn--outline popdarts-btn--block" href="{{ p.url }}">View product</a>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </article>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Campaign: Discover",
+  "tag": "div",
+  "class": "popdarts-campaign-discover-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Already have a pack?" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "More ways to play." },
+    { "type": "text", "id": "tab_1_label", "label": "Tab 1 label", "default": "Swaptop™" },
+    { "type": "textarea", "id": "tab_1_intro", "label": "Tab 1 intro", "default": "The Swaptop™ Kit is a complete board-game setup. Tops are add-on game boards that swap into the frame." },
+    { "type": "text", "id": "tab_2_label", "label": "Tab 2 label", "default": "Mods & accessories" },
+    { "type": "textarea", "id": "tab_2_intro", "label": "Tab 2 intro", "default": "Add-ons for the game you already own — they don't include darts." }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Product",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "select", "id": "group", "label": "Tab", "options": [{ "value": "1", "label": "Tab 1" }, { "value": "2", "label": "Tab 2" }], "default": "1" },
+        { "type": "text", "id": "label", "label": "Label", "info": "e.g. Complete kit, Add-on top, Mod, Accessory" },
+        { "type": "select", "id": "label_style", "label": "Label style", "options": [{ "value": "addon", "label": "Add-on (light)" }, { "value": "kit", "label": "Complete kit (solid)" }], "default": "addon" },
+        { "type": "text", "id": "note", "label": "Short description" },
+        { "type": "text", "id": "requires", "label": "Requirement", "info": "What the shopper needs to already own. Leave empty for complete kits." },
+        { "type": "checkbox", "id": "wide", "label": "Wide card", "default": false }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Campaign: Discover" }]
+}
+{% endschema %}

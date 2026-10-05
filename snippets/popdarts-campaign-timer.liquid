@@ -1,0 +1,14 @@
+{%- comment -%}
+  Countdown driven by the shared campaign clock (popdarts-campaign.js).
+  style: glass (on dark) | grad (on white) | white (on primary)
+  Hidden until JS has a configured clock; labels switch per state.
+{%- endcomment -%}
+<div class="popdarts-timer popdarts-timer--{{ style | default: 'glass' }}" data-popdarts-timer role="timer" aria-live="off">
+  <span class="popdarts-timer__label" data-popdarts-label>{{ label | default: 'Sale ends in' }}</span>
+  <div class="popdarts-timer__tiles">
+    <div class="popdarts-timer__tile"><b data-popdarts-t="d">0</b><small>Days</small></div>
+    <div class="popdarts-timer__tile"><b data-popdarts-t="h">00</b><small>Hrs</small></div>
+    <div class="popdarts-timer__tile"><b data-popdarts-t="m">00</b><small>Min</small></div>
+    <div class="popdarts-timer__tile"><b data-popdarts-t="s">00</b><small>Sec</small></div>
+  </div>
+</div>

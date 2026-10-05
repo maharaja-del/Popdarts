@@ -1,0 +1,66 @@
+{%- liquid
+  assign product = section.settings.product | default: all_products['pro-pack']
+  capture pct_s
+    render 'popdarts-campaign-pct', product: product
+  endcapture
+  assign pct = pct_s | strip
+  assign chips = section.settings.chips | split: '|'
+-%}
+{% render 'popdarts-campaign-assets' %}
+<section class="popdarts-campaign popdarts-section popdarts-closing" data-popdarts-closing aria-labelledby="popdarts-closing-title-{{ section.id }}">
+  <div class="popdarts-wrap">
+    <div class="popdarts-closing__inner">
+      <h2 class="popdarts-closing__title" id="popdarts-closing-title-{{ section.id }}">
+        <span data-popdarts-when="active">{{ section.settings.title }}</span>
+        <span data-popdarts-when="after">{{ section.settings.ended_title }}</span>
+      </h2>
+      <p class="popdarts-closing__sub" data-popdarts-when="active">{% if pct == '0' %}{{ section.settings.ended_sub }}{% else %}{{ section.settings.sub | replace: '{pct}', pct }}{% endif %}</p>
+      <p class="popdarts-closing__sub" data-popdarts-when="after">{{ section.settings.ended_sub }}</p>
+      {% render 'popdarts-campaign-timer', style: 'white' %}
+      {%- if chips.size > 0 -%}
+        <ul class="popdarts-closing__chips" data-popdarts-when="active">{%- for c in chips -%}<li>{{ c | strip }}</li>{%- endfor -%}</ul>
+      {%- endif -%}
+      <a class="popdarts-btn popdarts-btn--white popdarts-btn--lg" href="{{ section.settings.button_link | default: '#popdarts-shop' }}" data-popdarts-when="active">{{ section.settings.button_text }}</a>
+      <a class="popdarts-btn popdarts-btn--white popdarts-btn--lg" href="{{ section.settings.ended_link | default: '#popdarts-compare' }}" data-popdarts-when="after">{{ section.settings.ended_button }}</a>
+    </div>
+  </div>
+
+  {%- if section.settings.show_sticky -%}
+    <div class="popdarts-sticky" data-popdarts-sticky aria-hidden="true">
+      <div class="popdarts-sticky__text">
+        <strong data-popdarts-when="active">{% if pct == '0' %}{{ section.settings.sticky_ended_text }}{% else %}{{ section.settings.sticky_text | replace: '{pct}', pct }}{% endif %}</strong>
+        <strong data-popdarts-when="after">{{ section.settings.sticky_ended_text }}</strong>
+        <span data-popdarts-timer><span data-popdarts-label>Sale ends in</span> <span class="popdarts-timer-compact" data-popdarts-compact></span></span>
+      </div>
+      <a class="popdarts-btn popdarts-btn--white" href="{{ section.settings.button_link | default: '#popdarts-shop' }}" tabindex="-1" data-popdarts-when="active">{{ section.settings.sticky_button }}</a>
+      <a class="popdarts-btn popdarts-btn--white" href="{{ section.settings.ended_link | default: '#popdarts-compare' }}" tabindex="-1" data-popdarts-when="after">{{ section.settings.ended_button }}</a>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Campaign: Closing CTA",
+  "tag": "div",
+  "class": "popdarts-campaign-closing-section",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Product used for {pct}" },
+    { "type": "text", "id": "title", "label": "Heading (during sale)", "default": "Take your shot." },
+    { "type": "text", "id": "sub", "label": "Subheading (during sale)", "info": "{pct} becomes the biggest live discount.", "default": "Up to {pct}% off Popdarts Pro Packs. Oct 6–7 only." },
+    { "type": "text", "id": "chips", "label": "Chips", "info": "Separate with |", "default": "Keep one|Gift one|Let the competition begin" },
+    { "type": "text", "id": "button_text", "label": "Button", "default": "Shop the sale" },
+    { "type": "url", "id": "button_link", "label": "Button link", "info": "Empty = jumps to the colorway grid." },
+    { "type": "header", "content": "After the sale" },
+    { "type": "text", "id": "ended_title", "label": "Heading", "default": "Your next game night starts here." },
+    { "type": "text", "id": "ended_sub", "label": "Subheading", "default": "Pick the pack that fits your players." },
+    { "type": "text", "id": "ended_button", "label": "Button", "default": "Choose your pack" },
+    { "type": "url", "id": "ended_link", "label": "Button link", "info": "Empty = jumps to the pack comparison." },
+    { "type": "header", "content": "Sticky mobile bar" },
+    { "type": "checkbox", "id": "show_sticky", "label": "Show sticky bar on mobile", "default": true },
+    { "type": "text", "id": "sticky_text", "label": "Text (during sale)", "default": "Up to {pct}% off" },
+    { "type": "text", "id": "sticky_ended_text", "label": "Text (after sale)", "default": "Find your pack" },
+    { "type": "text", "id": "sticky_button", "label": "Button", "default": "Shop sale" }
+  ],
+  "presets": [{ "name": "Campaign: Closing CTA" }]
+}
+{% endschema %}

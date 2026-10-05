@@ -1,0 +1,24 @@
+{%- comment -%}
+  Outputs a whole-number discount % from real compare-at prices.
+  Pass `variant` for one variant, or `product` for the biggest discount
+  across that product's AVAILABLE variants. Outputs 0 when there's no
+  verified saving (compare-at missing or not above price).
+{%- endcomment -%}
+{%- liquid
+  assign best = 0
+  if variant
+    if variant.compare_at_price > variant.price
+      assign best = variant.compare_at_price | minus: variant.price | times: 100.0 | divided_by: variant.compare_at_price | round
+    endif
+  elsif product
+    for v in product.variants
+      if v.available and v.compare_at_price > v.price
+        assign p = v.compare_at_price | minus: v.price | times: 100.0 | divided_by: v.compare_at_price | round
+        if p > best
+          assign best = p
+        endif
+      endif
+    endfor
+  endif
+  echo best
+-%}

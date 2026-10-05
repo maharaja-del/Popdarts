@@ -1,0 +1,43 @@
+{% render 'popdarts-campaign-assets' %}
+<section class="popdarts-campaign popdarts-section popdarts-bg--paper" aria-labelledby="popdarts-reviews-title-{{ section.id }}">
+  <div class="popdarts-wrap">
+    <div class="popdarts-head">
+      <p class="popdarts-eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2 class="popdarts-h2" id="popdarts-reviews-title-{{ section.id }}">{{ section.settings.title }}</h2>
+    </div>
+    <div class="popdarts-reviews__grid">
+      {%- for block in section.blocks -%}
+        <figure class="popdarts-review" {{ block.shopify_attributes }}>
+          <div class="popdarts-stars" role="img" aria-label="{{ block.settings.stars }} out of 5 stars">{%- for i in (1..block.settings.stars) -%}★{%- endfor -%}</div>
+          <blockquote>{{ block.settings.quote }}</blockquote>
+          {%- if block.settings.name != blank -%}<figcaption>{{ block.settings.name }}</figcaption>{%- endif -%}
+        </figure>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Campaign: Reviews",
+  "tag": "div",
+  "class": "popdarts-campaign-reviews-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Real reviews" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Keep one. Gift one." }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote", "info": "Use real customer reviews only." },
+        { "type": "range", "id": "stars", "label": "Stars", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "text", "id": "name", "label": "Attribution", "info": "Leave empty if you don't have a verified name." }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [{ "name": "Campaign: Reviews" }]
+}
+{% endschema %}

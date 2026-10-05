@@ -1,0 +1,94 @@
+{%- liquid
+  assign product = section.settings.product | default: all_products['pro-pack']
+  capture pct_s
+    render 'popdarts-campaign-pct', product: product
+  endcapture
+  assign pct = pct_s | strip
+  assign variants = product.variants | sort: 'price'
+  assign soldout = ''
+-%}
+{% render 'popdarts-campaign-assets' %}
+
+<section class="popdarts-campaign" id="popdarts-shop" aria-labelledby="popdarts-shop-title-{{ section.id }}">
+  <div class="popdarts-band">
+    <div class="popdarts-wrap">
+      <p class="popdarts-band__pill" data-popdarts-when="active">
+        <span class="popdarts-dot" aria-hidden="true"></span>
+        <span data-popdarts-timer><span data-popdarts-label>Sale ends in</span> <b class="popdarts-timer-compact" data-popdarts-compact></b></span>
+        <noscript>{{ section.settings.dates_text }}</noscript>
+      </p>
+      <p class="popdarts-eyebrow">{% if pct == '0' %}{{ section.settings.dates_text }}{% else %}{{ section.settings.eyebrow | replace: '{pct}', pct }}{% endif %}</p>
+      <h2 class="popdarts-band__title" id="popdarts-shop-title-{{ section.id }}">{{ section.settings.title }}</h2>
+      <div class="popdarts-band__support">{{ section.settings.support }}</div>
+    </div>
+  </div>
+
+  <div class="popdarts-shop">
+    <div class="popdarts-wrap">
+      <div class="popdarts-shop__grid">
+        {%- for v in variants -%}
+          {%- if v.available -%}
+            {%- liquid
+              assign v_pct = 0
+              if v.compare_at_price > v.price
+                assign v_pct = v.compare_at_price | minus: v.price | times: 100.0 | divided_by: v.compare_at_price | round
+              endif
+              if v_pct == 0 and section.settings.only_discounted
+                continue
+              endif
+              assign img = v.featured_image | default: product.featured_image
+            -%}
+            <article class="popdarts-card">
+              <a class="popdarts-card__media" href="{{ v.url }}" tabindex="-1" aria-hidden="true">
+                {{ img | image_url: width: 700 | image_tag: widths: '300, 450, 600, 700', sizes: '(min-width: 1080px) 300px, (min-width: 768px) 32vw, 46vw', loading: 'lazy', alt: '' }}
+                {%- if v_pct > 0 -%}<span class="popdarts-off">{{ v_pct }}% off</span>{%- endif -%}
+              </a>
+              <div class="popdarts-card__body">
+                <p class="popdarts-card__kicker">{{ product.title }}</p>
+                <h3 class="popdarts-card__title"><a href="{{ v.url }}">{{ v.title }}</a></h3>
+                <div class="popdarts-card__foot">
+                  <div class="popdarts-price">
+                    <span class="popdarts-price__now">{{ v.price | money }}</span>
+                    {%- if v_pct > 0 -%}
+                      <s class="popdarts-price__was">{{ v.compare_at_price | money }}</s>
+                      <span class="popdarts-save">Save {{ v.compare_at_price | minus: v.price | money }}</span>
+                    {%- endif -%}
+                  </div>
+                  <button type="button" class="popdarts-btn popdarts-btn--primary popdarts-btn--block" data-popdarts-atc data-variant-id="{{ v.id }}" data-product-title="{{ product.title | escape }} — {{ v.title | escape }}">
+                    <span class="popdarts-btn__label">Add to cart</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+          {%- else -%}
+            {%- assign soldout = soldout | append: v.title | append: '|' -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      {%- if soldout != blank and section.settings.show_soldout -%}
+        {%- assign soldout_list = soldout | split: '|' -%}
+        <p class="popdarts-shop__soldout">{{ section.settings.soldout_label }} <b>{{ soldout_list | join: ' · ' }}</b></p>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Campaign: Colorway grid",
+  "tag": "div",
+  "class": "popdarts-campaign-shop-section",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Product", "info": "Every available colorway (variant) gets its own card, cheapest first." },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "info": "{pct} becomes the biggest live discount.", "default": "Up to {pct}% off · Oct 6–7" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Pick your colors." },
+    { "type": "richtext", "id": "support", "label": "Support text", "default": "<p>Every Pro Pack comes with <strong>6 Popdarts, a PRO Target Marker™, a carrying bag with rules and a built-in ruler, and 2 stickers.</strong></p>" },
+    { "type": "text", "id": "dates_text", "label": "Dates text (shown without JavaScript)", "default": "Oct 6–7 only" },
+    { "type": "checkbox", "id": "only_discounted", "label": "Only show discounted colorways", "default": false },
+    { "type": "checkbox", "id": "show_soldout", "label": "List sold-out colorways under the grid", "default": true },
+    { "type": "text", "id": "soldout_label", "label": "Sold-out label", "default": "Sold out right now:" }
+  ],
+  "presets": [{ "name": "Campaign: Colorway grid" }]
+}
+{% endschema %}

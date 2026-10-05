@@ -1,0 +1,80 @@
+{% render 'popdarts-campaign-assets' %}
+<section class="popdarts-campaign popdarts-section popdarts-bg--night" id="popdarts-howto" aria-labelledby="popdarts-howto-title-{{ section.id }}">
+  <div class="popdarts-wrap popdarts-howto__grid">
+    <figure class="popdarts-howto__video">
+      {%- if section.settings.video_url != blank -%}
+        <video data-popdarts-lazy data-src="{{ section.settings.video_url }}" muted loop playsinline preload="none"
+          {%- if section.settings.video_poster %} poster="{{ section.settings.video_poster | image_url: width: 900 }}"{% endif %}
+          aria-label="{{ section.settings.video_label | escape }}"></video>
+      {%- endif -%}
+      {%- if section.settings.video_label != blank -%}<figcaption class="popdarts-howto__video-tag">{{ section.settings.video_label }}</figcaption>{%- endif -%}
+    </figure>
+
+    <div>
+      <p class="popdarts-eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2 class="popdarts-h2" id="popdarts-howto-title-{{ section.id }}" style="margin-top:12px">{{ section.settings.title }}</h2>
+      <p class="popdarts-lede" style="margin-top:14px">{{ section.settings.lede }}</p>
+
+      <ol class="popdarts-steps">
+        {%- for i in (1..3) -%}
+          {%- assign t = 'step_' | append: i | append: '_title' -%}
+          {%- assign b = 'step_' | append: i | append: '_body' -%}
+          <li class="popdarts-step">
+            <span class="popdarts-step__n" aria-hidden="true">{{ i }}</span>
+            <div>
+              <h3>{{ section.settings[t] }}</h3>
+              <p>{{ section.settings[b] }}</p>
+              {%- if i == 3 -%}
+                <div class="popdarts-points">
+                  {%- for j in (1..3) -%}
+                    {%- assign pv = 'points_' | append: j | append: '_value' -%}
+                    {%- assign pl = 'points_' | append: j | append: '_label' -%}
+                    {%- if section.settings[pv] != blank -%}<span><b>{{ section.settings[pv] }}</b> {{ section.settings[pl] }}</span>{%- endif -%}
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+            </div>
+          </li>
+        {%- endfor -%}
+      </ol>
+
+      <div class="popdarts-howto__links">
+        <a class="popdarts-btn popdarts-btn--primary" href="{{ section.settings.rules_link | default: '/pages/play' }}">{{ section.settings.rules_text }}</a>
+        <a class="popdarts-btn popdarts-btn--ghost-light" href="{{ section.settings.app_link | default: '/pages/scorekeeper' }}">{{ section.settings.app_text }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Campaign: How to play",
+  "tag": "div",
+  "class": "popdarts-campaign-howto-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "How to play" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Stick it. Score it. Win it." },
+    { "type": "textarea", "id": "lede", "label": "Intro", "default": "Popdarts is a suction-cup dart game. Stick the target marker on a smooth surface, take turns throwing, and score the darts that stick closest." },
+    { "type": "url", "id": "video_url", "label": "Gameplay video (.mp4)", "info": "Loads only when scrolled near, plays muted — no sound needed." },
+    { "type": "image_picker", "id": "video_poster", "label": "Video poster image" },
+    { "type": "text", "id": "video_label", "label": "Video caption", "default": "Real game · no sound needed" },
+    { "type": "text", "id": "step_1_title", "label": "Step 1 title", "default": "Set the marker" },
+    { "type": "textarea", "id": "step_1_body", "label": "Step 1 text", "default": "Choose a smooth surface — glass, a window or a countertop — and stick the Target Marker on it." },
+    { "type": "text", "id": "step_2_title", "label": "Step 2 title", "default": "Take turns throwing" },
+    { "type": "textarea", "id": "step_2_body", "label": "Step 2 text", "default": "Each player throws their 3 Popdarts at the marker. Darts that stick stay put." },
+    { "type": "text", "id": "step_3_title", "label": "Step 3 title", "default": "Score the round" },
+    { "type": "textarea", "id": "step_3_body", "label": "Step 3 text", "default": "Use cancellation scoring like cornhole. First player to 21 wins — going over is allowed." },
+    { "type": "text", "id": "points_1_value", "label": "Points chip 1 value", "default": "+3" },
+    { "type": "text", "id": "points_1_label", "label": "Points chip 1 label", "default": "Closest to the marker" },
+    { "type": "text", "id": "points_2_value", "label": "Points chip 2 value", "default": "+1" },
+    { "type": "text", "id": "points_2_label", "label": "Points chip 2 label", "default": "Every other dart that sticks" },
+    { "type": "text", "id": "points_3_value", "label": "Points chip 3 value", "default": "+10" },
+    { "type": "text", "id": "points_3_label", "label": "Points chip 3 label", "default": "On top of the PRO marker" },
+    { "type": "text", "id": "rules_text", "label": "Rules button", "default": "Full rules & scoring" },
+    { "type": "url", "id": "rules_link", "label": "Rules link", "info": "Empty = /pages/play (the site's Rules & Scoring page)." },
+    { "type": "text", "id": "app_text", "label": "App button", "default": "Score Keeper app (optional)" },
+    { "type": "url", "id": "app_link", "label": "App link", "info": "Empty = /pages/scorekeeper." }
+  ],
+  "presets": [{ "name": "Campaign: How to play" }]
+}
+{% endschema %}

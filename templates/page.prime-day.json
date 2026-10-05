@@ -1,0 +1,427 @@
+{
+  "sections": {
+    "settings": {
+      "type": "popdarts-campaign-settings",
+      "settings": {
+        "sale_start": "2026-10-06 00:00",
+        "sale_end": "2026-10-07 23:59",
+        "timezone_offset": "",
+        "label_before": "Sale starts in",
+        "label_live": "Sale ends in",
+        "label_after": "Sale has ended"
+      }
+    },
+    "hero": {
+      "type": "popdarts-campaign-hero",
+      "settings": {
+        "eyebrow": "2-day sale · Oct 6–7",
+        "heading": "Take your shot.",
+        "up_to_label": "Up to",
+        "off_label": "Off",
+        "up_to_override": "",
+        "support": "<p><strong>USA or Rizzle? Fire & Ice or Blue & Green GLOW?</strong> Popdarts packs are on sale now. Keep one, gift one, and let the competition begin.</p>",
+        "show_timer": true,
+        "cta_text": "Shop the sale",
+        "cta_link": "",
+        "secondary_text": "How to play",
+        "secondary_link": "",
+        "trust_1": "Ages 5 to 95",
+        "trust_2": "Play indoors or out",
+        "trust_3": "Dishwasher-safe darts",
+        "ended_heading": "Your next game night starts here.",
+        "ended_support": "Suction-cup darts you can stick to glass, windows and countertops — easy to learn, tough to master.",
+        "product": "pro-pack",
+        "featured_colors": "Rizzle, Fire & Ice, Blue & Green GLOW, USA",
+        "default_color": "Rizzle",
+        "details_text": "Details",
+        "sticker_text": "Up to {pct}% off · Oct 6–7 only · ",
+        "mini_product": "rookie-pack",
+        "mini_prefix": "From",
+        "mini_link": ""
+      }
+    },
+    "shop": {
+      "type": "popdarts-campaign-shop",
+      "settings": {
+        "product": "pro-pack",
+        "eyebrow": "Up to {pct}% off · Oct 6–7",
+        "title": "Pick your colors.",
+        "support": "<p>Every Pro Pack comes with <strong>6 Popdarts, a PRO Target Marker™, a carrying bag with rules and a built-in ruler, and 2 stickers.</strong></p>",
+        "dates_text": "Oct 6–7 only",
+        "only_discounted": false,
+        "show_soldout": true,
+        "soldout_label": "Sold out right now:"
+      }
+    },
+    "ticker": {
+      "type": "popdarts-campaign-ticker",
+      "settings": {
+        "product": "pro-pack",
+        "items": "Up to {pct}% off Pro Packs|Oct 6–7 only|Keep one, gift one|Ages 5 to 95|Play indoors or out",
+        "items_after": "Easy to learn, tough to master|Ages 5 to 95|Play indoors or out|Dishwasher-safe darts"
+      }
+    },
+    "compare": {
+      "type": "popdarts-campaign-compare",
+      "settings": {
+        "eyebrow": "Choose your pack",
+        "title": "Which pack is yours?",
+        "lede": "Every pack is a complete game for two players — darts, a target marker and a carrying bag. The difference is the darts and the marker.",
+        "details_text": "Full details"
+      },
+      "blocks": {
+        "rookie": {
+          "type": "pack",
+          "settings": {
+            "max_swatches": 6,
+            "choose_text": "Choose colors",
+            "choose_link": "",
+            "product": "rookie-pack",
+            "ribbon": "Up to {pct}% off",
+            "ribbon_fallback": "Easiest to land",
+            "featured": false,
+            "best_for": "kids and first-time players",
+            "point_1": "6 Popdarts — 3 per player",
+            "point_2": "Rookie Target Marker™",
+            "point_3": "Carrying bag with rules & built-in ruler",
+            "point_4": "2 stickers"
+          }
+        },
+        "pro": {
+          "type": "pack",
+          "settings": {
+            "max_swatches": 6,
+            "choose_text": "Choose colors",
+            "choose_link": "",
+            "product": "pro-pack",
+            "ribbon": "Up to {pct}% off · on sale",
+            "ribbon_fallback": "PRO Target Marker™ included",
+            "featured": true,
+            "best_for": "family game nights and competitive play",
+            "point_1": "6 Popdarts — 3 per player",
+            "point_2": "PRO Target Marker™ — land on top for 10 points",
+            "point_3": "Carrying bag with rules & built-in ruler",
+            "point_4": "2 stickers"
+          }
+        },
+        "elite": {
+          "type": "pack",
+          "settings": {
+            "max_swatches": 6,
+            "choose_text": "Choose colors",
+            "choose_link": "",
+            "product": "elite-full-pack",
+            "ribbon": "Our most advanced darts",
+            "ribbon_fallback": "",
+            "featured": false,
+            "best_for": "players ready to upgrade",
+            "point_1": "6 Elite Popdarts — 3 blue vs 3 green",
+            "point_2": "Elite Target Marker™ — smaller, for tighter shots",
+            "point_3": "More grip, more stick, more control",
+            "point_4": "Carrying bag with rules & built-in ruler"
+          }
+        }
+      },
+      "block_order": [
+        "rookie",
+        "pro",
+        "elite"
+      ]
+    },
+    "howto": {
+      "type": "popdarts-campaign-howto",
+      "settings": {
+        "eyebrow": "How to play",
+        "title": "Stick it. Score it. Win it.",
+        "lede": "Popdarts is a suction-cup dart game. Stick the target marker on a smooth surface, take turns throwing, and score the darts that stick closest.",
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/fb10fbd3a39940e3afebcbc4e7da0558.mp4",
+        "video_label": "Real game · no sound needed",
+        "step_1_title": "Set the marker",
+        "step_1_body": "Choose a smooth surface — glass, a window or a countertop — and stick the Target Marker on it.",
+        "step_2_title": "Take turns throwing",
+        "step_2_body": "Each player throws their 3 Popdarts at the marker. Darts that stick stay put.",
+        "step_3_title": "Score the round",
+        "step_3_body": "Use cancellation scoring like cornhole. First player to 21 wins — going over is allowed.",
+        "points_1_value": "+3",
+        "points_1_label": "Closest to the marker",
+        "points_2_value": "+1",
+        "points_2_label": "Every other dart that sticks",
+        "points_3_value": "+10",
+        "points_3_label": "On top of the PRO marker",
+        "rules_text": "Full rules & scoring",
+        "rules_link": "",
+        "app_text": "Score Keeper app (optional)",
+        "app_link": ""
+      }
+    },
+    "discover": {
+      "type": "popdarts-campaign-discover",
+      "settings": {
+        "eyebrow": "Already have a pack?",
+        "title": "More ways to play.",
+        "tab_1_label": "Swaptop™",
+        "tab_1_intro": "The Swaptop™ Kit is a complete board-game setup. Tops are add-on game boards that swap into the frame.",
+        "tab_2_label": "Mods & accessories",
+        "tab_2_intro": "Add-ons for the game you already own — they don't include a full set of darts."
+      },
+      "blocks": {
+        "kit": {
+          "type": "item",
+          "settings": {
+            "label_style": "kit",
+            "wide": true,
+            "requires": "",
+            "product": "swaptop-kit",
+            "group": "1",
+            "label": "Complete kit",
+            "note": "All-weather frame with a built-in score keeper, a double-sided top (Darts & Circle Shot), 6 Rookie darts and a bonus Pro Popdart."
+          }
+        },
+        "og": {
+          "type": "item",
+          "settings": {
+            "label_style": "addon",
+            "wide": false,
+            "requires": "Needs a Swaptop™ frame (included in the Kit)",
+            "product": "swaptop-og",
+            "group": "1",
+            "label": "Add-on top",
+            "note": "The original board, double-sided."
+          }
+        },
+        "football": {
+          "type": "item",
+          "settings": {
+            "label_style": "addon",
+            "wide": false,
+            "requires": "Needs a Swaptop™ frame (included in the Kit)",
+            "product": "swaptop-football",
+            "group": "1",
+            "label": "Add-on top",
+            "note": "Double-sided football board."
+          }
+        },
+        "golf": {
+          "type": "item",
+          "settings": {
+            "label_style": "addon",
+            "wide": false,
+            "requires": "Needs a Swaptop™ frame (included in the Kit)",
+            "product": "swaptop-popgolf",
+            "group": "1",
+            "label": "Add-on top",
+            "note": "Double-sided golf board."
+          }
+        },
+        "temple": {
+          "type": "item",
+          "settings": {
+            "label_style": "addon",
+            "wide": false,
+            "requires": "Needs a Swaptop™ frame (included in the Kit)",
+            "product": "swaptop™-temple-toss",
+            "group": "1",
+            "label": "Add-on top",
+            "note": "Double-sided Temple Toss board."
+          }
+        },
+        "powerspots": {
+          "type": "item",
+          "settings": {
+            "label_style": "addon",
+            "wide": false,
+            "requires": "Use with any Popdarts pack",
+            "product": "powerspots",
+            "group": "2",
+            "label": "Game mod",
+            "note": "Strategic spots that change how every round plays."
+          }
+        },
+        "glow": {
+          "type": "item",
+          "settings": {
+            "label_style": "addon",
+            "wide": false,
+            "requires": "Darts not included",
+            "product": "acc-tm",
+            "group": "2",
+            "label": "Accessory",
+            "note": "Glow-in-the-dark PRO Target Marker™ — land on top for 10."
+          }
+        },
+        "elite_marker": {
+          "type": "item",
+          "settings": {
+            "label_style": "addon",
+            "wide": false,
+            "requires": "Darts not included",
+            "product": "elite-3-pack-copy",
+            "group": "2",
+            "label": "Accessory",
+            "note": "The smaller Elite Target Marker™ for tighter shots."
+          }
+        },
+        "elite_darts": {
+          "type": "item",
+          "settings": {
+            "label_style": "addon",
+            "wide": false,
+            "requires": "Add to a set you own — no target marker",
+            "product": "elite-full-pack-copy",
+            "group": "2",
+            "label": "Extra darts",
+            "note": "3 Elite Popdarts in one colorway."
+          }
+        }
+      },
+      "block_order": [
+        "kit",
+        "og",
+        "football",
+        "golf",
+        "temple",
+        "powerspots",
+        "glow",
+        "elite_marker",
+        "elite_darts"
+      ]
+    },
+    "reviews": {
+      "type": "popdarts-campaign-reviews",
+      "settings": {
+        "eyebrow": "Real reviews",
+        "title": "Keep one. Gift one."
+      },
+      "blocks": {
+        "r1": {
+          "type": "review",
+          "settings": {
+            "quote": "What a blast! Got several packs for group party. Everyone had so much fun.",
+            "stars": 5,
+            "name": "Customer review"
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "quote": "I played at my sister-in-law's house, and when I got home, I bought six sets as presents. It's fun to play and competitive.",
+            "stars": 5,
+            "name": "Customer review"
+          }
+        },
+        "r3": {
+          "type": "review",
+          "settings": {
+            "quote": "Kids picked it up in one throw, I'm still working on my aim. Great for all ages.",
+            "stars": 5,
+            "name": "Customer review"
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3"
+      ]
+    },
+    "faq": {
+      "type": "popdarts-campaign-faq",
+      "settings": {
+        "eyebrow": "Before you buy",
+        "title": "Questions, answered.",
+        "lede": "Still unsure? Our team is at support@popdartsgame.com."
+      },
+      "blocks": {
+        "q1": {
+          "type": "faq",
+          "settings": {
+            "question": "Which pack should I get?",
+            "answer": "<p><strong>Rookie Pack</strong> — our easiest Popdarts to land, great for kids and first-timers. <strong>Pro Pack</strong> — adds the PRO Target Marker™: land on top for 10 points. <strong>Elite Full Pack</strong> — our most advanced Popdarts, with a smaller Elite Target Marker™. Every pack is a complete game for two players.</p>"
+          }
+        },
+        "q2": {
+          "type": "faq",
+          "settings": {
+            "question": "Where can I play?",
+            "answer": "<p>Popdarts stick to smooth, flat surfaces — glass, windows and countertops — indoors or out. Rough or textured surfaces won't hold the suction cups.</p>"
+          }
+        },
+        "q3": {
+          "type": "faq",
+          "settings": {
+            "question": "What comes in a pack?",
+            "answer": "<p>Rookie and Pro Packs: 6 Popdarts (3 per player), a Target Marker™, a carrying bag with rules and a built-in ruler, and 2 stickers. Elite Full Pack: 6 Elite Popdarts (3 blue, 3 green), an Elite Target Marker™ and a carrying bag with rules and ruler.</p>"
+          }
+        },
+        "q4": {
+          "type": "faq",
+          "settings": {
+            "question": "How does the sale work?",
+            "answer": "<p>Sale prices are already applied to the products on this page — the price you see is the price you pay. The sale runs Oct 6–7 while each colorway is in stock.</p>"
+          }
+        },
+        "q5": {
+          "type": "faq",
+          "settings": {
+            "question": "How do I clean the darts?",
+            "answer": "<p>Rinse them with water or put them in the dishwasher.</p>"
+          }
+        },
+        "q6": {
+          "type": "faq",
+          "settings": {
+            "question": "What about shipping and returns?",
+            "answer": "<p>Shipping options and costs for your address are shown at checkout. See our <a href=\"/policies/shipping-policy\">Shipping Policy</a> and <a href=\"/policies/refund-policy\">Refund Policy</a>.</p>"
+          }
+        },
+        "q7": {
+          "type": "faq",
+          "settings": {
+            "question": "Do I need the app to play?",
+            "answer": "<p>No — the <a href=\"/pages/scorekeeper\">Score Keeper app</a> is an optional way to track scores.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6",
+        "q7"
+      ]
+    },
+    "closing": {
+      "type": "popdarts-campaign-closing",
+      "settings": {
+        "product": "pro-pack",
+        "title": "Take your shot.",
+        "sub": "Up to {pct}% off Popdarts Pro Packs. Oct 6–7 only.",
+        "chips": "Keep one|Gift one|Let the competition begin",
+        "button_text": "Shop the sale",
+        "button_link": "",
+        "ended_title": "Your next game night starts here.",
+        "ended_sub": "Pick the pack that fits your players.",
+        "ended_button": "Choose your pack",
+        "ended_link": "",
+        "show_sticky": true,
+        "sticky_text": "Up to {pct}% off",
+        "sticky_ended_text": "Find your pack",
+        "sticky_button": "Shop sale"
+      }
+    }
+  },
+  "order": [
+    "settings",
+    "hero",
+    "shop",
+    "ticker",
+    "compare",
+    "howto",
+    "discover",
+    "reviews",
+    "faq",
+    "closing"
+  ]
+}

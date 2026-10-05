@@ -1,0 +1,3 @@
+{%- comment -%} Loads the shared campaign stylesheet + script. Safe to render from every campaign section (the script guards against double init). {%- endcomment -%}
+{{ 'popdarts-campaign.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'popdarts-campaign.js' | asset_url }}" defer="defer"></script>

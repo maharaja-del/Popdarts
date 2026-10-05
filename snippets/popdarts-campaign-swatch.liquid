@@ -1,0 +1,31 @@
+{%- comment -%}
+  One colorway swatch for a [data-popdarts-picker]. Carries everything the
+  picker needs (image, formatted prices, availability) so JS never formats
+  money itself — prices always come from Shopify's money filter.
+  Params: variant, product, selected (bool)
+{%- endcomment -%}
+{%- liquid
+  assign img = variant.featured_image | default: product.featured_image
+  assign pct = 0
+  if variant.compare_at_price > variant.price
+    assign pct = variant.compare_at_price | minus: variant.price | times: 100.0 | divided_by: variant.compare_at_price | round
+  endif
+-%}
+<button type="button" class="popdarts-swatch{% unless variant.available %} is-soldout{% endunless %}" role="radio" aria-checked="{% if selected %}true{% else %}false{% endif %}" tabindex="{% if selected %}0{% else %}-1{% endif %}"
+  aria-label="{{ variant.title | escape }}{% unless variant.available %} — sold out{% endunless %}"
+  data-popdarts-swatch
+  data-id="{{ variant.id }}"
+  data-title="{{ variant.title | escape }}"
+  data-available="{{ variant.available }}"
+  data-url="{{ variant.url }}"
+  data-price="{{ variant.price | money }}"
+  {%- if pct > 0 %}
+  data-was="{{ variant.compare_at_price | money }}"
+  data-save="Save {{ variant.compare_at_price | minus: variant.price | money }}"
+  data-off="{{ pct }}% off"
+  {%- endif %}
+  data-image="{{ img | image_url: width: 900 }}"
+  data-srcset="{{ img | image_url: width: 450 }} 450w, {{ img | image_url: width: 700 }} 700w, {{ img | image_url: width: 900 }} 900w"
+  data-alt="{{ product.title | escape }} — {{ variant.title | escape }}">
+  <span class="popdarts-swatch__clip"><img src="{{ img | image_url: width: 96 }}" alt="" width="48" height="48" loading="lazy" decoding="async"></span>
+</button>

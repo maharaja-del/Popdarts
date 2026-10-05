@@ -1,0 +1,173 @@
+{%- liquid
+  assign product = section.settings.product | default: all_products['pro-pack']
+  assign mini = section.settings.mini_product
+
+  capture pct_s
+    render 'popdarts-campaign-pct', product: product
+  endcapture
+  assign pct = pct_s | strip | plus: 0
+  if section.settings.up_to_override != blank
+    assign pct = section.settings.up_to_override | plus: 0
+  endif
+
+  assign wanted = section.settings.featured_colors | split: ','
+  assign default_name = section.settings.default_color | strip
+  assign selected = nil
+  for v in product.variants
+    if v.title == default_name and v.available
+      assign selected = v
+    endif
+  endfor
+  unless selected
+    assign selected = product.selected_or_first_available_variant
+  endunless
+  assign sel_img = selected.featured_image | default: product.featured_image
+  assign sel_pct = 0
+  if selected.compare_at_price > selected.price
+    assign sel_pct = selected.compare_at_price | minus: selected.price | times: 100.0 | divided_by: selected.compare_at_price | round
+  endif
+  assign shown = 0
+-%}
+{% render 'popdarts-campaign-assets' %}
+
+<section class="popdarts-campaign popdarts-hero" id="popdarts-hero" data-popdarts-hero aria-labelledby="popdarts-hero-title-{{ section.id }}">
+  <div class="popdarts-hero__glow popdarts-hero__glow--a" aria-hidden="true"></div>
+  <div class="popdarts-hero__glow popdarts-hero__glow--b" aria-hidden="true"></div>
+  <div class="popdarts-hero__floor" aria-hidden="true"></div>
+
+  <div class="popdarts-wrap popdarts-hero__grid">
+    <div class="popdarts-hero__copy">
+      <span class="popdarts-glass-pill"><span class="popdarts-dot" aria-hidden="true"></span>{{ section.settings.eyebrow }}</span>
+
+      <h1 class="popdarts-hero__title" id="popdarts-hero-title-{{ section.id }}">
+        <span data-popdarts-when="active">{{ section.settings.heading }}</span>
+        <span data-popdarts-when="after">{{ section.settings.ended_heading }}</span>
+      </h1>
+
+      {%- if pct > 0 -%}
+        <p class="popdarts-lockup" data-popdarts-when="active">
+          <span class="popdarts-lockup__side"><small>{{ section.settings.up_to_label }}</small></span>
+          <span class="popdarts-lockup__num">{{ pct }}<sup>%</sup></span>
+          <span class="popdarts-lockup__side">{{ section.settings.off_label }}</span>
+        </p>
+      {%- endif -%}
+
+      <div class="popdarts-hero__support" data-popdarts-when="active">{{ section.settings.support }}</div>
+      <p class="popdarts-hero__ended" data-popdarts-when="after">{{ section.settings.ended_support }}</p>
+
+      {%- if section.settings.show_timer -%}
+        {% render 'popdarts-campaign-timer', style: 'glass' %}
+      {%- endif -%}
+
+      <div class="popdarts-hero__actions">
+        <a class="popdarts-btn popdarts-btn--primary popdarts-btn--lg popdarts-btn--shine" href="{{ section.settings.cta_link | default: '#popdarts-shop' }}">{{ section.settings.cta_text }}</a>
+        <a class="popdarts-btn popdarts-btn--ghost-light popdarts-btn--lg" href="{{ section.settings.secondary_link | default: '#popdarts-howto' }}">{{ section.settings.secondary_text }}</a>
+      </div>
+
+      <ul class="popdarts-hero__trust">
+        {%- for i in (1..3) -%}
+          {%- assign key = 'trust_' | append: i -%}
+          {%- if section.settings[key] != blank -%}
+            <li><svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>{{ section.settings[key] }}</li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+
+    {%- if product -%}
+      <div class="popdarts-spot-wrap">
+        {%- if pct > 0 -%}
+          <div class="popdarts-sticker" aria-hidden="true" data-popdarts-when="active">
+            <svg viewBox="0 0 120 120"><defs><path id="popdarts-sticker-path-{{ section.id }}" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs><text font-size="10.5" font-weight="700" letter-spacing="2.2" fill="#0a0a0a"><textPath href="#popdarts-sticker-path-{{ section.id }}">{{ section.settings.sticker_text | replace: '{pct}', pct | upcase }}</textPath></text></svg>
+            <span class="popdarts-sticker__center">{{ pct }}%<small>OFF</small></span>
+          </div>
+        {%- endif -%}
+
+        <div class="popdarts-spot" data-popdarts-tilt>
+          <div class="popdarts-spot__inner" data-popdarts-picker>
+            <div class="popdarts-spot__media" data-popdarts-pick-img>
+              {{ sel_img | image_url: width: 900 | image_tag: widths: '450, 700, 900', sizes: '(min-width: 900px) 460px, 92vw', loading: 'eager', fetchpriority: 'high', alt: product.title }}
+              <span class="popdarts-off" data-popdarts-pick-off{% if sel_pct == 0 %} hidden{% endif %}>{{ sel_pct }}% off</span>
+            </div>
+            <div class="popdarts-spot__body">
+              <div class="popdarts-spot__name">
+                <h2>{{ product.title }}</h2>
+                <a href="{{ selected.url }}" data-popdarts-pick-link>{{ section.settings.details_text }} &rarr;</a>
+              </div>
+              <div class="popdarts-swatches" role="radiogroup" aria-label="Colorway">
+                {%- for name in wanted -%}
+                  {%- assign n = name | strip -%}
+                  {%- for v in product.variants -%}
+                    {%- if v.title == n -%}
+                      {%- assign is_sel = false -%}
+                      {%- if v.id == selected.id -%}{%- assign is_sel = true -%}{%- endif -%}
+                      {% render 'popdarts-campaign-swatch', variant: v, product: product, selected: is_sel %}
+                      {%- assign shown = shown | plus: 1 -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endfor -%}
+                {%- assign more = product.variants.size | minus: shown -%}
+                {%- if more > 0 -%}
+                  <a class="popdarts-spot__more" href="#popdarts-shop">+{{ more }} more</a>
+                {%- endif -%}
+              </div>
+              <p class="popdarts-swatch-label">Color: <b data-popdarts-pick-name>{{ selected.title }}</b></p>
+              <div class="popdarts-price">
+                <span class="popdarts-price__now" data-popdarts-pick-now>{{ selected.price | money }}</span>
+                <s class="popdarts-price__was" data-popdarts-pick-was{% if sel_pct == 0 %} hidden{% endif %}>{% if sel_pct > 0 %}{{ selected.compare_at_price | money }}{% endif %}</s>
+                <span class="popdarts-save" data-popdarts-pick-save{% if sel_pct == 0 %} hidden{% endif %}>{% if sel_pct > 0 %}Save {{ selected.compare_at_price | minus: selected.price | money }}{% endif %}</span>
+              </div>
+              <button type="button" class="popdarts-btn popdarts-btn--primary popdarts-btn--block popdarts-btn--lg" data-popdarts-atc data-variant-id="{{ selected.id }}" data-product-title="{{ product.title | escape }}" data-label-add="Add to cart" data-label-soldout="Sold out"{% unless selected.available %} disabled{% endunless %}>
+                <span class="popdarts-btn__label">{% if selected.available %}Add to cart{% else %}Sold out{% endif %}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {%- if mini -%}
+          <a class="popdarts-mini" href="{{ section.settings.mini_link | default: '#popdarts-compare' }}">
+            {{ mini.featured_image | image_url: width: 120 | image_tag: alt: '', loading: 'lazy', width: 48, height: 48 }}
+            <span><strong>{{ mini.title }}</strong><span>{{ section.settings.mini_prefix }} {{ mini.price_min | money }}</span></span>
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Campaign: Hero",
+  "tag": "div",
+  "class": "popdarts-campaign-hero-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "2-day sale · Oct 6–7" },
+    { "type": "text", "id": "heading", "label": "Heading (during sale)", "default": "Take your shot." },
+    { "type": "text", "id": "up_to_label", "label": "Lockup: top label", "default": "Up to" },
+    { "type": "text", "id": "off_label", "label": "Lockup: bottom label", "default": "Off" },
+    { "type": "text", "id": "up_to_override", "label": "Discount % override", "info": "Leave empty to calculate the biggest real saving from the product's compare-at prices." },
+    { "type": "richtext", "id": "support", "label": "Support text (during sale)", "default": "<p><strong>USA or Rizzle? Fire & Ice or Blue & Green GLOW?</strong> Popdarts packs are on sale now. Keep one, gift one, and let the competition begin.</p>" },
+    { "type": "checkbox", "id": "show_timer", "label": "Show countdown", "default": true },
+    { "type": "text", "id": "cta_text", "label": "Primary button", "default": "Shop the sale" },
+    { "type": "url", "id": "cta_link", "label": "Primary button link", "info": "Empty = jumps to the colorway grid." },
+    { "type": "text", "id": "secondary_text", "label": "Secondary button", "default": "How to play" },
+    { "type": "url", "id": "secondary_link", "label": "Secondary button link", "info": "Empty = jumps to How to play." },
+    { "type": "text", "id": "trust_1", "label": "Trust point 1", "default": "Ages 5 to 95" },
+    { "type": "text", "id": "trust_2", "label": "Trust point 2", "default": "Play indoors or out" },
+    { "type": "text", "id": "trust_3", "label": "Trust point 3", "default": "Dishwasher-safe darts" },
+    { "type": "header", "content": "After the sale" },
+    { "type": "text", "id": "ended_heading", "label": "Heading", "default": "Your next game night starts here." },
+    { "type": "text", "id": "ended_support", "label": "Support text", "default": "Suction-cup darts you can stick to glass, windows and countertops — easy to learn, tough to master." },
+    { "type": "header", "content": "Buyable spotlight" },
+    { "type": "product", "id": "product", "label": "Product" },
+    { "type": "text", "id": "featured_colors", "label": "Colorways to show as swatches", "info": "Exact variant names, comma separated, in order.", "default": "Rizzle, Fire & Ice, Blue & Green GLOW, USA" },
+    { "type": "text", "id": "default_color", "label": "Default colorway", "info": "Falls back to the first available colorway if this one is sold out.", "default": "Rizzle" },
+    { "type": "text", "id": "details_text", "label": "Details link text", "default": "Details" },
+    { "type": "text", "id": "sticker_text", "label": "Rotating sticker text", "info": "{pct} is replaced with the live discount.", "default": "Up to {pct}% off · Oct 6–7 only · " },
+    { "type": "product", "id": "mini_product", "label": "Floating mini card product" },
+    { "type": "text", "id": "mini_prefix", "label": "Mini card price prefix", "default": "From" },
+    { "type": "url", "id": "mini_link", "label": "Mini card link", "info": "Empty = jumps to the pack comparison." }
+  ],
+  "presets": [{ "name": "Campaign: Hero" }]
+}
+{% endschema %}

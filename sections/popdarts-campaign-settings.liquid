@@ -1,0 +1,72 @@
+{%- comment -%}
+  Campaign settings — no visible output. Put it FIRST in the template.
+  Holds the one campaign clock every timer on the page reads, and sets
+  <html data-popdarts-state="before|live|after"> before the rest of the
+  page paints so sale-only content never flashes after the sale ends.
+  Times are entered in the store's timezone unless an offset is given.
+{%- endcomment -%}
+{%- liquid
+  assign tz_raw = 'now' | date: '%z'
+  assign tz = section.settings.timezone_offset | strip
+  if tz == blank
+    assign tz_h = tz_raw | slice: 0, 3
+    assign tz_m = tz_raw | slice: 3, 2
+    assign tz = tz_h | append: ':' | append: tz_m
+  endif
+
+  assign start_iso = section.settings.sale_start | strip | replace: ' ', 'T'
+  if start_iso.size == 16
+    assign start_iso = start_iso | append: ':00'
+  endif
+  assign end_iso = section.settings.sale_end | strip | replace: ' ', 'T'
+  if end_iso.size == 16
+    assign end_iso = end_iso | append: ':00'
+  endif
+  if start_iso != blank
+    assign start_iso = start_iso | append: tz
+  endif
+  if end_iso != blank
+    assign end_iso = end_iso | append: tz
+  endif
+-%}
+{% render 'popdarts-campaign-assets' %}
+{%- if end_iso != blank -%}
+  <script type="application/json" data-popdarts-clock>
+    {
+      "start": {{ start_iso | json }},
+      "end": {{ end_iso | json }},
+      "labels": {
+        "before": {{ section.settings.label_before | json }},
+        "live": {{ section.settings.label_live | json }},
+        "after": {{ section.settings.label_after | json }}
+      }
+    }
+  </script>
+  <script>
+    (function () {
+      try {
+        var c = JSON.parse(document.querySelector('script[data-popdarts-clock]').textContent);
+        var n = Date.now(), s = new Date(c.start).getTime(), e = new Date(c.end).getTime();
+        document.documentElement.setAttribute('data-popdarts-state', n < s ? 'before' : (n < e ? 'live' : 'after'));
+      } catch (err) {}
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Campaign: Sale settings",
+  "tag": "div",
+  "class": "popdarts-campaign-settings",
+  "settings": [
+    { "type": "paragraph", "content": "Keep this section first on the page. It powers every countdown and hides sale-only messaging automatically once the sale ends. It does not create discounts — set sale prices or discounts in Shopify." },
+    { "type": "text", "id": "sale_start", "label": "Sale starts", "info": "YYYY-MM-DD HH:MM, store timezone", "default": "2026-10-06 00:00" },
+    { "type": "text", "id": "sale_end", "label": "Sale ends", "info": "YYYY-MM-DD HH:MM, store timezone", "default": "2026-10-07 23:59" },
+    { "type": "text", "id": "timezone_offset", "label": "Timezone override", "info": "Leave empty to use the store's timezone. Example: -07:00" },
+    { "type": "text", "id": "label_before", "label": "Timer label before the sale", "default": "Sale starts in" },
+    { "type": "text", "id": "label_live", "label": "Timer label during the sale", "default": "Sale ends in" },
+    { "type": "text", "id": "label_after", "label": "Label after the sale", "default": "Sale has ended" }
+  ],
+  "presets": [{ "name": "Campaign: Sale settings" }]
+}
+{% endschema %}

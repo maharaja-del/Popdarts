@@ -1,0 +1,140 @@
+{% render 'popdarts-campaign-assets' %}
+<section class="popdarts-campaign popdarts-section popdarts-bg--paper" id="popdarts-compare" aria-labelledby="popdarts-compare-title-{{ section.id }}">
+  <div class="popdarts-wrap">
+    <div class="popdarts-head">
+      <p class="popdarts-eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2 class="popdarts-h2" id="popdarts-compare-title-{{ section.id }}">{{ section.settings.title }}</h2>
+      {%- if section.settings.lede != blank -%}<p class="popdarts-lede">{{ section.settings.lede }}</p>{%- endif -%}
+    </div>
+
+    <div class="popdarts-compare__track" data-popdarts-slider>
+      {%- for block in section.blocks -%}
+        {%- assign p = block.settings.product -%}
+        {%- if p == blank -%}{%- continue -%}{%- endif -%}
+        {%- liquid
+          capture pct_s
+            render 'popdarts-campaign-pct', product: p
+          endcapture
+          assign pct = pct_s | strip | plus: 0
+          assign sel = p.selected_or_first_available_variant
+          assign sel_img = sel.featured_image | default: p.featured_image
+          assign sel_pct = 0
+          if sel.compare_at_price > sel.price
+            assign sel_pct = sel.compare_at_price | minus: sel.price | times: 100.0 | divided_by: sel.compare_at_price | round
+          endif
+          assign many = false
+          if p.variants.size > block.settings.max_swatches
+            assign many = true
+          endif
+          assign ribbon = block.settings.ribbon
+          if ribbon contains '{pct}' and pct == 0
+            assign ribbon = block.settings.ribbon_fallback
+          endif
+          assign ribbon = ribbon | replace: '{pct}', pct
+        -%}
+        <article class="popdarts-pack{% if block.settings.featured %} popdarts-pack--featured{% endif %}" {{ block.shopify_attributes }}>
+          {%- if ribbon != blank -%}
+            <p class="popdarts-pack__ribbon{% unless block.settings.featured %} popdarts-pack__ribbon--quiet{% endunless %}">{{ ribbon }}</p>
+          {%- endif -%}
+          <div class="popdarts-pack__inner"{% unless many %} data-popdarts-picker{% endunless %}>
+            <div class="popdarts-pack__media" data-popdarts-pick-img>
+              {{ sel_img | image_url: width: 800 | image_tag: widths: '400, 600, 800', sizes: '(min-width: 900px) 400px, 84vw', loading: 'lazy', alt: p.title }}
+              {%- if many -%}
+                {%- if pct > 0 -%}<span class="popdarts-off">Up to {{ pct }}% off</span>{%- endif -%}
+              {%- else -%}
+                <span class="popdarts-off" data-popdarts-pick-off{% if sel_pct == 0 %} hidden{% endif %}>{{ sel_pct }}% off</span>
+              {%- endif -%}
+            </div>
+            <div class="popdarts-pack__body">
+              <h3 class="popdarts-pack__name">{{ p.title }}</h3>
+              <p class="popdarts-pack__for"><b>Best for:</b> {{ block.settings.best_for }}</p>
+
+              {%- if p.has_only_default_variant == false -%}
+                {%- if many -%}
+                  <p class="popdarts-swatch-label"><b>{{ p.variants.size }} colorways</b> — pick yours below.</p>
+                {%- else -%}
+                  <div class="popdarts-swatches" role="radiogroup" aria-label="{{ p.title | escape }} color">
+                    {%- for v in p.variants -%}
+                      {%- assign is_sel = false -%}
+                      {%- if v.id == sel.id -%}{%- assign is_sel = true -%}{%- endif -%}
+                      {% render 'popdarts-campaign-swatch', variant: v, product: p, selected: is_sel %}
+                    {%- endfor -%}
+                  </div>
+                  <p class="popdarts-swatch-label">Color: <b data-popdarts-pick-name>{{ sel.title }}</b></p>
+                {%- endif -%}
+              {%- endif -%}
+
+              <ul class="popdarts-pack__list">
+                {%- for i in (1..4) -%}
+                  {%- assign key = 'point_' | append: i -%}
+                  {%- if block.settings[key] != blank -%}
+                    <li><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="currentColor" opacity=".16"/><path d="M6 10.4l2.6 2.6L14 7.6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>{{ block.settings[key] }}</li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+
+              <div class="popdarts-pack__foot">
+                {%- if many -%}
+                  <div class="popdarts-price">
+                    <span class="popdarts-price__now">From {{ p.price_min | money }}</span>
+                    {%- if p.compare_at_price_max > p.price_min -%}<s class="popdarts-price__was">{{ p.compare_at_price_max | money }}</s>{%- endif -%}
+                  </div>
+                  <a class="popdarts-btn popdarts-btn--primary popdarts-btn--block" href="{{ block.settings.choose_link | default: '#popdarts-shop' }}">{{ block.settings.choose_text }}</a>
+                {%- else -%}
+                  <div class="popdarts-price">
+                    <span class="popdarts-price__now" data-popdarts-pick-now>{{ sel.price | money }}</span>
+                    <s class="popdarts-price__was" data-popdarts-pick-was{% if sel_pct == 0 %} hidden{% endif %}>{% if sel_pct > 0 %}{{ sel.compare_at_price | money }}{% endif %}</s>
+                    <span class="popdarts-save" data-popdarts-pick-save{% if sel_pct == 0 %} hidden{% endif %}>{% if sel_pct > 0 %}Save {{ sel.compare_at_price | minus: sel.price | money }}{% endif %}</span>
+                  </div>
+                  <button type="button" class="popdarts-btn {% if block.settings.featured %}popdarts-btn--primary{% else %}popdarts-btn--outline{% endif %} popdarts-btn--block" data-popdarts-atc data-variant-id="{{ sel.id }}" data-product-title="{{ p.title | escape }}" data-label-add="Add to cart" data-label-soldout="Sold out"{% unless sel.available %} disabled{% endunless %}>
+                    <span class="popdarts-btn__label">{% if sel.available %}Add to cart{% else %}Sold out{% endif %}</span>
+                  </button>
+                {%- endif -%}
+                <a class="popdarts-spot__more" href="{{ p.url }}" data-popdarts-pick-link>{{ section.settings.details_text }} &rarr;</a>
+              </div>
+            </div>
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+    <div class="popdarts-dots" data-popdarts-dots aria-label="Pack slides">
+      {%- for block in section.blocks -%}<button type="button" aria-label="Show pack {{ forloop.index }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}"></button>{%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Campaign: Pack compare",
+  "tag": "div",
+  "class": "popdarts-campaign-compare-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Choose your pack" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Which pack is yours?" },
+    { "type": "textarea", "id": "lede", "label": "Intro", "default": "Every pack is a complete game for two players — darts, a target marker and a carrying bag. The difference is the darts and the marker." },
+    { "type": "text", "id": "details_text", "label": "Details link text", "default": "Full details" }
+  ],
+  "blocks": [
+    {
+      "type": "pack",
+      "name": "Pack",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "text", "id": "ribbon", "label": "Ribbon", "info": "{pct} becomes the product's biggest live discount. Leave empty to hide." },
+        { "type": "text", "id": "ribbon_fallback", "label": "Ribbon when there is no discount" },
+        { "type": "checkbox", "id": "featured", "label": "Highlight this pack", "default": false },
+        { "type": "text", "id": "best_for", "label": "Best for" },
+        { "type": "text", "id": "point_1", "label": "Point 1" },
+        { "type": "text", "id": "point_2", "label": "Point 2" },
+        { "type": "text", "id": "point_3", "label": "Point 3" },
+        { "type": "text", "id": "point_4", "label": "Point 4" },
+        { "type": "range", "id": "max_swatches", "label": "Max swatches before linking to the colorway grid", "min": 2, "max": 12, "step": 1, "default": 6 },
+        { "type": "text", "id": "choose_text", "label": "Choose-colors button", "default": "Choose colors" },
+        { "type": "url", "id": "choose_link", "label": "Choose-colors link", "info": "Empty = jumps to the colorway grid." }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [{ "name": "Campaign: Pack compare" }]
+}
+{% endschema %}

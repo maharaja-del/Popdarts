@@ -1,0 +1,46 @@
+{% render 'popdarts-campaign-assets' %}
+<section class="popdarts-campaign popdarts-section popdarts-bg--mist" id="popdarts-faq" aria-labelledby="popdarts-faq-title-{{ section.id }}">
+  <div class="popdarts-wrap popdarts-faq__grid">
+    <div class="popdarts-faq__head">
+      <p class="popdarts-eyebrow">{{ section.settings.eyebrow }}</p>
+      <h2 class="popdarts-h2" id="popdarts-faq-title-{{ section.id }}">{{ section.settings.title }}</h2>
+      {%- if section.settings.lede != blank -%}<p class="popdarts-lede">{{ section.settings.lede }}</p>{%- endif -%}
+    </div>
+    <div class="popdarts-faq__list" data-popdarts-accordion>
+      {%- for block in section.blocks -%}
+        <div class="popdarts-faq__item" {{ block.shopify_attributes }}>
+          <h3>
+            <button type="button" class="popdarts-faq__q" id="popdarts-faq-q-{{ block.id }}" aria-controls="popdarts-faq-a-{{ block.id }}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+              {{ block.settings.question }}<span class="popdarts-faq__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="popdarts-faq__a" id="popdarts-faq-a-{{ block.id }}" role="region" aria-labelledby="popdarts-faq-q-{{ block.id }}"{% unless forloop.first %} hidden{% endunless %}>{{ block.settings.answer }}</div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Campaign: FAQ",
+  "tag": "div",
+  "class": "popdarts-campaign-faq-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Before you buy" },
+    { "type": "text", "id": "title", "label": "Heading", "default": "Questions, answered." },
+    { "type": "textarea", "id": "lede", "label": "Intro", "default": "Still unsure? Our team is at support@popdartsgame.com." }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question" },
+        { "type": "richtext", "id": "answer", "label": "Answer" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Campaign: FAQ" }]
+}
+{% endschema %}
