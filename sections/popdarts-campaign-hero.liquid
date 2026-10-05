@@ -9,6 +9,8 @@
   if section.settings.up_to_override != blank
     assign pct = section.settings.up_to_override | plus: 0
   endif
+  assign pct_text = pct | append: ''
+  assign sticker_text = section.settings.sticker_text | replace: '{pct}', pct_text | upcase
 
   assign wanted = section.settings.featured_colors | split: ','
   assign default_name = section.settings.default_color | strip
@@ -78,7 +80,7 @@
       <div class="popdarts-spot-wrap">
         {%- if pct > 0 -%}
           <div class="popdarts-sticker" aria-hidden="true" data-popdarts-when="active">
-            <svg viewBox="0 0 120 120"><defs><path id="popdarts-sticker-path-{{ section.id }}" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs><text font-size="10.5" font-weight="700" letter-spacing="2.2" fill="#0a0a0a"><textPath href="#popdarts-sticker-path-{{ section.id }}">{{ section.settings.sticker_text | replace: '{pct}', pct | upcase }}</textPath></text></svg>
+            <svg viewBox="0 0 120 120"><defs><path id="popdarts-sticker-path-{{ section.id }}" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs><text font-size="10.5" font-weight="700" letter-spacing="2.2" fill="#0a0a0a"><textPath href="#popdarts-sticker-path-{{ section.id }}">{{ sticker_text }}</textPath></text></svg>
             <span class="popdarts-sticker__center">{{ pct }}%<small>OFF</small></span>
           </div>
         {%- endif -%}

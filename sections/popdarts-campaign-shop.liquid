@@ -4,6 +4,7 @@
     render 'popdarts-campaign-pct', product: product
   endcapture
   assign pct = pct_s | strip
+  assign eyebrow = section.settings.eyebrow | replace: '{pct}', pct
   assign variants = product.variants | sort: 'price'
   assign soldout = ''
 -%}
@@ -17,7 +18,7 @@
         <span data-popdarts-timer><span data-popdarts-label>Sale ends in</span> <b class="popdarts-timer-compact" data-popdarts-compact></b></span>
         <noscript>{{ section.settings.dates_text }}</noscript>
       </p>
-      <p class="popdarts-eyebrow">{% if pct == '0' %}{{ section.settings.dates_text }}{% else %}{{ section.settings.eyebrow | replace: '{pct}', pct }}{% endif %}</p>
+      <p class="popdarts-eyebrow">{% if pct == '0' %}{{ section.settings.dates_text }}{% else %}{{ eyebrow }}{% endif %}</p>
       <h2 class="popdarts-band__title" id="popdarts-shop-title-{{ section.id }}">{{ section.settings.title }}</h2>
       <div class="popdarts-band__support">{{ section.settings.support }}</div>
     </div>

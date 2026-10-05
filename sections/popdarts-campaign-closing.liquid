@@ -4,6 +4,8 @@
     render 'popdarts-campaign-pct', product: product
   endcapture
   assign pct = pct_s | strip
+  assign sub_text = section.settings.sub | replace: '{pct}', pct
+  assign sticky_text = section.settings.sticky_text | replace: '{pct}', pct
   assign chips = section.settings.chips | split: '|'
 -%}
 {% render 'popdarts-campaign-assets' %}
@@ -14,7 +16,7 @@
         <span data-popdarts-when="active">{{ section.settings.title }}</span>
         <span data-popdarts-when="after">{{ section.settings.ended_title }}</span>
       </h2>
-      <p class="popdarts-closing__sub" data-popdarts-when="active">{% if pct == '0' %}{{ section.settings.ended_sub }}{% else %}{{ section.settings.sub | replace: '{pct}', pct }}{% endif %}</p>
+      <p class="popdarts-closing__sub" data-popdarts-when="active">{% if pct == '0' %}{{ section.settings.ended_sub }}{% else %}{{ sub_text }}{% endif %}</p>
       <p class="popdarts-closing__sub" data-popdarts-when="after">{{ section.settings.ended_sub }}</p>
       {% render 'popdarts-campaign-timer', style: 'white' %}
       {%- if chips.size > 0 -%}
@@ -28,7 +30,7 @@
   {%- if section.settings.show_sticky -%}
     <div class="popdarts-sticky" data-popdarts-sticky aria-hidden="true">
       <div class="popdarts-sticky__text">
-        <strong data-popdarts-when="active">{% if pct == '0' %}{{ section.settings.sticky_ended_text }}{% else %}{{ section.settings.sticky_text | replace: '{pct}', pct }}{% endif %}</strong>
+        <strong data-popdarts-when="active">{% if pct == '0' %}{{ section.settings.sticky_ended_text }}{% else %}{{ sticky_text }}{% endif %}</strong>
         <strong data-popdarts-when="after">{{ section.settings.sticky_ended_text }}</strong>
         <span data-popdarts-timer><span data-popdarts-label>Sale ends in</span> <span class="popdarts-timer-compact" data-popdarts-compact></span></span>
       </div>
