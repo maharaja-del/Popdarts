@@ -1,0 +1,22 @@
+{%- comment -%}
+  Cyber Monday countdown, driven by the clock in "Cyber Monday: Settings".
+  Rendered hidden; popdarts-cm.js only reveals it while the sale is live AND the deadline is confirmed.
+  Params: style ('tiles' default | 'inline'), label (default 'Sale ends in')
+{%- endcomment -%}
+{%- assign label = label | default: 'Sale ends in' -%}
+{%- if style == 'inline' -%}
+  <p class="pdcm-timer pdcm-timer--inline" data-cm-timer hidden>
+    <span class="pdcm-timer__label">{{ label }}</span>
+    <span class="pdcm-timer__compact" data-cm-compact></span>
+  </p>
+{%- else -%}
+  <div class="pdcm-timer pdcm-timer--tiles" data-cm-timer role="timer" aria-live="off" hidden>
+    <span class="pdcm-timer__label">{{ label }}</span>
+    <span class="pdcm-timer__tiles">
+      <span class="pdcm-timer__tile"><b data-cm-t="d">0</b><small>Days</small></span>
+      <span class="pdcm-timer__tile"><b data-cm-t="h">00</b><small>Hrs</small></span>
+      <span class="pdcm-timer__tile"><b data-cm-t="m">00</b><small>Min</small></span>
+      <span class="pdcm-timer__tile"><b data-cm-t="s">00</b><small>Sec</small></span>
+    </span>
+  </div>
+{%- endif -%}

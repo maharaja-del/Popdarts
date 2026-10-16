@@ -1,0 +1,184 @@
+{%- comment -%}
+  One Cyber Monday deal card (also its own [data-cm-picker]).
+  Params:
+    product, settings (the deal block's settings), block_id, section_id
+    hide             comma-separated variant titles to hide (seasonal, e.g. "Halloween")
+    only_discounted  true = hide this card during the live sale unless it has an approved saving
+    eager            true for the first cards (above the fold on desktop)
+{%- endcomment -%}
+{%- liquid
+  assign p = product
+  assign s = settings
+  assign hide_terms = hide | downcase | split: ','
+  assign best = nil
+  assign best_score = -1
+  assign visible_count = 0
+  assign avail_count = 0
+  assign has_deal = false
+  for v in p.variants
+    assign vt = v.title | downcase | strip
+    assign is_hidden = false
+    for h in hide_terms
+      assign hs = h | strip
+      if hs != blank and vt == hs
+        assign is_hidden = true
+      endif
+    endfor
+    if is_hidden
+      continue
+    endif
+    assign visible_count = visible_count | plus: 1
+    unless v.available
+      continue
+    endunless
+    assign avail_count = avail_count | plus: 1
+    capture o
+      render 'popdarts-cm-offer', variant: v, product: p, status: s.offer, confirmed: s.compare_confirmed, approved: s.extended_approved, skus: s.extended_skus, protected: s.protected
+    endcapture
+    assign oo = o | strip | split: '|'
+    assign score = 0
+    if oo[1] == 'yes'
+      assign has_deal = true
+      assign score = 100000000
+    endif
+    if v.inventory_management != blank and v.inventory_quantity > 0
+      assign inv = v.inventory_quantity | at_most: 99999999
+      assign score = score | plus: inv
+    endif
+    if score > best_score
+      assign best = v
+      assign best_score = score
+    endif
+  endfor
+  if best == nil
+    for v in p.variants
+      assign vt = v.title | downcase | strip
+      assign is_hidden = false
+      for h in hide_terms
+        assign hs = h | strip
+        if hs != blank and vt == hs
+          assign is_hidden = true
+        endif
+      endfor
+      unless is_hidden
+        assign best = v
+        break
+      endunless
+    endfor
+  endif
+
+  capture so_raw
+    render 'popdarts-cm-offer', variant: best, product: p, status: s.offer, confirmed: s.compare_confirmed, approved: s.extended_approved, skus: s.extended_skus, protected: s.protected
+  endcapture
+  assign so = so_raw | strip | split: '|'
+
+  assign control = 'none'
+  unless p.has_only_default_variant
+    if p.options.size == 1 and avail_count <= 6 and avail_count > 1
+      assign control = 'swatch'
+    elsif visible_count > 1
+      assign control = 'select'
+    endif
+  endunless
+
+  assign fixed_img = nil
+  assign img_n = s.image_number | plus: 0
+  if img_n > 0 and p.images.size >= img_n
+    assign img_index = img_n | minus: 1
+    assign fixed_img = p.images[img_index]
+  endif
+  assign img = fixed_img | default: best.featured_image | default: p.featured_image
+  assign zoom = s.zoom | default: 100 | divided_by: 100.0
+  assign msg_id = 'cm-msg-' | append: section_id | append: '-' | append: block_id
+  assign load = 'lazy'
+  if eager
+    assign load = 'eager'
+  endif
+  assign when = ''
+  if only_discounted and has_deal == false
+    assign when = 'before after'
+  endif
+-%}
+<article class="pdcm-card{% if avail_count == 0 %} is-soldout{% endif %}" id="cm-deal-{{ p.id }}"
+  data-cm-picker data-cm-card data-product-title="{{ p.title | escape }}" data-soldout-text="Sold out"
+  {%- if when != blank %} data-cm-when="{{ when }}"{% endif %}{% if has_deal %} data-cm-deal{% endif %}>
+  <a class="pdcm-card__media pdcm-media pdcm-media--{{ s.image_style | default: 'studio' }}" href="{{ best.url | default: p.url }}" tabindex="-1" aria-hidden="true"
+    style="--z: {{ zoom }}; --fy: {{ s.focus_y | default: 50 }}%" {% unless fixed_img %}data-cm-pick-img{% endunless %} data-cm-pick-link>
+    {%- if img -%}
+      {{ img | image_url: width: 600 | image_tag: widths: '300, 450, 600', sizes: '(min-width: 990px) 288px, 66vw', loading: load, alt: '' }}
+    {%- endif -%}
+    <span class="pdcm-chip pdcm-chip--sale" data-cm-pick-off data-cm-when="live"{% unless so[1] == 'yes' %} hidden{% endunless %}>{% if so[1] == 'yes' %}{{ so[0] }}% off{% endif %}</span>
+    {%- if avail_count == 0 -%}<span class="pdcm-chip pdcm-chip--soldout">Sold out</span>{%- endif -%}
+  </a>
+  <div class="pdcm-card__body">
+    <h3 class="pdcm-card__title"><a href="{{ best.url | default: p.url }}" data-cm-pick-link>{{ p.title }}</a></h3>
+    {%- capture rating -%}{% render 'popdarts-cm-rating', product: p %}{%- endcapture -%}
+    {%- if rating != blank -%}<div class="pdcm-card__rating">{{ rating }}</div>{%- endif -%}
+    {%- if s.note != blank -%}<p class="pdcm-card__note">{{ s.note }}</p>{%- endif -%}
+
+    {%- if control == 'swatch' -%}
+      <div class="pdcm-variant">
+        <p class="pdcm-variant__label">{{ p.options.first }}: <b data-cm-pick-name>{{ best.title }}</b></p>
+        <div class="pdcm-swatches" role="radiogroup" aria-label="{{ p.options.first | escape }} for {{ p.title | escape }}">
+          {%- for v in p.variants -%}
+            {%- liquid
+              assign vt = v.title | downcase | strip
+              assign is_hidden = false
+              for h in hide_terms
+                assign hs = h | strip
+                if hs != blank and vt == hs
+                  assign is_hidden = true
+                endif
+              endfor
+            -%}
+            {%- if is_hidden or v.available == false -%}{%- continue -%}{%- endif -%}
+            {%- assign is_sel = false -%}{%- if v.id == best.id -%}{%- assign is_sel = true -%}{%- endif -%}
+            {% render 'popdarts-cm-swatch', variant: v, product: p, selected: is_sel, status: s.offer, confirmed: s.compare_confirmed, approved: s.extended_approved, skus: s.extended_skus, protected: s.protected %}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- elsif control == 'select' -%}
+      {%- assign sel_id = 'cm-sel-' | append: section_id | append: '-' | append: block_id -%}
+      <div class="pdcm-variant">
+        <label class="pdcm-variant__label" for="{{ sel_id }}">{{ p.options | join: ' / ' }}</label>
+        <span class="pdcm-select">
+          <select id="{{ sel_id }}" data-cm-select>
+            {%- for v in p.variants -%}
+              {%- liquid
+                assign vt = v.title | downcase | strip
+                assign is_hidden = false
+                for h in hide_terms
+                  assign hs = h | strip
+                  if hs != blank and vt == hs
+                    assign is_hidden = true
+                  endif
+                endfor
+              -%}
+              {%- if is_hidden -%}{%- continue -%}{%- endif -%}
+              {%- assign is_sel = false -%}{%- if v.id == best.id -%}{%- assign is_sel = true -%}{%- endif -%}
+              {% render 'popdarts-cm-swatch', variant: v, product: p, selected: is_sel, status: s.offer, confirmed: s.compare_confirmed, approved: s.extended_approved, skus: s.extended_skus, protected: s.protected, as: 'option' %}
+            {%- endfor -%}
+          </select>
+        </span>
+      </div>
+    {%- endif -%}
+
+    <div class="pdcm-card__foot">
+      <p class="pdcm-price">
+        <span class="pdcm-price__now{% if so[1] == 'yes' %} is-sale{% endif %}" data-cm-pick-now>{{ best.price | money }}</span>
+        <s class="pdcm-price__was" data-cm-pick-was data-cm-when="live"{% unless so[1] == 'yes' %} hidden{% endunless %}>{% if so[1] == 'yes' %}{{ best.compare_at_price | money }}{% endif %}</s>
+      </p>
+      {%- if avail_count > 0 -%}
+        <button type="button" class="pdcm-btn pdcm-btn--ink pdcm-btn--block" data-cm-atc data-variant-id="{{ best.id }}"
+          data-product-title="{{ p.title | escape }}{% unless p.has_only_default_variant %} — {{ best.title | escape }}{% endunless %}"
+          data-label-add="Add to cart" data-label-added="Added ✓" data-label-soldout="Sold out" data-label-error="Try again"
+          aria-describedby="{{ msg_id }}"{% unless best.available %} disabled{% endunless %}>
+          <span data-cm-label>{% if best.available %}Add to cart{% else %}Sold out{% endif %}</span>
+        </button>
+      {%- else -%}
+        <a class="pdcm-btn pdcm-btn--outline pdcm-btn--block" href="{{ p.url }}">View details</a>
+      {%- endif -%}
+      <p class="pdcm-atc-msg" id="{{ msg_id }}" role="status" hidden></p>
+    </div>
+  </div>
+</article>

@@ -1,0 +1,49 @@
+{%- comment -%}
+  Live star rating for a product from the store's review integration (Judge.me). Never typed in.
+  Sources, in order:
+    1) Shopify standard review metafields (reviews.rating / reviews.rating_count), when synced
+    2) Judge.me preview badge metafield (judgeme.badge)  — data-average-rating / data-number-of-reviews
+    3) Judge.me review widget metafield (judgeme.widget) — same attributes (verified live on /pages/swaptopkit)
+  Renders nothing when no source has data. Rating shows 2 decimals, exactly as Judge.me displays it.
+  Params: product, style ('inline' default | 'summary'), link (optional URL), label (optional, e.g. product name)
+{%- endcomment -%}
+{%- liquid
+  assign rating = 0
+  assign count = 0
+  assign scale = 5
+  if product.metafields.reviews.rating.value != blank
+    assign rating = product.metafields.reviews.rating.value.rating | plus: 0
+    assign scale = product.metafields.reviews.rating.value.scale_max | plus: 0
+    assign count = product.metafields.reviews.rating_count.value | plus: 0
+  endif
+  if rating == 0
+    assign jm = product.metafields.judgeme.badge | append: ''
+    unless jm contains 'data-average-rating='
+      assign jm = product.metafields.judgeme.widget | append: ''
+    endunless
+    if jm contains 'data-average-rating='
+      assign rating = jm | split: "data-average-rating='" | slice: 1 | first | split: "'" | first | plus: 0
+      assign count = jm | split: "data-number-of-reviews='" | slice: 1 | first | split: "'" | first | plus: 0
+    endif
+  endif
+  if scale == 0
+    assign scale = 5
+  endif
+  assign fill = rating | times: 100.0 | divided_by: scale
+  assign shown = rating | times: 100 | round | divided_by: 100.0
+-%}
+{%- if rating > 0 and count > 0 -%}
+  {%- capture shown_txt -%}{{ shown | append: '' }}{%- endcapture -%}
+  {%- unless shown_txt contains '.' -%}{%- assign shown_txt = shown_txt | append: '.00' -%}{%- endunless -%}
+  {%- assign dec = shown_txt | split: '.' | last -%}
+  {%- if dec.size == 1 -%}{%- assign shown_txt = shown_txt | append: '0' -%}{%- endif -%}
+  <span class="pdcm-rating{% if style == 'summary' %} pdcm-rating--summary{% endif %}">
+    <span class="pdcm-rating__stars" role="img" aria-label="Rated {{ shown_txt }} out of {{ scale }} stars from {{ count }} reviews{% if label != blank %} of the {{ label | escape }}{% endif %}"><span class="pdcm-rating__fill" style="width: {{ fill }}%"></span></span>
+    <span class="pdcm-rating__num" aria-hidden="true">{{ shown_txt }}</span>
+    {%- if link != blank -%}
+      <a class="pdcm-rating__count" href="{{ link }}">{{ count }} reviews{% if label != blank %}<span class="pdcm-sr"> of the {{ label | escape }}</span>{% endif %}</a>
+    {%- else -%}
+      <span class="pdcm-rating__count" aria-hidden="true">{{ count }} reviews</span>
+    {%- endif -%}
+  </span>
+{%- endif -%}

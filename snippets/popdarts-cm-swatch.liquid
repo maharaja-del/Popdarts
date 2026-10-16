@@ -1,0 +1,46 @@
+{%- comment -%}
+  One colorway swatch (radio) — or, with as: 'option', one <option> — for a [data-cm-picker].
+  Carries Liquid-formatted prices and ONLY gate-approved savings (popdarts-cm-offer), so switching
+  colors can never surface an unapproved discount.
+  Params: variant, product, selected (bool), status, confirmed, approved, skus, protected, as ('swatch' | 'option')
+{%- endcomment -%}
+{%- liquid
+  capture offer
+    render 'popdarts-cm-offer', variant: variant, product: product, status: status, confirmed: confirmed, approved: approved, skus: skus, protected: protected
+  endcapture
+  assign o = offer | strip | split: '|'
+  assign img = variant.featured_image | default: product.featured_image
+  assign vtitle = variant.title | escape
+-%}
+{%- capture data -%}
+  data-cm-swatch
+  data-id="{{ variant.id }}"
+  data-title="{{ vtitle }}"
+  data-available="{{ variant.available }}"
+  data-url="{{ variant.url }}"
+  data-price="{{ variant.price | money }}"
+  {%- if o[1] == 'yes' %}
+  data-was="{{ variant.compare_at_price | money }}"
+  data-save="Save {{ variant.compare_at_price | minus: variant.price | money }}"
+  data-off="{{ o[0] }}% off"
+  {%- endif %}
+  {%- if img %}
+  data-image="{{ img | image_url: width: 900 }}"
+  data-srcset="{{ img | image_url: width: 450 }} 450w, {{ img | image_url: width: 700 }} 700w, {{ img | image_url: width: 900 }} 900w"
+  {%- endif %}
+  data-alt="{{ product.title | escape }}, {{ vtitle }}"
+{%- endcapture -%}
+{%- if as == 'option' -%}
+  <option value="{{ variant.id }}" {{ data }}{% if selected %} selected{% endif %}{% unless variant.available %} disabled{% endunless %}>{{ vtitle }} – {% if variant.available %}{{ variant.price | money }}{% else %}sold out{% endif %}</option>
+{%- else -%}
+  <button type="button" class="pdcm-swatch{% unless variant.available %} is-soldout{% endunless %}" role="radio"
+    aria-checked="{% if selected %}true{% else %}false{% endif %}" tabindex="{% if selected %}0{% else %}-1{% endif %}"
+    aria-label="{{ vtitle }}{% unless variant.available %} (sold out){% endunless %}" title="{{ vtitle }}"
+    {{ data }}>
+    {%- if img -%}
+      <span class="pdcm-swatch__clip"><img src="{{ img | image_url: width: 120 }}" alt="" width="60" height="60" loading="lazy" decoding="async"></span>
+    {%- else -%}
+      <span class="pdcm-swatch__clip pdcm-swatch__clip--text">{{ variant.title | slice: 0, 2 }}</span>
+    {%- endif -%}
+  </button>
+{%- endif -%}

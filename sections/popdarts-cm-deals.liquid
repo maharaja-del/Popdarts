@@ -1,0 +1,568 @@
+{%- comment -%}
+  Cyber Monday: hero + deals. ONE section on purpose: Shopify sections can't read each other's settings, so the
+  hero headline [pct], the hero buy panel and every deal card read the same approval register (the deal blocks).
+  Other sections mirror approved savings at runtime from [data-cm-register] by variant id — never compute them.
+{%- endcomment -%}
+{%- liquid
+  assign st = section.settings
+  assign hide = st.hide_variants
+  assign hide_terms = hide | downcase | split: ','
+
+  assign headline_pct = 0
+  assign x_pct = 0
+  assign live_cards = 0
+  assign keys = ''
+  assign register = ''
+  assign notes = ''
+  assign tab_cards_1 = 0
+  assign tab_cards_2 = 0
+  assign tab_cards_3 = 0
+  assign tab_cards_4 = 0
+  assign tab_deals_1 = 0
+  assign tab_deals_2 = 0
+  assign tab_deals_3 = 0
+  assign tab_deals_4 = 0
+
+  for block in section.blocks
+    assign p = block.settings.product
+    if p == blank
+      continue
+    endif
+    assign hay = p.handle | append: ' ' | append: p.title | downcase
+    assign tag_list = p.tags | join: ',' | downcase
+    assign ptype = p.type | downcase
+    assign excluded = ''
+    if hay contains 'elite' or tag_list contains 'elite'
+      assign excluded = 'Elite is never discounted'
+    elsif hay contains 'gift card' or hay contains 'gift-card' or ptype contains 'gift card'
+      assign excluded = 'gift cards are never discounted'
+    elsif hay contains 'slightly' or hay contains 'returned' or ptype == 'returns'
+      assign excluded = 'slightly used / returned items are not part of the sale'
+    endif
+    if excluded != blank
+      capture n
+        echo '<li>Removed from deals: <b>' | append: p.title | append: '</b> (' | append: excluded | append: ').</li>'
+      endcapture
+      assign notes = notes | append: n
+      continue
+    endif
+
+    assign bs = block.settings
+    assign p_avail = 0
+    assign p_deal = false
+    assign p_inv = 0
+    assign p_untracked = false
+    assign oc_count = 0
+    assign oc_max = 0
+    assign oc_cap = 0
+    for v in p.variants
+      assign vt = v.title | downcase | strip
+      assign is_hidden = false
+      for h in hide_terms
+        assign hs = h | strip
+        if hs != blank and vt == hs
+          assign is_hidden = true
+        endif
+      endfor
+      if is_hidden or v.available == false
+        continue
+      endif
+      assign p_avail = p_avail | plus: 1
+      if v.inventory_management == blank or v.inventory_policy == 'continue'
+        assign p_untracked = true
+      elsif v.inventory_quantity > 0
+        assign p_inv = p_inv | plus: v.inventory_quantity
+      endif
+      capture o
+        render 'popdarts-cm-offer', variant: v, product: p, status: bs.offer, confirmed: bs.compare_confirmed, approved: bs.extended_approved, skus: bs.extended_skus, protected: bs.protected
+      endcapture
+      assign oo = o | strip | split: '|'
+      if oo[1] == 'yes'
+        assign p_deal = true
+        assign vp = oo[0] | plus: 0
+        if vp <= 20 and vp > headline_pct
+          assign headline_pct = vp
+        endif
+        if vp > 20 and vp > x_pct
+          assign x_pct = vp
+        endif
+        capture reg
+          echo '<i data-id="'
+          echo v.id
+          echo '" data-was="'
+          echo v.compare_at_price | money
+          echo '" data-off="'
+          echo vp
+          echo '% off" data-save="Save '
+          echo v.compare_at_price | minus: v.price | money
+          echo '"></i>'
+        endcapture
+        assign register = register | append: reg
+      elsif bs.offer != 'none' and oo[2] == 'over_cap'
+        assign oc_count = oc_count | plus: 1
+        assign ocp = oo[0] | plus: 0
+        if ocp > oc_max
+          assign oc_max = ocp
+        endif
+        assign oc_cap = oo[3]
+      elsif bs.offer != 'none' and oo[2] == 'not_confirmed'
+        capture n
+          echo '<li>Saving hidden on <b>' | append: p.title | append: '</b>: tick “Compare-at confirmed as the regular price” once it is checked.</li>'
+        endcapture
+        unless notes contains n
+          assign notes = notes | append: n
+        endunless
+      endif
+    endfor
+
+    if oc_count > 0
+      capture n
+        echo '<li>Saving hidden on <b>' | append: p.title | append: '</b> for ' | append: oc_count | append: ' option(s): up to ' | append: oc_max | append: '% off is over its ' | append: oc_cap | append: '% cap. Fix the price or the approval.</li>'
+      endcapture
+      assign notes = notes | append: n
+    endif
+
+    if p_avail == 0 and st.show_soldout == false
+      capture n
+        echo '<li><b>' | append: p.title | append: '</b> is sold out, so it is hidden.</li>'
+      endcapture
+      assign notes = notes | append: n
+      continue
+    endif
+
+    assign t = bs.tab | default: '1'
+    case t
+      when '1'
+        assign tab_cards_1 = tab_cards_1 | plus: 1
+        if p_deal
+          assign tab_deals_1 = tab_deals_1 | plus: 1
+        endif
+      when '2'
+        assign tab_cards_2 = tab_cards_2 | plus: 1
+        if p_deal
+          assign tab_deals_2 = tab_deals_2 | plus: 1
+        endif
+      when '3'
+        assign tab_cards_3 = tab_cards_3 | plus: 1
+        if p_deal
+          assign tab_deals_3 = tab_deals_3 | plus: 1
+        endif
+      else
+        assign t = '4'
+        assign tab_cards_4 = tab_cards_4 | plus: 1
+        if p_deal
+          assign tab_deals_4 = tab_deals_4 | plus: 1
+        endif
+    endcase
+    if p_deal
+      assign live_cards = live_cards | plus: 1
+    endif
+
+    assign avail_flag = 0
+    if p_avail > 0
+      assign avail_flag = 1
+    endif
+    if st.sort == 'inventory'
+      if p_untracked
+        assign primary = 19989999
+      else
+        assign primary = p_inv | at_most: 9989999 | plus: 10000000
+      endif
+    else
+      assign primary = 9999 | minus: forloop.index0 | plus: 10000000
+    endif
+    assign idx = forloop.index0 | plus: 1000
+    assign keys = keys | append: t | append: '|' | append: avail_flag | append: '|' | append: primary | append: '|' | append: idx | append: ';'
+  endfor
+  assign sorted = keys | split: ';' | sort | reverse
+
+  comment
+    Hero product: the configured product, or the fallback when every visible variant is sold out.
+  endcomment
+  assign hp = st.hero_product | default: all_products['pro-pack']
+  assign hp_ok = false
+  for v in hp.variants
+    assign vt = v.title | downcase | strip
+    assign is_hidden = false
+    for h in hide_terms
+      assign hs = h | strip
+      if hs != blank and vt == hs
+        assign is_hidden = true
+      endif
+    endfor
+    if v.available and is_hidden == false
+      assign hp_ok = true
+      break
+    endif
+  endfor
+  if hp_ok == false and st.hero_fallback != blank
+    assign hp = st.hero_fallback
+  endif
+
+  assign hb_offer = 'none'
+  assign hb_confirmed = false
+  assign hb_approved = false
+  assign hb_skus = ''
+  assign hb_protected = true
+  assign hb_found = false
+  for block in section.blocks
+    if block.settings.product.id == hp.id
+      assign hb_offer = block.settings.offer
+      assign hb_confirmed = block.settings.compare_confirmed
+      assign hb_approved = block.settings.extended_approved
+      assign hb_skus = block.settings.extended_skus
+      assign hb_protected = block.settings.protected
+      assign hb_found = true
+      break
+    endif
+  endfor
+  unless hb_found
+    capture n
+      echo '<li>The hero product (<b>' | append: hp.title | append: '</b>) is not in the deals list, so the hero shows its regular price only.</li>'
+    endcapture
+    assign notes = notes | append: n
+  endunless
+
+  assign best = nil
+  assign best_score = -1
+  assign soldout_names = ''
+  for v in hp.variants
+    assign vt = v.title | downcase | strip
+    assign is_hidden = false
+    for h in hide_terms
+      assign hs = h | strip
+      if hs != blank and vt == hs
+        assign is_hidden = true
+      endif
+    endfor
+    if is_hidden
+      continue
+    endif
+    unless v.available
+      assign soldout_names = soldout_names | append: v.title | append: ' · '
+      continue
+    endunless
+    capture o
+      render 'popdarts-cm-offer', variant: v, product: hp, status: hb_offer, confirmed: hb_confirmed, approved: hb_approved, skus: hb_skus, protected: hb_protected
+    endcapture
+    assign oo = o | strip | split: '|'
+    assign score = 0
+    if oo[1] == 'yes'
+      assign score = 100000000
+    endif
+    if v.inventory_management != blank and v.inventory_quantity > 0
+      assign inv = v.inventory_quantity | at_most: 99999999
+      assign score = score | plus: inv
+    endif
+    if score > best_score
+      assign best = v
+      assign best_score = score
+    endif
+  endfor
+  if best == nil
+    assign best = hp.selected_or_first_available_variant
+  endif
+  assign soldout_names = soldout_names | remove_last: ' · '
+  capture so_raw
+    render 'popdarts-cm-offer', variant: best, product: hp, status: hb_offer, confirmed: hb_confirmed, approved: hb_approved, skus: hb_skus, protected: hb_protected
+  endcapture
+  assign so = so_raw | strip | split: '|'
+  assign hero_img = best.featured_image | default: hp.featured_image
+  assign hero_zoom = st.hero_zoom | default: 100 | divided_by: 100.0
+  assign msg_hero = 'cm-msg-' | append: section.id | append: '-hero'
+  assign headline_pct_s = headline_pct | append: ''
+  assign x_pct_s = x_pct | append: ''
+-%}
+{% render 'popdarts-cm-assets' %}
+
+{%- if request.design_mode -%}
+  <div class="pdcm pdcm-editor-note" role="note">
+    <strong>Cyber Monday · deals setup check</strong>
+    <span>Headline saving: <b>{% if headline_pct > 0 %}up to {{ headline_pct }}%{% else %}none approved yet (number-free headline){% endif %}</b>{% if x_pct > 20 %} · extended line: up to {{ x_pct }}%{% endif %} · cards with an approved saving: <b>{{ live_cards }}</b>{% if st.only_discounted %} (only these show while the sale is live){% endif %}. Only visible in the theme editor.</span>
+    {%- if live_cards == 0 and st.only_discounted -%}<span><b>No approved deals yet</b> — the deals rail is empty during the live sale until a product's Offer approval and compare-at confirmation are set.</span>{%- endif -%}
+    {%- if notes != blank -%}<ul>{{ notes }}</ul>{%- endif -%}
+  </div>
+{%- endif -%}
+
+<div hidden data-cm-register>{{ register }}</div>
+
+<section class="pdcm pdcm-hero" id="cm-hero" aria-labelledby="cm-hero-title-{{ section.id }}">
+  <div class="pdcm-wrap pdcm-hero__grid">
+    <div class="pdcm-hero__top">
+      <p class="pdcm-eyebrow pdcm-eyebrow--night" data-cm-when="live">{{ st.hero_eyebrow }}</p>
+      <p class="pdcm-eyebrow pdcm-eyebrow--night" data-cm-when="before">{{ st.hero_eyebrow_before }}</p>
+      <p class="pdcm-eyebrow pdcm-eyebrow--night" data-cm-when="after">{{ st.hero_eyebrow_after }}</p>
+      <h1 class="pdcm-hero__title" id="cm-hero-title-{{ section.id }}">
+        <span class="pdcm-hero__line" data-cm-when="live before">{{ st.hero_line1 }}</span>
+        <span class="pdcm-hero__line" data-cm-when="after">{{ st.hero_after_line1 }}</span>
+        {%- if headline_pct > 0 -%}
+          <span class="pdcm-hero__line pdcm-hero__offer" data-cm-when="live">{{ st.hero_offer | replace: '[pct]', headline_pct_s }}<span class="pdcm-hero__qual">{{ st.hero_qualifier }}</span></span>
+        {%- else -%}
+          <span class="pdcm-hero__line pdcm-hero__offer" data-cm-when="live">{{ st.hero_nodeal }}</span>
+        {%- endif -%}
+        <span class="pdcm-hero__line pdcm-hero__offer" data-cm-when="before">{{ st.hero_before_line }}</span>
+        <span class="pdcm-hero__line pdcm-hero__offer" data-cm-when="after">{{ st.hero_after_line2 }}</span>
+      </h1>
+      {%- if x_pct > 20 and st.hero_select != blank -%}
+        <p class="pdcm-hero__select" data-cm-when="live">{{ st.hero_select | replace: '[xpct]', x_pct_s }}</p>
+      {%- endif -%}
+      <p class="pdcm-hero__sub" data-cm-when="live">{{ st.hero_sub }}</p>
+      <p class="pdcm-hero__sub" data-cm-when="before">{{ st.hero_sub_before }}</p>
+      <p class="pdcm-hero__sub" data-cm-when="after">{{ st.hero_sub_after }}</p>
+    </div>
+
+    <div class="pdcm-hero__bottom">
+      {% render 'popdarts-cm-timer', style: 'tiles', label: st.timer_label %}
+      <div class="pdcm-hero__actions">
+        <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="#cm-deals" data-cm-when="live">{{ st.hero_cta }}</a>
+        <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="#cm-deals" data-cm-when="before">{{ st.hero_cta_before }}</a>
+        <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="{{ st.after_link | default: '/collections/all' }}" data-cm-when="after">{{ st.hero_cta_after }}</a>
+        {%- if st.hero_link2_text != blank -%}
+          <a class="pdcm-link pdcm-link--night" href="{{ st.hero_link2 | default: '#cm-rookie-pro' }}">{{ st.hero_link2_text }}</a>
+        {%- endif -%}
+      </div>
+      <p class="pdcm-hero__trust">
+        {%- capture hero_rating -%}{% render 'popdarts-cm-rating', product: hp, link: '#cm-proof', label: hp.title %}{%- endcapture -%}
+        {%- if hero_rating != blank -%}<span class="pdcm-hero__rating">{{ hero_rating }}</span>{%- endif -%}
+        {%- if st.hero_trust != blank -%}<span class="pdcm-hero__trust-note" data-cm-when="live">{{ st.hero_trust }}</span>{%- endif -%}
+      </p>
+    </div>
+
+    {%- if hp != blank -%}
+      <div class="pdcm-hero__panel pdcm-buy" data-cm-picker data-cm-dock-source data-product-title="{{ hp.title | escape }}" data-soldout-text="Sold out">
+        <div class="pdcm-buy__media pdcm-media pdcm-media--studio" style="--z: {{ hero_zoom }}; --fy: {{ st.hero_focus | default: 62 }}%" data-cm-pick-img>
+          {%- if hero_img -%}
+            {{ hero_img | image_url: width: 900 | image_tag: widths: '400, 600, 800, 900', sizes: '(min-width: 990px) 368px, 92vw', loading: 'eager', fetchpriority: 'high', alt: hp.title }}
+          {%- endif -%}
+          <span class="pdcm-chip pdcm-chip--sale" data-cm-pick-off data-cm-when="live"{% unless so[1] == 'yes' %} hidden{% endunless %}>{% if so[1] == 'yes' %}{{ so[0] }}% off{% endif %}</span>
+        </div>
+        <div class="pdcm-buy__body">
+          <div class="pdcm-buy__head">
+            <h2 class="pdcm-buy__name"><a href="{{ best.url }}" data-cm-pick-link>{{ hp.title }}</a></h2>
+            <p class="pdcm-buy__price pdcm-price pdcm-price--lg">
+              <span class="pdcm-price__now{% if so[1] == 'yes' %} is-sale{% endif %}" data-cm-pick-now>{{ best.price | money }}</span>
+              <s class="pdcm-price__was" data-cm-pick-was data-cm-when="live"{% unless so[1] == 'yes' %} hidden{% endunless %}>{% if so[1] == 'yes' %}{{ best.compare_at_price | money }}{% endif %}</s>
+            </p>
+          </div>
+          {%- if st.hero_contents != blank -%}<p class="pdcm-buy__contents">{{ st.hero_contents }}</p>{%- endif -%}
+          {%- unless hp.has_only_default_variant -%}
+            <div class="pdcm-variant">
+              <p class="pdcm-variant__label">{{ hp.options.first }}: <b data-cm-pick-name>{{ best.title }}</b></p>
+              <div class="pdcm-swatches pdcm-swatches--hero" role="radiogroup" aria-label="{{ hp.options.first | escape }} for {{ hp.title | escape }}">
+                {%- for v in hp.variants -%}
+                  {%- liquid
+                    assign vt = v.title | downcase | strip
+                    assign is_hidden = false
+                    for h in hide_terms
+                      assign hs = h | strip
+                      if hs != blank and vt == hs
+                        assign is_hidden = true
+                      endif
+                    endfor
+                  -%}
+                  {%- if is_hidden or v.available == false -%}{%- continue -%}{%- endif -%}
+                  {%- assign is_sel = false -%}{%- if v.id == best.id -%}{%- assign is_sel = true -%}{%- endif -%}
+                  {% render 'popdarts-cm-swatch', variant: v, product: hp, selected: is_sel, status: hb_offer, confirmed: hb_confirmed, approved: hb_approved, skus: hb_skus, protected: hb_protected %}
+                {%- endfor -%}
+              </div>
+              {%- if soldout_names != blank -%}<p class="pdcm-buy__soldout">Sold out right now: {{ soldout_names }}</p>{%- endif -%}
+            </div>
+          {%- endunless -%}
+          <button type="button" class="pdcm-btn pdcm-btn--ink pdcm-btn--block pdcm-btn--lg" data-cm-atc data-variant-id="{{ best.id }}"
+            data-product-title="{{ hp.title | escape }}{% unless hp.has_only_default_variant %} — {{ best.title | escape }}{% endunless %}"
+            data-label-add="Add to cart" data-label-added="Added ✓" data-label-soldout="Sold out" data-label-error="Try again"
+            aria-describedby="{{ msg_hero }}"{% unless best.available %} disabled{% endunless %}>
+            <span data-cm-label>{% if best.available %}Add to cart{% else %}Sold out{% endif %}</span>
+          </button>
+          <p class="pdcm-atc-msg" id="{{ msg_hero }}" role="status" hidden></p>
+          <p class="pdcm-buy__micro">{{ st.hero_micro }} <a href="{{ best.url }}" data-cm-pick-link>Details</a></p>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<section class="pdcm pdcm-deals" id="cm-deals" aria-labelledby="cm-deals-title-{{ section.id }}" data-cm-dock-stop data-cm-tabs>
+  <div class="pdcm-wrap">
+    <div class="pdcm-deals__head">
+      <div class="pdcm-deals__intro">
+        <p class="pdcm-eyebrow" data-cm-when="live">{{ st.deals_eyebrow }}</p>
+        <p class="pdcm-eyebrow" data-cm-when="before">{{ st.deals_eyebrow_before }}</p>
+        <p class="pdcm-eyebrow" data-cm-when="after">{{ st.deals_eyebrow_after }}</p>
+        <h2 class="pdcm-h2" id="cm-deals-title-{{ section.id }}">{{ st.deals_heading }}</h2>
+        <p class="pdcm-lead" data-cm-when="live">{{ st.deals_sub }}</p>
+        <p class="pdcm-lead" data-cm-when="before">{{ st.deals_sub_before }}</p>
+        <p class="pdcm-lead" data-cm-when="after">{{ st.deals_sub_after }}</p>
+      </div>
+      <div class="pdcm-tabs" role="tablist" aria-label="{{ st.deals_heading | escape }}">
+        {%- assign first_tab = true -%}
+        {%- for g in (1..4) -%}
+          {%- liquid
+            assign label_key = 'tab_' | append: g
+            assign tlabel = st[label_key]
+            case g
+              when 1
+                assign tc = tab_cards_1
+                assign td = tab_deals_1
+              when 2
+                assign tc = tab_cards_2
+                assign td = tab_deals_2
+              when 3
+                assign tc = tab_cards_3
+                assign td = tab_deals_3
+              else
+                assign tc = tab_cards_4
+                assign td = tab_deals_4
+            endcase
+          -%}
+          {%- if tc == 0 or tlabel == blank -%}{%- continue -%}{%- endif -%}
+          <button type="button" class="pdcm-tab" role="tab" id="cm-tab-{{ section.id }}-{{ g }}" aria-controls="cm-panel-{{ section.id }}-{{ g }}"
+            aria-selected="{% if first_tab %}true{% else %}false{% endif %}" tabindex="{% if first_tab %}0{% else %}-1{% endif %}"
+            {%- if st.only_discounted and td == 0 %} data-cm-when="before after"{% endif %}>{{ tlabel }}</button>
+          {%- assign first_tab = false -%}
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- assign first_panel = true -%}
+    {%- for g in (1..4) -%}
+      {%- liquid
+        assign label_key = 'tab_' | append: g
+        assign tlabel = st[label_key]
+        case g
+          when 1
+            assign tc = tab_cards_1
+          when 2
+            assign tc = tab_cards_2
+          when 3
+            assign tc = tab_cards_3
+          else
+            assign tc = tab_cards_4
+        endcase
+        assign gs = g | append: ''
+        assign shown = 0
+      -%}
+      {%- if tc == 0 or tlabel == blank -%}{%- continue -%}{%- endif -%}
+      <div class="pdcm-tabpanel" role="tabpanel" id="cm-panel-{{ section.id }}-{{ g }}" aria-labelledby="cm-tab-{{ section.id }}-{{ g }}"{% unless first_panel %} hidden{% endunless %}>
+        <div class="pdcm-rail" data-cm-rail>
+          <div class="pdcm-rail__track" data-cm-track role="region" aria-label="{{ st.deals_eyebrow | escape }}: {{ tlabel | escape }}" tabindex="0">
+            {%- for key in sorted -%}
+              {%- assign parts = key | split: '|' -%}
+              {%- if parts[0] != gs -%}{%- continue -%}{%- endif -%}
+              {%- assign bi = parts[3] | minus: 1000 -%}
+              {%- assign blk = section.blocks[bi] -%}
+              {%- assign eager = false -%}{%- if first_panel and shown < 2 -%}{%- assign eager = true -%}{%- endif -%}
+              <div class="pdcm-rail__slide" {{ blk.shopify_attributes }}>
+                {% render 'popdarts-cm-card', product: blk.settings.product, settings: blk.settings, block_id: blk.id, section_id: section.id, hide: hide, only_discounted: st.only_discounted, eager: eager %}
+              </div>
+              {%- assign shown = shown | plus: 1 -%}
+            {%- endfor -%}
+          </div>
+          <div class="pdcm-rail__nav">
+            <span class="pdcm-dots" data-cm-dots data-label-prefix="Show {{ tlabel | escape }} product"></span>
+            <button type="button" class="pdcm-arrow" data-cm-prev aria-label="Previous {{ tlabel | escape }} products"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4.5 7 10l5.5 5.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button type="button" class="pdcm-arrow" data-cm-next aria-label="Next {{ tlabel | escape }} products"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 4.5 13 10l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          </div>
+        </div>
+      </div>
+      {%- assign first_panel = false -%}
+    {%- endfor -%}
+
+    {%- if st.only_discounted and live_cards == 0 -%}
+      <p class="pdcm-deals__empty" data-cm-when="live">{{ st.deals_empty }} <a class="pdcm-link" href="{{ st.after_link | default: '/collections/all' }}">Shop all games</a></p>
+    {%- endif -%}
+    {%- if st.exclusions != blank -%}
+      <p class="pdcm-deals__note">{{ st.exclusions }} <a class="pdcm-link" href="#cm-terms">{{ st.terms_link_text }}</a></p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cyber Monday: Hero + deals",
+  "tag": "div",
+  "class": "pdcm-deals-section",
+  "settings": [
+    { "type": "paragraph", "content": "The hero and the deals share ONE approval list (the Deal blocks), so the headline can never claim more than the cards show. Savings appear only for products whose Offer approval is set AND whose compare-at price is confirmed as the regular price. Elite, gift cards and returned items are removed automatically." },
+    { "type": "header", "content": "Hero — during the sale" },
+    { "type": "text", "id": "hero_eyebrow", "label": "Eyebrow", "default": "Monday, Nov 30" },
+    { "type": "text", "id": "hero_line1", "label": "Headline line 1", "default": "Cyber Monday" },
+    { "type": "text", "id": "hero_offer", "label": "Headline offer line", "default": "Up to [pct]% off", "info": "[pct] = the biggest APPROVED saving shown on this page, never above 20." },
+    { "type": "text", "id": "hero_qualifier", "label": "Offer qualifier", "default": "eligible games & gear" },
+    { "type": "text", "id": "hero_nodeal", "label": "Offer line when no saving is approved", "default": "Game on." },
+    { "type": "text", "id": "hero_select", "label": "Extended offer line", "default": "Select items up to [xpct]% off", "info": "Shows only when a Daniel-approved, non-protected product above 20% is actually on the page." },
+    { "type": "text", "id": "hero_sub", "label": "Support text", "default": "Sale prices are already applied — no code needed. Taxes and shipping are calculated at checkout." },
+    { "type": "text", "id": "hero_cta", "label": "Button", "default": "Shop Cyber Monday Deals" },
+    { "type": "text", "id": "hero_link2_text", "label": "Secondary link", "default": "Rookie or Pro?" },
+    { "type": "url", "id": "hero_link2", "label": "Secondary link target", "info": "Empty = the Rookie or Pro question in the FAQ." },
+    { "type": "text", "id": "hero_trust", "label": "Trust note", "default": "No code needed" },
+    { "type": "text", "id": "timer_label", "label": "Countdown label", "default": "Sale ends in", "info": "The countdown only appears when the deadline is confirmed in Cyber Monday: Settings." },
+    { "type": "header", "content": "Hero — before the sale" },
+    { "type": "text", "id": "hero_eyebrow_before", "label": "Eyebrow", "default": "Coming Monday, Nov 30" },
+    { "type": "text", "id": "hero_before_line", "label": "Headline line 2", "default": "Is coming." },
+    { "type": "text", "id": "hero_sub_before", "label": "Support text", "default": "Cyber Monday pricing lands here on Monday, Nov 30. Pick your game now." },
+    { "type": "text", "id": "hero_cta_before", "label": "Button", "default": "Browse the games" },
+    { "type": "header", "content": "Hero — after the sale" },
+    { "type": "text", "id": "hero_eyebrow_after", "label": "Eyebrow", "default": "Cyber Monday has ended" },
+    { "type": "text", "id": "hero_after_line1", "label": "Headline line 1", "default": "Gift" },
+    { "type": "text", "id": "hero_after_line2", "label": "Headline line 2", "default": "game night." },
+    { "type": "text", "id": "hero_sub_after", "label": "Support text", "default": "Every Popdarts game is ready to throw." },
+    { "type": "text", "id": "hero_cta_after", "label": "Button", "default": "Shop all games" },
+    { "type": "url", "id": "after_link", "label": "After-sale link", "info": "Empty = all products (/collections/all)." },
+    { "type": "header", "content": "Hero buy panel" },
+    { "type": "product", "id": "hero_product", "label": "Product", "info": "Its saving comes from its own Deal block below." },
+    { "type": "product", "id": "hero_fallback", "label": "Fallback product", "info": "Used when every visible colorway of the product above is sold out." },
+    { "type": "text", "id": "hero_contents", "label": "What's included", "default": "6 Popdarts · PRO Target Marker™ · carrying bag with rules · stickers" },
+    { "type": "text", "id": "hero_micro", "label": "Small print", "default": "Orders are processed within 1–2 business days." },
+    { "type": "range", "id": "hero_zoom", "label": "Image zoom", "min": 100, "max": 160, "step": 5, "unit": "%", "default": 125 },
+    { "type": "range", "id": "hero_focus", "label": "Image focus (vertical)", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 62 },
+    { "type": "text", "id": "hide_variants", "label": "Hide colorways", "default": "Halloween", "info": "Comma-separated variant names to hide everywhere on this page." },
+    { "type": "header", "content": "Deals" },
+    { "type": "text", "id": "deals_eyebrow", "label": "Eyebrow (sale)", "default": "Cyber Monday deals" },
+    { "type": "text", "id": "deals_eyebrow_before", "label": "Eyebrow (before)", "default": "Coming Monday, Nov 30" },
+    { "type": "text", "id": "deals_eyebrow_after", "label": "Eyebrow (after)", "default": "Shop Popdarts" },
+    { "type": "text", "id": "deals_heading", "label": "Heading", "default": "Pick your game." },
+    { "type": "text", "id": "deals_sub", "label": "Text (sale)", "default": "Every saving is shown on the item and already applied at checkout." },
+    { "type": "text", "id": "deals_sub_before", "label": "Text (before)", "default": "Cyber Monday prices appear here when the sale starts. These are today's prices." },
+    { "type": "text", "id": "deals_sub_after", "label": "Text (after)", "default": "Cyber Monday has ended. Here's what's in stock now." },
+    { "type": "text", "id": "deals_empty", "label": "Text when no deal is approved", "default": "Cyber Monday deals will appear here." },
+    { "type": "text", "id": "tab_1", "label": "Tab 1", "default": "Game sets" },
+    { "type": "text", "id": "tab_2", "label": "Tab 2", "default": "Swaptop™ tops" },
+    { "type": "text", "id": "tab_3", "label": "Tab 3", "default": "Add-ons" },
+    { "type": "text", "id": "tab_4", "label": "Tab 4", "default": "Gear" },
+    { "type": "checkbox", "id": "only_discounted", "label": "During the sale, show only products with an approved saving", "default": true },
+    { "type": "checkbox", "id": "show_soldout", "label": "Show sold-out products", "default": false },
+    { "type": "select", "id": "sort", "label": "Order", "options": [{ "value": "listed", "label": "As listed (put high-inventory picks first)" }, { "value": "inventory", "label": "Most inventory first (counts are never shown)" }], "default": "listed" },
+    { "type": "text", "id": "exclusions", "label": "Exclusions note", "default": "Not included: Elite products, gift cards and slightly used or returned items. Sale items are final sale." },
+    { "type": "text", "id": "terms_link_text", "label": "Terms link", "default": "Promotion terms" }
+  ],
+  "blocks": [
+    {
+      "type": "deal",
+      "name": "Deal",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product" },
+        { "type": "select", "id": "tab", "label": "Tab", "options": [{ "value": "1", "label": "Tab 1" }, { "value": "2", "label": "Tab 2" }, { "value": "3", "label": "Tab 3" }, { "value": "4", "label": "Tab 4" }], "default": "1" },
+        { "type": "header", "content": "Offer approval" },
+        { "type": "select", "id": "offer", "label": "Offer approval", "options": [
+          { "value": "none", "label": "Not approved — regular price only" },
+          { "value": "standard", "label": "Standard — up to 20% off" },
+          { "value": "extended", "label": "Extended — up to 30% (needs Daniel's approval below)" }
+        ], "default": "none" },
+        { "type": "checkbox", "id": "compare_confirmed", "label": "Compare-at confirmed as the regular price", "default": false, "info": "Savings are Shopify price vs compare-at price. Tick only once the compare-at is the genuine regular (MSRP) price." },
+        { "type": "checkbox", "id": "protected", "label": "Retail-protected (max 20%)", "default": true, "info": "Keep ON unless Daniel's protected-SKU list confirms this product is NOT a retail-partner SKU." },
+        { "type": "checkbox", "id": "extended_approved", "label": "Daniel approved the extended offer", "default": false },
+        { "type": "text", "id": "extended_skus", "label": "Approved SKUs (extended)", "info": "Comma-separated. Empty = every variant of this product." },
+        { "type": "text", "id": "approval_ref", "label": "Approval reference", "info": "Who/when — for your records; never shown to shoppers." },
+        { "type": "header", "content": "Card" },
+        { "type": "text", "id": "note", "label": "Short note", "info": "e.g. Needs a Popdarts pack" },
+        { "type": "range", "id": "image_number", "label": "Photo number", "min": 0, "max": 12, "step": 1, "default": 0, "info": "0 = the selected colorway's photo. 1–12 = that photo from the product's gallery." },
+        { "type": "select", "id": "image_style", "label": "Photo style", "options": [{ "value": "studio", "label": "Studio (white background photos)" }, { "value": "photo", "label": "Photo (fills the frame)" }], "default": "studio" },
+        { "type": "range", "id": "zoom", "label": "Photo zoom", "min": 100, "max": 200, "step": 5, "unit": "%", "default": 100 },
+        { "type": "range", "id": "focus_y", "label": "Photo focus (vertical)", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 50 }
+      ]
+    }
+  ],
+  "max_blocks": 24
+}
+{% endschema %}

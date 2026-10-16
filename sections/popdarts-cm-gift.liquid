@@ -1,0 +1,131 @@
+{%- comment -%}
+  Cyber Monday gifting: real lifestyle media per tab + up to 3 products. Single-option products add to cart here;
+  multi-colour products jump to their deal card ("Choose color") so there's one picker per product on the page.
+  Savings are never computed here — popdarts-cm.js mirrors approved savings from [data-cm-register] by variant id.
+{%- endcomment -%}
+{%- assign st = section.settings -%}
+{% render 'popdarts-cm-assets' %}
+<section class="pdcm pdcm-gift" id="cm-gift" aria-labelledby="cm-gift-title-{{ section.id }}" data-cm-dock-stop data-cm-tabs>
+  <div class="pdcm-wrap">
+    <div class="pdcm-gift__head">
+      <div>
+        <p class="pdcm-eyebrow">{{ st.eyebrow }}</p>
+        <h2 class="pdcm-h2" id="cm-gift-title-{{ section.id }}">{{ st.heading }}</h2>
+        {%- if st.sub != blank -%}<p class="pdcm-lead">{{ st.sub }}</p>{%- endif -%}
+      </div>
+      <div class="pdcm-tabs pdcm-tabs--light" role="tablist" aria-label="{{ st.heading | escape }}">
+        {%- for block in section.blocks -%}
+          <button type="button" class="pdcm-tab" role="tab" id="cm-gtab-{{ block.id }}" aria-controls="cm-gpanel-{{ block.id }}"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" {{ block.shopify_attributes }}>{{ block.settings.label }}</button>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign b = block.settings
+        assign media_id = 'cm-gclip-' | append: block.id
+        assign poster = ''
+        if b.video_poster != blank
+          assign poster = b.video_poster | image_url: width: 720
+        elsif b.video_poster_asset != blank
+          assign poster = b.video_poster_asset | asset_url
+        endif
+      -%}
+      <div class="pdcm-tabpanel pdcm-gift__panel" role="tabpanel" id="cm-gpanel-{{ block.id }}" aria-labelledby="cm-gtab-{{ block.id }}"{% unless forloop.first %} hidden{% endunless %}>
+        <div class="pdcm-gift__media pdcm-gift__media--{{ b.media_kind }}{% if b.media_tone == 'night' %} is-night{% endif %}" style="--fy: {{ b.focus_y | default: 50 }}%">
+          {%- if b.media_kind == 'video' and b.video_url != blank -%}
+            {% render 'popdarts-cm-video', id: media_id, src: b.video_url, poster: poster, start: b.video_start, end: b.video_end, focus: b.focus_y, autoplay: false, label: b.label %}
+          {%- elsif b.image != blank -%}
+            {{ b.image | image_url: width: 1400 | image_tag: widths: '600, 900, 1200, 1400', sizes: '(min-width: 990px) 600px, 92vw', loading: 'lazy', alt: b.image_alt }}
+          {%- elsif b.image_asset != blank -%}
+            <img src="{{ b.image_asset | asset_url }}" alt="{{ b.image_alt | escape }}" width="1600" height="1000" loading="lazy" decoding="async">
+          {%- endif -%}
+        </div>
+        <div class="pdcm-gift__content">
+          {%- if b.blurb != blank -%}<p class="pdcm-gift__blurb">{{ b.blurb }}</p>{%- endif -%}
+          <ul class="pdcm-rows">
+            {%- for p in b.products limit: 3 -%}
+              {%- liquid
+                assign hay = p.handle | append: ' ' | append: p.title | downcase
+                assign skip = false
+                if hay contains 'elite' or hay contains 'slightly' or hay contains 'returned' or p.available == false
+                  assign skip = true
+                endif
+              -%}
+              {%- if skip -%}{%- continue -%}{%- endif -%}
+              {%- liquid
+                assign v = p.selected_or_first_available_variant
+                assign img = v.featured_image | default: p.featured_image
+                assign single = false
+                if p.has_only_default_variant or p.variants.size == 1
+                  assign single = true
+                endif
+                assign msg_id = 'cm-msg-' | append: block.id | append: '-' | append: forloop.index
+              -%}
+              <li class="pdcm-row" {% if single %}data-cm-picker data-product-title="{{ p.title | escape }}"{% endif %}>
+                <a class="pdcm-row__thumb pdcm-media pdcm-media--studio" href="{{ p.url }}" tabindex="-1" aria-hidden="true">
+                  {%- if img -%}{{ img | image_url: width: 180 | image_tag: loading: 'lazy', alt: '', width: 90, height: 90 }}{%- endif -%}
+                </a>
+                <div class="pdcm-row__info">
+                  <p class="pdcm-row__name"><a href="{{ p.url }}">{{ p.title }}</a></p>
+                  <p class="pdcm-price pdcm-price--sm"{% if single %} data-cm-mirror="{{ v.id }}"{% endif %}>
+                    <span class="pdcm-price__now" data-cm-pick-now>{% if single == false and p.price_varies %}From {% endif %}{{ p.price | money }}</span>
+                    {%- if single -%}<s class="pdcm-price__was" data-cm-pick-was data-cm-when="live" hidden></s>{%- endif -%}
+                  </p>
+                </div>
+                {%- if single -%}
+                  <button type="button" class="pdcm-btn pdcm-btn--ink pdcm-btn--sm" data-cm-atc data-variant-id="{{ v.id }}" data-product-title="{{ p.title | escape }}"
+                    data-label-add="Add" data-label-added="Added ✓" data-label-soldout="Sold out" data-label-error="Try again" aria-describedby="{{ msg_id }}" aria-label="Add {{ p.title | escape }} to cart">
+                    <span data-cm-label>Add</span>
+                  </button>
+                  <p class="pdcm-atc-msg pdcm-row__msg" id="{{ msg_id }}" role="status" hidden></p>
+                {%- else -%}
+                  <a class="pdcm-btn pdcm-btn--outline pdcm-btn--sm" href="{{ p.url }}" data-cm-jump="cm-deal-{{ p.id }}">{{ st.choose_text }}</a>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cyber Monday: Gifting",
+  "tag": "div",
+  "class": "pdcm-gift-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Gifting" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Gifts that start a rivalry." },
+    { "type": "text", "id": "sub", "label": "Text", "default": "Pick by who's on your list." },
+    { "type": "text", "id": "choose_text", "label": "Link for multi-colour products", "default": "Choose color", "info": "Jumps to the product's deal card (or its product page when it isn't in the deals)." }
+  ],
+  "blocks": [
+    {
+      "type": "gift_tab",
+      "name": "Gift tab",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Tab label", "default": "Family night" },
+        { "type": "textarea", "id": "blurb", "label": "Text" },
+        { "type": "product_list", "id": "products", "label": "Products", "limit": 3, "info": "Sold-out, Elite and returned products are skipped." },
+        { "type": "select", "id": "media_kind", "label": "Media", "options": [{ "value": "image", "label": "Image" }, { "value": "video", "label": "Video (plays on tap)" }], "default": "image" },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "image_asset", "label": "Image (theme asset)", "info": "Used when no image is picked, e.g. pd-hero-dart-strike.jpg" },
+        { "type": "text", "id": "image_alt", "label": "Image description" },
+        { "type": "select", "id": "media_tone", "label": "Media background", "options": [{ "value": "light", "label": "Light" }, { "value": "night", "label": "Night (for dark artwork like the gift card)" }], "default": "light" },
+        { "type": "text", "id": "video_url", "label": "Video MP4 URL" },
+        { "type": "image_picker", "id": "video_poster", "label": "Video poster" },
+        { "type": "text", "id": "video_poster_asset", "label": "Video poster (theme asset)" },
+        { "type": "number", "id": "video_start", "label": "Video start (seconds)" },
+        { "type": "number", "id": "video_end", "label": "Video loop back at (seconds)" },
+        { "type": "range", "id": "focus_y", "label": "Crop focus (vertical)", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 50 }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [{ "name": "Cyber Monday: Gifting" }]
+}
+{% endschema %}

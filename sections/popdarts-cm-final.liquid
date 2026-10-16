@@ -1,0 +1,94 @@
+{%- liquid
+  assign st = section.settings
+  assign img_src = ''
+  if st.image != blank
+    assign img_src = st.image
+  endif
+-%}
+{% render 'popdarts-cm-assets' %}
+<section class="pdcm pdcm-final" id="cm-final" aria-labelledby="cm-final-title-{{ section.id }}" data-cm-dock-stop>
+  <div class="pdcm-wrap">
+    <div class="pdcm-final__grid">
+      <div class="pdcm-final__copy">
+        <p class="pdcm-eyebrow pdcm-eyebrow--night" data-cm-when="live before">{{ st.eyebrow }}</p>
+        <p class="pdcm-eyebrow pdcm-eyebrow--night" data-cm-when="after">{{ st.eyebrow_after }}</p>
+        <h2 class="pdcm-h2 pdcm-h2--night" id="cm-final-title-{{ section.id }}">
+          <span data-cm-when="live">{{ st.heading }}</span>
+          <span data-cm-when="before">{{ st.heading_before }}</span>
+          <span data-cm-when="after">{{ st.heading_after }}</span>
+        </h2>
+        <p class="pdcm-final__sub" data-cm-when="live">{{ st.sub }}</p>
+        <p class="pdcm-final__sub" data-cm-when="before">{{ st.sub_before }}</p>
+        <p class="pdcm-final__sub" data-cm-when="after">{{ st.sub_after }}</p>
+        {% render 'popdarts-cm-timer', style: 'inline', label: st.timer_label %}
+        <div class="pdcm-final__actions">
+          <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="#cm-deals" data-cm-when="live">{{ st.cta }}</a>
+          <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="#cm-deals" data-cm-when="before">{{ st.cta_before }}</a>
+          <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="{{ st.all_link | default: '/collections/all' }}" data-cm-when="after">{{ st.cta_after }}</a>
+          {%- if st.all_text != blank -%}<a class="pdcm-link pdcm-link--night" href="{{ st.all_link | default: '/collections/all' }}" data-cm-when="live before">{{ st.all_text }}</a>{%- endif -%}
+        </div>
+      </div>
+      <figure class="pdcm-final__media">
+        {%- if img_src != blank -%}
+          {{ img_src | image_url: width: 1400 | image_tag: widths: '600, 900, 1200, 1400', sizes: '(min-width: 990px) 600px, 92vw', loading: 'lazy', alt: st.image_alt }}
+        {%- elsif st.image_asset != blank -%}
+          <img src="{{ st.image_asset | asset_url }}" alt="{{ st.image_alt | escape }}" width="1920" height="1080" loading="lazy" decoding="async">
+        {%- endif -%}
+      </figure>
+    </div>
+
+    <div class="pdcm-terms" id="cm-terms">
+      <h3 class="pdcm-terms__title">{{ st.terms_title }}</h3>
+      <div class="pdcm-terms__body" data-cm-when="live before">{{ st.terms }}</div>
+      <p class="pdcm-terms__body" data-cm-when="after">{{ st.terms_after }}</p>
+    </div>
+  </div>
+
+  {%- if st.show_dock -%}
+    <div class="pdcm-dock" data-cm-dock aria-hidden="true" inert>
+      <span class="pdcm-dock__thumb pdcm-media pdcm-media--studio"><img data-cm-dock-img alt="" width="48" height="48" decoding="async"></span>
+      <span class="pdcm-dock__info">
+        <span class="pdcm-dock__name" data-cm-dock-name></span>
+        <span class="pdcm-dock__price"><b data-cm-dock-now></b> <s data-cm-dock-was data-cm-when="live"></s></span>
+      </span>
+      <button type="button" class="pdcm-btn pdcm-btn--lime" data-cm-atc data-variant-id="" data-label-add="Add to cart" data-label-added="Added ✓" data-label-soldout="Sold out" data-label-error="Try again" aria-describedby="cm-dock-msg-{{ section.id }}">
+        <span data-cm-label>Add to cart</span>
+      </button>
+      <p class="pdcm-atc-msg pdcm-dock__msg" id="cm-dock-msg-{{ section.id }}" role="status" hidden></p>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Cyber Monday: Final CTA",
+  "tag": "div",
+  "class": "pdcm-final-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Monday, Nov 30" },
+    { "type": "text", "id": "heading", "label": "Heading (sale)", "default": "Throw down this Cyber Monday." },
+    { "type": "text", "id": "sub", "label": "Text (sale)", "default": "Every saving is shown on the product and already applied — no code needed." },
+    { "type": "text", "id": "cta", "label": "Button (sale)", "default": "Shop Cyber Monday Deals" },
+    { "type": "text", "id": "heading_before", "label": "Heading (before)", "default": "Cyber Monday is coming." },
+    { "type": "text", "id": "sub_before", "label": "Text (before)", "default": "Pick your game now — Cyber Monday pricing lands on Monday, Nov 30." },
+    { "type": "text", "id": "cta_before", "label": "Button (before)", "default": "Browse the games" },
+    { "type": "text", "id": "eyebrow_after", "label": "Eyebrow (after)", "default": "Cyber Monday has ended" },
+    { "type": "text", "id": "heading_after", "label": "Heading (after)", "default": "Gift game night." },
+    { "type": "text", "id": "sub_after", "label": "Text (after)", "default": "Thanks for playing. Every Popdarts game is ready to throw." },
+    { "type": "text", "id": "cta_after", "label": "Button (after)", "default": "Shop all games" },
+    { "type": "text", "id": "all_text", "label": "Secondary link", "default": "Shop all games" },
+    { "type": "url", "id": "all_link", "label": "All-products link", "info": "Empty = /collections/all" },
+    { "type": "text", "id": "timer_label", "label": "Countdown label", "default": "Sale ends in" },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "image_asset", "label": "Image (theme asset)", "default": "pd-hero-trophy-lift.jpg", "info": "Used when no image is picked." },
+    { "type": "text", "id": "image_alt", "label": "Image description", "default": "Popdarts players lifting the championship trophy under arena lights" },
+    { "type": "header", "content": "Promotion terms" },
+    { "type": "text", "id": "terms_title", "label": "Title", "default": "Promotion terms" },
+    { "type": "richtext", "id": "terms", "label": "Terms", "info": "Add the exact start/end time and timezone once confirmed. Never list a discount that isn't approved." },
+    { "type": "text", "id": "terms_after", "label": "Terms after the sale", "default": "This promotion has ended." },
+    { "type": "header", "content": "Mobile buy bar" },
+    { "type": "checkbox", "id": "show_dock", "label": "Show the sticky buy bar on phones", "default": true, "info": "Shows the product the shopper last picked, only after its own Add to cart has scrolled away. Hidden over the deals, gifting and this section." }
+  ],
+  "presets": [{ "name": "Cyber Monday: Final CTA" }]
+}
+{% endschema %}

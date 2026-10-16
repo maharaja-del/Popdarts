@@ -1,0 +1,17 @@
+{%- comment -%}
+  Lazy, muted gameplay clip with a pause/play toggle (WCAG 2.2.2). Loads only near the viewport,
+  never autoplays with reduced motion or Save-Data. start/end loop only a clean part of the clip.
+  Params: id, src (mp4 URL), poster (URL), start, end, focus (vertical % for cropping), autoplay (bool), label
+{%- endcomment -%}
+<div class="pdcm-clip" style="--fy: {{ focus | default: 50 }}%">
+  <video class="pdcm-clip__video" id="{{ id }}" data-cm-lazy data-src="{{ src }}" muted playsinline loop preload="none"
+    {%- if poster != blank %} poster="{{ poster }}"{% endif %}
+    {%- if start != blank and start != 0 %} data-cm-start="{{ start }}"{% endif %}
+    {%- if end != blank and end != 0 %} data-cm-end="{{ end }}"{% endif %}
+    {%- unless autoplay %} data-cm-autoplay="false"{% endunless %}
+    aria-label="{{ label | escape }}"></video>
+  <button type="button" class="pdcm-clip__toggle" data-cm-video-toggle aria-controls="{{ id }}" aria-pressed="false" data-label-play="Play video" data-label-pause="Pause video">
+    <svg class="pdcm-clip__icon-play" width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 4.5v11l9-5.5z" fill="currentColor"/></svg>
+    <svg class="pdcm-clip__icon-pause" width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><path d="M6 4.5h3v11H6zM11 4.5h3v11h-3z" fill="currentColor"/></svg>
+  </button>
+</div>

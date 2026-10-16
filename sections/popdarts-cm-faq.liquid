@@ -1,0 +1,74 @@
+{%- assign st = section.settings -%}
+{% render 'popdarts-cm-assets' %}
+<section class="pdcm pdcm-faq" id="cm-faq" aria-labelledby="cm-faq-title-{{ section.id }}">
+  <div class="pdcm-wrap pdcm-faq__grid">
+    <div class="pdcm-faq__head">
+      <p class="pdcm-eyebrow">{{ st.eyebrow }}</p>
+      <h2 class="pdcm-h2" id="cm-faq-title-{{ section.id }}">{{ st.heading }}</h2>
+      {%- if st.sub != blank -%}<div class="pdcm-lead">{{ st.sub }}</div>{%- endif -%}
+      {%- if st.all_text != blank -%}<a class="pdcm-btn pdcm-btn--outline" href="{{ st.all_link | default: '/pages/faqs' }}">{{ st.all_text }}</a>{%- endif -%}
+    </div>
+    <div class="pdcm-faq__list" data-cm-accordion>
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign b = block.settings
+          assign when = ''
+          case b.show_in
+            when 'live'
+              assign when = 'live'
+            when 'before'
+              assign when = 'before'
+            when 'after'
+              assign when = 'after'
+            when 'not_after'
+              assign when = 'before live'
+          endcase
+          assign qid = 'cm-q-' | append: block.id
+          assign aid = 'cm-a-' | append: block.id
+        -%}
+        <div class="pdcm-faq__item"{% if b.anchor != blank %} id="{{ b.anchor | handleize }}"{% endif %} data-cm-faq{% if when != blank %} data-cm-when="{{ when }}"{% endif %} {{ block.shopify_attributes }}>
+          <h3 class="pdcm-faq__h">
+            <button type="button" class="pdcm-faq__q" id="{{ qid }}" aria-expanded="false" aria-controls="{{ aid }}" data-cm-q>
+              <span>{{ b.question }}</span><span class="pdcm-faq__icon" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="pdcm-faq__a" id="{{ aid }}" role="region" aria-labelledby="{{ qid }}" hidden>{{ b.answer }}</div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cyber Monday: FAQ",
+  "tag": "div",
+  "class": "pdcm-faq-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Good to know" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Cyber Monday FAQ" },
+    { "type": "richtext", "id": "sub", "label": "Text", "default": "<p>Still have a question? Email <a href=\"mailto:Support@popdartsgame.com\">Support@popdartsgame.com</a>.</p>" },
+    { "type": "text", "id": "all_text", "label": "Button", "default": "All FAQs" },
+    { "type": "url", "id": "all_link", "label": "Button link", "info": "Empty = /pages/faqs" }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "info": "Use verified store policy only." },
+        { "type": "text", "id": "anchor", "label": "Link anchor", "info": "Optional. e.g. cm-rookie-pro lets other sections link here (#cm-rookie-pro) and opens this answer." },
+        { "type": "select", "id": "show_in", "label": "Show", "options": [
+          { "value": "all", "label": "Always" },
+          { "value": "not_after", "label": "Before and during the sale" },
+          { "value": "live", "label": "Only during the sale" },
+          { "value": "before", "label": "Only before the sale" },
+          { "value": "after", "label": "Only after the sale" }
+        ], "default": "all" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Cyber Monday: FAQ" }]
+}
+{% endschema %}

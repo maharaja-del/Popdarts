@@ -1,0 +1,80 @@
+{%- comment -%}
+  Cyber Monday offer gate for ONE variant — the single rule set behind every price label on the page.
+  Savings are only ever Shopify's real price vs compare-at price (what checkout charges). Nothing is computed.
+
+  Params:
+    variant, product
+    status     'none' | 'standard' | 'extended'   (deal block "Offer approval"; default none)
+    confirmed  true once the team confirms compare-at is the genuine regular price
+    approved   true once Daniel's approval for the extended (up to 30%) offer is recorded
+    skus       optional comma-separated SKUs the extended approval covers (blank = whole product)
+    protected  true = retail-protected product, never shown above 20% (default ON in the block)
+
+  Rules:
+    cap      = 0 none · 20 standard · 30 extended only when approved (+ SKU listed) and not protected · Elite always 0
+    allowed  = price_cents >= floor(compare_cents × (100 − cap) / 100)   (exact cents; Liquid integer division floors,
+               which gives the half-cent tolerance real "20% off" prices need: 3199 vs 3999 passes, a 20.9% price does not)
+    shown %  = floor((compare − price) × 100 / compare)   (never overstates: Rookie 16.67% shows 16)
+
+  Output (pipe-separated): pct|show|reason|cap
+    reason: ok | none | not_approved | not_confirmed | elite | over_cap
+{%- endcomment -%}
+{%- liquid
+  assign pct = 0
+  assign price = variant.price | plus: 0
+  assign compare = variant.compare_at_price | plus: 0
+  if compare > price
+    assign pct = compare | minus: price | times: 100 | divided_by: compare | floor
+  endif
+
+  assign hay = product.handle | append: ' ' | append: product.title | downcase
+  assign tag_list = product.tags | join: ',' | downcase
+  assign is_elite = false
+  if hay contains 'elite' or tag_list contains 'elite'
+    assign is_elite = true
+  endif
+
+  assign cap = 0
+  if status == 'standard'
+    assign cap = 20
+  elsif status == 'extended'
+    assign cap = 20
+    if approved
+      if skus == blank
+        assign cap = 30
+      else
+        assign sku_list = skus | remove: ' ' | downcase | prepend: ',' | append: ','
+        assign needle = variant.sku | downcase | prepend: ',' | append: ','
+        if variant.sku != blank and sku_list contains needle
+          assign cap = 30
+        endif
+      endif
+    endif
+  endif
+  if protected and cap > 20
+    assign cap = 20
+  endif
+  if is_elite
+    assign cap = 0
+  endif
+
+  assign keep = 100 | minus: cap
+  assign floor_price = compare | times: keep | divided_by: 100 | floor
+
+  assign show = 'no'
+  assign reason = 'ok'
+  if compare <= price
+    assign reason = 'none'
+  elsif is_elite
+    assign reason = 'elite'
+  elsif status == 'none' or status == blank
+    assign reason = 'not_approved'
+  elsif confirmed != true
+    assign reason = 'not_confirmed'
+  elsif price < floor_price
+    assign reason = 'over_cap'
+  else
+    assign show = 'yes'
+  endif
+  echo pct | append: '|' | append: show | append: '|' | append: reason | append: '|' | append: cap
+-%}
