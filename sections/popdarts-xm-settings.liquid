@@ -1,0 +1,123 @@
+{%- comment -%}
+  Christmas campaign settings — no visible output for shoppers. Keep it FIRST in the template.
+  Holds the one campaign clock the page reads and sets <html data-cm-state="before|live|after">
+  before the rest of the page paints, so expired promo messaging never flashes.
+{%- endcomment -%}
+{%- liquid
+  assign mode = section.settings.mode | default: 'before'
+  assign tz = section.settings.timezone | default: '-05:00'
+  if tz == 'custom'
+    assign tz = section.settings.timezone_offset | strip
+  endif
+  assign tz_valid = true
+  assign tz_sign = tz | slice: 0, 1
+  if tz.size != 6 or tz_sign != '+' and tz_sign != '-'
+    assign tz_valid = false
+  endif
+
+  assign start_raw = section.settings.start_at | strip
+  assign end_raw = section.settings.end_at | strip
+  assign start_iso = ''
+  assign end_iso = ''
+  assign start_bad = false
+  assign end_bad = false
+  if start_raw != blank
+    if start_raw.size == 16
+      assign start_iso = start_raw | replace: ' ', 'T' | append: ':00' | append: tz
+    else
+      assign start_bad = true
+    endif
+  endif
+  if end_raw != blank
+    if end_raw.size == 16
+      assign end_iso = end_raw | replace: ' ', 'T' | append: ':00' | append: tz
+    else
+      assign end_bad = true
+    endif
+  endif
+  if tz_valid == false
+    assign start_iso = ''
+    assign end_iso = ''
+  endif
+
+  assign confirmed = section.settings.deadline_confirmed
+  if end_iso == blank
+    assign confirmed = false
+  endif
+-%}
+<script type="application/json" data-cm-clock>
+  {
+    "mode": {{ mode | json }},
+    "start": {% if start_iso != blank %}{{ start_iso | json }}{% else %}null{% endif %},
+    "end": {% if end_iso != blank %}{{ end_iso | json }}{% else %}null{% endif %},
+    "confirmed": {{ confirmed | json }}
+  }
+</script>
+<script>
+  (function () {
+    try {
+      var c = JSON.parse(document.querySelector('script[data-cm-clock]').textContent), n = Date.now(), s = 'live';
+      if (c.mode === 'live' || c.mode === 'after' || c.mode === 'before') s = c.mode;
+      else if (!c.start || n < new Date(c.start).getTime()) s = 'before';
+      else if (c.end && n >= new Date(c.end).getTime()) s = 'after';
+      document.documentElement.setAttribute('data-cm-state', s);
+    } catch (e) {}
+  })();
+</script>
+
+{%- if request.design_mode -%}
+  {%- liquid
+    assign notes = ''
+    if start_bad
+      assign notes = notes | append: '<li>Start time must look like 2026-11-30 09:00 — it is being ignored.</li>'
+    endif
+    if end_bad
+      assign notes = notes | append: '<li>End time must look like 2026-11-30 23:59 — it is being ignored.</li>'
+    endif
+    if tz_valid == false
+      assign notes = notes | append: '<li>Custom timezone must look like -05:00 — times are being ignored until it is fixed.</li>'
+    endif
+    if mode == 'auto' and start_iso == blank
+      assign notes = notes | append: '<li>Automatic mode has no valid start time, so the page stays in the pre-sale state.</li>'
+    endif
+    if mode == 'auto' and end_iso == blank
+      assign notes = notes | append: '<li>Automatic mode needs an end time to switch to the post-sale state.</li>'
+    endif
+    if section.settings.deadline_confirmed and end_iso == blank
+      assign notes = notes | append: '<li>"Deadline confirmed" is ticked but there is no valid end time, so no countdown is shown.</li>'
+    endif
+  -%}
+  <div class="pdcm pdcm--xmas pdcm-editor-note" role="note">
+    <strong>Christmas · campaign settings</strong>
+    <span>State: <b>{{ mode }}</b>{% if start_iso != blank %} · starts {{ start_iso }}{% endif %}{% if end_iso != blank %} · ends {{ end_iso }}{% endif %} · countdown {% if confirmed %}ON{% else %}off (deadline not confirmed){% endif %}. Only visible in the theme editor.</span>
+    {%- if notes != blank -%}<ul>{{ notes }}</ul>{%- endif -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Christmas: Settings",
+  "tag": "div",
+  "class": "pdcm-settings-section",
+  "settings": [
+    { "type": "paragraph", "content": "Keep this section first. It controls when promo messaging shows and hides. It does NOT create discounts — set sale prices (compare-at) in Shopify and approve each product in the deals section." },
+    { "type": "select", "id": "mode", "label": "Campaign state", "options": [
+      { "value": "before", "label": "Pre-sale (manual) — no savings shown" },
+      { "value": "live", "label": "Sale is live (manual)" },
+      { "value": "auto", "label": "Automatic — switch by the times below" },
+      { "value": "after", "label": "Sale ended — post-sale (manual)" }
+    ], "default": "before", "info": "Automatic needs a valid start time (otherwise it stays pre-sale) and an end time to switch to post-sale." },
+    { "type": "text", "id": "start_at", "label": "Start time", "placeholder": "2026-11-30 00:00", "info": "YYYY-MM-DD HH:MM, 24-hour, in the timezone below. Leave empty if not confirmed." },
+    { "type": "text", "id": "end_at", "label": "End time", "placeholder": "2026-11-30 23:59", "info": "YYYY-MM-DD HH:MM, 24-hour. Leave empty if not confirmed." },
+    { "type": "select", "id": "timezone", "label": "Timezone of the times above", "options": [
+      { "value": "-05:00", "label": "Eastern (ET, UTC−05:00 in late Nov)" },
+      { "value": "-06:00", "label": "Central (CT, UTC−06:00)" },
+      { "value": "-07:00", "label": "Mountain (MT, UTC−07:00)" },
+      { "value": "-08:00", "label": "Pacific (PT, UTC−08:00)" },
+      { "value": "custom", "label": "Custom offset" }
+    ], "default": "-05:00" },
+    { "type": "text", "id": "timezone_offset", "label": "Custom offset", "placeholder": "-05:00", "info": "Only used when the timezone is Custom." },
+    { "type": "checkbox", "id": "deadline_confirmed", "label": "Deadline is confirmed — show countdown", "default": false, "info": "Leave off until the exact end time is approved. No countdown or end time is shown while this is off." }
+  ]
+}
+{% endschema %}

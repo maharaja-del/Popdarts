@@ -787,6 +787,7 @@ html:not([data-cm-state]) .pdcm-rail__slide:has(> [data-cm-when]:not([data-cm-wh
   .pdcm-final__bg::after { background: linear-gradient(0deg, rgba(7, 8, 13, 1) 0%, rgba(7, 8, 13, 0.85) 48%, rgba(7, 8, 13, 0.2) 100%); }
   .pdcm-final__bg.is-stage::after { background: linear-gradient(0deg, rgba(7, 8, 13, 1) 0%, rgba(7, 8, 13, 0.6) 46%, rgba(7, 8, 13, 0) 70%); }
   .pdcm-final__art { left: 0; width: 100%; bottom: auto; height: 260px; opacity: 1; }
+  .pdcm-final__stage:has(.pdcm-final__bg.is-stage) .pdcm-final__copy { padding-top: 250px; }
   .pdcm-final__title { font-size: 42px; }
   .pdcm-final__sub { font-size: 16px; }
   .pdcm-final__actions { display: grid; grid-template-columns: minmax(0, 1fr); width: 100%; }

@@ -1,0 +1,71 @@
+/* ==========================================================================
+   Popdarts — Christmas landing page layer (.pdcm--xmas). Loaded after popdarts-cm.css: the Christmas page runs on the
+   same engine and layout as Cyber Monday; only the light and the accents change.
+   - Products: the store's own cutouts in warm fireside light (instead of electric blue).
+   - Christmas red for gift tags, the ribbon strip and the gameplay band; Popdarts lime stays for prices and buttons.
+   - No decorative motifs: no snow, ornaments, rings or background numbers.
+   Contrast: white on --xm-red-deep #b42a22 6.4:1 · white on --xm-red #d63a2f 4.6:1 · lime on night 13:1.
+   ========================================================================== */
+.pdcm--xmas {
+  --xm-red: #d63a2f;
+  --xm-red-deep: #b42a22;
+  --xm-warm: 255, 196, 138;
+}
+
+/* ---------- fireside stage (hero card, deal cards, gift tiers, finale) ---------- */
+.pdcm--xmas .pdcm-media--cyber,
+.pdcm--xmas .pdcm-gcard__media.pdcm-gcard__art,
+.pdcm--xmas .pdcm-final__bg.is-stage {
+  background:
+    radial-gradient(56% 46% at 50% 64%, rgba(var(--xm-warm), 0.4) 0%, rgba(214, 58, 47, 0.14) 50%, rgba(214, 58, 47, 0) 74%),
+    radial-gradient(90% 60% at 50% 100%, rgba(var(--xm-warm), 0.1) 0%, rgba(var(--xm-warm), 0) 70%),
+    linear-gradient(180deg, #13111a 0%, #0a0910 62%, #07070b 100%);
+}
+.pdcm--xmas.pdcm-hero {
+  background:
+    radial-gradient(52% 70% at 76% 46%, rgba(var(--xm-warm), 0.12) 0%, rgba(var(--xm-warm), 0) 70%),
+    radial-gradient(46% 60% at 0% 100%, rgba(214, 58, 47, 0.16) 0%, rgba(214, 58, 47, 0) 70%),
+    var(--night);
+}
+
+/* ---------- section labels + gift tags in Christmas red ---------- */
+.pdcm--xmas .pdcm-eyebrow::before, .pdcm--xmas .pdcm-tag__dot { background: var(--xm-red); }
+.pdcm--xmas .pdcm-chip--sale,
+.pdcm--xmas .pdcm-gcard__save {
+  position: relative; padding-left: 21px; border-radius: 4px 6px 6px 4px; background: var(--xm-red); color: #fff; box-shadow: none;
+  clip-path: polygon(10px 0, 100% 0, 100% 100%, 10px 100%, 0 50%);
+}
+.pdcm--xmas .pdcm-media .pdcm-chip--sale { position: absolute; }
+.pdcm--xmas .pdcm-chip--sale::before,
+.pdcm--xmas .pdcm-gcard__save::before { content: ""; position: absolute; left: 9px; top: 50%; width: 5px; height: 5px; margin-top: -2.5px; border-radius: 50%; background: rgba(0, 0, 0, 0.38); }
+
+/* ---------- red ribbon strip (trust points) ---------- */
+.pdcm--xmas .pdcm-trustbar { background: var(--xm-red-deep); color: #fff; }
+.pdcm--xmas .pdcm-trustbar__item,
+.pdcm--xmas .pdcm-trustbar__item svg,
+.pdcm--xmas .pdcm-trustbar .pdcm-rating,
+.pdcm--xmas .pdcm-trustbar .pdcm-rating__count,
+.pdcm--xmas .pdcm-trustbar .pdcm-rating__num { color: #fff; }
+.pdcm--xmas .pdcm-trustbar .pdcm-rating__stars { background: rgba(255, 255, 255, 0.32); }
+.pdcm--xmas .pdcm-trustbar .pdcm-rating__fill { background: #fff; }
+
+/* ---------- Christmas delivery cutoff (shown only once the team confirms it) ---------- */
+.pdcm-cutoff { display: inline-flex; align-items: center; gap: 10px; justify-self: start; padding: 10px 16px; border: 1px solid rgba(214, 58, 47, 0.7); border-radius: 999px; background: rgba(214, 58, 47, 0.16); color: #fff; font-size: 15px; font-weight: 800; line-height: 1.2; }
+.pdcm-cutoff svg { flex-shrink: 0; color: #ff8a80; }
+
+/* ---------- gameplay band in deep Christmas red ---------- */
+.pdcm--xmas.pdcm-play { background: var(--xm-red-deep); color: #fff; }
+.pdcm--xmas.pdcm-play .pdcm-h2,
+.pdcm--xmas.pdcm-play .pdcm-lead,
+.pdcm--xmas.pdcm-play .pdcm-play__foot,
+.pdcm--xmas.pdcm-play .pdcm-eyebrow,
+.pdcm--xmas.pdcm-play .pdcm-play__links .pdcm-link { color: #fff; }
+.pdcm--xmas.pdcm-play .pdcm-eyebrow::before { background: #fff; }
+.pdcm--xmas.pdcm-play .pdcm-btn--outline-ink { color: #fff; border-color: #fff; }
+@media (hover: hover) { .pdcm--xmas.pdcm-play .pdcm-btn--outline-ink:hover { background: rgba(255, 255, 255, 0.1); } }
+.pdcm--xmas.pdcm-play :focus-visible { outline-color: #fff; }
+
+@media (max-width: 767px) {
+  .pdcm--xmas.pdcm-hero { background: radial-gradient(90% 40% at 50% 46%, rgba(var(--xm-warm), 0.16) 0%, rgba(var(--xm-warm), 0) 70%), var(--night); }
+  .pdcm-cutoff { padding: 8px 12px; font-size: 13px; }
+}

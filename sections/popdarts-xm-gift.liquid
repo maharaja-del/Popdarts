@@ -1,0 +1,186 @@
+{%- comment -%}
+  Christmas gift deals: one card per budget tier — three across on desktop, a swipe rail on phones. A tier with no
+  title is labelled from today's prices ("Gifts under $25"). Art = transparent product cutouts on the cyber stage.
+  "Save up to N%" is filled by popdarts-cm.js from the approval register only. "Strip" blocks (the gift card) run full width.
+  Every row has its own colour dropdown and Add button (snippets/popdarts-cm-row) — nothing jumps to another section.
+  Savings are never computed here — popdarts-cm.js mirrors approved savings from [data-cm-register] by variant id.
+{%- endcomment -%}
+{%- assign st = section.settings -%}
+{% render 'popdarts-cm-assets' %}{% render 'popdarts-xm-assets' %}
+<section class="pdcm pdcm--xmas pdcm-gift" id="cm-gift" aria-labelledby="cm-gift-title-{{ section.id }}" data-cm-dock-stop>
+  <div class="pdcm-wrap">
+    <div class="pdcm-head">
+      <p class="pdcm-eyebrow">{{ st.eyebrow }}</p>
+      <h2 class="pdcm-h2" id="cm-gift-title-{{ section.id }}">{{ st.heading }}</h2>
+      {%- if st.sub != blank -%}<p class="pdcm-lead">{{ st.sub }}</p>{%- endif -%}
+    </div>
+
+    <div class="pdcm-rail pdcm-gift__rail" data-cm-rail>
+      <div class="pdcm-gift__grid" data-cm-track role="list">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.layout == 'strip' -%}{%- continue -%}{%- endif -%}
+          {%- liquid
+            assign b = block.settings
+            assign media_id = 'cm-gclip-' | append: block.id
+            assign poster = ''
+            if b.video_poster != blank
+              assign poster = b.video_poster | image_url: width: 720
+            elsif b.video_poster_asset != blank
+              assign poster = b.video_poster_asset | asset_url
+            endif
+            assign tier_label = b.label
+            if tier_label == blank
+              assign maxp = 0
+              for p in b.products limit: 3
+                if p.price_max > maxp
+                  assign maxp = p.price_max
+                endif
+              endfor
+              assign cap = 0
+              if maxp > 0 and maxp <= 2500
+                assign cap = 25
+              elsif maxp > 2500 and maxp <= 5000
+                assign cap = 50
+              elsif maxp > 5000 and maxp <= 10000
+                assign cap = 100
+              elsif maxp > 10000 and maxp <= 20000
+                assign cap = 200
+              endif
+              if cap > 0
+                assign tier_label = st.tier_label | replace: '[amount]', cap
+              else
+                assign tier_label = st.tier_big
+              endif
+            endif
+            assign art = b.art | split: ','
+          -%}
+          <article class="pdcm-gcard pdcm-rail__slide{% if b.media_tone == 'night' %} is-night{% endif %}" role="listitem" aria-labelledby="cm-gcard-{{ block.id }}" data-cm-tier {{ block.shopify_attributes }}>
+            <div class="pdcm-gcard__media pdcm-gcard__media--{{ b.media_kind }}{% if b.art != blank %} pdcm-gcard__art pdcm-gcard__art--{{ art.size | at_most: 3 }}{% endif %}" style="--fy: {{ b.focus_y | default: 50 }}%">
+              {%- if b.art != blank -%}
+                {%- for a in art limit: 3 -%}
+                  {%- assign an = a | strip -%}
+                  <img class="pdcm-gcard__cut" src="{{ an | asset_url }}" alt="" width="900" height="900" loading="lazy" decoding="async">
+                {%- endfor -%}
+              {%- elsif b.media_kind == 'video' and b.video_url != blank -%}
+                {% render 'popdarts-cm-video', id: media_id, src: b.video_url, poster: poster, start: b.video_start, end: b.video_end, focus: b.focus_y, autoplay: false, label: b.label %}
+              {%- elsif b.image != blank -%}
+                {{ b.image | image_url: width: 1000 | image_tag: widths: '450, 600, 800, 1000', sizes: '(min-width: 990px) 410px, 86vw', loading: 'lazy', alt: b.image_alt }}
+              {%- elsif b.image_asset != blank -%}
+                <img src="{{ b.image_asset | asset_url }}" alt="{{ b.image_alt | escape }}" width="1600" height="1000" loading="lazy" decoding="async">
+              {%- endif -%}
+            </div>
+            <div class="pdcm-gcard__body">
+              <p class="pdcm-gcard__save" data-cm-tier-save data-cm-when="live" hidden></p>
+              <h3 class="pdcm-gcard__title" id="cm-gcard-{{ block.id }}">{{ tier_label }}</h3>
+              {%- if b.blurb != blank -%}<p class="pdcm-gcard__blurb">{{ b.blurb }}</p>{%- endif -%}
+              <ul class="pdcm-rows">
+                {%- for p in b.products limit: 3 -%}
+                  {%- liquid
+                    assign hay = p.handle | append: ' ' | append: p.title | downcase
+                    assign skip = false
+                    if hay contains 'elite' or hay contains 'slightly' or hay contains 'returned' or p.available == false
+                      assign skip = true
+                    endif
+                  -%}
+                  {%- if skip -%}{%- continue -%}{%- endif -%}
+                  {%- assign uid = block.id | append: '-' | append: forloop.index -%}
+                  {% render 'popdarts-cm-row', product: p, uid: uid, hide: st.hide_variants, kind: 'row' %}
+                {%- endfor -%}
+              </ul>
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+      <div class="pdcm-rail__nav pdcm-gift__nav">
+        <span class="pdcm-dots" data-cm-dots data-label-prefix="Show gift idea"></span>
+      </div>
+    </div>
+
+    {%- for block in section.blocks -%}
+      {%- if block.settings.layout != 'strip' -%}{%- continue -%}{%- endif -%}
+      {%- liquid
+            assign b = block.settings
+            assign media_id = 'cm-gclip-' | append: block.id
+            assign poster = ''
+            if b.video_poster != blank
+              assign poster = b.video_poster | image_url: width: 720
+            elsif b.video_poster_asset != blank
+              assign poster = b.video_poster_asset | asset_url
+            endif
+          -%}
+      <article class="pdcm-gstrip{% if b.media_tone == 'night' %} is-night{% endif %}" aria-labelledby="cm-gcard-{{ block.id }}" {{ block.shopify_attributes }}>
+        <div class="pdcm-gstrip__media" style="--fy: {{ b.focus_y | default: 50 }}%">
+              {%- if b.media_kind == 'video' and b.video_url != blank -%}
+                {% render 'popdarts-cm-video', id: media_id, src: b.video_url, poster: poster, start: b.video_start, end: b.video_end, focus: b.focus_y, autoplay: false, label: b.label %}
+              {%- elsif b.image != blank -%}
+                {{ b.image | image_url: width: 1000 | image_tag: widths: '450, 600, 800, 1000', sizes: '(min-width: 990px) 240px, 40vw', loading: 'lazy', alt: b.image_alt }}
+              {%- elsif b.image_asset != blank -%}
+                <img src="{{ b.image_asset | asset_url }}" alt="{{ b.image_alt | escape }}" width="1600" height="1000" loading="lazy" decoding="async">
+              {%- endif -%}
+        </div>
+        <div class="pdcm-gstrip__copy">
+          <h3 class="pdcm-gcard__title" id="cm-gcard-{{ block.id }}">{{ b.label }}</h3>
+          {%- if b.blurb != blank -%}<p class="pdcm-gcard__blurb">{{ b.blurb }}</p>{%- endif -%}
+        </div>
+        <div class="pdcm-gstrip__rows">
+              <ul class="pdcm-rows">
+                {%- for p in b.products limit: 3 -%}
+                  {%- liquid
+                    assign hay = p.handle | append: ' ' | append: p.title | downcase
+                    assign skip = false
+                    if hay contains 'elite' or hay contains 'slightly' or hay contains 'returned' or p.available == false
+                      assign skip = true
+                    endif
+                  -%}
+                  {%- if skip -%}{%- continue -%}{%- endif -%}
+                  {%- assign uid = block.id | append: '-' | append: forloop.index -%}
+                  {% render 'popdarts-cm-row', product: p, uid: uid, hide: st.hide_variants, kind: 'row' %}
+                {%- endfor -%}
+              </ul>
+        </div>
+      </article>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Christmas: Gifting",
+  "tag": "div",
+  "class": "pdcm-gift-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Christmas gift guide" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Christmas gifts by budget." },
+    { "type": "text", "id": "sub", "label": "Text", "default": "Gifts they'll actually play with — sorted by what you want to spend." },
+    { "type": "text", "id": "tier_label", "label": "Automatic tier title", "default": "Gifts under $[amount]", "info": "Used when a tier has no title. [amount] = 25, 50, 100 or 200 from the products' current prices." },
+    { "type": "text", "id": "tier_big", "label": "Title above $200", "default": "The big gift" },
+    { "type": "text", "id": "hide_variants", "label": "Hide colorways", "default": "Halloween", "info": "Comma-separated variant names left out of the dropdowns." }
+  ],
+  "blocks": [
+    {
+      "type": "gift_tab",
+      "name": "Gift idea",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Title", "info": "Empty = automatic budget title, e.g. Gifts under $25." },
+        { "type": "text", "id": "art", "label": "Cutout art (theme assets)", "info": "Up to 3 comma-separated cutouts, e.g. pd-cm-cut-rookie-pack-blue-green.webp. Replaces the photo." },
+        { "type": "select", "id": "layout", "label": "Layout", "options": [{ "value": "card", "label": "Card (photo on top)" }, { "value": "strip", "label": "Full-width strip" }], "default": "card", "info": "Strips run under the cards — use for the gift card." },
+        { "type": "textarea", "id": "blurb", "label": "Text" },
+        { "type": "product_list", "id": "products", "label": "Products", "limit": 3, "info": "Sold-out, Elite and returned products are skipped." },
+        { "type": "select", "id": "media_kind", "label": "Media", "options": [{ "value": "image", "label": "Image" }, { "value": "video", "label": "Video (plays on tap)" }], "default": "image" },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "image_asset", "label": "Image (theme asset)", "info": "Used when no image is picked, e.g. pd-hero-dart-strike.jpg" },
+        { "type": "text", "id": "image_alt", "label": "Image description" },
+        { "type": "select", "id": "media_tone", "label": "Media background", "options": [{ "value": "light", "label": "Light" }, { "value": "night", "label": "Night (for dark artwork like the gift card)" }], "default": "light" },
+        { "type": "text", "id": "video_url", "label": "Video MP4 URL" },
+        { "type": "image_picker", "id": "video_poster", "label": "Video poster" },
+        { "type": "text", "id": "video_poster_asset", "label": "Video poster (theme asset)" },
+        { "type": "number", "id": "video_start", "label": "Video start (seconds)" },
+        { "type": "number", "id": "video_end", "label": "Video loop back at (seconds)" },
+        { "type": "range", "id": "focus_y", "label": "Crop focus (vertical)", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 50 }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [{ "name": "Christmas: Gifting" }]
+}
+{% endschema %}

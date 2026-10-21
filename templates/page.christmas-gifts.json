@@ -1,0 +1,572 @@
+{
+  "sections": {
+    "settings": {
+      "type": "popdarts-xm-settings",
+      "settings": {
+        "mode": "before",
+        "start_at": "",
+        "end_at": "",
+        "timezone": "-05:00",
+        "timezone_offset": "",
+        "deadline_confirmed": false
+      }
+    },
+    "deals": {
+      "type": "popdarts-xm-deals",
+      "settings": {
+        "hero_product": "rookie-pack",
+        "hero_fallback": "pro-pack",
+        "hide_variants": "Halloween",
+        "hero_zoom": 100,
+        "hero_focus": 60,
+        "only_discounted": true,
+        "show_soldout": false,
+        "sort": "listed",
+        "hero_cyber": true,
+        "hero_bg_asset": "",
+        "hero_bg_x": 62,
+        "hero_bg_y": 30,
+        "hero_bg_x_mobile": 8,
+        "hero_bg_y_mobile": 12,
+        "hero_contents": "6 Popdarts · Target Marker · carrying bag with rules · stickers",
+        "hero_panel_label": "The family gift",
+        "cutoff_confirmed": false,
+        "cutoff_date": "",
+        "cutoff_text": "Order by [date] for Christmas delivery",
+        "tab_1": "Family game sets",
+        "tab_2": "Swaptop™ tops",
+        "tab_3": "Stocking stuffers",
+        "exclusions": "Not included: Elite products, gift cards and slightly used or returned items. Sale items are final sale."
+      },
+      "blocks": {
+        "rookie": {
+          "type": "deal",
+          "settings": {
+            "product": "rookie-pack",
+            "tab": "1",
+            "offer": "none",
+            "compare_confirmed": false,
+            "protected": true,
+            "extended_approved": false,
+            "extended_skus": "",
+            "approval_ref": "",
+            "note": "The family gift: 6 Popdarts + Target Marker, made for ages 5 to 95.",
+            "image_number": 0,
+            "image_style": "cyber",
+            "zoom": 100,
+            "focus_x": 50,
+            "focus_y": 50
+          }
+        },
+        "pro": {
+          "type": "deal",
+          "settings": {
+            "product": "pro-pack",
+            "tab": "1",
+            "offer": "none",
+            "compare_confirmed": false,
+            "protected": true,
+            "extended_approved": false,
+            "extended_skus": "",
+            "approval_ref": "",
+            "note": "For the competitor: the PRO Target Marker™ adds the 10-point shot.",
+            "image_number": 0,
+            "image_style": "cyber",
+            "zoom": 105,
+            "focus_x": 50,
+            "focus_y": 50
+          }
+        },
+        "kit": {
+          "type": "deal",
+          "settings": {
+            "product": "swaptop-kit",
+            "tab": "1",
+            "offer": "none",
+            "compare_confirmed": false,
+            "protected": true,
+            "extended_approved": false,
+            "extended_skus": "",
+            "approval_ref": "",
+            "note": "The big gift: frame, double-sided top, 6 darts and a carrying case.",
+            "image_number": 0,
+            "image_style": "cyber",
+            "zoom": 120,
+            "focus_x": 100,
+            "focus_y": 60
+          }
+        },
+        "og": {
+          "type": "deal",
+          "settings": {
+            "product": "swaptop-og",
+            "tab": "2",
+            "offer": "none",
+            "compare_confirmed": false,
+            "protected": true,
+            "extended_approved": false,
+            "extended_skus": "",
+            "approval_ref": "",
+            "note": "",
+            "image_number": 0,
+            "image_style": "studio",
+            "zoom": 110,
+            "focus_x": 50,
+            "focus_y": 50
+          }
+        },
+        "football": {
+          "type": "deal",
+          "settings": {
+            "product": "swaptop-football",
+            "tab": "2",
+            "offer": "none",
+            "compare_confirmed": false,
+            "protected": true,
+            "extended_approved": false,
+            "extended_skus": "",
+            "approval_ref": "",
+            "note": "",
+            "image_number": 0,
+            "image_style": "studio",
+            "zoom": 110,
+            "focus_x": 50,
+            "focus_y": 50
+          }
+        },
+        "golf": {
+          "type": "deal",
+          "settings": {
+            "product": "swaptop-popgolf",
+            "tab": "2",
+            "offer": "none",
+            "compare_confirmed": false,
+            "protected": true,
+            "extended_approved": false,
+            "extended_skus": "",
+            "approval_ref": "",
+            "note": "",
+            "image_number": 0,
+            "image_style": "studio",
+            "zoom": 110,
+            "focus_x": 50,
+            "focus_y": 50
+          }
+        },
+        "temple": {
+          "type": "deal",
+          "settings": {
+            "product": "swaptop™-temple-toss",
+            "tab": "2",
+            "offer": "none",
+            "compare_confirmed": false,
+            "protected": true,
+            "extended_approved": false,
+            "extended_skus": "",
+            "approval_ref": "",
+            "note": "",
+            "image_number": 0,
+            "image_style": "studio",
+            "zoom": 110,
+            "focus_x": 50,
+            "focus_y": 50
+          }
+        },
+        "baseball": {
+          "type": "deal",
+          "settings": {
+            "product": "swaptop™-golf-copy",
+            "tab": "2",
+            "offer": "none",
+            "compare_confirmed": false,
+            "protected": true,
+            "extended_approved": false,
+            "extended_skus": "",
+            "approval_ref": "",
+            "note": "",
+            "image_number": 0,
+            "image_style": "studio",
+            "zoom": 100,
+            "focus_x": 50,
+            "focus_y": 50
+          }
+        },
+        "cooler": {
+          "type": "deal",
+          "settings": {
+            "product": "popdarts-can-cooler-1",
+            "tab": "3",
+            "offer": "none",
+            "compare_confirmed": false,
+            "protected": true,
+            "extended_approved": false,
+            "extended_skus": "",
+            "approval_ref": "",
+            "note": "",
+            "image_number": 0,
+            "image_style": "studio",
+            "zoom": 110,
+            "focus_x": 50,
+            "focus_y": 50
+          }
+        },
+        "powerspots": {
+          "type": "deal",
+          "settings": {
+            "product": "powerspots",
+            "tab": "3",
+            "offer": "none",
+            "compare_confirmed": false,
+            "protected": true,
+            "extended_approved": false,
+            "extended_skus": "",
+            "approval_ref": "",
+            "note": "Use with any Popdarts pack.",
+            "image_number": 5,
+            "image_style": "studio",
+            "zoom": 100,
+            "focus_x": 50,
+            "focus_y": 50
+          }
+        },
+        "marker": {
+          "type": "deal",
+          "settings": {
+            "product": "acc-tm",
+            "tab": "3",
+            "offer": "none",
+            "compare_confirmed": false,
+            "protected": true,
+            "extended_approved": false,
+            "extended_skus": "",
+            "approval_ref": "",
+            "note": "Needs Popdarts to play — darts not included.",
+            "image_number": 4,
+            "image_style": "studio",
+            "zoom": 100,
+            "focus_x": 50,
+            "focus_y": 50
+          }
+        },
+        "beanie": {
+          "type": "deal",
+          "settings": {
+            "product": "waffle-beanie",
+            "tab": "3",
+            "offer": "none",
+            "compare_confirmed": false,
+            "protected": true,
+            "extended_approved": false,
+            "extended_skus": "",
+            "approval_ref": "",
+            "note": "",
+            "image_number": 0,
+            "image_style": "studio",
+            "zoom": 105,
+            "focus_x": 50,
+            "focus_y": 50
+          }
+        },
+        "fivepanel": {
+          "type": "deal",
+          "settings": {
+            "product": "popdarts-five-panel-cap",
+            "tab": "3",
+            "offer": "none",
+            "compare_confirmed": false,
+            "protected": true,
+            "extended_approved": false,
+            "extended_skus": "",
+            "approval_ref": "",
+            "note": "",
+            "image_number": 0,
+            "image_style": "studio",
+            "zoom": 105,
+            "focus_x": 50,
+            "focus_y": 50
+          }
+        },
+        "trucker": {
+          "type": "deal",
+          "settings": {
+            "product": "popdarts-icon-trucker-cap",
+            "tab": "3",
+            "offer": "none",
+            "compare_confirmed": false,
+            "protected": true,
+            "extended_approved": false,
+            "extended_skus": "",
+            "approval_ref": "",
+            "note": "",
+            "image_number": 0,
+            "image_style": "photo",
+            "zoom": 130,
+            "focus_x": 50,
+            "focus_y": 12
+          }
+        }
+      },
+      "block_order": [
+        "rookie",
+        "pro",
+        "kit",
+        "og",
+        "football",
+        "golf",
+        "temple",
+        "baseball",
+        "cooler",
+        "powerspots",
+        "marker",
+        "beanie",
+        "fivepanel",
+        "trucker"
+      ]
+    },
+    "play": {
+      "type": "popdarts-xm-play",
+      "settings": {
+        "video_1_url": "https://cdn.shopify.com/videos/c/o/v/5bad56a3697e42fb8330a09598b473c1.mp4",
+        "video_1_poster_asset": "pd-cm-poster-kitchen.jpg",
+        "video_1_start": 3,
+        "video_1_end": 25.5,
+        "video_1_focus": 100,
+        "video_1_caption": "Game night at home",
+        "video_2_url": "https://cdn.shopify.com/videos/c/o/v/d0f3dd37a81e444a835ae51069650f36.mp4",
+        "video_2_poster_asset": "pd-cm-poster-arena.jpg",
+        "video_2_start": 4,
+        "video_2_end": 21.5,
+        "video_2_focus": 50,
+        "video_2_caption": "Under the arena lights"
+      }
+    },
+    "gift": {
+      "type": "popdarts-xm-gift",
+      "settings": {},
+      "blocks": {
+        "t25": {
+          "type": "gift_tab",
+          "settings": {
+            "label": "",
+            "layout": "card",
+            "blurb": "Stocking stuffers — and the Rookie Pack, a whole game made for ages 5 to 95.",
+            "products": [
+              "rookie-pack",
+              "popdarts-five-panel-cap",
+              "popdarts-can-cooler-1"
+            ],
+            "media_kind": "image",
+            "image_asset": "",
+            "image_alt": "",
+            "media_tone": "light",
+            "video_url": "",
+            "video_poster_asset": "",
+            "focus_y": 50,
+            "art": "pd-cm-cut-popdarts-five-panel-cap-red.webp, pd-cm-cut-rookie-pack-red-yellow.webp, pd-cm-cut-popdarts-can-cooler-1-default-title.webp"
+          }
+        },
+        "t50": {
+          "type": "gift_tab",
+          "settings": {
+            "label": "",
+            "layout": "card",
+            "blurb": "The Pro Pack for the competitor — plus gear for game day.",
+            "products": [
+              "pro-pack",
+              "waffle-beanie",
+              "powerspots"
+            ],
+            "media_kind": "image",
+            "image_asset": "",
+            "image_alt": "",
+            "media_tone": "light",
+            "video_url": "",
+            "video_poster_asset": "",
+            "focus_y": 50,
+            "art": "pd-cm-cut-waffle-beanie-birch.webp, pd-cm-cut-pro-pack-red-black.webp"
+          }
+        },
+        "big": {
+          "type": "gift_tab",
+          "settings": {
+            "label": "",
+            "layout": "card",
+            "blurb": "The Swaptop™ Kit: one frame, swappable tops, more ways to play together.",
+            "products": [
+              "swaptop-kit",
+              "swaptop-og",
+              "swaptop-football"
+            ],
+            "media_kind": "image",
+            "image_asset": "",
+            "image_alt": "",
+            "media_tone": "light",
+            "video_url": "",
+            "video_poster_asset": "",
+            "focus_y": 50,
+            "art": "pd-cm-cut-swaptop-kit-default-title.webp"
+          }
+        },
+        "card": {
+          "type": "gift_tab",
+          "settings": {
+            "label": "Gift card",
+            "layout": "strip",
+            "blurb": "Not sure what they'd like? Let them pick. The Popdarts e-gift card arrives as an instant code by email. Gift cards aren't discounted and can't be returned.",
+            "products": [
+              "popdarts-e-gift-card-instant-code-via-e-mail"
+            ],
+            "media_kind": "image",
+            "image_asset": "pd-cm-giftcard.jpg",
+            "image_alt": "Popdarts e-gift card",
+            "media_tone": "night",
+            "video_url": "",
+            "video_poster_asset": "",
+            "focus_y": 50
+          }
+        }
+      },
+      "block_order": [
+        "t25",
+        "t50",
+        "big",
+        "card"
+      ]
+    },
+    "proof": {
+      "type": "popdarts-xm-proof",
+      "settings": {
+        "heading": "Families love it. Seen on ESPN.",
+        "rating_products": [
+          "rookie-pack",
+          "pro-pack",
+          "swaptop-kit"
+        ],
+        "show_widget": true,
+        "reviews_product": "swaptop-kit"
+      }
+    },
+    "faq": {
+      "type": "popdarts-xm-faq",
+      "settings": {},
+      "blocks": {
+        "sale": {
+          "type": "faq",
+          "settings": {
+            "question": "What's on sale — and do I need a code?",
+            "answer": "<p>Eligible products on this page show their Christmas price and saving, and that's the price you pay — no code needed. It isn't a sitewide sale: only products showing a saving here are included. Taxes and shipping are calculated at checkout.</p>",
+            "anchor": "",
+            "show_in": "not_after"
+          }
+        },
+        "ended": {
+          "type": "faq",
+          "settings": {
+            "question": "Is Christmas pricing still on?",
+            "answer": "<p>The Christmas sale has ended, so prices are back to regular. <a href=\"/collections/all\">Shop every Popdarts game</a>.</p>",
+            "anchor": "",
+            "show_in": "after"
+          }
+        },
+        "arrive": {
+          "type": "faq",
+          "settings": {
+            "question": "Will my gift arrive in time?",
+            "answer": "<p>Orders are processed within 1–2 business days (excluding weekends and holidays) and ship with tracking. You'll see the shipping options and rates for your address at checkout — the earlier you order, the more time your gift has to arrive. See our <a href=\"/policies/shipping-policy\">Shipping Policy</a>.</p>",
+            "anchor": "",
+            "show_in": "all"
+          }
+        },
+        "returns": {
+          "type": "faq",
+          "settings": {
+            "question": "Can a gift be returned?",
+            "answer": "<p>Full-price items can be returned within 30 days if unused and in the original packaging. Sale items and gift cards are final sale. If something arrives damaged, defective or wrong, email <a href=\"mailto:Support@popdartsgame.com\">Support@popdartsgame.com</a> right away so we can make it right. See our <a href=\"/policies/refund-policy\">Refund Policy</a>.</p>",
+            "anchor": "",
+            "show_in": "all"
+          }
+        },
+        "giftcard": {
+          "type": "faq",
+          "settings": {
+            "question": "Not sure what they'd like?",
+            "answer": "<p>The Popdarts e-gift card arrives as an instant code by email, so it's the fastest gift on the page. Gift cards aren't discounted and can't be returned.</p>",
+            "anchor": "",
+            "show_in": "all"
+          }
+        },
+        "excluded": {
+          "type": "faq",
+          "settings": {
+            "question": "Is anything excluded?",
+            "answer": "<p>Yes. Elite products and gift cards are never discounted, and slightly used or returned items aren't part of this sale.</p>",
+            "anchor": "",
+            "show_in": "all"
+          }
+        },
+        "rookiepro": {
+          "type": "faq",
+          "settings": {
+            "question": "Rookie or Pro?",
+            "answer": "<p>Rookie for beginners and younger players — the Rookie Pack is made for ages 5 to 95. Pro for competitors — the Pro Pack adds the PRO Target Marker™, where landing on top scores 10. Both packs come with 6 Popdarts (3 per player), a Target Marker, a carrying bag with the rules and a built-in ruler, and stickers.</p>",
+            "anchor": "",
+            "show_in": "all"
+          }
+        },
+        "play": {
+          "type": "faq",
+          "settings": {
+            "question": "Where can we play?",
+            "answer": "<p>Anywhere with a smooth surface — glass, windows, countertops, even the fridge — indoors or out. Popdarts are suction cups, so they won't stick to textured or porous surfaces like wood.</p>",
+            "anchor": "",
+            "show_in": "all"
+          }
+        },
+        "score": {
+          "type": "faq",
+          "settings": {
+            "question": "How does scoring work?",
+            "answer": "<p>The closest Popdart to the Target Marker scores 3 points, and every other Popdart that sticks scores 1. Land on top of the PRO Target Marker™ (in the Pro Pack) for 10. It's cancellation scoring, like cornhole — first to 21 wins, and going over is allowed. <a href=\"/pages/play\">Full rules</a></p>",
+            "anchor": "",
+            "show_in": "all"
+          }
+        }
+      },
+      "block_order": [
+        "sale",
+        "ended",
+        "arrive",
+        "returns",
+        "giftcard",
+        "excluded",
+        "rookiepro",
+        "play",
+        "score"
+      ]
+    },
+    "final": {
+      "type": "popdarts-xm-final",
+      "settings": {
+        "image_asset": "",
+        "art": "pd-cm-cut-pro-pack-red-black.webp, pd-cm-cut-rookie-pack-red-yellow.webp, pd-cm-cut-swaptop-kit-default-title.webp",
+        "show_dock": true,
+        "sub": "The game everyone plays, for everyone on your list.",
+        "products": [
+          "rookie-pack",
+          "pro-pack",
+          "swaptop-kit"
+        ],
+        "terms": "<p>Christmas pricing applies from Dec 1 to Dec 20, 2026 on popdartsgame.com to eligible products shown on this page with a sale price. The saving shown on each product is already applied — no code needed; taxes and shipping are calculated at checkout. This is not a sitewide sale. Elite products, gift cards and slightly used or returned items are excluded. While supplies last; prices and availability may change.</p><p>Sale items are final sale and can't be returned (<a href=\"/policies/refund-policy\">Refund Policy</a>). If an item arrives damaged, defective or incorrect, email Support@popdartsgame.com right away. Orders are processed within 1–2 business days, excluding weekends and holidays; shipping options and rates are shown at checkout, and delivery times depend on the option you choose (<a href=\"/policies/shipping-policy\">Shipping Policy</a>). International shipping is available for select products; duties are paid by the customer.</p>"
+      }
+    }
+  },
+  "order": [
+    "settings",
+    "deals",
+    "play",
+    "gift",
+    "proof",
+    "faq",
+    "final"
+  ]
+}
