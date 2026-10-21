@@ -39,7 +39,6 @@
   --r-card: 20px;
   --r-stage: 14px;
   --ease: cubic-bezier(0.2, 0, 0, 1);
-  --rings: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20600%20600%27%20fill%3D%27none%27%20stroke%3D%27%23fff%27%20stroke-width%3D%271.2%27%3E%3Ccircle%20cx%3D%27300%27%20cy%3D%27300%27%20r%3D%2758%27%2F%3E%3Ccircle%20cx%3D%27300%27%20cy%3D%27300%27%20r%3D%27118%27%2F%3E%3Ccircle%20cx%3D%27300%27%20cy%3D%27300%27%20r%3D%27178%27%2F%3E%3Ccircle%20cx%3D%27300%27%20cy%3D%27300%27%20r%3D%27238%27%2F%3E%3Ccircle%20cx%3D%27300%27%20cy%3D%27300%27%20r%3D%27298%27%2F%3E%3C%2Fsvg%3E");
   --grain: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27180%27%20height%3D%27180%27%3E%3Cfilter%20id%3D%27n%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%27.9%27%20numOctaves%3D%273%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20values%3D%270%200%200%200%201%200%200%200%200%201%200%200%200%200%201%200%200%200%20.55%200%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20filter%3D%27url(%2523n)%27%2F%3E%3C%2Fsvg%3E");
   position: relative;
   font-family: var(--font-body);
@@ -218,9 +217,6 @@ a.pdcm-rating__count { text-decoration: underline; text-underline-offset: 3px; m
 .pdcm-hero { isolation: isolate; overflow: hidden; background: var(--night); color: #fff; }
 .pdcm-deals, .pdcm-proof, .pdcm-final { isolation: isolate; }
 .pdcm-deals::before, .pdcm-proof::before, .pdcm-final::after { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--grain); opacity: 0.05; pointer-events: none; }
-/* Target Marker rings behind the featured-game card */
-.pdcm-hero__grid { position: relative; }
-.pdcm-hero__grid::before { content: ""; position: absolute; z-index: -1; top: 50%; right: calc(var(--gutter) + 196px - 390px); width: 780px; height: 780px; transform: translateY(-50%); background: var(--rings) center / contain no-repeat; opacity: 0.16; pointer-events: none; }
 .pdcm-hero__bg { position: absolute; inset: 0; z-index: -1; background: var(--night); }
 .pdcm-hero__bg img { width: 100%; height: 100%; object-fit: cover; object-position: var(--bx, 62%) var(--by, 30%); }
 /* legibility scrim: dark where the copy sits, photo breathes in the middle, fades into the deals below */
@@ -343,7 +339,6 @@ html:not([data-cm-state]) .pdcm-rail__slide:has(> [data-cm-when]:not([data-cm-wh
    GAMEPLAY (#cm-play) — the one Popdarts Blue block; scoreboard tiles
    ========================================================================== */
 .pdcm-play { isolation: isolate; overflow: hidden; background: var(--blue); color: var(--ink); padding-block: var(--sec); }
-.pdcm-play::before { content: "21" / ""; position: absolute; z-index: -1; right: -0.03em; bottom: -0.24em; font-family: var(--font-head); font-size: clamp(300px, 44vw, 680px); font-weight: 900; line-height: 1; letter-spacing: -0.06em; color: transparent; -webkit-text-stroke: 2px rgba(10, 10, 10, 0.2); pointer-events: none; }
 .pdcm-score { border-top: 3px solid var(--lime); }
 .pdcm-play__grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); grid-template-areas: "head media" "rules media"; column-gap: var(--s-8); align-items: center; }
 .pdcm-play__head { grid-area: head; align-self: end; display: grid; gap: var(--s-4); }
@@ -441,7 +436,6 @@ html:not([data-cm-state]) .pdcm-rail__slide:has(> [data-cm-when]:not([data-cm-wh
 .pdcm-proof__ratings { grid-area: ratings; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-self: center; width: 100%; border: 1px solid var(--line-n); border-radius: var(--r-card); background: var(--card); color: #fff; overflow: hidden; }
 .pdcm-proof__rating { position: relative; display: grid; align-content: center; gap: var(--s-2); padding: var(--s-6) var(--s-5); }
 .pdcm-proof__ratings { position: relative; }
-.pdcm-proof__ratings::before { content: ""; position: absolute; right: -120px; top: 50%; width: 420px; height: 420px; transform: translateY(-50%); background: var(--rings) center / contain no-repeat; opacity: 0.08; pointer-events: none; }
 .pdcm-proof__rating + .pdcm-proof__rating { border-left: 1px solid var(--line-n); }
 .pdcm-proof__product { font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-n); }
 .pdcm-rating--summary { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "num num" "stars count"; align-items: center; gap: var(--s-2) var(--s-2); font-size: 13px; }
@@ -547,7 +541,6 @@ html:not([data-cm-state]) .pdcm-rail__slide:has(> [data-cm-when]:not([data-cm-wh
   background: linear-gradient(90deg, rgba(7, 8, 13, 0.94) 0%, rgba(7, 8, 13, 0.78) 42%, rgba(7, 8, 13, 0.1) 78%),
               linear-gradient(0deg, rgba(7, 8, 13, 1) 0%, rgba(7, 8, 13, 0.6) 26%, rgba(7, 8, 13, 0) 50%); }
 .pdcm-final__copy { position: relative; display: grid; justify-items: start; gap: var(--s-5); padding-block: 136px var(--s-8); }
-.pdcm-final__copy::before { content: ""; position: absolute; z-index: -1; left: -260px; top: 40px; width: 720px; height: 720px; background: var(--rings) center / contain no-repeat; opacity: 0.1; pointer-events: none; }
 .pdcm-final__picks { padding-bottom: var(--s-8); }
 .pdcm-final__picks-title { margin-bottom: var(--s-3); font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-n); }
 .pdcm-picks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
@@ -645,8 +638,6 @@ html:not([data-cm-state]) .pdcm-rail__slide:has(> [data-cm-when]:not([data-cm-wh
   .pdcm-hero__copy { gap: var(--s-3); }
   .pdcm-tag, .pdcm-eyebrow { font-size: 11px; gap: 10px; }
   .pdcm-eyebrow::before, .pdcm-tag__dot { width: 22px; }
-  .pdcm-hero__grid::before { display: none; }
-  .pdcm-play::before { font-size: 320px; bottom: -0.18em; }
   .pdcm-compare { position: static; }
   .pdcm-compare__panel { position: static; width: 100%; margin-top: var(--s-2); }
   .pdcm-hero__actions { flex-wrap: wrap; }

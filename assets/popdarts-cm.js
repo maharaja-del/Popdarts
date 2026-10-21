@@ -164,6 +164,31 @@
     return base.replace(/\.js$/, '') + '.js';
   }
 
+  function cartUrl() { return (window.FoxTheme && window.FoxTheme.routes && window.FoxTheme.routes.cart_url) || (rootUrl() + 'cart'); }
+
+  // The theme's cart drawer re-renders from a `sections` map, exactly as its own product forms do (theme.js
+  // handleFormSubmit): ask who needs re-rendering, send those ids with the add, hand the result to the drawer.
+  function sectionsToRender() {
+    var ids = [];
+    document.documentElement.dispatchEvent(new CustomEvent('cart:grouped-sections', { bubbles: true, detail: { sections: ids } }));
+    return ids.filter(function (id, i) { return id && ids.indexOf(id) === i; });
+  }
+
+  // After a successful add nothing below may surface as an add error: the item is already in the cart.
+  function refreshCartUi(btn, cart, added) {
+    var fox = window.FoxTheme, drawer = $('cart-drawer'), shown = false;
+    try {
+      if (cart.sections && fox && fox.pubsub && fox.pubsub.PUB_SUB_EVENTS) fox.pubsub.publish(fox.pubsub.PUB_SUB_EVENTS.cartUpdate, { cart: cart, source: 'popdarts-cyber-monday' });
+    } catch (e) { if (window.console) console.warn('[popdarts-cm] cart drawer update failed', e); }
+    try { document.dispatchEvent(new CustomEvent('product-ajax:added', { detail: { product: added } })); } catch (e) { /* listener error */ }
+    try { document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart: cart } })); } catch (e) { /* listener error */ }
+    try {
+      if (drawer && cart.sections && typeof drawer.show === 'function') { drawer.show(btn); shown = true; }
+      else if (drawer) { document.dispatchEvent(new CustomEvent('cart:refresh', { detail: { open: true } })); shown = true; }
+    } catch (e) { if (window.console) console.warn('[popdarts-cm] cart drawer open failed', e); }
+    if (!shown && !drawer) window.location.href = cartUrl();
+  }
+
   function addToCart(btn) {
     if (btn.classList.contains('is-loading') || btn.disabled) return;
     var id = parseInt(btn.dataset.variantId, 10);
@@ -176,32 +201,37 @@
     lab.textContent = btn.dataset.labelLoading || 'Adding…';
     clearMsg(btn);
 
+    var sections = sectionsToRender();
+    var payload = { items: [{ id: id, quantity: 1 }] };
+    if (sections.length) { payload.sections = sections.join(','); payload.sections_url = window.location.pathname; }
+    var added;
+
     fetch(cartAddUrl(), {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify({ items: [{ id: id, quantity: 1 }] })
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+      body: JSON.stringify(payload)
     })
       .then(function (res) {
         return res.json().catch(function () { return {}; }).then(function (data) {
-          if (!res.ok) throw new Error(data.description || data.message || 'This item could not be added. Please try again.');
-          return fetch(rootUrl() + 'cart.js', { headers: { Accept: 'application/json' } }).then(function (r) { return r.json(); });
+          if (!res.ok || data.status) throw new Error(data.description || data.message || 'This item could not be added. Please try again.');
+          added = data;
+          return fetch(rootUrl() + 'cart.js', { headers: { Accept: 'application/json' } })
+            .then(function (r) { return r.json(); })
+            .catch(function () { return {}; });
         });
       })
       .then(function (cart) {
+        cart = cart || {};
+        if (added && added.sections) cart.sections = added.sections;
         btn.classList.remove('is-loading');
         btn.removeAttribute('aria-busy');
         btn.classList.add('is-added');
         lab.textContent = btn.dataset.labelAdded || 'Added ✓';
         announce((btn.dataset.productTitle || 'Item') + ' added to cart');
-        var fox = window.FoxTheme;
-        if (fox && fox.pubsub && fox.pubsub.PUB_SUB_EVENTS) fox.pubsub.publish(fox.pubsub.PUB_SUB_EVENTS.cartUpdate, { cart: cart, source: 'popdarts-cyber-monday' });
-        document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart: cart } }));
-        if ($('cart-drawer')) document.dispatchEvent(new CustomEvent('cart:refresh', { detail: { open: true } }));
-        else window.location.href = rootUrl() + 'cart';
+        refreshCartUi(btn, cart, added);
         setTimeout(function () { btn.classList.remove('is-added'); lab.textContent = original; }, 2600);
-      })
-      .catch(function (err) {
-        btn.classList.remove('is-loading');
+      }, function (err) {
+        btn.classList.remove('is-loading', 'is-added');
         btn.removeAttribute('aria-busy');
         btn.classList.add('is-error');
         lab.textContent = btn.dataset.labelError || 'Try again';
