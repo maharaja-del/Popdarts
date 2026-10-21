@@ -1,0 +1,126 @@
+{%- liquid
+  assign st = section.settings
+  assign img_src = ''
+  if st.image != blank
+    assign img_src = st.image
+  endif
+-%}
+{% render 'popdarts-cm-assets' %}{% render 'popdarts-eh-assets' %}
+<section class="pdcm pdcm--eh pdcm-final" id="cm-final" aria-labelledby="cm-final-title-{{ section.id }}" data-cm-dock-stop>
+  <div class="pdcm-final__stage">
+    <div class="pdcm-final__bg{% if img_src == blank and st.image_asset == blank %} is-stage{% endif %}" aria-hidden="true">
+      {%- if img_src == blank and st.image_asset == blank and st.art != blank -%}
+        {%- assign art = st.art | split: ',' -%}
+        <div class="pdcm-final__art pdcm-final__art--{{ art.size | at_most: 3 }}">
+          {%- for a in art limit: 3 -%}
+            {%- assign an = a | strip -%}
+            <img src="{{ an | asset_url }}" alt="" width="900" height="900" loading="lazy" decoding="async">
+          {%- endfor -%}
+        </div>
+      {%- elsif img_src != blank -%}
+        {{ img_src | image_url: width: 2400 | image_tag: widths: '750, 1100, 1500, 1920, 2400', sizes: '100vw', loading: 'lazy', alt: '' }}
+      {%- elsif st.image_asset != blank -%}
+        <img src="{{ st.image_asset | asset_url }}" alt="" width="1920" height="1080" loading="lazy" decoding="async">
+      {%- endif -%}
+    </div>
+    <div class="pdcm-wrap pdcm-final__copy">
+      <p class="pdcm-tag pdcm-tag--night" data-cm-when="live before"><span class="pdcm-tag__dot" aria-hidden="true"></span>{{ st.eyebrow }}</p>
+      <p class="pdcm-tag pdcm-tag--night" data-cm-when="after">{{ st.eyebrow_after }}</p>
+      <h2 class="pdcm-final__title" id="cm-final-title-{{ section.id }}">
+        <span data-cm-when="live">{{ st.heading }}</span>
+        <span data-cm-when="before">{{ st.heading_before }}</span>
+        <span data-cm-when="after">{{ st.heading_after }}</span>
+      </h2>
+      <p class="pdcm-final__sub" data-cm-when="live">{{ st.sub }}</p>
+      <p class="pdcm-final__sub" data-cm-when="before">{{ st.sub_before }}</p>
+      <p class="pdcm-final__sub" data-cm-when="after">{{ st.sub_after }}</p>
+      {% render 'popdarts-cm-timer', style: 'inline', label: st.timer_label %}
+      <div class="pdcm-final__actions">
+        {%- assign cta_url = st.all_link | default: '/collections/all' -%}
+        <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="{{ cta_url }}" data-cm-when="live">{{ st.cta }}<span class="pdcm-btn__arrow" aria-hidden="true"></span></a>
+        <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="{{ cta_url }}" data-cm-when="before">{{ st.cta_before }}<span class="pdcm-btn__arrow" aria-hidden="true"></span></a>
+        <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="{{ cta_url }}" data-cm-when="after">{{ st.cta_after }}<span class="pdcm-btn__arrow" aria-hidden="true"></span></a>
+      </div>
+    </div>
+
+    {%- if st.products != blank -%}
+      <div class="pdcm-wrap pdcm-final__picks">
+        <p class="pdcm-final__picks-title">{{ st.products_title }}</p>
+        <ul class="pdcm-picks">
+          {%- for p in st.products limit: 3 -%}
+            {%- liquid
+              assign hay = p.handle | append: ' ' | append: p.title | downcase
+              assign skip = false
+              if hay contains 'elite' or hay contains 'slightly' or hay contains 'returned' or p.available == false
+                assign skip = true
+              endif
+            -%}
+            {%- if skip -%}{%- continue -%}{%- endif -%}
+            {%- assign uid = section.id | append: '-pick-' | append: forloop.index -%}
+            {% render 'popdarts-cm-row', product: p, uid: uid, hide: st.hide_variants, kind: 'pick', cutout: st.picks_cutout %}
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="pdcm-wrap">
+    <div class="pdcm-terms" id="cm-terms">
+      <h3 class="pdcm-terms__title">{{ st.terms_title }}</h3>
+      <div class="pdcm-terms__body" data-cm-when="live before">{{ st.terms }}</div>
+      <p class="pdcm-terms__body" data-cm-when="after">{{ st.terms_after }}</p>
+    </div>
+  </div>
+
+  {%- if st.show_dock -%}
+    <div class="pdcm-dock" data-cm-dock aria-hidden="true" inert>
+      <span class="pdcm-dock__thumb pdcm-media pdcm-media--studio"><img data-cm-dock-img alt="" width="48" height="48" decoding="async"></span>
+      <span class="pdcm-dock__info">
+        <span class="pdcm-dock__name" data-cm-dock-name></span>
+        <span class="pdcm-dock__price"><b data-cm-dock-now></b> <s data-cm-dock-was data-cm-when="live"></s></span>
+      </span>
+      <button type="button" class="pdcm-btn pdcm-btn--lime" data-cm-atc data-variant-id="" data-label-add="Add to cart" data-label-added="Added ✓" data-label-soldout="Sold out" data-label-error="Try again" aria-describedby="cm-dock-msg-{{ section.id }}">
+        <span data-cm-label>Add to cart</span>
+      </button>
+      <p class="pdcm-atc-msg pdcm-dock__msg" id="cm-dock-msg-{{ section.id }}" role="status" hidden></p>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Early Holiday: Final CTA",
+  "tag": "div",
+  "class": "pdcm-final-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Early holiday sale · Nov 10–26" },
+    { "type": "text", "id": "heading", "label": "Heading (sale)", "default": "Cross them off early." },
+    { "type": "text", "id": "sub", "label": "Text (sale)", "default": "Every game on this page is ready to wrap. Pick theirs and get it done." },
+    { "type": "text", "id": "cta", "label": "Button (sale)", "default": "Shop all games" },
+    { "type": "text", "id": "heading_before", "label": "Heading (before)", "default": "Early holiday prices are coming." },
+    { "type": "text", "id": "sub_before", "label": "Text (before)", "default": "Start your list now — early holiday pricing lands on Nov 10." },
+    { "type": "text", "id": "cta_before", "label": "Button (before)", "default": "Browse the games" },
+    { "type": "text", "id": "eyebrow_after", "label": "Eyebrow (after)", "default": "The early holiday sale has ended" },
+    { "type": "text", "id": "heading_after", "label": "Heading (after)", "default": "Still on your list?" },
+    { "type": "text", "id": "sub_after", "label": "Text (after)", "default": "Thanks for playing. Every Popdarts game is ready to throw." },
+    { "type": "text", "id": "cta_after", "label": "Button (after)", "default": "Shop all games" },
+    { "type": "url", "id": "all_link", "label": "Button link", "info": "A real page, e.g. your holiday collection. Empty = /collections/all" },
+    { "type": "text", "id": "timer_label", "label": "Countdown label", "default": "Sale ends in" },
+    { "type": "text", "id": "products_title", "label": "Quick picks title", "default": "Quick picks" },
+    { "type": "product_list", "id": "products", "label": "Quick picks", "limit": 3, "info": "Each pick has its own colour dropdown and Add button." },
+    { "type": "checkbox", "id": "picks_cutout", "label": "Show quick picks as cutouts", "default": true, "info": "Uses assets/pd-cm-cut-[handle]-[colour].webp. Untick for the product photos." },
+    { "type": "text", "id": "hide_variants", "label": "Hide colorways", "default": "Halloween", "info": "Comma-separated variant names left out of the quick-pick dropdowns." },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "image_asset", "label": "Image (theme asset)", "info": "Optional photo. Empty = no photo, just the quick picks." },
+    { "type": "text", "id": "art", "label": "Cutout art (theme assets)", "info": "Optional. Up to 3 comma-separated cutouts shown behind the heading." },
+    { "type": "text", "id": "image_alt", "label": "Image description", "default": "Popdarts players lifting the championship trophy under arena lights" },
+    { "type": "header", "content": "Promotion terms" },
+    { "type": "text", "id": "terms_title", "label": "Title", "default": "Promotion terms" },
+    { "type": "richtext", "id": "terms", "label": "Terms", "info": "Add the exact start/end time and timezone once confirmed. Never list a discount that isn't approved." },
+    { "type": "text", "id": "terms_after", "label": "Terms after the sale", "default": "This promotion has ended." },
+    { "type": "header", "content": "Mobile buy bar" },
+    { "type": "checkbox", "id": "show_dock", "label": "Show the sticky buy bar on phones", "default": true, "info": "Shows the product the shopper last picked, only after its own Add to cart has scrolled away. Hidden over the deals, gifting and this section." }
+  ],
+  "presets": [{ "name": "Early Holiday: Final CTA" }]
+}
+{% endschema %}

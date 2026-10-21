@@ -1,0 +1,348 @@
+/* ==========================================================================
+   Popdarts — Early Holiday landing page layer (.pdcm--eh). Loaded after popdarts-cm.css: same engine, a different page.
+   Direction "Winter daylight": white and ice-blue surfaces, ink type, Popdarts Blue for sale signals and the one
+   primary button, black Add buttons. The products are the visuals — the store's own cutouts on soft white light.
+   One deep winter-navy band (gameplay) anchors the middle of the page. No decorative motifs.
+   Contrast: ink on white 19.8:1 · #0f6fd1 on white 5.0:1 · ink on #2b99ff 6.7:1 · #5b6270 on #f3f7fb 5.6:1 ·
+   white on navy #0d2238 15.6:1 · #c4d3e4 on navy 10.6:1 · #7cc4ff on navy 8.4:1.
+   ========================================================================== */
+.pdcm--eh {
+  --eh-ice: #eef5fc;
+  --eh-ice-2: #e2edf8;
+  --eh-frost: #f3f7fb;
+  --eh-blue-ink: #0f6fd1;
+  --eh-navy: #0d2238;
+  --eh-navy-text: #c4d3e4;
+  --eh-line: rgba(13, 34, 56, 0.1);
+  --eh-shadow: 0 1px 2px rgba(13, 34, 56, 0.05), 0 28px 56px -36px rgba(13, 34, 56, 0.42);
+  color: var(--ink);
+}
+.pdcm--eh :focus-visible,
+.pdcm--eh .pdcm-select select:focus-visible { outline-color: var(--ink); }
+.pdcm--eh.pdcm-deals::before, .pdcm--eh.pdcm-proof::before, .pdcm--eh.pdcm-gift::before, .pdcm--eh.pdcm-final::after { content: none; }
+
+/* ---------- shared: labels, buttons, prices, chips on light ---------- */
+.pdcm--eh .pdcm-eyebrow::before, .pdcm--eh .pdcm-tag__dot { background: var(--blue); }
+.pdcm--eh .pdcm-lead { color: var(--muted); }
+.pdcm .pdcm-btn--blue { background: var(--blue); color: var(--ink); }
+.pdcm--eh .pdcm-btn--lime { background: var(--ink); color: #fff; }
+@media (hover: hover) {
+  .pdcm .pdcm-btn--blue:not([disabled]):hover { background: #1f8af0; }
+  .pdcm .pdcm-btn--blue:hover .pdcm-btn__arrow { transform: translateX(3px); }
+  .pdcm--eh .pdcm-btn--lime:not([disabled]):hover { background: #2a2a2e; }
+}
+.pdcm--eh .pdcm-btn.is-added { background: var(--success); color: #fff; }
+.pdcm--eh .pdcm-chip--sale, .pdcm--eh .pdcm-gcard__save { background: var(--blue); color: var(--ink); box-shadow: none; }
+.pdcm--eh .pdcm-price__now { color: var(--ink); }
+.pdcm--eh .pdcm-price__now.is-sale { color: var(--eh-blue-ink); }
+.pdcm--eh .pdcm-price__was { color: var(--muted); }
+.pdcm--eh .pdcm-rating { color: var(--muted); }
+.pdcm--eh .pdcm-rating__num { color: var(--ink); }
+.pdcm--eh .pdcm-rating__stars { background: #cdd5df; }
+.pdcm--eh .pdcm-rating__fill { background: var(--ink); }
+.pdcm--eh .pdcm-rating__count { color: var(--muted); }
+.pdcm--eh .pdcm-variant__label { color: var(--muted); }
+.pdcm--eh .pdcm-variant__label b { color: var(--ink); }
+.pdcm--eh .pdcm-swatch { border-color: var(--line); }
+.pdcm--eh .pdcm-swatch[aria-checked="true"] { border-color: var(--ink); box-shadow: none; }
+.pdcm--eh .pdcm-select { color: var(--ink); }
+.pdcm--eh.pdcm .pdcm-select select { background: #fff; border-color: #d3dbe5; color: var(--ink); }
+.pdcm--eh .pdcm-atc-msg { color: var(--sale-text); }
+.pdcm--eh .pdcm-media--studio { background: radial-gradient(120% 95% at 50% 30%, #ffffff 0%, #f2f6fb 55%, #e3ebf4 100%); }
+.pdcm--eh .pdcm-media--cyber { background: radial-gradient(60% 52% at 50% 62%, #ffffff 0%, rgba(255, 255, 255, 0) 72%), linear-gradient(180deg, #edf3f9 0%, #dde7f2 100%); }
+.pdcm--eh .pdcm-media--cyber img { filter: drop-shadow(0 18px 20px rgba(13, 34, 56, 0.24)); }
+.pdcm--eh .pdcm-media--cyber::after { background: radial-gradient(50% 50% at 50% 50%, rgba(13, 34, 56, 0.2), rgba(13, 34, 56, 0) 70%); }
+
+/* filter / finder chips */
+.pdcm-chips { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+.pdcm .pdcm-chipbtn {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; border: 1.5px solid #d3dbe5; border-radius: 999px; background: #fff;
+  font-size: 15px; font-weight: 800; line-height: 1.1; color: var(--ink); white-space: nowrap;
+  transition: background-color 140ms var(--ease), border-color 140ms var(--ease), color 140ms var(--ease);
+}
+.pdcm .pdcm-chipbtn[aria-pressed="true"], .pdcm .pdcm-chipbtn[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+@media (hover: hover) { .pdcm .pdcm-chipbtn[aria-pressed="false"]:hover, .pdcm .pdcm-chipbtn[aria-selected="false"]:hover { border-color: var(--ink); } }
+
+/* countdown on light (only rendered once the deadline is confirmed) */
+.pdcm--eh .pdcm-timer--inline { color: var(--ink); }
+.pdcm--eh .pdcm-timer__label { color: var(--muted); }
+.pdcm--eh .pdcm-timer__compact { color: var(--eh-blue-ink); }
+
+/* ==========================================================================
+   HERO — headline + offer, then the lineup: three games, each with its own colour and Add
+   ========================================================================== */
+.pdcm--eh.pdcm-hero { color: var(--ink); background: linear-gradient(180deg, #f6f9fd 0%, var(--eh-ice) 58%, var(--eh-ice-2) 100%); }
+.pdcm-ehhero__top { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: var(--s-8); align-items: end; padding-block: var(--s-8) var(--s-6); }
+.pdcm-ehhero__copy { display: grid; gap: var(--s-4); }
+.pdcm-ehhero__title { font-family: var(--font-head); font-weight: 900; font-size: clamp(52px, 6.3vw, 96px); line-height: 0.86; letter-spacing: -0.035em; word-spacing: 0.04em; text-transform: uppercase; color: var(--ink); text-wrap: balance; }
+.pdcm-ehhero__title .pdcm-hero__line { max-width: none; }
+.pdcm-ehhero__accent { color: var(--eh-blue-ink); }
+.pdcm-ehhero__side { display: grid; justify-items: start; gap: var(--s-4); padding-bottom: 6px; }
+.pdcm--eh .pdcm-ehhero__offer { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; margin: 0; color: var(--ink); }
+.pdcm-ehhero__pre { font-size: 14px; font-weight: 800; line-height: 1; letter-spacing: 0.16em; text-transform: uppercase; }
+.pdcm-ehhero__big { font-family: var(--font-head); font-weight: 900; font-size: clamp(40px, 4.4vw, 64px); line-height: 0.9; letter-spacing: -0.03em; text-transform: uppercase; color: var(--eh-blue-ink); }
+.pdcm-ehhero__offer.is-plain .pdcm-ehhero__big { font-size: clamp(30px, 3.2vw, 44px); color: var(--ink); }
+.pdcm-ehhero__qual { flex-basis: 100%; margin-top: 6px; font-size: 17px; font-weight: 700; line-height: 1.3; }
+.pdcm--eh .pdcm-hero__select { border-color: var(--eh-blue-ink); color: var(--eh-blue-ink); }
+.pdcm--eh .pdcm-hero__sub { color: var(--muted); font-size: 17px; }
+.pdcm--eh .pdcm-hero__actions { margin-top: var(--s-2); }
+.pdcm--eh .pdcm-compare[open] > summary { border-color: var(--ink); }
+.pdcm--eh .pdcm-compare__panel { border-color: var(--line); background: #fff; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: var(--eh-shadow); }
+.pdcm--eh .pdcm-compare__row { color: var(--ink-2); }
+.pdcm--eh .pdcm-compare__name { color: var(--eh-blue-ink); }
+
+/* the lineup */
+.pdcm-lineup { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); padding-bottom: var(--s-7); }
+.pdcm-tile {
+  position: relative; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: "thumb" "info" "buy" "msg";
+  gap: var(--s-3); padding: 10px 10px var(--s-4); border: 1px solid var(--eh-line); border-radius: 26px; background: #fff; box-shadow: var(--eh-shadow);
+}
+.pdcm-tile__thumb { grid-area: thumb; aspect-ratio: 4 / 3; border-radius: 18px; }
+.pdcm--eh .pdcm-tile__thumb.pdcm-media--studio { background: radial-gradient(64% 58% at 50% 66%, #ffffff 0%, rgba(255, 255, 255, 0) 74%), linear-gradient(180deg, #f1f6fb 0%, #e1eaf4 100%); }
+.pdcm-tile__thumb img { object-fit: contain; padding: 2% 6% 5%; mix-blend-mode: normal; filter: drop-shadow(0 16px 18px rgba(13, 34, 56, 0.22)); transform: scale(1.06); transition: transform 320ms var(--ease); }
+@media (hover: hover) { .pdcm-tile:hover .pdcm-tile__thumb img { transform: scale(1.1); } }
+.pdcm-tile .pdcm-chip { top: 14px; left: 14px; padding: 8px 11px; font-size: 14px; }
+.pdcm-tile__info { grid-area: info; display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-3); padding-inline: 8px; min-width: 0; }
+.pdcm-tile__name { min-width: 0; font-family: var(--font-head); font-size: 22px; font-weight: 900; line-height: 1; letter-spacing: -0.015em; text-transform: uppercase; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.pdcm-tile .pdcm-price { flex-wrap: nowrap; white-space: nowrap; }
+.pdcm-tile .pdcm-price--sm .pdcm-price__now { font-size: 20px; }
+.pdcm-tile .pdcm-price--sm .pdcm-price__was { font-size: 14px; }
+.pdcm-tile__buy { grid-area: buy; display: flex; align-items: center; gap: var(--s-2); padding-inline: 6px; }
+.pdcm-tile__buy .pdcm-btn { flex-shrink: 0; min-width: 104px; }
+.pdcm-tile:not(.has-options) .pdcm-tile__buy .pdcm-btn { flex: 1; }
+.pdcm-tile__msg { grid-area: msg; margin: 0; padding-inline: 8px; }
+
+/* trust strip: white, hairline, ink */
+.pdcm--eh .pdcm-trustbar { background: #fff; border-top: 1px solid var(--eh-line); color: var(--ink); }
+.pdcm--eh .pdcm-trustbar__item, .pdcm--eh .pdcm-trustbar .pdcm-rating, .pdcm--eh .pdcm-trustbar .pdcm-rating__count, .pdcm--eh .pdcm-trustbar .pdcm-rating__num { color: var(--ink); }
+.pdcm--eh .pdcm-trustbar__item svg { color: var(--eh-blue-ink); }
+.pdcm--eh .pdcm-trustbar .pdcm-rating__stars { background: #cdd5df; }
+
+/* ==========================================================================
+   THE HOLIDAY EDIT — white, filter chips narrow the grid in place
+   ========================================================================== */
+.pdcm--eh.pdcm-deals { background: #fff; color: var(--ink); padding-block: var(--sec); }
+.pdcm-edit__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--s-5) var(--s-7); margin-bottom: var(--s-6); }
+.pdcm-edit__head .pdcm-head { margin-bottom: 0; }
+.pdcm-edit__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); }
+.pdcm-edit__item { display: flex; min-width: 0; }
+/* no-JS fallback: a card hidden in this sale state takes no cell (popdarts-cm.js also skips it) */
+html[data-cm-state="before"] .pdcm-edit__item:has(> [data-cm-when]:not([data-cm-when~="before"])),
+html[data-cm-state="live"] .pdcm-edit__item:has(> [data-cm-when]:not([data-cm-when~="live"])),
+html[data-cm-state="after"] .pdcm-edit__item:has(> [data-cm-when]:not([data-cm-when~="after"])),
+html:not([data-cm-state]) .pdcm-edit__item:has(> [data-cm-when]:not([data-cm-when~="live"])) { display: none !important; }
+.pdcm-edit__more { display: flex; justify-content: center; margin-top: var(--s-6); }
+.pdcm-edit__more:not(:has(:not([hidden]))) { display: none; }
+.pdcm--eh .pdcm-card { border: 1px solid var(--eh-line); background: #fff; color: var(--ink); }
+.pdcm--eh .pdcm-card__media { aspect-ratio: 1; }
+.pdcm--eh .pdcm-card__note { color: var(--muted); }
+.pdcm--eh .pdcm-card__foot { border-top-color: var(--line); }
+.pdcm--eh .pdcm-card__title { font-size: 17px; }
+.pdcm--eh .pdcm-card .pdcm-price__now { font-size: 22px; }
+.pdcm--eh .pdcm-card.is-flash { box-shadow: 0 0 0 2px var(--blue); }
+.pdcm--eh .pdcm-card .pdcm-btn--ghost { color: var(--ink); border-color: #d3dbe5; }
+@media (hover: hover) { .pdcm--eh .pdcm-card:hover { border-color: rgba(13, 34, 56, 0.28); } }
+.pdcm--eh .pdcm-deals__note { border-top-color: var(--line); color: var(--muted); }
+.pdcm--eh .pdcm-deals__note a.pdcm-link { color: var(--ink); }
+.pdcm--eh .pdcm-deals__empty { margin-top: var(--s-4); border-color: var(--line); background: var(--eh-frost); }
+.pdcm--eh .pdcm-deals__empty .pdcm-link { color: var(--eh-blue-ink); }
+
+/* ==========================================================================
+   GAMEPLAY — the one deep winter-navy band
+   ========================================================================== */
+.pdcm--eh.pdcm-play { background: var(--eh-navy); color: #fff; }
+.pdcm--eh.pdcm-play .pdcm-h2, .pdcm--eh.pdcm-play .pdcm-eyebrow, .pdcm--eh.pdcm-play .pdcm-play__foot { color: #fff; }
+.pdcm--eh.pdcm-play .pdcm-lead { color: var(--eh-navy-text); }
+.pdcm--eh.pdcm-play .pdcm-eyebrow::before { background: var(--blue); }
+.pdcm--eh .pdcm-score { border-top-color: var(--blue); background: rgba(255, 255, 255, 0.06); }
+.pdcm--eh .pdcm-score__value { color: #7cc4ff; }
+.pdcm--eh .pdcm-score__label { color: var(--eh-navy-text); }
+.pdcm--eh.pdcm-play .pdcm-btn--outline-ink { color: #fff; border-color: rgba(255, 255, 255, 0.5); }
+@media (hover: hover) { .pdcm--eh.pdcm-play .pdcm-btn--outline-ink:hover { background: rgba(255, 255, 255, 0.08); border-color: #fff; } }
+.pdcm--eh.pdcm-play .pdcm-play__links .pdcm-link { color: #fff; text-decoration-color: var(--blue); }
+.pdcm--eh.pdcm-play :focus-visible { outline-color: #fff; }
+
+/* ==========================================================================
+   GIFT FINDER — "Who's on your list?": chips swap the panel in place
+   ========================================================================== */
+.pdcm--eh.pdcm-gift { background: #fff; color: var(--ink); border-top: 0; }
+.pdcm-finder__tabs { margin-bottom: var(--s-5); }
+.pdcm-finder__panel { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); overflow: hidden; border: 1px solid var(--eh-line); border-radius: 30px; background: #fff; box-shadow: var(--eh-shadow); }
+.pdcm-finder__panel:focus-visible { outline-offset: 4px; border-radius: 30px; }
+.pdcm-finder__art {
+  position: relative; display: flex; align-items: center; justify-content: center; min-height: 460px; padding: var(--s-6) var(--s-5);
+  background: radial-gradient(62% 48% at 50% 56%, #ffffff 0%, rgba(255, 255, 255, 0) 74%), linear-gradient(160deg, #f1f6fb 0%, var(--eh-ice-2) 100%);
+}
+.pdcm-finder__art img { position: relative; flex: 0 0 auto; width: 76%; height: auto; aspect-ratio: 1; object-fit: contain; filter: drop-shadow(0 22px 24px rgba(13, 34, 56, 0.26)); }
+.pdcm-finder__art--2 img { width: 60%; }
+.pdcm-finder__art--2 img + img { margin-left: -14%; }
+.pdcm-finder__art--3 img { width: 42%; }
+.pdcm-finder__art--3 img:nth-child(2) { z-index: 2; width: 54%; margin-inline: -9%; }
+.pdcm-finder__body { display: flex; flex-direction: column; gap: var(--s-3); padding: var(--s-7) var(--s-7) var(--s-6); }
+.pdcm-finder__title { font-family: var(--font-head); font-size: clamp(30px, 3.2vw, 44px); font-weight: 900; line-height: 0.94; letter-spacing: -0.02em; word-spacing: 0.05em; text-transform: uppercase; }
+.pdcm-finder__blurb { font-size: 16px; line-height: 1.5; color: var(--muted); max-width: 34em; }
+.pdcm-finder .pdcm-rows { margin-top: var(--s-2); }
+.pdcm-finder .pdcm-gcard__save { margin-bottom: 2px; }
+.pdcm--eh.pdcm-gift .pdcm-row { border-top-color: var(--line); }
+.pdcm--eh.pdcm-gift .pdcm-row__name { color: var(--ink); }
+.pdcm--eh.pdcm-gift .pdcm-row .pdcm-btn--ink { background: var(--ink); color: #fff; }
+@media (hover: hover) { .pdcm--eh.pdcm-gift .pdcm-row .pdcm-btn--ink:not([disabled]):hover { background: #2a2a2e; } }
+.pdcm--eh.pdcm-gift .pdcm-select select { background: #fff; border-color: #d3dbe5; color: var(--ink); }
+.pdcm--eh.pdcm-gift .pdcm-select { color: var(--ink); }
+.pdcm--eh .pdcm-row__thumb { background: var(--eh-frost); }
+/* gift card strip */
+.pdcm--eh .pdcm-gstrip { margin-top: var(--s-5); border-color: var(--eh-line); background: var(--eh-frost); color: var(--ink); }
+.pdcm--eh .pdcm-gstrip .pdcm-gcard__blurb { color: var(--muted); }
+.pdcm--eh .pdcm-gstrip .pdcm-row { border-top-color: var(--line); }
+.pdcm--eh .pdcm-gstrip .pdcm-row__name { color: var(--ink); }
+.pdcm.pdcm--eh .pdcm-gstrip .pdcm-btn--ink { background: var(--ink); color: #fff; }
+
+/* ==========================================================================
+   PROOF — frost background, white cards, ink press logos
+   ========================================================================== */
+.pdcm--eh.pdcm-proof { background: var(--eh-frost); color: var(--ink); }
+.pdcm--eh .pdcm-press__label { color: var(--muted); }
+.pdcm--eh .pdcm-press__list li { color: var(--ink); }
+.pdcm--eh.pdcm-proof .pdcm-btn--outline { color: var(--ink); border-color: var(--ink); }
+@media (hover: hover) { .pdcm--eh.pdcm-proof .pdcm-btn--outline:hover { background: rgba(10, 10, 10, 0.05); border-color: var(--ink); } }
+.pdcm--eh .pdcm-proof__ratings { border-color: var(--eh-line); background: #fff; color: var(--ink); box-shadow: var(--eh-shadow); }
+.pdcm--eh .pdcm-proof__rating + .pdcm-proof__rating { border-left-color: var(--line); }
+.pdcm--eh .pdcm-proof__product { color: var(--muted); }
+.pdcm--eh .pdcm-rating--summary .pdcm-rating__num { color: var(--eh-blue-ink); }
+.pdcm--eh .pdcm-rating--summary .pdcm-rating__stars { background: #cdd5df; }
+.pdcm--eh .pdcm-rating--summary .pdcm-rating__fill { background: var(--ink); }
+.pdcm--eh .pdcm-proof__source { color: var(--muted); }
+.pdcm--eh .pdcm-jdgm .jdgm-rev { border-color: var(--eh-line) !important; background: #fff; color: var(--ink); }
+.pdcm--eh .pdcm-jdgm .jdgm-rev::before { background: var(--blue); }
+.pdcm--eh .pdcm-jdgm .jdgm-rev__rating::before { color: var(--ink); }
+.pdcm--eh .pdcm-jdgm .jdgm-rev__author, .pdcm--eh .pdcm-jdgm .jdgm-rev__title { color: var(--ink); }
+.pdcm--eh .pdcm-jdgm .jdgm-rev__body { color: var(--ink-2); }
+.pdcm--eh .pdcm-jdgm .jdgm-rev[data-verified-buyer="true"] .jdgm-rev__author-wrapper::after { background: rgba(43, 153, 255, 0.14); color: var(--eh-blue-ink); }
+
+/* ==========================================================================
+   FAQ — white, frosted questions
+   ========================================================================== */
+.pdcm--eh.pdcm-faq { background: #fff; }
+.pdcm--eh .pdcm-faq__item { background: var(--eh-frost); }
+.pdcm--eh .pdcm-faq__icon { background: #fff; }
+.pdcm--eh .pdcm-faq__q[aria-expanded="true"] .pdcm-faq__icon { background: var(--blue); }
+
+/* ==========================================================================
+   FINALE — light: the lineup on soft white light, quick picks as cutout cards, terms
+   ========================================================================== */
+.pdcm--eh.pdcm-final { color: var(--ink); background: linear-gradient(180deg, var(--eh-ice) 0%, #f6f9fd 100%); }
+.pdcm--eh .pdcm-final__bg { background: none; }
+.pdcm--eh .pdcm-final__bg.is-stage { background: radial-gradient(34% 52% at 72% 50%, #ffffff 0%, rgba(255, 255, 255, 0) 72%); }
+.pdcm--eh .pdcm-final__bg::after, .pdcm--eh .pdcm-final__bg.is-stage::after { background: linear-gradient(90deg, rgba(238, 245, 252, 0.96) 0%, rgba(238, 245, 252, 0.7) 40%, rgba(238, 245, 252, 0) 70%); }
+.pdcm--eh .pdcm-final__bg.is-stage::after { content: none; }
+.pdcm--eh .pdcm-final__art img { filter: drop-shadow(0 24px 26px rgba(13, 34, 56, 0.24)); }
+.pdcm--eh .pdcm-final__art--3 img:nth-child(1) { left: 0; top: 30%; width: 34%; }
+.pdcm--eh .pdcm-final__art--3 img:nth-child(2) { left: 31%; top: 8%; width: 40%; }
+.pdcm--eh .pdcm-final__art--3 img:nth-child(3) { right: 0; top: 30%; width: 34%; }
+.pdcm--eh .pdcm-final__copy { padding-block: 120px var(--s-7); }
+.pdcm--eh .pdcm-final__title { color: var(--ink); }
+.pdcm--eh .pdcm-final__sub { color: var(--muted); }
+.pdcm--eh .pdcm-tag--night { color: var(--ink); }
+.pdcm--eh .pdcm-final__picks-title { color: var(--muted); }
+.pdcm--eh .pdcm-pick { border-color: var(--eh-line); background: #fff; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: var(--eh-shadow); }
+.pdcm--eh .pdcm-pick__thumb { background: radial-gradient(70% 60% at 50% 60%, #fff 0%, var(--eh-ice) 100%); }
+.pdcm--eh .pdcm-pick__thumb img { mix-blend-mode: normal; padding: 4%; filter: drop-shadow(0 8px 10px rgba(13, 34, 56, 0.2)); }
+.pdcm.pdcm--eh .pdcm-pick .pdcm-btn--ink { background: var(--ink); color: #fff; border-color: var(--ink); }
+@media (hover: hover) { .pdcm.pdcm--eh .pdcm-pick .pdcm-btn--ink:not([disabled]):hover { background: #2a2a2e; color: #fff; } }
+.pdcm.pdcm--eh .pdcm-pick .pdcm-select select { background: #fff; border-color: #d3dbe5; color: var(--ink); }
+.pdcm--eh .pdcm-pick .pdcm-select { color: var(--ink); }
+.pdcm--eh .pdcm-terms { border-top-color: var(--line); }
+.pdcm--eh .pdcm-terms__title { color: var(--muted); }
+.pdcm--eh .pdcm-terms__body { color: var(--muted); }
+.pdcm--eh .pdcm-terms__body a { color: var(--ink); }
+
+/* phone buy bar on white glass */
+@media (max-width: 899px) {
+  .pdcm--eh .pdcm-dock { border-color: var(--eh-line); background: rgba(255, 255, 255, 0.96); color: var(--ink); box-shadow: 0 18px 40px -16px rgba(13, 34, 56, 0.4); }
+  .pdcm--eh .pdcm-dock__thumb { background: var(--eh-ice); }
+  .pdcm--eh .pdcm-dock__price s { color: var(--muted); }
+  .pdcm--eh .pdcm-dock__msg { border: 1px solid var(--line); }
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 1199px) {
+  .pdcm-ehhero__top { column-gap: var(--s-7); }
+  .pdcm-tile__name { font-size: 19px; }
+  .pdcm-finder__body { padding: var(--s-6) var(--s-6) var(--s-5); }
+}
+@media (max-width: 989px) {
+  .pdcm-ehhero__top { grid-template-columns: minmax(0, 1fr); row-gap: var(--s-5); padding-block: var(--s-7) var(--s-5); }
+  .pdcm-edit__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pdcm-tile__buy { flex-wrap: wrap; }
+  .pdcm-tile__buy .pdcm-select { flex: 1 1 100%; }
+  .pdcm-tile__buy .pdcm-btn { flex: 1; }
+  .pdcm-finder__panel { grid-template-columns: minmax(0, 1fr); }
+  .pdcm-finder__art { min-height: 0; aspect-ratio: 16 / 9; padding-bottom: var(--s-5); }
+  .pdcm-finder__art--1 img { width: 44%; }
+  .pdcm--eh .pdcm-final__copy { padding-top: 96px; }
+}
+@media (max-width: 767px) {
+  .pdcm-ehhero__top { padding-block: var(--s-5) var(--s-4); row-gap: var(--s-3); }
+  .pdcm-ehhero__copy { gap: var(--s-3); }
+  .pdcm-ehhero__title { font-size: 46px; }
+  .pdcm-ehhero__side { gap: var(--s-3); }
+  .pdcm-ehhero__pre { font-size: 12px; }
+  .pdcm-ehhero__big { font-size: 38px; }
+  .pdcm-ehhero__offer.is-plain .pdcm-ehhero__big { font-size: 28px; }
+  .pdcm-ehhero__qual { margin-top: 2px; font-size: 15px; }
+  /* the lineup's Add buttons are the primary actions on phones — the hero links become quiet text links */
+  .pdcm.pdcm--eh .pdcm-hero__actions .pdcm-btn { color: var(--ink); text-decoration-color: var(--blue); }
+  .pdcm--eh .pdcm-hero__actions { margin-top: 0; }
+
+  .pdcm-lineup { grid-template-columns: minmax(0, 1fr); gap: 10px; padding-bottom: var(--s-5); }
+  .pdcm-tile { grid-template-columns: 112px minmax(0, 1fr); grid-template-areas: "thumb info" "thumb buy" "msg msg"; align-items: center; gap: 8px 12px; padding: 8px 12px 8px 8px; border-radius: 20px; }
+  .pdcm-tile__thumb { aspect-ratio: 1; border-radius: 14px; }
+  .pdcm-tile__thumb img { padding: 6%; filter: drop-shadow(0 8px 10px rgba(13, 34, 56, 0.22)); }
+  .pdcm-tile .pdcm-chip { top: 6px; left: 6px; padding: 5px 7px; font-size: 11px; }
+  .pdcm-tile__info { flex-direction: column; align-items: flex-start; gap: 2px; padding: 0; align-self: end; }
+  .pdcm-tile__name { font-size: 17px; max-width: 100%; }
+  .pdcm-tile .pdcm-price--sm .pdcm-price__now { font-size: 16px; }
+  .pdcm-tile .pdcm-price--sm .pdcm-price__was { font-size: 13px; }
+  .pdcm-tile__buy { flex-wrap: nowrap; padding: 0; align-self: start; }
+  .pdcm-tile__buy .pdcm-select { flex: 1 1 auto; }
+  .pdcm.pdcm--eh .pdcm-tile .pdcm-select select, .pdcm.pdcm--eh .pdcm-card .pdcm-select select { padding: 0 28px 0 10px; font-size: 13px; }
+  .pdcm--eh .pdcm-tile .pdcm-select::after, .pdcm--eh .pdcm-card .pdcm-select::after { right: 12px; width: 7px; height: 7px; }
+  .pdcm-tile__buy .pdcm-btn { flex: 0 0 auto; min-width: 64px; }
+  .pdcm-tile:not(.has-options) .pdcm-tile__buy .pdcm-btn { flex: 1; }
+  .pdcm-tile__msg { padding: 0; }
+
+  .pdcm--eh .pdcm-trustbar { border-top: 1px solid var(--eh-line); }
+
+  .pdcm-edit__head { margin-bottom: var(--s-5); gap: var(--s-4); }
+  .pdcm-edit .pdcm-chips { flex-wrap: nowrap; overflow-x: auto; width: calc(100% + 2 * var(--gutter)); margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); scrollbar-width: none; }
+  .pdcm-edit .pdcm-chips::-webkit-scrollbar { display: none; }
+  .pdcm .pdcm-chipbtn { flex-shrink: 0; min-height: 44px; padding: 0 16px; font-size: 14px; }
+  .pdcm-edit__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .pdcm--eh .pdcm-card { border-radius: 16px; }
+  .pdcm--eh .pdcm-card__body { padding: 10px; gap: 8px; }
+  .pdcm--eh .pdcm-card__title { font-size: 14px; }
+  .pdcm--eh .pdcm-card__note { display: none; }
+  .pdcm--eh .pdcm-card .pdcm-price__now { font-size: 17px; }
+  .pdcm--eh .pdcm-card .pdcm-swatch { width: 34px; height: 34px; padding: 2px; }
+  .pdcm--eh .pdcm-card .pdcm-variant__label { font-size: 12px; }
+  .pdcm--eh .pdcm-card .pdcm-btn { min-height: 44px; padding: 0 10px; font-size: 14px; }
+  .pdcm--eh .pdcm-card .pdcm-chip { top: 8px; left: 8px; padding: 5px 7px; font-size: 11px; }
+  .pdcm--eh .pdcm-card .pdcm-rating__count { display: none; }
+  .pdcm-edit__more { margin-top: var(--s-5); }
+  .pdcm-edit__more .pdcm-btn { width: 100%; }
+
+  .pdcm-finder .pdcm-chips { flex-wrap: nowrap; overflow-x: auto; width: calc(100% + 2 * var(--gutter)); margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); scrollbar-width: none; }
+  .pdcm-finder .pdcm-chips::-webkit-scrollbar { display: none; }
+  .pdcm-finder__tabs { margin-bottom: var(--s-4); }
+  .pdcm-finder__panel { border-radius: 22px; }
+  .pdcm-finder__art { aspect-ratio: 16 / 10; padding: var(--s-4) var(--s-4) var(--s-5); }
+  .pdcm-finder__body { padding: var(--s-4) var(--s-4) var(--s-3); gap: 10px; }
+  .pdcm-finder__title { font-size: 28px; }
+  .pdcm-finder__blurb { font-size: 14px; }
+
+  .pdcm--eh .pdcm-final__copy { padding-top: var(--s-7); }
+  .pdcm--eh .pdcm-final__stage:has(.pdcm-final__bg.is-stage .pdcm-final__art) .pdcm-final__copy { padding-top: 250px; }
+  .pdcm--eh .pdcm-final__bg.is-stage { background: radial-gradient(60% 34% at 50% 18%, #ffffff 0%, rgba(255, 255, 255, 0) 72%); }
+}

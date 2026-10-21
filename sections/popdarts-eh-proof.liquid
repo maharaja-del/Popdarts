@@ -1,0 +1,94 @@
+{%- comment -%}
+  Early Holiday proof: the store's own "As seen on" banner, live Judge.me ratings, and real Judge.me reviews
+  rendered from the product's judgeme.widget metafield (the store's documented manual install, already used on
+  /pages/swaptopkit). Nothing is typed in. Judge.me app blocks can also be added to this section.
+{%- endcomment -%}
+{%- liquid
+  assign st = section.settings
+  assign rp = st.reviews_product
+  assign has_widget = false
+  if st.show_widget and rp != blank and rp.metafields.judgeme.widget != blank
+    assign has_widget = true
+  endif
+  assign app_blocks = section.blocks | where: 'type', '@app'
+-%}
+{% render 'popdarts-cm-assets' %}{% render 'popdarts-eh-assets' %}
+<section class="pdcm pdcm--eh pdcm-proof" id="cm-proof" aria-labelledby="cm-proof-title-{{ section.id }}">
+  {%- if st.banner_desktop != blank -%}
+    <picture class="pdcm-proof__banner">
+      {%- if st.banner_mobile != blank -%}<source media="(max-width: 749px)" srcset="{{ st.banner_mobile | image_url: width: 800 }} 800w, {{ st.banner_mobile | image_url: width: 1200 }} 1200w" sizes="100vw">{%- endif -%}
+      {{ st.banner_desktop | image_url: width: 2400 | image_tag: widths: '1200, 1800, 2400', sizes: '100vw', loading: 'lazy', alt: st.banner_alt }}
+    </picture>
+  {%- endif -%}
+  <div class="pdcm-wrap pdcm-proof__grid{% unless has_widget or app_blocks.size > 0 %} is-summary-only{% endunless %}">
+    <div class="pdcm-proof__summary">
+      <p class="pdcm-eyebrow">{{ st.eyebrow }}</p>
+      <h2 class="pdcm-h2" id="cm-proof-title-{{ section.id }}">{{ st.heading }}</h2>
+      {%- if st.press_logos_asset != blank or st.press_names != blank -%}
+        <div class="pdcm-press">
+          <p class="pdcm-press__label">{{ st.press_label }}</p>
+          {%- if st.press_logos_asset != blank -%}
+            <img class="pdcm-press__logos" src="{{ st.press_logos_asset | asset_url }}" alt="{{ st.press_names | replace: ',', ' ·' | escape }}" width="1583" height="120" loading="lazy" decoding="async">
+          {%- else -%}
+            {%- assign press = st.press_names | split: ',' -%}
+            <ul class="pdcm-press__list">
+              {%- for name in press -%}{%- assign n = name | strip -%}{%- if n != blank -%}<li>{{ n }}</li>{%- endif -%}{%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+      <ul class="pdcm-proof__ratings">
+        {%- for p in st.rating_products limit: 3 -%}
+          {%- capture r -%}{% render 'popdarts-cm-rating', product: p, style: 'summary', label: p.title %}{%- endcapture -%}
+          {%- if r != blank -%}
+            <li class="pdcm-proof__rating"><span class="pdcm-proof__product">{{ p.title }}</span>{{ r }}</li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+      {%- if st.reviews_link_text != blank -%}
+        <a class="pdcm-btn pdcm-btn--outline pdcm-proof__all" href="{{ st.reviews_link | default: '/pages/reviews' }}">{{ st.reviews_link_text }}</a>
+      {%- endif -%}
+    </div>
+
+    {%- if has_widget or app_blocks.size > 0 -%}
+      <div class="pdcm-proof__reviews">
+        {%- if has_widget -%}
+          <p class="pdcm-proof__source">{{ st.source_text | replace: '[product]', rp.title }}</p>
+          <div id="judgeme_product_reviews" class="jdgm-widget jdgm-review-widget pdcm-jdgm" data-product-title="{{ rp.title | escape }}" data-id="{{ rp.id }}">
+            {{ rp.metafields.judgeme.widget }}
+          </div>
+        {%- endif -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == '@app' -%}<div class="pdcm-proof__app">{% render block %}</div>{%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Early Holiday: Reviews",
+  "tag": "div",
+  "class": "pdcm-proof-section",
+  "settings": [
+    { "type": "text", "id": "press_label", "label": "Press label", "default": "As seen on" },
+    { "type": "text", "id": "press_logos_asset", "label": "Press logos (theme asset)", "default": "pd-cm-press-ink.png", "info": "Dark logo strip cut from the store's 'As seen on' banner. Empty = the names below as text." },
+    { "type": "text", "id": "press_names", "label": "Press names", "default": "TODAY, BuzzFeed, ESPN, Barstool Sports, Sports Illustrated", "info": "Comma-separated, set in the page's own type. Only outlets on the store's own 'As seen on' banner." },
+    { "type": "header", "content": "Optional banner image" },
+    { "type": "image_picker", "id": "banner_desktop", "label": "'As seen on' banner (desktop)", "info": "Leave empty to use the press names above instead." },
+    { "type": "image_picker", "id": "banner_mobile", "label": "'As seen on' banner (mobile)" },
+    { "type": "text", "id": "banner_alt", "label": "Banner description", "default": "As seen on TODAY, BuzzFeed, ESPN, Barstool Sports and Sports Illustrated" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Real reviews" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Loved at home. Seen on ESPN." },
+    { "type": "product_list", "id": "rating_products", "label": "Show live ratings for", "limit": 3, "info": "Ratings come from Judge.me. Products without review data are skipped." },
+    { "type": "checkbox", "id": "show_widget", "label": "Show Judge.me reviews", "default": true },
+    { "type": "product", "id": "reviews_product", "label": "Reviews from", "info": "Shows that product's latest Judge.me reviews." },
+    { "type": "text", "id": "source_text", "label": "Reviews caption", "default": "Latest verified reviews of the [product] on Judge.me" },
+    { "type": "text", "id": "reviews_link_text", "label": "Button", "default": "Read all reviews" },
+    { "type": "url", "id": "reviews_link", "label": "Button link", "info": "Empty = /pages/reviews" }
+  ],
+  "blocks": [{ "type": "@app" }],
+  "presets": [{ "name": "Early Holiday: Reviews" }]
+}
+{% endschema %}

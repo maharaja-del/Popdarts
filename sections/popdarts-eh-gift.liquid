@@ -1,0 +1,241 @@
+{%- comment -%}
+  Early Holiday gift finder: "Who's on your list?" One chip per person; the chip swaps the panel below in place
+  (tabs — nothing scrolls). Each panel: product cutouts, a "Save up to N%" tag filled by popdarts-cm.js from the approval
+  register only, and shoppable rows (own colour dropdown + Add, snippets/popdarts-cm-row). "Strip" blocks (the gift card)
+  run full width under the finder.
+{%- endcomment -%}
+{%- assign st = section.settings -%}
+{% render 'popdarts-cm-assets' %}{% render 'popdarts-eh-assets' %}
+<section class="pdcm pdcm--eh pdcm-gift pdcm-finder" id="cm-gift" aria-labelledby="cm-gift-title-{{ section.id }}" data-cm-dock-stop>
+  <div class="pdcm-wrap">
+    <div class="pdcm-head">
+      <p class="pdcm-eyebrow">{{ st.eyebrow }}</p>
+      <h2 class="pdcm-h2" id="cm-gift-title-{{ section.id }}">{{ st.heading }}</h2>
+      {%- if st.sub != blank -%}<p class="pdcm-lead">{{ st.sub }}</p>{%- endif -%}
+    </div>
+
+    <div class="pdcm-finder__box" data-cm-tabs>
+      <div class="pdcm-chips pdcm-finder__tabs" role="tablist" aria-label="{{ st.tabs_label | escape }}">
+        {%- assign n = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.settings.layout == 'strip' -%}{%- continue -%}{%- endif -%}
+          <button type="button" class="pdcm-chipbtn" role="tab" id="cm-ftab-{{ block.id }}" aria-controls="cm-fpanel-{{ block.id }}" aria-selected="{% if n == 0 %}true{% else %}false{% endif %}" tabindex="{% if n == 0 %}0{% else %}-1{% endif %}">{{ block.settings.label }}</button>
+          {%- assign n = n | plus: 1 -%}
+        {%- endfor -%}
+      </div>
+
+      {%- assign n = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.settings.layout == 'strip' -%}{%- continue -%}{%- endif -%}
+        {%- liquid
+          assign b = block.settings
+          assign art = b.art | split: ','
+          assign title = b.title | default: b.label
+        -%}
+        <div class="pdcm-finder__panel" role="tabpanel" id="cm-fpanel-{{ block.id }}" aria-labelledby="cm-ftab-{{ block.id }}" tabindex="0" data-cm-tier {{ block.shopify_attributes }}{% if n > 0 %} hidden{% endif %}>
+          <div class="pdcm-finder__art pdcm-finder__art--{{ art.size | at_most: 3 }}" aria-hidden="true">
+            {%- for a in art limit: 3 -%}
+              {%- assign an = a | strip -%}
+              <img src="{{ an | asset_url }}" alt="" width="900" height="900" loading="lazy" decoding="async">
+            {%- endfor -%}
+          </div>
+          <div class="pdcm-finder__body">
+            <p class="pdcm-gcard__save" data-cm-tier-save data-prefix="{{ st.save_prefix | escape }}" data-cm-when="live" hidden></p>
+            <h3 class="pdcm-finder__title">{{ title }}</h3>
+            {%- if b.blurb != blank -%}<p class="pdcm-finder__blurb">{{ b.blurb }}</p>{%- endif -%}
+            <ul class="pdcm-rows">
+              {%- for p in b.products limit: 4 -%}
+                {%- liquid
+                  assign hay = p.handle | append: ' ' | append: p.title | downcase
+                  assign skip = false
+                  if hay contains 'elite' or hay contains 'slightly' or hay contains 'returned' or p.available == false
+                    assign skip = true
+                  endif
+                -%}
+                {%- if skip -%}{%- continue -%}{%- endif -%}
+                {%- assign uid = block.id | append: '-' | append: forloop.index -%}
+                {% render 'popdarts-cm-row', product: p, uid: uid, hide: st.hide_variants, kind: 'row' %}
+              {%- endfor -%}
+            </ul>
+          </div>
+        </div>
+        {%- assign n = n | plus: 1 -%}
+      {%- endfor -%}
+    </div>
+
+    {%- for block in section.blocks -%}
+      {%- if block.settings.layout != 'strip' -%}{%- continue -%}{%- endif -%}
+      {%- assign b = block.settings -%}
+      <article class="pdcm-gstrip{% if b.media_tone == 'night' %} is-night{% endif %}" aria-labelledby="cm-gcard-{{ block.id }}" {{ block.shopify_attributes }}>
+        <div class="pdcm-gstrip__media">
+          {%- if b.image != blank -%}
+            {{ b.image | image_url: width: 1000 | image_tag: widths: '450, 600, 800, 1000', sizes: '(min-width: 990px) 240px, 40vw', loading: 'lazy', alt: b.image_alt }}
+          {%- elsif b.image_asset != blank -%}
+            <img src="{{ b.image_asset | asset_url }}" alt="{{ b.image_alt | escape }}" width="1600" height="1000" loading="lazy" decoding="async">
+          {%- endif -%}
+        </div>
+        <div class="pdcm-gstrip__copy">
+          <h3 class="pdcm-gcard__title" id="cm-gcard-{{ block.id }}">{{ b.title | default: b.label }}</h3>
+          {%- if b.blurb != blank -%}<p class="pdcm-gcard__blurb">{{ b.blurb }}</p>{%- endif -%}
+        </div>
+        <div class="pdcm-gstrip__rows">
+          <ul class="pdcm-rows">
+            {%- for p in b.products limit: 4 -%}
+              {%- liquid
+                assign hay = p.handle | append: ' ' | append: p.title | downcase
+                assign skip = false
+                if hay contains 'elite' or hay contains 'slightly' or hay contains 'returned' or p.available == false
+                  assign skip = true
+                endif
+              -%}
+              {%- if skip -%}{%- continue -%}{%- endif -%}
+              {%- assign uid = block.id | append: '-' | append: forloop.index -%}
+              {% render 'popdarts-cm-row', product: p, uid: uid, hide: st.hide_variants, kind: 'row' %}
+            {%- endfor -%}
+          </ul>
+        </div>
+      </article>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Early Holiday: Gift list",
+  "tag": "div",
+  "class": "pdcm-gift-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Gift finder"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Who's on your list?"
+    },
+    {
+      "type": "text",
+      "id": "sub",
+      "label": "Text",
+      "default": "Pick a person. Every gift has its own colour choice and Add button."
+    },
+    {
+      "type": "text",
+      "id": "tabs_label",
+      "label": "Chip group name (screen readers)",
+      "default": "Who you're shopping for"
+    },
+    {
+      "type": "text",
+      "id": "save_prefix",
+      "label": "Saving tag",
+      "default": "Save up to",
+      "info": "Shown only during the sale, with the best approved saving in that panel."
+    },
+    {
+      "type": "text",
+      "id": "hide_variants",
+      "label": "Hide colorways",
+      "default": "Halloween",
+      "info": "Comma-separated variant names left out of the dropdowns."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "person",
+      "name": "Person",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Chip",
+          "info": "e.g. The whole family"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "info": "Empty = the chip text."
+        },
+        {
+          "type": "textarea",
+          "id": "blurb",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "art",
+          "label": "Cutout art (theme assets)",
+          "info": "Up to 3 comma-separated cutouts, e.g. pd-cm-cut-rookie-pack-blue-green.webp"
+        },
+        {
+          "type": "product_list",
+          "id": "products",
+          "label": "Products",
+          "limit": 4,
+          "info": "Sold-out, Elite and returned products are skipped."
+        },
+        {
+          "type": "select",
+          "id": "layout",
+          "label": "Layout",
+          "options": [
+            {
+              "value": "panel",
+              "label": "Finder chip + panel"
+            },
+            {
+              "value": "strip",
+              "label": "Full-width strip under the finder"
+            }
+          ],
+          "default": "panel",
+          "info": "Use a strip for the gift card."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Strip image"
+        },
+        {
+          "type": "text",
+          "id": "image_asset",
+          "label": "Strip image (theme asset)",
+          "info": "Used when no image is picked, e.g. pd-cm-giftcard.jpg"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image description"
+        },
+        {
+          "type": "select",
+          "id": "media_tone",
+          "label": "Strip image background",
+          "options": [
+            {
+              "value": "light",
+              "label": "Light"
+            },
+            {
+              "value": "night",
+              "label": "Night (for dark artwork like the gift card)"
+            }
+          ],
+          "default": "light"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Early Holiday: Gift list"
+    }
+  ]
+}
+{% endschema %}

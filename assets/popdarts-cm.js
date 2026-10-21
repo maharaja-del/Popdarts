@@ -263,6 +263,8 @@
         setText(was, '');
         if (now) now.classList.remove('is-sale');
       }
+      var pk = el.closest('[data-cm-picker]'), chip = pk && $('[data-cm-pick-off]', pk);
+      if (chip) setText(chip, hit ? hit.getAttribute('data-off') : '');
     });
   }
 
@@ -283,6 +285,45 @@
       });
       out.textContent = best > 0 ? (out.dataset.prefix || 'Save up to') + ' ' + best + '%' : '';
       out.hidden = best <= 0;
+    });
+  }
+
+  /* ---------------- filter chips + "show all": narrow a grid in place (nothing scrolls) ---------------- */
+  function initFilters(root) {
+    $$('[data-cm-filter]', root).forEach(function (wrap) {
+      if (!once(wrap, 'filter')) return;
+      var btns = $$('[data-cm-filter-btn]', wrap), grid = $('[data-cm-filter-grid]', wrap), more = $('[data-cm-more]', wrap);
+      if (!grid) return;
+      var limit = parseInt(wrap.getAttribute('data-limit'), 10) || 0, current = 'all', expanded = false;
+      function apply() {
+        var items = $$('[data-cm-group]', grid);
+        items.forEach(function (it) { it.hidden = false; });
+        // a card hidden by the sale state (data-cm-when) doesn't count
+        var live = items.filter(function (it) { var c = it.firstElementChild; return !c || shown(c); });
+        var match = live.filter(function (it) { return current === 'all' || it.getAttribute('data-cm-group') === current; });
+        var cap = current === 'all' && !expanded && limit ? limit : match.length;
+        items.forEach(function (it) { it.hidden = match.indexOf(it) < 0 || match.indexOf(it) >= cap; });
+        if (more) {
+          more.hidden = match.length <= cap;
+          var lab = $('[data-cm-label]', more) || more;
+          lab.textContent = (more.getAttribute('data-label') || 'Show all') + ' ' + match.length;
+        }
+      }
+      btns.forEach(function (b) {
+        b.addEventListener('click', function () {
+          current = b.getAttribute('data-cm-filter-btn');
+          btns.forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+          apply();
+        });
+      });
+      if (more) more.addEventListener('click', function () { expanded = true; apply(); });
+      wrap.__pdcmShowAll = function () {
+        current = 'all'; expanded = true;
+        btns.forEach(function (x) { x.setAttribute('aria-pressed', x.getAttribute('data-cm-filter-btn') === 'all' ? 'true' : 'false'); });
+        apply();
+      };
+      document.addEventListener('pdcm:state', apply);
+      apply();
     });
   }
 
@@ -591,6 +632,7 @@
     initTierSave(root);
     initRails(root);
     initTabs(root);
+    initFilters(root);
     initAccordions(root);
     initJumps(root);
     initVideos(root);
@@ -606,6 +648,18 @@
   document.addEventListener('shopify:section:load', function (e) {
     if (e.target.querySelector('script[data-cm-clock]')) { clearInterval(clock.timer); clock.timer = null; }
     init(e.target);
+  });
+  // Theme editor: a selected block that sits in a closed tab or behind a filter is brought into view.
+  document.addEventListener('shopify:block:select', function (e) {
+    var el = e.target;
+    if (!el || !el.closest) return;
+    var panel = el.closest('[role="tabpanel"]'), tabs = panel && panel.closest('[data-cm-tabs]');
+    if (panel && panel.hidden && tabs && tabs.__pdcmSelect) {
+      var tab = document.getElementById(panel.getAttribute('aria-labelledby'));
+      if (tab) tabs.__pdcmSelect(tab);
+    }
+    var item = el.closest('[data-cm-group]'), wrap = item && item.closest('[data-cm-filter]');
+    if (item && item.hidden && wrap && wrap.__pdcmShowAll) wrap.__pdcmShowAll();
   });
   document.addEventListener('shopify:section:unload', function (e) {
     if (dock.bar && e.target.contains(dock.bar)) {

@@ -7,7 +7,10 @@
     product
     uid    unique id for the row (block id + index)
     hide   comma-separated variant titles to leave out (e.g. "Halloween")
-    kind   'row' (gift guide) or 'pick' (quick picks) — only changes the class names
+    kind   'row' (gift guide), 'pick' (quick picks) or 'tile' (hero lineup) — changes the class names; a tile also gets
+           an 'N% off' chip, filled only from the approval register
+    cutout true = show the colourway's transparent cutout (assets/pd-cm-cut-<handle>-<colour>.webp) instead of the photo
+    dock_source  true = this row seeds the phone buy bar
 {%- endcomment -%}
 {%- liquid
   assign p = product
@@ -39,12 +42,18 @@
     assign opts = 1
   endif
   assign img = first.featured_image | default: p.featured_image
+  if cutout
+    assign cut = first.title | handleize | prepend: '-' | prepend: p.handle | prepend: 'pd-cm-cut-' | append: '.webp'
+  endif
   assign msg_id = 'cm-msg-' | append: uid
   assign sel_id = 'cm-sel-' | append: uid
 -%}
-<li class="pdcm-{{ k }}{% if opts > 1 %} has-options{% endif %}" data-cm-picker data-cm-use-register data-product-title="{{ p.title | escape }}">
+<li class="pdcm-{{ k }}{% if opts > 1 %} has-options{% endif %}" data-cm-picker data-cm-use-register{% if dock_source %} data-cm-dock-source{% endif %} data-product-title="{{ p.title | escape }}">
   <a class="pdcm-{{ k }}__thumb pdcm-media pdcm-media--studio" href="{{ first.url | default: p.url }}" tabindex="-1" aria-hidden="true" data-cm-pick-img data-cm-pick-link>
-    {%- if img -%}{{ img | image_url: width: 200 | image_tag: widths: '100, 200', sizes: '80px', loading: 'lazy', alt: '', width: 100, height: 100 }}{%- endif -%}
+    {%- if cutout -%}
+      <img src="{{ cut | asset_url }}" alt="" width="900" height="900" loading="eager" decoding="async">
+    {%- elsif img -%}{{ img | image_url: width: 200 | image_tag: widths: '100, 200', sizes: '80px', loading: 'lazy', alt: '', width: 100, height: 100 }}{%- endif -%}
+    {%- if k == 'tile' -%}<span class="pdcm-chip pdcm-chip--sale" data-cm-pick-off data-cm-when="live" hidden></span>{%- endif -%}
   </a>
   <div class="pdcm-{{ k }}__info">
     <p class="pdcm-{{ k }}__name"><a href="{{ first.url | default: p.url }}" data-cm-pick-link>{{ p.title }}</a></p>
@@ -71,7 +80,7 @@
             -%}
             {%- if is_hidden -%}{%- continue -%}{%- endif -%}
             {%- assign is_sel = false -%}{%- if v.id == first.id -%}{%- assign is_sel = true -%}{%- endif -%}
-            {% render 'popdarts-cm-swatch', variant: v, product: p, selected: is_sel, status: 'none', as: 'option', bare: true %}
+            {% render 'popdarts-cm-swatch', variant: v, product: p, selected: is_sel, status: 'none', as: 'option', bare: true, cyber: cutout %}
           {%- endfor -%}
         </select>
       </span>
