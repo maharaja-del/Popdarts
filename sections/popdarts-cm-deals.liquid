@@ -287,21 +287,29 @@
 <div hidden data-cm-register>{{ register }}</div>
 
 <section class="pdcm pdcm-hero" id="cm-hero" aria-labelledby="cm-hero-title-{{ section.id }}">
+  <div class="pdcm-hero__bg" style="--bx: {{ st.hero_bg_x | default: 62 }}%; --by: {{ st.hero_bg_y | default: 30 }}%; --bxm: {{ st.hero_bg_x_mobile | default: 8 }}%; --bym: {{ st.hero_bg_y_mobile | default: 12 }}%" aria-hidden="true">
+    {%- if st.hero_bg != blank -%}
+      {{ st.hero_bg | image_url: width: 2400 | image_tag: widths: '750, 1100, 1500, 1920, 2400', sizes: '100vw', loading: 'eager', fetchpriority: 'high', alt: '' }}
+    {%- elsif st.hero_bg_asset != blank -%}
+      <img src="{{ st.hero_bg_asset | asset_url }}" alt="" width="1920" height="1080" fetchpriority="high" decoding="async">
+    {%- endif -%}
+  </div>
+
   <div class="pdcm-wrap pdcm-hero__grid">
-    <div class="pdcm-hero__top">
-      <p class="pdcm-eyebrow pdcm-eyebrow--night" data-cm-when="live">{{ st.hero_eyebrow }}</p>
-      <p class="pdcm-eyebrow pdcm-eyebrow--night" data-cm-when="before">{{ st.hero_eyebrow_before }}</p>
-      <p class="pdcm-eyebrow pdcm-eyebrow--night" data-cm-when="after">{{ st.hero_eyebrow_after }}</p>
+    <div class="pdcm-hero__copy">
+      <p class="pdcm-tag pdcm-tag--night" data-cm-when="live"><span class="pdcm-tag__dot" aria-hidden="true"></span>{{ st.hero_eyebrow }}</p>
+      <p class="pdcm-tag pdcm-tag--night" data-cm-when="before"><span class="pdcm-tag__dot" aria-hidden="true"></span>{{ st.hero_eyebrow_before }}</p>
+      <p class="pdcm-tag pdcm-tag--night" data-cm-when="after">{{ st.hero_eyebrow_after }}</p>
       <h1 class="pdcm-hero__title" id="cm-hero-title-{{ section.id }}">
         <span class="pdcm-hero__line" data-cm-when="live before">{{ st.hero_line1 }}</span>
         <span class="pdcm-hero__line" data-cm-when="after">{{ st.hero_after_line1 }}</span>
         {%- if headline_pct > 0 -%}
-          <span class="pdcm-hero__line pdcm-hero__offer" data-cm-when="live">{{ st.hero_offer | replace: '[pct]', headline_pct_s }}<span class="pdcm-hero__qual">{{ st.hero_qualifier }}</span></span>
+          <span class="pdcm-hero__offer" data-cm-when="live">{{ st.hero_offer | replace: '[pct]', headline_pct_s }}<span class="pdcm-hero__qual">{{ st.hero_qualifier }}</span></span>
         {%- else -%}
-          <span class="pdcm-hero__line pdcm-hero__offer" data-cm-when="live">{{ st.hero_nodeal }}</span>
+          <span class="pdcm-hero__offer" data-cm-when="live">{{ st.hero_nodeal }}</span>
         {%- endif -%}
-        <span class="pdcm-hero__line pdcm-hero__offer" data-cm-when="before">{{ st.hero_before_line }}</span>
-        <span class="pdcm-hero__line pdcm-hero__offer" data-cm-when="after">{{ st.hero_after_line2 }}</span>
+        <span class="pdcm-hero__offer" data-cm-when="before">{{ st.hero_before_line }}</span>
+        <span class="pdcm-hero__offer" data-cm-when="after">{{ st.hero_after_line2 }}</span>
       </h1>
       {%- if x_pct > 20 and st.hero_select != blank -%}
         <p class="pdcm-hero__select" data-cm-when="live">{{ st.hero_select | replace: '[xpct]', x_pct_s }}</p>
@@ -311,33 +319,29 @@
       <p class="pdcm-hero__sub" data-cm-when="after">{{ st.hero_sub_after }}</p>
     </div>
 
-    <div class="pdcm-hero__bottom">
+    <div class="pdcm-hero__cta">
       {% render 'popdarts-cm-timer', style: 'tiles', label: st.timer_label %}
       <div class="pdcm-hero__actions">
-        <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="#cm-deals" data-cm-when="live">{{ st.hero_cta }}</a>
-        <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="#cm-deals" data-cm-when="before">{{ st.hero_cta_before }}</a>
-        <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="{{ st.after_link | default: '/collections/all' }}" data-cm-when="after">{{ st.hero_cta_after }}</a>
+        <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="#cm-deals" data-cm-when="live">{{ st.hero_cta }}<span class="pdcm-btn__arrow" aria-hidden="true"></span></a>
+        <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="#cm-deals" data-cm-when="before">{{ st.hero_cta_before }}<span class="pdcm-btn__arrow" aria-hidden="true"></span></a>
+        <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="{{ st.after_link | default: '/collections/all' }}" data-cm-when="after">{{ st.hero_cta_after }}<span class="pdcm-btn__arrow" aria-hidden="true"></span></a>
         {%- if st.hero_link2_text != blank -%}
-          <a class="pdcm-link pdcm-link--night" href="{{ st.hero_link2 | default: '#cm-rookie-pro' }}">{{ st.hero_link2_text }}</a>
+          <a class="pdcm-btn pdcm-btn--ghost pdcm-btn--lg" href="{{ st.hero_link2 | default: '#cm-rookie-pro' }}">{{ st.hero_link2_text }}</a>
         {%- endif -%}
       </div>
-      <p class="pdcm-hero__trust">
-        {%- capture hero_rating -%}{% render 'popdarts-cm-rating', product: hp, link: '#cm-proof', label: hp.title %}{%- endcapture -%}
-        {%- if hero_rating != blank -%}<span class="pdcm-hero__rating">{{ hero_rating }}</span>{%- endif -%}
-        {%- if st.hero_trust != blank -%}<span class="pdcm-hero__trust-note" data-cm-when="live">{{ st.hero_trust }}</span>{%- endif -%}
-      </p>
     </div>
 
     {%- if hp != blank -%}
       <div class="pdcm-hero__panel pdcm-buy" data-cm-picker data-cm-dock-source data-product-title="{{ hp.title | escape }}" data-soldout-text="Sold out">
         <div class="pdcm-buy__media pdcm-media pdcm-media--studio" style="--z: {{ hero_zoom }}; --fy: {{ st.hero_focus | default: 62 }}%" data-cm-pick-img>
           {%- if hero_img -%}
-            {{ hero_img | image_url: width: 900 | image_tag: widths: '400, 600, 800, 900', sizes: '(min-width: 990px) 368px, 92vw', loading: 'eager', fetchpriority: 'high', alt: hp.title }}
+            {{ hero_img | image_url: width: 900 | image_tag: widths: '300, 450, 600, 800, 900', sizes: '(min-width: 990px) 400px, 112px', loading: 'eager', alt: hp.title }}
           {%- endif -%}
           <span class="pdcm-chip pdcm-chip--sale" data-cm-pick-off data-cm-when="live"{% unless so[1] == 'yes' %} hidden{% endunless %}>{% if so[1] == 'yes' %}{{ so[0] }}% off{% endif %}</span>
         </div>
         <div class="pdcm-buy__body">
           <div class="pdcm-buy__head">
+            {%- if st.hero_panel_label != blank -%}<p class="pdcm-buy__kicker">{{ st.hero_panel_label }}</p>{%- endif -%}
             <h2 class="pdcm-buy__name"><a href="{{ best.url }}" data-cm-pick-link>{{ hp.title }}</a></h2>
             <p class="pdcm-buy__price pdcm-price pdcm-price--lg">
               <span class="pdcm-price__now{% if so[1] == 'yes' %} is-sale{% endif %}" data-cm-pick-now>{{ best.price | money }}</span>
@@ -368,7 +372,7 @@
               {%- if soldout_names != blank -%}<p class="pdcm-buy__soldout">Sold out right now: {{ soldout_names }}</p>{%- endif -%}
             </div>
           {%- endunless -%}
-          <button type="button" class="pdcm-btn pdcm-btn--ink pdcm-btn--block pdcm-btn--lg" data-cm-atc data-variant-id="{{ best.id }}"
+          <button type="button" class="pdcm-btn pdcm-btn--lime pdcm-btn--block pdcm-btn--lg" data-cm-atc data-variant-id="{{ best.id }}"
             data-product-title="{{ hp.title | escape }}{% unless hp.has_only_default_variant %} — {{ best.title | escape }}{% endunless %}"
             data-label-add="Add to cart" data-label-added="Added ✓" data-label-soldout="Sold out" data-label-error="Try again"
             aria-describedby="{{ msg_hero }}"{% unless best.available %} disabled{% endunless %}>
@@ -380,51 +384,38 @@
       </div>
     {%- endif -%}
   </div>
+
+  {%- capture hero_rating -%}{% render 'popdarts-cm-rating', product: hp, link: '#cm-proof', label: hp.title %}{%- endcapture -%}
+  <div class="pdcm-trustbar">
+    <ul class="pdcm-wrap pdcm-trustbar__list">
+      {%- if hero_rating != blank -%}<li class="pdcm-trustbar__item pdcm-trustbar__item--rating">{{ hero_rating }}</li>{%- endif -%}
+      {%- if st.trust_1 != blank -%}
+        <li class="pdcm-trustbar__item"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>{{ st.trust_1 }}</li>
+      {%- endif -%}
+      {%- if st.trust_2 != blank -%}
+        <li class="pdcm-trustbar__item pdcm-trustbar__item--wide"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="m3 7.5 9 4.5 9-4.5M12 12v9" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>{{ st.trust_2 }}</li>
+      {%- endif -%}
+      {%- if st.hero_trust != blank -%}
+        <li class="pdcm-trustbar__item" data-cm-when="live"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="8" cy="8" r="1.6" fill="currentColor"/></svg>{{ st.hero_trust }}</li>
+      {%- endif -%}
+    </ul>
+  </div>
 </section>
 
-<section class="pdcm pdcm-deals" id="cm-deals" aria-labelledby="cm-deals-title-{{ section.id }}" data-cm-dock-stop data-cm-tabs>
+<section class="pdcm pdcm-deals" id="cm-deals" aria-labelledby="cm-deals-title-{{ section.id }}" data-cm-dock-stop>
   <div class="pdcm-wrap">
-    <div class="pdcm-deals__head">
-      <div class="pdcm-deals__intro">
-        <p class="pdcm-eyebrow" data-cm-when="live">{{ st.deals_eyebrow }}</p>
-        <p class="pdcm-eyebrow" data-cm-when="before">{{ st.deals_eyebrow_before }}</p>
-        <p class="pdcm-eyebrow" data-cm-when="after">{{ st.deals_eyebrow_after }}</p>
-        <h2 class="pdcm-h2" id="cm-deals-title-{{ section.id }}">{{ st.deals_heading }}</h2>
-        <p class="pdcm-lead" data-cm-when="live">{{ st.deals_sub }}</p>
-        <p class="pdcm-lead" data-cm-when="before">{{ st.deals_sub_before }}</p>
-        <p class="pdcm-lead" data-cm-when="after">{{ st.deals_sub_after }}</p>
-      </div>
-      <div class="pdcm-tabs" role="tablist" aria-label="{{ st.deals_heading | escape }}">
-        {%- assign first_tab = true -%}
-        {%- for g in (1..4) -%}
-          {%- liquid
-            assign label_key = 'tab_' | append: g
-            assign tlabel = st[label_key]
-            case g
-              when 1
-                assign tc = tab_cards_1
-                assign td = tab_deals_1
-              when 2
-                assign tc = tab_cards_2
-                assign td = tab_deals_2
-              when 3
-                assign tc = tab_cards_3
-                assign td = tab_deals_3
-              else
-                assign tc = tab_cards_4
-                assign td = tab_deals_4
-            endcase
-          -%}
-          {%- if tc == 0 or tlabel == blank -%}{%- continue -%}{%- endif -%}
-          <button type="button" class="pdcm-tab" role="tab" id="cm-tab-{{ section.id }}-{{ g }}" aria-controls="cm-panel-{{ section.id }}-{{ g }}"
-            aria-selected="{% if first_tab %}true{% else %}false{% endif %}" tabindex="{% if first_tab %}0{% else %}-1{% endif %}"
-            {%- if st.only_discounted and td == 0 %} data-cm-when="before after"{% endif %}>{{ tlabel }}</button>
-          {%- assign first_tab = false -%}
-        {%- endfor -%}
-      </div>
+    <div class="pdcm-head pdcm-head--wide">
+      <p class="pdcm-eyebrow" data-cm-when="live">{{ st.deals_eyebrow }}</p>
+      <p class="pdcm-eyebrow" data-cm-when="before">{{ st.deals_eyebrow_before }}</p>
+      <p class="pdcm-eyebrow" data-cm-when="after">{{ st.deals_eyebrow_after }}</p>
+      <h2 class="pdcm-h2" id="cm-deals-title-{{ section.id }}">{{ st.deals_heading }}</h2>
+      <p class="pdcm-lead" data-cm-when="live">{{ st.deals_sub }}</p>
+      <p class="pdcm-lead" data-cm-when="before">{{ st.deals_sub_before }}</p>
+      <p class="pdcm-lead" data-cm-when="after">{{ st.deals_sub_after }}</p>
     </div>
 
-    {%- assign first_panel = true -%}
+    {%- comment -%} One shelf per group: the first is the big "games" row, the rest are compact rails. Nothing hides behind tabs. {%- endcomment -%}
+    {%- assign first_shelf = true -%}
     {%- for g in (1..4) -%}
       {%- liquid
         assign label_key = 'tab_' | append: g
@@ -432,40 +423,50 @@
         case g
           when 1
             assign tc = tab_cards_1
+            assign td = tab_deals_1
           when 2
             assign tc = tab_cards_2
+            assign td = tab_deals_2
           when 3
             assign tc = tab_cards_3
+            assign td = tab_deals_3
           else
             assign tc = tab_cards_4
+            assign td = tab_deals_4
         endcase
         assign gs = g | append: ''
         assign shown = 0
+        assign shelf_id = 'cm-shelf-' | append: section.id | append: '-' | append: g
       -%}
       {%- if tc == 0 or tlabel == blank -%}{%- continue -%}{%- endif -%}
-      <div class="pdcm-tabpanel" role="tabpanel" id="cm-panel-{{ section.id }}-{{ g }}" aria-labelledby="cm-tab-{{ section.id }}-{{ g }}"{% unless first_panel %} hidden{% endunless %}>
-        <div class="pdcm-rail" data-cm-rail>
-          <div class="pdcm-rail__track" data-cm-track role="region" aria-label="{{ st.deals_eyebrow | escape }}: {{ tlabel | escape }}" tabindex="0">
-            {%- for key in sorted -%}
-              {%- assign parts = key | split: '|' -%}
-              {%- if parts[0] != gs -%}{%- continue -%}{%- endif -%}
-              {%- assign bi = parts[3] | minus: 1000 -%}
-              {%- assign blk = section.blocks[bi] -%}
-              {%- assign eager = false -%}{%- if first_panel and shown < 2 -%}{%- assign eager = true -%}{%- endif -%}
-              <div class="pdcm-rail__slide" {{ blk.shopify_attributes }}>
-                {% render 'popdarts-cm-card', product: blk.settings.product, settings: blk.settings, block_id: blk.id, section_id: section.id, hide: hide, only_discounted: st.only_discounted, eager: eager %}
-              </div>
-              {%- assign shown = shown | plus: 1 -%}
-            {%- endfor -%}
-          </div>
-          <div class="pdcm-rail__nav">
-            <span class="pdcm-dots" data-cm-dots data-label-prefix="Show {{ tlabel | escape }} product"></span>
-            <button type="button" class="pdcm-arrow" data-cm-prev aria-label="Previous {{ tlabel | escape }} products"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4.5 7 10l5.5 5.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            <button type="button" class="pdcm-arrow" data-cm-next aria-label="Next {{ tlabel | escape }} products"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 4.5 13 10l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="pdcm-shelf pdcm-rail{% if first_shelf %} pdcm-shelf--feature{% else %} pdcm-shelf--compact{% endif %}" data-cm-rail
+        {%- if st.only_discounted and td == 0 %} data-cm-when="before after"{% endif %}>
+        <div class="pdcm-shelf__head">
+          <h3 class="pdcm-shelf__title" id="{{ shelf_id }}">{{ tlabel }}</h3>
+          <div class="pdcm-shelf__nav">
+            <button type="button" class="pdcm-arrow" data-cm-prev aria-label="Previous {{ tlabel | escape }}"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4.5 7 10l5.5 5.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button type="button" class="pdcm-arrow" data-cm-next aria-label="Next {{ tlabel | escape }}"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 4.5 13 10l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           </div>
         </div>
+        <div class="pdcm-rail__track" data-cm-track role="region" aria-labelledby="{{ shelf_id }}" tabindex="0">
+          {%- for key in sorted -%}
+            {%- assign parts = key | split: '|' -%}
+            {%- if parts[0] != gs -%}{%- continue -%}{%- endif -%}
+            {%- assign bi = parts[3] | minus: 1000 -%}
+            {%- assign blk = section.blocks[bi] -%}
+            {%- assign eager = false -%}{%- if first_shelf and shown < 3 -%}{%- assign eager = true -%}{%- endif -%}
+            {%- assign card_size = 'compact' -%}{%- if first_shelf -%}{%- assign card_size = 'feature' -%}{%- endif -%}
+            <div class="pdcm-rail__slide" {{ blk.shopify_attributes }}>
+              {% render 'popdarts-cm-card', product: blk.settings.product, settings: blk.settings, block_id: blk.id, section_id: section.id, hide: hide, only_discounted: st.only_discounted, eager: eager, size: card_size %}
+            </div>
+            {%- assign shown = shown | plus: 1 -%}
+          {%- endfor -%}
+        </div>
+        <div class="pdcm-rail__nav">
+          <span class="pdcm-dots" data-cm-dots data-label-prefix="Show {{ tlabel | escape }} product"></span>
+        </div>
       </div>
-      {%- assign first_panel = false -%}
+      {%- assign first_shelf = false -%}
     {%- endfor -%}
 
     {%- if st.only_discounted and live_cards == 0 -%}
@@ -492,12 +493,21 @@
     { "type": "text", "id": "hero_qualifier", "label": "Offer qualifier", "default": "eligible games & gear" },
     { "type": "text", "id": "hero_nodeal", "label": "Offer line when no saving is approved", "default": "Game on." },
     { "type": "text", "id": "hero_select", "label": "Extended offer line", "default": "Select items up to [xpct]% off", "info": "Shows only when a Daniel-approved, non-protected product above 20% is actually on the page." },
-    { "type": "text", "id": "hero_sub", "label": "Support text", "default": "Sale prices are already applied — no code needed. Taxes and shipping are calculated at checkout." },
+    { "type": "text", "id": "hero_sub", "label": "Support text", "default": "As seen on ESPN. Popdarts stick to glass, windows, even the fridge — game night happens anywhere." },
     { "type": "text", "id": "hero_cta", "label": "Button", "default": "Shop Cyber Monday Deals" },
     { "type": "text", "id": "hero_link2_text", "label": "Secondary link", "default": "Rookie or Pro?" },
     { "type": "url", "id": "hero_link2", "label": "Secondary link target", "info": "Empty = the Rookie or Pro question in the FAQ." },
-    { "type": "text", "id": "hero_trust", "label": "Trust note", "default": "No code needed" },
+    { "type": "text", "id": "hero_trust", "label": "Trust bar item 3 (sale only)", "default": "No code needed" },
+    { "type": "text", "id": "trust_1", "label": "Trust bar item 1", "default": "As seen on ESPN" },
+    { "type": "text", "id": "trust_2", "label": "Trust bar item 2", "default": "Orders processed in 1–2 business days" },
     { "type": "text", "id": "timer_label", "label": "Countdown label", "default": "Sale ends in", "info": "The countdown only appears when the deadline is confirmed in Cyber Monday: Settings." },
+    { "type": "header", "content": "Hero — background photo" },
+    { "type": "image_picker", "id": "hero_bg", "label": "Background photo" },
+    { "type": "text", "id": "hero_bg_asset", "label": "Theme asset photo", "default": "pd-hero-trophy-lift.jpg", "info": "Used when no photo is picked above." },
+    { "type": "range", "id": "hero_bg_x", "label": "Photo focus (horizontal)", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 62 },
+    { "type": "range", "id": "hero_bg_y", "label": "Photo focus (vertical)", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 30 },
+    { "type": "range", "id": "hero_bg_x_mobile", "label": "Phone photo focus (horizontal)", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 8 },
+    { "type": "range", "id": "hero_bg_y_mobile", "label": "Phone photo focus (vertical)", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 12 },
     { "type": "header", "content": "Hero — before the sale" },
     { "type": "text", "id": "hero_eyebrow_before", "label": "Eyebrow", "default": "Coming Monday, Nov 30" },
     { "type": "text", "id": "hero_before_line", "label": "Headline line 2", "default": "Is coming." },
@@ -510,7 +520,8 @@
     { "type": "text", "id": "hero_sub_after", "label": "Support text", "default": "Every Popdarts game is ready to throw." },
     { "type": "text", "id": "hero_cta_after", "label": "Button", "default": "Shop all games" },
     { "type": "url", "id": "after_link", "label": "After-sale link", "info": "Empty = all products (/collections/all)." },
-    { "type": "header", "content": "Hero buy panel" },
+    { "type": "header", "content": "Hero buy card" },
+    { "type": "text", "id": "hero_panel_label", "label": "Card label", "default": "Featured game" },
     { "type": "product", "id": "hero_product", "label": "Product", "info": "Its saving comes from its own Deal block below." },
     { "type": "product", "id": "hero_fallback", "label": "Fallback product", "info": "Used when every visible colorway of the product above is sold out." },
     { "type": "text", "id": "hero_contents", "label": "What's included", "default": "6 Popdarts · PRO Target Marker™ · carrying bag with rules · stickers" },
@@ -523,14 +534,14 @@
     { "type": "text", "id": "deals_eyebrow_before", "label": "Eyebrow (before)", "default": "Coming Monday, Nov 30" },
     { "type": "text", "id": "deals_eyebrow_after", "label": "Eyebrow (after)", "default": "Shop Popdarts" },
     { "type": "text", "id": "deals_heading", "label": "Heading", "default": "Pick your game." },
-    { "type": "text", "id": "deals_sub", "label": "Text (sale)", "default": "Every saving is shown on the item and already applied at checkout." },
+    { "type": "text", "id": "deals_sub", "label": "Text (sale)", "default": "Rookie for beginners. Pro for competitors. Swaptop™ for more ways to play." },
     { "type": "text", "id": "deals_sub_before", "label": "Text (before)", "default": "Cyber Monday prices appear here when the sale starts. These are today's prices." },
     { "type": "text", "id": "deals_sub_after", "label": "Text (after)", "default": "Cyber Monday has ended. Here's what's in stock now." },
     { "type": "text", "id": "deals_empty", "label": "Text when no deal is approved", "default": "Cyber Monday deals will appear here." },
-    { "type": "text", "id": "tab_1", "label": "Tab 1", "default": "Game sets" },
-    { "type": "text", "id": "tab_2", "label": "Tab 2", "default": "Swaptop™ tops" },
-    { "type": "text", "id": "tab_3", "label": "Tab 3", "default": "Add-ons" },
-    { "type": "text", "id": "tab_4", "label": "Tab 4", "default": "Gear" },
+    { "type": "text", "id": "tab_1", "label": "Shelf 1 (big cards)", "default": "Game sets" },
+    { "type": "text", "id": "tab_2", "label": "Shelf 2", "default": "Swaptop™ tops" },
+    { "type": "text", "id": "tab_3", "label": "Shelf 3", "default": "Add-ons & gear" },
+    { "type": "text", "id": "tab_4", "label": "Shelf 4", "default": "Gear" },
     { "type": "checkbox", "id": "only_discounted", "label": "During the sale, show only approved deals", "default": true },
     { "type": "checkbox", "id": "show_soldout", "label": "Show sold-out products", "default": false },
     { "type": "select", "id": "sort", "label": "Order", "options": [{ "value": "listed", "label": "As listed (put high-inventory picks first)" }, { "value": "inventory", "label": "Most inventory first (counts are never shown)" }], "default": "listed" },
@@ -543,7 +554,7 @@
       "name": "Deal",
       "settings": [
         { "type": "product", "id": "product", "label": "Product" },
-        { "type": "select", "id": "tab", "label": "Tab", "options": [{ "value": "1", "label": "Tab 1" }, { "value": "2", "label": "Tab 2" }, { "value": "3", "label": "Tab 3" }, { "value": "4", "label": "Tab 4" }], "default": "1" },
+        { "type": "select", "id": "tab", "label": "Shelf", "options": [{ "value": "1", "label": "Shelf 1 (big cards)" }, { "value": "2", "label": "Shelf 2" }, { "value": "3", "label": "Shelf 3" }, { "value": "4", "label": "Shelf 4" }], "default": "1" },
         { "type": "header", "content": "Offer approval" },
         { "type": "select", "id": "offer", "label": "Offer approval", "options": [
           { "value": "none", "label": "Not approved — regular price only" },
@@ -560,6 +571,7 @@
         { "type": "range", "id": "image_number", "label": "Photo number", "min": 0, "max": 12, "step": 1, "default": 0, "info": "0 = the selected colorway's photo. 1–12 = that photo from the product's gallery." },
         { "type": "select", "id": "image_style", "label": "Photo style", "options": [{ "value": "studio", "label": "Studio (white background photos)" }, { "value": "photo", "label": "Photo (fills the frame)" }], "default": "studio" },
         { "type": "range", "id": "zoom", "label": "Photo zoom", "min": 100, "max": 200, "step": 5, "unit": "%", "default": 100 },
+        { "type": "range", "id": "focus_x", "label": "Photo focus (horizontal)", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 50, "info": "With zoom, pushes a clipped edge out of frame." },
         { "type": "range", "id": "focus_y", "label": "Photo focus (vertical)", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 50 }
       ]
     }

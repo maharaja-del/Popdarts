@@ -21,7 +21,13 @@
         "hero_focus": 62,
         "only_discounted": true,
         "show_soldout": false,
-        "sort": "listed"
+        "sort": "listed",
+        "hero_bg_asset": "pd-hero-trophy-lift.jpg",
+        "hero_bg_x": 62,
+        "hero_bg_y": 30,
+        "hero_bg_x_mobile": 8,
+        "hero_bg_y_mobile": 12,
+        "tab_3": "Add-ons & gear"
       },
       "blocks": {
         "pro": {
@@ -38,8 +44,9 @@
             "note": "",
             "image_number": 0,
             "image_style": "studio",
-            "zoom": 125,
-            "focus_y": 62
+            "zoom": 110,
+            "focus_x": 50,
+            "focus_y": 60
           }
         },
         "rookie": {
@@ -57,6 +64,7 @@
             "image_number": 0,
             "image_style": "studio",
             "zoom": 100,
+            "focus_x": 50,
             "focus_y": 50
           }
         },
@@ -71,11 +79,12 @@
             "extended_approved": false,
             "extended_skus": "",
             "approval_ref": "",
-            "note": "",
+            "note": "Frame, double-sided top, 6 darts and a carrying case.",
             "image_number": 0,
             "image_style": "studio",
-            "zoom": 100,
-            "focus_y": 50
+            "zoom": 130,
+            "focus_x": 100,
+            "focus_y": 60
           }
         },
         "og": {
@@ -93,6 +102,7 @@
             "image_number": 0,
             "image_style": "studio",
             "zoom": 110,
+            "focus_x": 50,
             "focus_y": 50
           }
         },
@@ -111,6 +121,7 @@
             "image_number": 0,
             "image_style": "studio",
             "zoom": 110,
+            "focus_x": 50,
             "focus_y": 50
           }
         },
@@ -129,6 +140,7 @@
             "image_number": 0,
             "image_style": "studio",
             "zoom": 110,
+            "focus_x": 50,
             "focus_y": 50
           }
         },
@@ -147,6 +159,7 @@
             "image_number": 0,
             "image_style": "studio",
             "zoom": 110,
+            "focus_x": 50,
             "focus_y": 50
           }
         },
@@ -165,6 +178,7 @@
             "image_number": 0,
             "image_style": "studio",
             "zoom": 100,
+            "focus_x": 50,
             "focus_y": 50
           }
         },
@@ -183,6 +197,7 @@
             "image_number": 5,
             "image_style": "studio",
             "zoom": 100,
+            "focus_x": 50,
             "focus_y": 50
           }
         },
@@ -201,6 +216,7 @@
             "image_number": 4,
             "image_style": "studio",
             "zoom": 100,
+            "focus_x": 50,
             "focus_y": 50
           }
         },
@@ -208,7 +224,7 @@
           "type": "deal",
           "settings": {
             "product": "popdarts-icon-trucker-cap",
-            "tab": "4",
+            "tab": "3",
             "offer": "none",
             "compare_confirmed": false,
             "protected": true,
@@ -218,15 +234,16 @@
             "note": "",
             "image_number": 0,
             "image_style": "photo",
-            "zoom": 100,
-            "focus_y": 40
+            "zoom": 130,
+            "focus_x": 50,
+            "focus_y": 12
           }
         },
         "beanie": {
           "type": "deal",
           "settings": {
             "product": "waffle-beanie",
-            "tab": "4",
+            "tab": "3",
             "offer": "none",
             "compare_confirmed": false,
             "protected": true,
@@ -237,6 +254,7 @@
             "image_number": 0,
             "image_style": "studio",
             "zoom": 105,
+            "focus_x": 50,
             "focus_y": 50
           }
         },
@@ -244,7 +262,7 @@
           "type": "deal",
           "settings": {
             "product": "popdarts-five-panel-cap",
-            "tab": "4",
+            "tab": "3",
             "offer": "none",
             "compare_confirmed": false,
             "protected": true,
@@ -255,6 +273,7 @@
             "image_number": 0,
             "image_style": "studio",
             "zoom": 105,
+            "focus_x": 50,
             "focus_y": 50
           }
         },
@@ -262,7 +281,7 @@
           "type": "deal",
           "settings": {
             "product": "popdarts-can-cooler-1",
-            "tab": "4",
+            "tab": "3",
             "offer": "none",
             "compare_confirmed": false,
             "protected": true,
@@ -273,6 +292,7 @@
             "image_number": 0,
             "image_style": "studio",
             "zoom": 110,
+            "focus_x": 50,
             "focus_y": 50
           }
         }
@@ -319,6 +339,7 @@
           "type": "gift_tab",
           "settings": {
             "label": "Family night",
+            "layout": "card",
             "blurb": "Rookie for beginners — the Rookie Pack is made for ages 5 to 95. The Swaptop™ Kit adds a frame and a double-sided top for more ways to play.",
             "products": [
               "rookie-pack",
@@ -340,6 +361,7 @@
           "type": "gift_tab",
           "settings": {
             "label": "Competitors",
+            "layout": "card",
             "blurb": "Pro for competitors. The Pro Pack's PRO Target Marker™ adds the 10-point shot, and PowerSpots add a twist to any game.",
             "products": [
               "pro-pack",
@@ -347,18 +369,19 @@
               "acc-tm"
             ],
             "media_kind": "image",
-            "image_asset": "pd-hero-dart-strike.jpg",
-            "image_alt": "A Popdarts player throwing under arena lights",
+            "image_asset": "pd-bento-players-ready.jpg",
+            "image_alt": "A Popdarts league player lining up a throw",
             "media_tone": "light",
             "video_url": "",
             "video_poster_asset": "",
-            "focus_y": 45
+            "focus_y": 40
           }
         },
         "small": {
           "type": "gift_tab",
           "settings": {
             "label": "Small gifts",
+            "layout": "card",
             "blurb": "For the fan who already has a set: caps, a beanie and a can cooler.",
             "products": [
               "popdarts-icon-trucker-cap",
@@ -378,6 +401,7 @@
           "type": "gift_tab",
           "settings": {
             "label": "Gift card",
+            "layout": "strip",
             "blurb": "Still deciding? Let them pick. The Popdarts e-gift card arrives as an instant code by email. Gift cards aren't discounted and can't be returned.",
             "products": [
               "popdarts-e-gift-card-instant-code-via-e-mail"
@@ -402,8 +426,6 @@
     "proof": {
       "type": "popdarts-cm-proof",
       "settings": {
-        "banner_desktop": "shopify://shop_images/As_Seen_On_Banner_-_Desktop_ea0808f0-2bd5-423f-9dc5-8382e33aa2ce.jpg",
-        "banner_mobile": "shopify://shop_images/As_Seen_On_Banner_High_b9de1491-9641-4002-a15f-e7162348750f.jpg",
         "rating_products": [
           "pro-pack",
           "rookie-pack",
@@ -504,8 +526,14 @@
     "final": {
       "type": "popdarts-cm-final",
       "settings": {
-        "image_asset": "pd-hero-trophy-lift.jpg",
+        "image_asset": "pd-championship-arena.jpg",
+        "image_alt": "Popdarts fans celebrating at the championship",
         "show_dock": true,
+        "products": [
+          "swaptop-kit",
+          "pro-pack",
+          "rookie-pack"
+        ],
         "terms": "<p>Cyber Monday pricing applies on Monday, Nov 30 on popdartsgame.com to eligible products shown on this page with a sale price. The saving shown on each product is already applied — no code needed; taxes and shipping are calculated at checkout. This is not a sitewide sale. Elite products, gift cards and slightly used or returned items are excluded. While supplies last; prices and availability may change.</p><p>Sale items are final sale and can't be returned (<a href=\"/policies/refund-policy\">Refund Policy</a>). If an item arrives damaged, defective or incorrect, email Support@popdartsgame.com right away. Orders are processed within 1–2 business days, excluding weekends and holidays; shipping options and rates are shown at checkout (<a href=\"/policies/shipping-policy\">Shipping Policy</a>). International shipping is available for select products; duties are paid by the customer.</p>"
       }
     }

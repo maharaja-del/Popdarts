@@ -20,7 +20,7 @@
   <div class="pdcm-wrap pdcm-play__grid">
     <div class="pdcm-play__head">
       <p class="pdcm-eyebrow">{{ st.eyebrow }}</p>
-      <h2 class="pdcm-h2" id="cm-play-title-{{ section.id }}">{{ st.heading }}</h2>
+      <h2 class="pdcm-h2" id="cm-play-title-{{ section.id }}">{{ st.heading | escape | replace: '. ', '.<br>' }}</h2>
       <p class="pdcm-lead">{{ st.sub }}</p>
     </div>
 

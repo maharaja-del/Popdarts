@@ -5,6 +5,7 @@
     hide             comma-separated variant titles to hide (seasonal, e.g. "Halloween")
     only_discounted  true = hide this card during the live sale unless it has an approved saving
     eager            true for the first cards (above the fold on desktop)
+    size             'feature' (big games shelf) or 'compact' — picks the image sizes
 {%- endcomment -%}
 {%- liquid
   assign p = product
@@ -90,6 +91,10 @@
   assign img = fixed_img | default: best.featured_image | default: p.featured_image
   assign zoom = s.zoom | default: 100 | divided_by: 100.0
   assign msg_id = 'cm-msg-' | append: section_id | append: '-' | append: block_id
+  assign img_sizes = '(min-width: 1200px) 460px, (min-width: 990px) 35vw, (min-width: 768px) 48vw, 84vw'
+  if size == 'compact'
+    assign img_sizes = '(min-width: 1200px) 280px, (min-width: 990px) 26vw, (min-width: 768px) 35vw, 66vw'
+  endif
   assign load = 'lazy'
   if eager
     assign load = 'eager'
@@ -103,9 +108,9 @@
   data-cm-picker data-cm-card data-product-title="{{ p.title | escape }}" data-soldout-text="Sold out"
   {%- if when != blank %} data-cm-when="{{ when }}"{% endif %}{% if has_deal %} data-cm-deal{% endif %}>
   <a class="pdcm-card__media pdcm-media pdcm-media--{{ s.image_style | default: 'studio' }}" href="{{ best.url | default: p.url }}" tabindex="-1" aria-hidden="true"
-    style="--z: {{ zoom }}; --fy: {{ s.focus_y | default: 50 }}%" {% unless fixed_img %}data-cm-pick-img{% endunless %} data-cm-pick-link>
+    style="--z: {{ zoom }}; --fx: {{ s.focus_x | default: 50 }}%; --fy: {{ s.focus_y | default: 50 }}%" {% unless fixed_img %}data-cm-pick-img{% endunless %} data-cm-pick-link>
     {%- if img -%}
-      {{ img | image_url: width: 600 | image_tag: widths: '300, 450, 600', sizes: '(min-width: 990px) 288px, 66vw', loading: load, alt: '' }}
+      {{ img | image_url: width: 1200 | image_tag: widths: '300, 400, 600, 800, 1000, 1200', sizes: img_sizes, loading: load, alt: '' }}
     {%- endif -%}
     <span class="pdcm-chip pdcm-chip--sale" data-cm-pick-off data-cm-when="live"{% unless so[1] == 'yes' %} hidden{% endunless %}>{% if so[1] == 'yes' %}{{ so[0] }}% off{% endif %}</span>
     {%- if avail_count == 0 -%}<span class="pdcm-chip pdcm-chip--soldout">Sold out</span>{%- endif -%}
@@ -169,14 +174,14 @@
         <s class="pdcm-price__was" data-cm-pick-was data-cm-when="live"{% unless so[1] == 'yes' %} hidden{% endunless %}>{% if so[1] == 'yes' %}{{ best.compare_at_price | money }}{% endif %}</s>
       </p>
       {%- if avail_count > 0 -%}
-        <button type="button" class="pdcm-btn pdcm-btn--ink pdcm-btn--block" data-cm-atc data-variant-id="{{ best.id }}"
+        <button type="button" class="pdcm-btn pdcm-btn--lime pdcm-btn--block" data-cm-atc data-variant-id="{{ best.id }}"
           data-product-title="{{ p.title | escape }}{% unless p.has_only_default_variant %} — {{ best.title | escape }}{% endunless %}"
           data-label-add="Add to cart" data-label-added="Added ✓" data-label-soldout="Sold out" data-label-error="Try again"
           aria-describedby="{{ msg_id }}"{% unless best.available %} disabled{% endunless %}>
           <span data-cm-label>{% if best.available %}Add to cart{% else %}Sold out{% endif %}</span>
         </button>
       {%- else -%}
-        <a class="pdcm-btn pdcm-btn--outline pdcm-btn--block" href="{{ p.url }}">View details</a>
+        <a class="pdcm-btn pdcm-btn--ghost pdcm-btn--block" href="{{ p.url }}">View details</a>
       {%- endif -%}
       <p class="pdcm-atc-msg" id="{{ msg_id }}" role="status" hidden></p>
     </div>

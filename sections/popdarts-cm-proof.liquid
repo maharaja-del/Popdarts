@@ -24,6 +24,19 @@
     <div class="pdcm-proof__summary">
       <p class="pdcm-eyebrow">{{ st.eyebrow }}</p>
       <h2 class="pdcm-h2" id="cm-proof-title-{{ section.id }}">{{ st.heading }}</h2>
+      {%- if st.press_logos_asset != blank or st.press_names != blank -%}
+        <div class="pdcm-press">
+          <p class="pdcm-press__label">{{ st.press_label }}</p>
+          {%- if st.press_logos_asset != blank -%}
+            <img class="pdcm-press__logos" src="{{ st.press_logos_asset | asset_url }}" alt="{{ st.press_names | replace: ',', ' ·' | escape }}" width="1583" height="120" loading="lazy" decoding="async">
+          {%- else -%}
+            {%- assign press = st.press_names | split: ',' -%}
+            <ul class="pdcm-press__list">
+              {%- for name in press -%}{%- assign n = name | strip -%}{%- if n != blank -%}<li>{{ n }}</li>{%- endif -%}{%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
       <ul class="pdcm-proof__ratings">
         {%- for p in st.rating_products limit: 3 -%}
           {%- capture r -%}{% render 'popdarts-cm-rating', product: p, style: 'summary', label: p.title %}{%- endcapture -%}
@@ -59,7 +72,11 @@
   "tag": "div",
   "class": "pdcm-proof-section",
   "settings": [
-    { "type": "image_picker", "id": "banner_desktop", "label": "'As seen on' banner (desktop)" },
+    { "type": "text", "id": "press_label", "label": "Press label", "default": "As seen on" },
+    { "type": "text", "id": "press_logos_asset", "label": "Press logos (theme asset)", "default": "pd-cm-press.png", "info": "White logo strip cut from the store's 'As seen on' banner. Empty = the names below as text." },
+    { "type": "text", "id": "press_names", "label": "Press names", "default": "TODAY, BuzzFeed, ESPN, Barstool Sports, Sports Illustrated", "info": "Comma-separated, set in the page's own type. Only outlets on the store's own 'As seen on' banner." },
+    { "type": "header", "content": "Optional banner image" },
+    { "type": "image_picker", "id": "banner_desktop", "label": "'As seen on' banner (desktop)", "info": "Leave empty to use the press names above instead." },
     { "type": "image_picker", "id": "banner_mobile", "label": "'As seen on' banner (mobile)" },
     { "type": "text", "id": "banner_alt", "label": "Banner description", "default": "As seen on TODAY, BuzzFeed, ESPN, Barstool Sports and Sports Illustrated" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Real reviews" },
