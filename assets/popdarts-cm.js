@@ -89,6 +89,13 @@
       s.tabIndex = on ? 0 : -1;
     });
     var d = swatch.dataset;
+    var was = d.was || '', off = d.off || '';
+    if (picker.hasAttribute('data-cm-use-register')) {
+      // gift guide / quick picks never compute savings — only the deals section's approval register can supply one
+      var reg = $('[data-cm-register]'), hit = reg && reg.querySelector('i[data-id="' + d.id + '"]');
+      was = hit ? hit.getAttribute('data-was') : '';
+      off = hit ? hit.getAttribute('data-off') : '';
+    }
     var img = $('[data-cm-pick-img] img', picker);
     if (img && d.image) {
       if (d.srcset) img.srcset = d.srcset;
@@ -97,9 +104,9 @@
     }
     setText($('[data-cm-pick-name]', picker), d.title);
     var now = $('[data-cm-pick-now]', picker);
-    if (now) { now.textContent = d.price; now.classList.toggle('is-sale', !!d.was); }
-    setText($('[data-cm-pick-was]', picker), d.was);
-    setText($('[data-cm-pick-off]', picker), d.off);
+    if (now) { now.textContent = d.price; now.classList.toggle('is-sale', !!was); }
+    setText($('[data-cm-pick-was]', picker), was);
+    setText($('[data-cm-pick-off]', picker), off);
     $$('[data-cm-pick-link]', picker).forEach(function (a) { if (d.url) a.href = d.url; });
     $$('[data-cm-atc]', picker).forEach(function (btn) {
       var available = d.available === 'true';

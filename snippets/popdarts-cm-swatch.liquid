@@ -2,7 +2,8 @@
   One colorway swatch (radio) — or, with as: 'option', one <option> — for a [data-cm-picker].
   Carries Liquid-formatted prices and ONLY gate-approved savings (popdarts-cm-offer), so switching
   colors can never surface an unapproved discount.
-  Params: variant, product, selected (bool), status, confirmed, approved, skus, protected, as ('swatch' | 'option')
+  Params: variant, product, selected (bool), status, confirmed, approved, skus, protected, as ('swatch' | 'option'),
+          bare (true = option text is just the colour, for rows that already show the price)
 {%- endcomment -%}
 {%- liquid
   capture offer
@@ -31,7 +32,7 @@
   data-alt="{{ product.title | escape }}, {{ vtitle }}"
 {%- endcapture -%}
 {%- if as == 'option' -%}
-  <option value="{{ variant.id }}" {{ data }}{% if selected %} selected{% endif %}{% unless variant.available %} disabled{% endunless %}>{{ vtitle }} – {% if variant.available %}{{ variant.price | money }}{% else %}sold out{% endif %}</option>
+  <option value="{{ variant.id }}" {{ data }}{% if selected %} selected{% endif %}{% unless variant.available %} disabled{% endunless %}>{{ vtitle }}{% if bare %}{% unless variant.available %} – sold out{% endunless %}{% else %} – {% if variant.available %}{{ variant.price | money }}{% else %}sold out{% endif %}{% endif %}</option>
 {%- else -%}
   <button type="button" class="pdcm-swatch{% unless variant.available %} is-soldout{% endunless %}" role="radio"
     aria-checked="{% if selected %}true{% else %}false{% endif %}" tabindex="{% if selected %}0{% else %}-1{% endif %}"

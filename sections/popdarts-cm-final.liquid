@@ -28,10 +28,10 @@
       <p class="pdcm-final__sub" data-cm-when="after">{{ st.sub_after }}</p>
       {% render 'popdarts-cm-timer', style: 'inline', label: st.timer_label %}
       <div class="pdcm-final__actions">
-        <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="#cm-deals" data-cm-when="live">{{ st.cta }}<span class="pdcm-btn__arrow" aria-hidden="true"></span></a>
-        <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="#cm-deals" data-cm-when="before">{{ st.cta_before }}<span class="pdcm-btn__arrow" aria-hidden="true"></span></a>
-        <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="{{ st.all_link | default: '/collections/all' }}" data-cm-when="after">{{ st.cta_after }}<span class="pdcm-btn__arrow" aria-hidden="true"></span></a>
-        {%- if st.all_text != blank -%}<a class="pdcm-btn pdcm-btn--ghost pdcm-btn--lg" href="{{ st.all_link | default: '/collections/all' }}" data-cm-when="live before">{{ st.all_text }}</a>{%- endif -%}
+        {%- assign cta_url = st.all_link | default: '/collections/all' -%}
+        <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="{{ cta_url }}" data-cm-when="live">{{ st.cta }}<span class="pdcm-btn__arrow" aria-hidden="true"></span></a>
+        <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="{{ cta_url }}" data-cm-when="before">{{ st.cta_before }}<span class="pdcm-btn__arrow" aria-hidden="true"></span></a>
+        <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="{{ cta_url }}" data-cm-when="after">{{ st.cta_after }}<span class="pdcm-btn__arrow" aria-hidden="true"></span></a>
       </div>
     </div>
 
@@ -48,36 +48,8 @@
               endif
             -%}
             {%- if skip -%}{%- continue -%}{%- endif -%}
-            {%- liquid
-              assign v = p.selected_or_first_available_variant
-              assign img = v.featured_image | default: p.featured_image
-              assign single = false
-              if p.has_only_default_variant or p.variants.size == 1
-                assign single = true
-              endif
-              assign msg_id = 'cm-msg-' | append: section.id | append: '-pick-' | append: forloop.index
-            -%}
-            <li class="pdcm-pick" {% if single %}data-cm-picker data-product-title="{{ p.title | escape }}"{% endif %}>
-              <a class="pdcm-pick__thumb pdcm-media pdcm-media--studio" href="{{ p.url }}" tabindex="-1" aria-hidden="true">
-                {%- if img -%}{{ img | image_url: width: 200 | image_tag: loading: 'lazy', alt: '', width: 100, height: 100 }}{%- endif -%}
-              </a>
-              <div class="pdcm-pick__info">
-                <p class="pdcm-pick__name"><a href="{{ p.url }}">{{ p.title }}</a></p>
-                <p class="pdcm-price pdcm-price--sm"{% if single %} data-cm-mirror="{{ v.id }}"{% endif %}>
-                  <span class="pdcm-price__now" data-cm-pick-now>{% if single == false and p.price_varies %}From {% endif %}{{ p.price | money }}</span>
-                  {%- if single -%}<s class="pdcm-price__was" data-cm-pick-was data-cm-when="live" hidden></s>{%- endif -%}
-                </p>
-              </div>
-              {%- if single -%}
-                <button type="button" class="pdcm-btn pdcm-btn--lime pdcm-btn--sm" data-cm-atc data-variant-id="{{ v.id }}" data-product-title="{{ p.title | escape }}"
-                  data-label-add="Add" data-label-added="Added ✓" data-label-soldout="Sold out" data-label-error="Try again" aria-describedby="{{ msg_id }}" aria-label="Add {{ p.title | escape }} to cart">
-                  <span data-cm-label>Add</span>
-                </button>
-                <p class="pdcm-atc-msg pdcm-pick__msg" id="{{ msg_id }}" role="status" hidden></p>
-              {%- else -%}
-                <a class="pdcm-btn pdcm-btn--ghost pdcm-btn--sm" href="{{ p.url }}" data-cm-jump="cm-deal-{{ p.id }}">{{ st.choose_text }}</a>
-              {%- endif -%}
-            </li>
+            {%- assign uid = section.id | append: '-pick-' | append: forloop.index -%}
+            {% render 'popdarts-cm-row', product: p, uid: uid, hide: st.hide_variants, kind: 'pick' %}
           {%- endfor -%}
         </ul>
       </div>
@@ -116,7 +88,7 @@
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Monday, Nov 30" },
     { "type": "text", "id": "heading", "label": "Heading (sale)", "default": "Throw down this Cyber Monday." },
     { "type": "text", "id": "sub", "label": "Text (sale)", "default": "Game night starts here. Pick your pack and throw down." },
-    { "type": "text", "id": "cta", "label": "Button (sale)", "default": "Shop Cyber Monday Deals" },
+    { "type": "text", "id": "cta", "label": "Button (sale)", "default": "Shop all games" },
     { "type": "text", "id": "heading_before", "label": "Heading (before)", "default": "Cyber Monday is coming." },
     { "type": "text", "id": "sub_before", "label": "Text (before)", "default": "Pick your game now — Cyber Monday pricing lands on Monday, Nov 30." },
     { "type": "text", "id": "cta_before", "label": "Button (before)", "default": "Browse the games" },
@@ -124,12 +96,11 @@
     { "type": "text", "id": "heading_after", "label": "Heading (after)", "default": "Gift game night." },
     { "type": "text", "id": "sub_after", "label": "Text (after)", "default": "Thanks for playing. Every Popdarts game is ready to throw." },
     { "type": "text", "id": "cta_after", "label": "Button (after)", "default": "Shop all games" },
-    { "type": "text", "id": "all_text", "label": "Secondary link", "default": "Shop all games" },
-    { "type": "url", "id": "all_link", "label": "All-products link", "info": "Empty = /collections/all" },
+    { "type": "url", "id": "all_link", "label": "Button link", "info": "A real page, e.g. your Cyber Monday collection. Empty = /collections/all" },
     { "type": "text", "id": "timer_label", "label": "Countdown label", "default": "Sale ends in" },
     { "type": "text", "id": "products_title", "label": "Quick picks title", "default": "Quick picks" },
-    { "type": "product_list", "id": "products", "label": "Quick picks", "limit": 3, "info": "Single-option products add to cart here; multi-colour ones jump to their deal card." },
-    { "type": "text", "id": "choose_text", "label": "Link for multi-colour products", "default": "Choose color" },
+    { "type": "product_list", "id": "products", "label": "Quick picks", "limit": 3, "info": "Each pick has its own colour dropdown and Add button." },
+    { "type": "text", "id": "hide_variants", "label": "Hide colorways", "default": "Halloween", "info": "Comma-separated variant names left out of the quick-pick dropdowns." },
     { "type": "image_picker", "id": "image", "label": "Image" },
     { "type": "text", "id": "image_asset", "label": "Image (theme asset)", "default": "pd-hero-trophy-lift.jpg", "info": "Used when no image is picked." },
     { "type": "text", "id": "image_alt", "label": "Image description", "default": "Popdarts players lifting the championship trophy under arena lights" },

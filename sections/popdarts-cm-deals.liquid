@@ -322,11 +322,19 @@
     <div class="pdcm-hero__cta">
       {% render 'popdarts-cm-timer', style: 'tiles', label: st.timer_label %}
       <div class="pdcm-hero__actions">
-        <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="#cm-deals" data-cm-when="live">{{ st.hero_cta }}<span class="pdcm-btn__arrow" aria-hidden="true"></span></a>
-        <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="#cm-deals" data-cm-when="before">{{ st.hero_cta_before }}<span class="pdcm-btn__arrow" aria-hidden="true"></span></a>
+        {%- assign hero_url = st.hero_cta_link | default: '/collections/all' -%}
+        <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="{{ hero_url }}" data-cm-when="live">{{ st.hero_cta }}<span class="pdcm-btn__arrow" aria-hidden="true"></span></a>
+        <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="{{ hero_url }}" data-cm-when="before">{{ st.hero_cta_before }}<span class="pdcm-btn__arrow" aria-hidden="true"></span></a>
         <a class="pdcm-btn pdcm-btn--lime pdcm-btn--lg" href="{{ st.after_link | default: '/collections/all' }}" data-cm-when="after">{{ st.hero_cta_after }}<span class="pdcm-btn__arrow" aria-hidden="true"></span></a>
         {%- if st.hero_link2_text != blank -%}
-          <a class="pdcm-btn pdcm-btn--ghost pdcm-btn--lg" href="{{ st.hero_link2 | default: '#cm-rookie-pro' }}">{{ st.hero_link2_text }}</a>
+          {%- comment -%} Rookie or Pro? answers itself right here — a native disclosure, no jump to the FAQ {%- endcomment -%}
+          <details class="pdcm-compare">
+            <summary class="pdcm-btn pdcm-btn--ghost pdcm-btn--lg">{{ st.hero_link2_text }}<span class="pdcm-compare__chev" aria-hidden="true"></span></summary>
+            <div class="pdcm-compare__panel">
+              <p class="pdcm-compare__row"><b class="pdcm-compare__name">Rookie</b><span>{{ st.compare_rookie }}</span></p>
+              <p class="pdcm-compare__row"><b class="pdcm-compare__name">Pro</b><span>{{ st.compare_pro }}</span></p>
+            </div>
+          </details>
         {%- endif -%}
       </div>
     </div>
@@ -385,7 +393,7 @@
     {%- endif -%}
   </div>
 
-  {%- capture hero_rating -%}{% render 'popdarts-cm-rating', product: hp, link: '#cm-proof', label: hp.title %}{%- endcapture -%}
+  {%- capture hero_rating -%}{% render 'popdarts-cm-rating', product: hp, label: hp.title %}{%- endcapture -%}
   <div class="pdcm-trustbar">
     <ul class="pdcm-wrap pdcm-trustbar__list">
       {%- if hero_rating != blank -%}<li class="pdcm-trustbar__item pdcm-trustbar__item--rating">{{ hero_rating }}</li>{%- endif -%}
@@ -473,7 +481,7 @@
       <p class="pdcm-deals__empty" data-cm-when="live">{{ st.deals_empty }} <a class="pdcm-link" href="{{ st.after_link | default: '/collections/all' }}">Shop all games</a></p>
     {%- endif -%}
     {%- if st.exclusions != blank -%}
-      <p class="pdcm-deals__note">{{ st.exclusions }} <a class="pdcm-link" href="#cm-terms">{{ st.terms_link_text }}</a></p>
+      <p class="pdcm-deals__note">{{ st.exclusions }}</p>
     {%- endif -%}
   </div>
 </section>
@@ -494,9 +502,11 @@
     { "type": "text", "id": "hero_nodeal", "label": "Offer line when no saving is approved", "default": "Game on." },
     { "type": "text", "id": "hero_select", "label": "Extended offer line", "default": "Select items up to [xpct]% off", "info": "Shows only when a Daniel-approved, non-protected product above 20% is actually on the page." },
     { "type": "text", "id": "hero_sub", "label": "Support text", "default": "As seen on ESPN. Popdarts stick to glass, windows, even the fridge — game night happens anywhere." },
-    { "type": "text", "id": "hero_cta", "label": "Button", "default": "Shop Cyber Monday Deals" },
-    { "type": "text", "id": "hero_link2_text", "label": "Secondary link", "default": "Rookie or Pro?" },
-    { "type": "url", "id": "hero_link2", "label": "Secondary link target", "info": "Empty = the Rookie or Pro question in the FAQ." },
+    { "type": "text", "id": "hero_cta", "label": "Button", "default": "Shop all games" },
+    { "type": "url", "id": "hero_cta_link", "label": "Button link", "info": "A real page, e.g. your Cyber Monday collection. Empty = /collections/all" },
+    { "type": "text", "id": "hero_link2_text", "label": "Rookie or Pro? button", "default": "Rookie or Pro?", "info": "Opens a short comparison right in the hero. Empty = hidden." },
+    { "type": "text", "id": "compare_rookie", "label": "Rookie line", "default": "For beginners and younger players — made for ages 5 to 95." },
+    { "type": "text", "id": "compare_pro", "label": "Pro line", "default": "For competitors — the PRO Target Marker™ adds the 10-point shot." },
     { "type": "text", "id": "hero_trust", "label": "Trust bar item 3 (sale only)", "default": "No code needed" },
     { "type": "text", "id": "trust_1", "label": "Trust bar item 1", "default": "As seen on ESPN" },
     { "type": "text", "id": "trust_2", "label": "Trust bar item 2", "default": "Orders processed in 1–2 business days" },
@@ -545,8 +555,7 @@
     { "type": "checkbox", "id": "only_discounted", "label": "During the sale, show only approved deals", "default": true },
     { "type": "checkbox", "id": "show_soldout", "label": "Show sold-out products", "default": false },
     { "type": "select", "id": "sort", "label": "Order", "options": [{ "value": "listed", "label": "As listed (put high-inventory picks first)" }, { "value": "inventory", "label": "Most inventory first (counts are never shown)" }], "default": "listed" },
-    { "type": "text", "id": "exclusions", "label": "Exclusions note", "default": "Not included: Elite products, gift cards and slightly used or returned items. Sale items are final sale." },
-    { "type": "text", "id": "terms_link_text", "label": "Terms link", "default": "Promotion terms" }
+    { "type": "text", "id": "exclusions", "label": "Exclusions note", "default": "Not included: Elite products, gift cards and slightly used or returned items. Sale items are final sale." }
   ],
   "blocks": [
     {

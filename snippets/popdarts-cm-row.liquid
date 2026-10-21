@@ -1,0 +1,87 @@
+{%- comment -%}
+  One self-contained shoppable row for the gift guide and the finale's quick picks: thumbnail, name, price, a colour
+  dropdown when the product has options, and its own Add button — nothing here scrolls to another section.
+  Savings are never computed here: popdarts-cm.js reads approved savings from [data-cm-register] by variant id
+  (data-cm-use-register), so a row can only show a saving the deals section has approved.
+  Params:
+    product
+    uid    unique id for the row (block id + index)
+    hide   comma-separated variant titles to leave out (e.g. "Halloween")
+    kind   'row' (gift guide) or 'pick' (quick picks) — only changes the class names
+{%- endcomment -%}
+{%- liquid
+  assign p = product
+  assign k = kind | default: 'row'
+  assign hide_terms = hide | downcase | split: ','
+  assign first = nil
+  assign opts = 0
+  for v in p.variants
+    assign vt = v.title | downcase | strip
+    assign is_hidden = false
+    for h in hide_terms
+      assign hs = h | strip
+      if hs != blank and vt == hs
+        assign is_hidden = true
+      endif
+    endfor
+    if is_hidden
+      continue
+    endif
+    assign opts = opts | plus: 1
+    if first == nil and v.available
+      assign first = v
+    endif
+  endfor
+  if first == nil
+    assign first = p.selected_or_first_available_variant
+  endif
+  if p.has_only_default_variant
+    assign opts = 1
+  endif
+  assign img = first.featured_image | default: p.featured_image
+  assign msg_id = 'cm-msg-' | append: uid
+  assign sel_id = 'cm-sel-' | append: uid
+-%}
+<li class="pdcm-{{ k }}{% if opts > 1 %} has-options{% endif %}" data-cm-picker data-cm-use-register data-product-title="{{ p.title | escape }}">
+  <a class="pdcm-{{ k }}__thumb pdcm-media pdcm-media--studio" href="{{ first.url | default: p.url }}" tabindex="-1" aria-hidden="true" data-cm-pick-img data-cm-pick-link>
+    {%- if img -%}{{ img | image_url: width: 200 | image_tag: widths: '100, 200', sizes: '80px', loading: 'lazy', alt: '', width: 100, height: 100 }}{%- endif -%}
+  </a>
+  <div class="pdcm-{{ k }}__info">
+    <p class="pdcm-{{ k }}__name"><a href="{{ first.url | default: p.url }}" data-cm-pick-link>{{ p.title }}</a></p>
+    <p class="pdcm-price pdcm-price--sm" data-cm-mirror="{{ first.id }}">
+      <span class="pdcm-price__now" data-cm-pick-now>{{ first.price | money }}</span>
+      <s class="pdcm-price__was" data-cm-pick-was data-cm-when="live" hidden></s>
+    </p>
+  </div>
+  <div class="pdcm-{{ k }}__buy">
+    {%- if opts > 1 -%}
+      <span class="pdcm-select pdcm-select--sm">
+        <label class="pdcm-sr" for="{{ sel_id }}">{{ p.options | join: ' / ' }} for {{ p.title | escape }}</label>
+        <select id="{{ sel_id }}" data-cm-select>
+          {%- for v in p.variants -%}
+            {%- liquid
+              assign vt = v.title | downcase | strip
+              assign is_hidden = false
+              for h in hide_terms
+                assign hs = h | strip
+                if hs != blank and vt == hs
+                  assign is_hidden = true
+                endif
+              endfor
+            -%}
+            {%- if is_hidden -%}{%- continue -%}{%- endif -%}
+            {%- assign is_sel = false -%}{%- if v.id == first.id -%}{%- assign is_sel = true -%}{%- endif -%}
+            {% render 'popdarts-cm-swatch', variant: v, product: p, selected: is_sel, status: 'none', as: 'option', bare: true %}
+          {%- endfor -%}
+        </select>
+      </span>
+    {%- endif -%}
+    <button type="button" class="pdcm-btn pdcm-btn--ink pdcm-btn--sm" data-cm-atc data-variant-id="{{ first.id }}"
+      data-product-title="{{ p.title | escape }}{% if opts > 1 %} — {{ first.title | escape }}{% endif %}"
+      data-label-add="Add" data-label-added="Added ✓" data-label-soldout="Sold out" data-label-error="Try again"
+      aria-describedby="{{ msg_id }}" aria-label="Add {{ p.title | escape }} to cart"{% unless first.available %} disabled{% endunless %}>
+      <span data-cm-label>{% if first.available %}Add{% else %}Sold out{% endif %}</span>
+    </button>
+  </div>
+  <p class="pdcm-atc-msg pdcm-{{ k }}__msg" id="{{ msg_id }}" role="status" hidden></p>
+</li>

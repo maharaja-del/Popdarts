@@ -39,6 +39,8 @@
   --r-card: 20px;
   --r-stage: 14px;
   --ease: cubic-bezier(0.2, 0, 0, 1);
+  --rings: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20600%20600%27%20fill%3D%27none%27%20stroke%3D%27%23fff%27%20stroke-width%3D%271.2%27%3E%3Ccircle%20cx%3D%27300%27%20cy%3D%27300%27%20r%3D%2758%27%2F%3E%3Ccircle%20cx%3D%27300%27%20cy%3D%27300%27%20r%3D%27118%27%2F%3E%3Ccircle%20cx%3D%27300%27%20cy%3D%27300%27%20r%3D%27178%27%2F%3E%3Ccircle%20cx%3D%27300%27%20cy%3D%27300%27%20r%3D%27238%27%2F%3E%3Ccircle%20cx%3D%27300%27%20cy%3D%27300%27%20r%3D%27298%27%2F%3E%3C%2Fsvg%3E");
+  --grain: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27180%27%20height%3D%27180%27%3E%3Cfilter%20id%3D%27n%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%27.9%27%20numOctaves%3D%273%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20values%3D%270%200%200%200%201%200%200%200%200%201%200%200%200%200%201%200%200%200%20.55%200%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20filter%3D%27url(%2523n)%27%2F%3E%3C%2Fsvg%3E");
   position: relative;
   font-family: var(--font-body);
   font-size: 16px;
@@ -84,12 +86,12 @@ html[data-cm-state="after"] .pdcm .is-sale { color: inherit !important; }
 .pdcm-wrap { max-width: calc(var(--max) + 2 * var(--gutter)); margin-inline: auto; padding-inline: var(--gutter); }
 .pdcm-head { display: grid; gap: var(--s-3); max-width: 640px; margin-bottom: var(--head); }
 .pdcm-tag, .pdcm-eyebrow {
-  display: inline-flex; align-items: center; gap: var(--s-2); justify-self: start; width: max-content; max-width: 100%;
-  min-height: 32px; padding: 0 14px 0 12px; border: 1px solid var(--line-n2); border-radius: 999px; background: var(--night); color: #fff;
-  font-size: 12px; font-weight: 800; line-height: 1; letter-spacing: 0.14em; text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 12px; justify-self: start; width: max-content; max-width: 100%;
+  font-size: 12px; font-weight: 800; line-height: 1.2; letter-spacing: 0.18em; text-transform: uppercase; color: inherit;
 }
-.pdcm-eyebrow::before, .pdcm-tag__dot { content: ""; width: 8px; height: 8px; flex-shrink: 0; border-radius: 2px; background: var(--lime); }
-.pdcm-tag--night { background: rgba(7, 8, 13, 0.55); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.pdcm-eyebrow::before, .pdcm-tag__dot { content: ""; width: 28px; height: 3px; flex-shrink: 0; border-radius: 2px; background: var(--lime); }
+.pdcm-tag--night { color: #fff; }
+.pdcm-play .pdcm-eyebrow::before { background: var(--ink); }
 .pdcm-h2 { font-family: var(--font-head); font-weight: 900; font-size: clamp(34px, 4.2vw, 56px); line-height: 0.94; letter-spacing: -0.02em; word-spacing: 0.06em; text-transform: uppercase; text-wrap: balance; }
 .pdcm-lead { font-size: 18px; line-height: 1.5; color: var(--muted); max-width: 36em; }
 .pdcm p { text-wrap: pretty; }
@@ -137,7 +139,7 @@ html[data-cm-state="after"] .pdcm .is-sale { color: inherit !important; }
 
 /* ---------- chips, price, rating ---------- */
 .pdcm-chip { display: inline-flex; align-items: center; padding: 6px 9px; border-radius: 6px; font-size: 12px; font-weight: 900; line-height: 1; letter-spacing: 0.04em; text-transform: uppercase; }
-.pdcm-chip--sale { background: var(--sale); color: #fff; }
+.pdcm-chip--sale { background: var(--night); color: var(--lime); font-variant-numeric: tabular-nums; box-shadow: 0 6px 16px -8px rgba(7, 8, 13, 0.6); }
 .pdcm-chip--soldout { background: var(--ink); color: #fff; }
 .pdcm-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-variant-numeric: tabular-nums; }
 .pdcm-price__now { font-weight: 900; font-size: 22px; letter-spacing: -0.01em; color: var(--ink); }
@@ -159,13 +161,14 @@ a.pdcm-rating__count { text-decoration: underline; text-underline-offset: 3px; m
 .pdcm-hero .pdcm-rating__num, .pdcm-deals .pdcm-rating__num { color: #fff; }
 .pdcm-hero .pdcm-rating__stars, .pdcm-deals .pdcm-rating__stars { background: #3d4152; }
 .pdcm-hero .pdcm-rating__fill, .pdcm-deals .pdcm-rating__fill { background: var(--lime); }
-.pdcm-hero a.pdcm-rating__count, .pdcm-deals .pdcm-rating__count { color: var(--text-n); }
+.pdcm-hero .pdcm-rating__count, .pdcm-deals .pdcm-rating__count { color: var(--text-n); }
 .pdcm-hero .pdcm-price__now, .pdcm-deals .pdcm-price__now, .pdcm-final .pdcm-price__now, .pdcm-gstrip .pdcm-price__now { color: #fff; }
 .pdcm-hero .pdcm-price__now.is-sale, .pdcm-deals .pdcm-price__now.is-sale, .pdcm-final .pdcm-price__now.is-sale, .pdcm-gstrip .pdcm-price__now.is-sale { color: var(--lime); }
 .pdcm-hero .pdcm-price__was, .pdcm-deals .pdcm-price__was, .pdcm-final .pdcm-price__was, .pdcm-gstrip .pdcm-price__was { color: var(--text-n); }
 
 /* ---------- media stages (store photos are on white/grey studio backgrounds) ---------- */
 .pdcm-media { position: relative; display: block; overflow: hidden; background: var(--stage); border-radius: var(--r-stage); }
+.pdcm-media--studio { background: radial-gradient(120% 95% at 50% 28%, #ffffff 0%, #f1f4f7 52%, #e3e8ee 100%); }
 .pdcm-media img { width: 100%; height: 100%; }
 .pdcm-media--studio img { object-fit: contain; padding: 6%; mix-blend-mode: multiply; transform: scale(var(--z, 1)); transform-origin: var(--fx, 50%) var(--fy, 50%); transition: transform 300ms var(--ease); }
 .pdcm-media--photo img { object-fit: cover; object-position: var(--fx, 50%) var(--fy, 50%); transform: scale(var(--z, 1)); transform-origin: var(--fx, 50%) var(--fy, 50%); }
@@ -213,6 +216,11 @@ a.pdcm-rating__count { text-decoration: underline; text-underline-offset: 3px; m
    HERO (#cm-hero) — full-bleed championship photo, event lockup, featured-game buy card, trust bar
    ========================================================================== */
 .pdcm-hero { isolation: isolate; overflow: hidden; background: var(--night); color: #fff; }
+.pdcm-deals, .pdcm-proof, .pdcm-final { isolation: isolate; }
+.pdcm-deals::before, .pdcm-proof::before, .pdcm-final::after { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--grain); opacity: 0.05; pointer-events: none; }
+/* Target Marker rings behind the featured-game card */
+.pdcm-hero__grid { position: relative; }
+.pdcm-hero__grid::before { content: ""; position: absolute; z-index: -1; top: 50%; right: calc(var(--gutter) + 196px - 390px); width: 780px; height: 780px; transform: translateY(-50%); background: var(--rings) center / contain no-repeat; opacity: 0.16; pointer-events: none; }
 .pdcm-hero__bg { position: absolute; inset: 0; z-index: -1; background: var(--night); }
 .pdcm-hero__bg img { width: 100%; height: 100%; object-fit: cover; object-position: var(--bx, 62%) var(--by, 30%); }
 /* legibility scrim: dark where the copy sits, photo breathes in the middle, fades into the deals below */
@@ -229,6 +237,15 @@ a.pdcm-rating__count { text-decoration: underline; text-underline-offset: 3px; m
 .pdcm-hero__select { justify-self: start; padding: 8px 14px; border: 1.5px solid var(--lime); border-radius: 999px; font-size: 14px; font-weight: 800; color: var(--lime); }
 .pdcm-hero__sub { font-size: 18px; line-height: 1.5; color: #d7dbe3; max-width: 30em; }
 .pdcm-hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-3); }
+.pdcm-compare { position: relative; }
+.pdcm-compare > summary { list-style: none; cursor: pointer; }
+.pdcm-compare > summary::-webkit-details-marker { display: none; }
+.pdcm-compare__chev { width: 9px; height: 9px; margin-left: 2px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform 160ms var(--ease); }
+.pdcm-compare[open] .pdcm-compare__chev { transform: translateY(2px) rotate(-135deg); }
+.pdcm-compare[open] > summary { border-color: #fff; }
+.pdcm-compare__panel { position: absolute; z-index: 5; left: 0; top: calc(100% + 10px); width: min(380px, 80vw); display: grid; gap: var(--s-3); padding: var(--s-4) var(--s-5); border: 1px solid var(--line-n2); border-radius: 18px; background: rgba(16, 18, 26, 0.94); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.8); }
+.pdcm-compare__row { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: var(--s-3); font-size: 14px; line-height: 1.45; color: #d7dbe3; }
+.pdcm-compare__name { font-family: var(--font-head); font-size: 14px; font-weight: 900; letter-spacing: 0.06em; text-transform: uppercase; color: var(--lime); }
 
 /* featured-game buy card: light product stage + night glass body */
 .pdcm-hero__panel { grid-area: panel; align-self: center; display: grid; gap: var(--s-2); padding: var(--s-3); border-radius: 26px; border: 1px solid var(--line-n2); background: rgba(16, 18, 26, 0.82); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.8); color: #fff; }
@@ -262,6 +279,17 @@ a.pdcm-rating__count { text-decoration: underline; text-underline-offset: 3px; m
 .pdcm-shelf__title { font-family: var(--font-head); font-size: 22px; font-weight: 900; line-height: 1; letter-spacing: -0.01em; word-spacing: 0.06em; text-transform: uppercase; color: #fff; }
 .pdcm-shelf__nav { display: flex; gap: var(--s-2); }
 .pdcm-shelf .pdcm-rail__nav { display: none; }
+/* a slide whose card is hidden in this sale state takes no room */
+html[data-cm-state="before"] .pdcm-rail__slide:has(> [data-cm-when]:not([data-cm-when~="before"])),
+html[data-cm-state="live"] .pdcm-rail__slide:has(> [data-cm-when]:not([data-cm-when~="live"])),
+html[data-cm-state="after"] .pdcm-rail__slide:has(> [data-cm-when]:not([data-cm-when~="after"])),
+html:not([data-cm-state]) .pdcm-rail__slide:has(> [data-cm-when]:not([data-cm-when~="live"])) { display: none !important; }
+/* the games shelf is one board: cells divided by hairlines, one outer frame */
+@media (min-width: 990px) {
+  .pdcm-shelf--feature .pdcm-rail__track { gap: 1px; margin: 0; padding: 0; overflow: hidden; border: 1px solid var(--line-n2); border-radius: 24px; background: var(--line-n2); }
+  .pdcm-shelf--feature .pdcm-rail__track > .pdcm-rail__slide { flex: 1 1 0; }
+  .pdcm-shelf--feature .pdcm-card { border: 0; border-radius: 0; }
+}
 
 .pdcm-rail { position: relative; }
 .pdcm-rail__track {
@@ -303,7 +331,7 @@ a.pdcm-rating__count { text-decoration: underline; text-underline-offset: 3px; m
 .pdcm-card__title { font-family: var(--font-body); font-size: 18px; font-weight: 800; line-height: 1.2; letter-spacing: -0.005em; }
 .pdcm-card__title a { display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .pdcm-card__note { font-size: 13px; line-height: 1.4; color: var(--text-n); }
-.pdcm-card__foot { margin-top: auto; display: grid; gap: var(--s-3); padding-top: var(--s-1); }
+.pdcm-card__foot { margin-top: auto; display: grid; gap: var(--s-3); padding-top: var(--s-3); border-top: 1px solid var(--line-n); }
 .pdcm-card .pdcm-price__now { font-size: 24px; }
 .pdcm-card.is-soldout .pdcm-card__media img { opacity: 0.45; }
 @media (hover: hover) {
@@ -314,7 +342,9 @@ a.pdcm-rating__count { text-decoration: underline; text-underline-offset: 3px; m
 /* ==========================================================================
    GAMEPLAY (#cm-play) — the one Popdarts Blue block; scoreboard tiles
    ========================================================================== */
-.pdcm-play { background: var(--blue); color: var(--ink); padding-block: var(--sec); }
+.pdcm-play { isolation: isolate; overflow: hidden; background: var(--blue); color: var(--ink); padding-block: var(--sec); }
+.pdcm-play::before { content: "21" / ""; position: absolute; z-index: -1; right: -0.03em; bottom: -0.24em; font-family: var(--font-head); font-size: clamp(300px, 44vw, 680px); font-weight: 900; line-height: 1; letter-spacing: -0.06em; color: transparent; -webkit-text-stroke: 2px rgba(10, 10, 10, 0.2); pointer-events: none; }
+.pdcm-score { border-top: 3px solid var(--lime); }
 .pdcm-play__grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); grid-template-areas: "head media" "rules media"; column-gap: var(--s-8); align-items: center; }
 .pdcm-play__head { grid-area: head; align-self: end; display: grid; gap: var(--s-4); }
 .pdcm-play .pdcm-h2 { font-size: clamp(38px, 4.8vw, 68px); }
@@ -362,12 +392,22 @@ a.pdcm-rating__count { text-decoration: underline; text-underline-offset: 3px; m
 .pdcm-gstrip__media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% var(--fy, 50%); }
 .pdcm-gstrip__copy { display: grid; gap: var(--s-2); }
 .pdcm-gstrip .pdcm-gcard__blurb { color: var(--text-n); }
-.pdcm-gstrip .pdcm-row { background: var(--card); }
+.pdcm-gstrip .pdcm-row { border-top-color: var(--line-n); }
+.pdcm-gstrip .pdcm-rows .pdcm-row:first-child { border-top: 0; }
 .pdcm-gstrip .pdcm-row__name { color: #fff; }
 .pdcm .pdcm-gstrip .pdcm-btn--ink { background: var(--lime); color: var(--ink); }
-.pdcm-rows { display: grid; gap: var(--s-2); }
-.pdcm-row { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; align-items: center; gap: var(--s-3); padding: 6px 8px 6px 6px; border-radius: 14px; background: var(--paper-2); }
-.pdcm-row__thumb { width: 56px; height: 56px; border-radius: 10px; background: #fff; }
+.pdcm .pdcm-gstrip .pdcm-select select { background: transparent; border-color: var(--line-n2); color: #fff; }
+.pdcm-gstrip .pdcm-select { color: #fff; }
+.pdcm-rows { display: grid; }
+.pdcm-row { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; grid-template-areas: "thumb info buy"; align-items: center; gap: 6px var(--s-3); padding: var(--s-3) 0; border-top: 1px solid var(--line); }
+.pdcm-row__thumb { grid-area: thumb; }
+.pdcm-row__info { grid-area: info; }
+.pdcm-row__buy, .pdcm-pick__buy { grid-area: buy; display: flex; align-items: center; gap: var(--s-2); }
+.pdcm-row.has-options, .pdcm-pick.has-options { grid-template-columns: 56px minmax(0, 1fr); grid-template-areas: "thumb info" "thumb buy"; align-items: start; }
+.pdcm-row.has-options .pdcm-row__buy, .pdcm-pick.has-options .pdcm-pick__buy { margin-top: 2px; }
+.pdcm-select--sm { flex: 1; min-width: 0; }
+.pdcm .pdcm-select--sm select { min-height: 44px; padding-left: 12px; font-size: 14px; border-radius: 999px; }
+.pdcm-row__thumb { width: 56px; height: 56px; border-radius: 10px; }
 .pdcm-row__thumb img { object-fit: contain; mix-blend-mode: multiply; }
 .pdcm-row__info { display: grid; gap: 2px; min-width: 0; }
 .pdcm-row .pdcm-price, .pdcm-pick .pdcm-price { flex-wrap: nowrap; white-space: nowrap; }
@@ -399,7 +439,9 @@ a.pdcm-rating__count { text-decoration: underline; text-underline-offset: 3px; m
 .pdcm-proof__all { grid-area: btn; }
 .pdcm-proof__grid.is-summary-only .pdcm-proof__summary { justify-items: center; }
 .pdcm-proof__ratings { grid-area: ratings; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-self: center; width: 100%; border: 1px solid var(--line-n); border-radius: var(--r-card); background: var(--card); color: #fff; overflow: hidden; }
-.pdcm-proof__rating { display: grid; align-content: center; gap: var(--s-2); padding: var(--s-6) var(--s-5); }
+.pdcm-proof__rating { position: relative; display: grid; align-content: center; gap: var(--s-2); padding: var(--s-6) var(--s-5); }
+.pdcm-proof__ratings { position: relative; }
+.pdcm-proof__ratings::before { content: ""; position: absolute; right: -120px; top: 50%; width: 420px; height: 420px; transform: translateY(-50%); background: var(--rings) center / contain no-repeat; opacity: 0.08; pointer-events: none; }
 .pdcm-proof__rating + .pdcm-proof__rating { border-left: 1px solid var(--line-n); }
 .pdcm-proof__product { font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-n); }
 .pdcm-rating--summary { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "num num" "stars count"; align-items: center; gap: var(--s-2) var(--s-2); font-size: 13px; }
@@ -451,6 +493,7 @@ a.pdcm-rating__count { text-decoration: underline; text-underline-offset: 3px; m
   .pdcm .pdcm-jdgm .jdgm-rev { flex: none; }
   .pdcm .pdcm-jdgm .jdgm-rev:nth-child(n+4) { display: none !important; }
 }
+.pdcm .pdcm-jdgm .jdgm-rev::before { content: ""; display: block; width: 30px; height: 22px; flex-shrink: 0; background: var(--lime); -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2032%2024%27%3E%3Cpath%20d%3D%27M0%2024V13.6C0%206.4%204.2%201.6%2012%200l1.4%203.4C8.9%204.8%207%207.6%206.8%2011H13v13H0zm18%200V13.6C18%206.4%2022.2%201.6%2030%200l1.4%203.4c-4.5%201.4-6.4%204.2-6.6%207.6H31v13H18z%27%2F%3E%3C%2Fsvg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2032%2024%27%3E%3Cpath%20d%3D%27M0%2024V13.6C0%206.4%204.2%201.6%2012%200l1.4%203.4C8.9%204.8%207%207.6%206.8%2011H13v13H0zm18%200V13.6C18%206.4%2022.2%201.6%2030%200l1.4%203.4c-4.5%201.4-6.4%204.2-6.6%207.6H31v13H18z%27%2F%3E%3C%2Fsvg%3E") center / contain no-repeat; }
 .pdcm .pdcm-jdgm .jdgm-rev__header { display: flex !important; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 0 !important; padding: 0 !important; }
 .pdcm .pdcm-jdgm .jdgm-rev__header > *, .pdcm .pdcm-jdgm .jdgm-rev__author-wrapper > * { margin: 0 !important; padding: 0 !important; }
 .pdcm .pdcm-jdgm .jdgm-rev__rating { order: -1; flex-basis: 100%; font-size: 0 !important; line-height: 1; }
@@ -503,17 +546,22 @@ a.pdcm-rating__count { text-decoration: underline; text-underline-offset: 3px; m
 .pdcm-final__bg::after { content: ""; position: absolute; inset: 0;
   background: linear-gradient(90deg, rgba(7, 8, 13, 0.94) 0%, rgba(7, 8, 13, 0.78) 42%, rgba(7, 8, 13, 0.1) 78%),
               linear-gradient(0deg, rgba(7, 8, 13, 1) 0%, rgba(7, 8, 13, 0.6) 26%, rgba(7, 8, 13, 0) 50%); }
-.pdcm-final__copy { display: grid; justify-items: start; gap: var(--s-5); padding-block: 136px var(--s-8); }
+.pdcm-final__copy { position: relative; display: grid; justify-items: start; gap: var(--s-5); padding-block: 136px var(--s-8); }
+.pdcm-final__copy::before { content: ""; position: absolute; z-index: -1; left: -260px; top: 40px; width: 720px; height: 720px; background: var(--rings) center / contain no-repeat; opacity: 0.1; pointer-events: none; }
 .pdcm-final__picks { padding-bottom: var(--s-8); }
 .pdcm-final__picks-title { margin-bottom: var(--s-3); font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-n); }
 .pdcm-picks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
-.pdcm-pick { display: grid; grid-template-columns: 72px minmax(0, 1fr) auto; align-items: center; gap: var(--s-3); padding: 10px 12px 10px 10px; border: 1px solid var(--line-n2); border-radius: 18px; background: rgba(16, 18, 26, 0.8); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
-.pdcm-pick__thumb { width: 72px; height: 72px; border-radius: 12px; }
-.pdcm-pick__info { display: grid; gap: 2px; min-width: 0; }
+.pdcm-pick { display: grid; grid-template-columns: 72px minmax(0, 1fr) auto; grid-template-areas: "thumb info buy"; align-items: center; gap: 6px var(--s-3); padding: 10px 12px 10px 10px; border: 1px solid var(--line-n2); border-radius: 18px; background: rgba(16, 18, 26, 0.8); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+.pdcm-pick__thumb { grid-area: thumb; width: 72px; height: 72px; border-radius: 12px; }
+.pdcm-pick.has-options { grid-template-columns: 72px minmax(0, 1fr); }
+.pdcm .pdcm-pick .pdcm-select select { background: transparent; border-color: var(--line-n2); color: #fff; }
+.pdcm-pick .pdcm-select { color: #fff; }
+.pdcm-pick__info { grid-area: info; display: grid; gap: 2px; min-width: 0; }
 .pdcm-pick__name { font-size: 15px; font-weight: 800; line-height: 1.25; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .pdcm-pick .pdcm-btn--sm { min-height: 44px; padding: 0 16px; font-size: 13px; }
-.pdcm .pdcm-pick .pdcm-btn--lime { background: transparent; color: #fff; border-color: var(--lime); }
-@media (hover: hover) { .pdcm .pdcm-pick .pdcm-btn--lime:not([disabled]):hover { background: var(--lime); color: var(--ink); } }
+.pdcm .pdcm-pick .pdcm-btn--ink { background: transparent; color: #fff; border-color: var(--lime); }
+@media (hover: hover) { .pdcm .pdcm-pick .pdcm-btn--ink:not([disabled]):hover { background: var(--lime); color: var(--ink); } }
+.pdcm-pick__msg, .pdcm-row__msg { grid-column: 1 / -1; margin-top: 0; }
 .pdcm-pick__msg { grid-column: 1 / -1; margin-top: 0; }
 .pdcm-final__title { max-width: 9em; font-family: var(--font-head); font-weight: 900; font-size: clamp(44px, 6.2vw, 92px); line-height: 0.88; letter-spacing: -0.025em; word-spacing: 0.06em; text-transform: uppercase; text-wrap: balance; }
 .pdcm-final__sub { font-size: 18px; line-height: 1.5; color: #d7dbe3; max-width: 30em; }
@@ -595,7 +643,14 @@ a.pdcm-rating__count { text-decoration: underline; text-underline-offset: 3px; m
   .pdcm-hero__bg::after { background: linear-gradient(90deg, rgba(7, 8, 13, 0.7) 0%, rgba(7, 8, 13, 0.1) 100%), linear-gradient(0deg, var(--night) 0%, rgba(7, 8, 13, 0.2) 55%, rgba(7, 8, 13, 0.35) 100%); }
   .pdcm-hero__grid { row-gap: var(--s-4); padding-block: var(--s-5) var(--s-5); }
   .pdcm-hero__copy { gap: var(--s-3); }
-  .pdcm-tag, .pdcm-eyebrow { min-height: 28px; padding: 0 12px 0 10px; font-size: 11px; }
+  .pdcm-tag, .pdcm-eyebrow { font-size: 11px; gap: 10px; }
+  .pdcm-eyebrow::before, .pdcm-tag__dot { width: 22px; }
+  .pdcm-hero__grid::before { display: none; }
+  .pdcm-play::before { font-size: 320px; bottom: -0.18em; }
+  .pdcm-compare { position: static; }
+  .pdcm-compare__panel { position: static; width: 100%; margin-top: var(--s-2); }
+  .pdcm-hero__actions { flex-wrap: wrap; }
+  .pdcm-compare[open] { flex-basis: 100%; order: 2; }
   .pdcm-hero__title { font-size: 46px; }
   .pdcm-hero__offer { font-size: 0.64em; }
   .pdcm-hero__qual { margin-top: 6px; font-size: 15px; }
@@ -605,6 +660,7 @@ a.pdcm-rating__count { text-decoration: underline; text-underline-offset: 3px; m
   /* the buy card's lime Add to cart is the one primary action on phones — the hero links turn into quiet text links */
   .pdcm-hero__actions { flex-wrap: nowrap; justify-content: space-between; gap: var(--s-4); }
   .pdcm .pdcm-hero__actions .pdcm-btn { min-height: 44px; padding: 0; border: 0; border-radius: 0; background: none; color: #fff; font-size: 14px; text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 2px; text-decoration-color: var(--lime); }
+  .pdcm-compare__chev { display: none; }
   .pdcm-hero__actions .pdcm-btn__arrow { width: 14px; height: 14px; transform: rotate(90deg); }
 
   .pdcm-hero__panel { grid-template-columns: 104px minmax(0, 1fr); column-gap: var(--s-3); row-gap: var(--s-3); padding: 10px; border-radius: 20px; }
@@ -664,7 +720,8 @@ a.pdcm-rating__count { text-decoration: underline; text-underline-offset: 3px; m
   .pdcm-gcard__body { padding: var(--s-4); }
   .pdcm-gcard__title { font-size: 22px; }
   .pdcm-gcard__blurb { font-size: 14px; }
-  .pdcm-row { grid-template-columns: 52px minmax(0, 1fr) auto; gap: 12px; }
+  .pdcm-row { grid-template-columns: 52px minmax(0, 1fr) auto; gap: 6px 12px; }
+  .pdcm-row.has-options { grid-template-columns: 52px minmax(0, 1fr); }
   .pdcm-row .pdcm-btn--sm { padding: 0 14px; }
   .pdcm-row__thumb { width: 52px; height: 52px; }
   .pdcm-row__name { font-size: 14px; }
