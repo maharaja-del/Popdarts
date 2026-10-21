@@ -483,7 +483,8 @@
   "tag": "div",
   "class": "pdcm-deals-section",
   "settings": [
-    { "type": "paragraph", "content": "The hero and the deals share ONE approval list (the Deal blocks), so the headline can never claim more than the cards show. Savings appear only for products whose Offer approval is set AND whose compare-at price is confirmed as the regular price. Elite, gift cards and returned items are removed automatically." },
+    { "type": "paragraph", "content": "The hero and the deals share ONE approval list (the Deal blocks), so the headline can never claim more than the cards show." },
+    { "type": "paragraph", "content": "Savings appear only when a product's Offer approval is set AND its compare-at price is confirmed as the regular price. Elite, gift cards and returned items are removed automatically." },
     { "type": "header", "content": "Hero — during the sale" },
     { "type": "text", "id": "hero_eyebrow", "label": "Eyebrow", "default": "Monday, Nov 30" },
     { "type": "text", "id": "hero_line1", "label": "Headline line 1", "default": "Cyber Monday" },
@@ -530,7 +531,7 @@
     { "type": "text", "id": "tab_2", "label": "Tab 2", "default": "Swaptop™ tops" },
     { "type": "text", "id": "tab_3", "label": "Tab 3", "default": "Add-ons" },
     { "type": "text", "id": "tab_4", "label": "Tab 4", "default": "Gear" },
-    { "type": "checkbox", "id": "only_discounted", "label": "During the sale, show only products with an approved saving", "default": true },
+    { "type": "checkbox", "id": "only_discounted", "label": "During the sale, show only approved deals", "default": true },
     { "type": "checkbox", "id": "show_soldout", "label": "Show sold-out products", "default": false },
     { "type": "select", "id": "sort", "label": "Order", "options": [{ "value": "listed", "label": "As listed (put high-inventory picks first)" }, { "value": "inventory", "label": "Most inventory first (counts are never shown)" }], "default": "listed" },
     { "type": "text", "id": "exclusions", "label": "Exclusions note", "default": "Not included: Elite products, gift cards and slightly used or returned items. Sale items are final sale." },
@@ -547,8 +548,8 @@
         { "type": "select", "id": "offer", "label": "Offer approval", "options": [
           { "value": "none", "label": "Not approved — regular price only" },
           { "value": "standard", "label": "Standard — up to 20% off" },
-          { "value": "extended", "label": "Extended — up to 30% (needs Daniel's approval below)" }
-        ], "default": "none" },
+          { "value": "extended", "label": "Extended — up to 30% (Daniel's approval)" }
+        ], "default": "none", "info": "Extended also needs \"Daniel approved the extended offer\" ticked below." },
         { "type": "checkbox", "id": "compare_confirmed", "label": "Compare-at confirmed as the regular price", "default": false, "info": "Savings are Shopify price vs compare-at price. Tick only once the compare-at is the genuine regular (MSRP) price." },
         { "type": "checkbox", "id": "protected", "label": "Retail-protected (max 20%)", "default": true, "info": "Keep ON unless Daniel's protected-SKU list confirms this product is NOT a retail-partner SKU." },
         { "type": "checkbox", "id": "extended_approved", "label": "Daniel approved the extended offer", "default": false },

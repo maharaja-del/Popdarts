@@ -10,7 +10,15 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const NAME_MAX = 25;
+// Limits Shopify has rejected files for ("FileSaveError: Invalid schema: ... is too long (max N characters)")
+const NAME_MAX = 25; // section, block and preset name
+const OPTION_LABEL_MAX = 50; // select/radio option label
+// Shopify doesn't publish limits for these fields. Each number is the longest value Shopify has accepted on this
+// store (measured across the 216 live sections on main, Oct 2026). Anything longer is untested, so it's an error.
+const PROVEN_MAX = {
+  label: 58, info: 208, header: 46, paragraph: 211, id: 32, optionValue: 22, blockType: 20, placeholder: 18,
+  textDefault: 285, richtextDefault: 182,
+};
 const RANGE_MAX_STEPS = 101;
 const RESOURCE_TYPES = ['image_picker', 'video', 'product', 'collection', 'blog', 'page', 'article', 'product_list', 'collection_list', 'metaobject', 'metaobject_list', 'font_picker_none'];
 const URL_DEFAULTS = ['/collections', '/collections/all'];
@@ -74,6 +82,14 @@ function checkName(file, where, name, required) {
   if (text.length > NAME_MAX) err(file, `${where} name is ${text.length} characters (max ${NAME_MAX}): "${text}"`);
 }
 
+// proven = true for the PROVEN_MAX fields, where the number is a safe ceiling rather than Shopify's stated maximum
+function checkLength(file, at, what, value, max, proven) {
+  const text = resolve(value);
+  if (typeof text !== 'string' || text.length <= max) return;
+  const limit = proven ? `longest Shopify has accepted here is ${max}` : `max ${max}`;
+  err(file, `${at}: ${what} is ${text.length} characters (${limit}): "${text.slice(0, 70)}"`);
+}
+
 const isNum = (v) => typeof v === 'number' && Number.isFinite(v);
 const onStep = (v, min, step) => Math.abs(((v - min) / step) - Math.round((v - min) / step)) < 1e-9;
 
@@ -83,10 +99,17 @@ function checkSettingDef(file, where, s) {
   if (!s.type) { err(file, `${where}: a setting has no type`); return; }
   if (s.type === 'header' || s.type === 'paragraph') {
     if (!s.content) err(file, `${at}: ${s.type} needs "content"`);
+    checkLength(file, at, `${s.type} content`, s.content, PROVEN_MAX[s.type], true);
     return;
   }
   if (!s.id) err(file, `${where}: ${s.type} setting has no id`);
   if (!s.label && s.type !== 'liquid') warn(file, `${at}: no label`);
+  checkLength(file, at, 'id', s.id, PROVEN_MAX.id, true);
+  checkLength(file, at, 'label', s.label, PROVEN_MAX.label, true);
+  checkLength(file, at, 'info', s.info, PROVEN_MAX.info, true);
+  checkLength(file, at, 'placeholder', s.placeholder, PROVEN_MAX.placeholder, true);
+  if (['text', 'textarea'].includes(s.type)) checkLength(file, at, 'default', s.default, PROVEN_MAX.textDefault, true);
+  if (['richtext', 'inline_richtext'].includes(s.type)) checkLength(file, at, 'default', s.default, PROVEN_MAX.richtextDefault, true);
   const d = s.default;
   const has = Object.prototype.hasOwnProperty.call(s, 'default');
   if (has && d === null) err(file, `${at}: default is null (omit it instead)`);
@@ -114,7 +137,11 @@ function checkSettingDef(file, where, s) {
     case 'radio': {
       const opts = Array.isArray(s.options) ? s.options : [];
       if (!opts.length) err(file, `${at}: ${s.type} needs options`);
-      opts.forEach((o) => { if (o.value === undefined || o.label === undefined) err(file, `${at}: every option needs value and label`); });
+      opts.forEach((o) => {
+        if (o.value === undefined || o.label === undefined) err(file, `${at}: every option needs value and label`);
+        checkLength(file, at, 'option label', o.label, OPTION_LABEL_MAX, false);
+        checkLength(file, at, 'option value', o.value, PROVEN_MAX.optionValue, true);
+      });
       if (has && !opts.some((o) => o.value === d)) err(file, `${at}: default "${d}" is not one of the option values`);
       break;
     }
@@ -164,6 +191,7 @@ function checkSectionSchema(file, schema, isThemeBlock) {
     if (types.has(b.type)) err(file, `duplicate block type "${b.type}"`);
     types.add(b.type);
     if (b.type.startsWith('@')) return; // @app / @theme take no name or settings
+    checkLength(file, where, 'block type', b.type, PROVEN_MAX.blockType, true);
     if (!isThemeBlock || b.name !== undefined) checkName(file, where, b.name, !isThemeBlock);
     checkSettingsList(file, where, b.settings);
   });

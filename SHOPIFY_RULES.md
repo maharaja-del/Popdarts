@@ -17,22 +17,52 @@ in Downloads: check the folder itself after copying, because a stale copy is wha
 The checker needs no install (plain Node). A run with no arguments checks the whole repo. Some theme files we
 didn't write (`header.liquid`, `page.swaptop-lp.json`) already fail; leave them alone unless asked.
 
-## 1. Names: 25 characters maximum
+## 1. Text length limits
 
-`FileSaveError: Invalid schema: name is too long (max 25 characters)`
+Count every schema string as you write it. The count includes spaces, punctuation and any campaign prefix.
+An em dash `—` counts as one character. For a `t:` translation key, the English text it resolves to is what
+gets counted.
 
-- The limit covers the section `name`, **every block `name`** and **every preset `name`**.
-- The count includes spaces and the campaign prefix. `"Cyber Monday: "` alone uses 14 of the 25.
-- If a name is a `t:` translation key, the English text it resolves to is what gets counted.
-- Choose the name when you write the schema, count it, and keep it at 25 or under. For example:
+### Limits Shopify has rejected files for
 
-| Too long (26)                  | Fixed                          |
-| ------------------------------ | ------------------------------ |
-| `Cyber Monday: Hero + deals`   | `Cyber Monday: Hero+Deals` (24) |
-| `Cyber Monday: How it plays`   | `Cyber Monday: Gameplay` (22)   |
+| Field | Max | Shopify's error |
+| --- | --- | --- |
+| Section `name`, **every block `name`**, **every preset `name`** | **25** | `Invalid schema: name is too long (max 25 characters)` |
+| **Option `label`** in a `select` or `radio` setting | **50** | `Invalid block 'deal': setting with id="offer" option label is too long (max 50 characters)` |
 
-- Use short campaign prefixes, e.g. `Prime Day: ` (11), `Holiday: ` (9), `BFCM: ` (6), `Halloween: ` (11).
-  For block names, drop the prefix: `Deal`, `Gift tab`, `Question`.
+Fixes we've made:
+
+| Too long | Fixed |
+| --- | --- |
+| `Cyber Monday: Hero + deals` (26) | `Cyber Monday: Hero+Deals` (24) |
+| `Cyber Monday: How it plays` (26) | `Cyber Monday: Gameplay` (22) |
+| `Extended — up to 30% (needs Daniel's approval below)` (52) | `Extended — up to 30% (Daniel's approval)` (40) + the detail moved to the setting's `info` |
+
+- Use short campaign prefixes: `Prime Day: ` (11), `Holiday: ` (9), `BFCM: ` (6), `Halloween: ` (11).
+  `"Cyber Monday: "` alone uses 14 of the 25. Leave the prefix off block names: `Deal`, `Gift tab`, `Question`.
+- An option label is a short choice, not an explanation. Put conditions and caveats in the setting's `info`.
+
+### Fields where Shopify publishes no limit: stay under the longest it has accepted here
+
+Shopify doesn't document limits for these fields, so the checker uses the longest value Shopify has accepted
+on this store (measured across the 216 live sections on `main`, October 2026). Going past one of these means
+untested territory, and the checker reports it as an error. Shorten the text, or split it.
+
+| Field | Keep at or under |
+| --- | --- |
+| Setting `label` | 58 |
+| Setting `info` | 208 |
+| `header` content | 46 |
+| `paragraph` content | 211 (split a longer note into two `paragraph` settings) |
+| Setting `id` | 32 |
+| Option `value` | 22 |
+| Block `type` | 20 |
+| `placeholder` | 18 |
+| `text` / `textarea` default | 285 |
+| `richtext` / `inline_richtext` default | 182 |
+
+If Shopify ever rejects a file for a length that isn't listed here, add the field and its limit to the first
+table and to `tools/shopify-check.js` straight away.
 
 ## 2. No `{` or `}` inside any Liquid tag or output
 
