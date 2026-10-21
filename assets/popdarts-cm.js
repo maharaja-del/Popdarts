@@ -266,6 +266,26 @@
     });
   }
 
+  /* ---------------- gift tiers: "Save up to N%" from the approval register only ---------------- */
+  function initTierSave(root) {
+    var reg = $('[data-cm-register]');
+    $$('[data-cm-tier]', root).forEach(function (tier) {
+      var out = $('[data-cm-tier-save]', tier);
+      if (!out) return;
+      var ids = [];
+      $$('[data-cm-mirror]', tier).forEach(function (el) { ids.push(el.getAttribute('data-cm-mirror')); });
+      $$('select[data-cm-select] option', tier).forEach(function (o) { ids.push(o.value); });
+      var best = 0;
+      ids.forEach(function (id) {
+        var hit = reg && reg.querySelector('i[data-id="' + id + '"]');
+        var n = hit ? parseInt(hit.getAttribute('data-off'), 10) : 0;
+        if (n > best) best = n;
+      });
+      out.textContent = best > 0 ? (out.dataset.prefix || 'Save up to') + ' ' + best + '%' : '';
+      out.hidden = best <= 0;
+    });
+  }
+
   /* ---------------- tabs (skips tabs hidden in the current sale state) ---------------- */
   function resetRails(scope) {
     $$('[data-cm-track]', scope).forEach(function (t) { t.scrollLeft = 0; });
@@ -568,6 +588,7 @@
     startClock();
     initPickers(root);
     initMirror(root);
+    initTierSave(root);
     initRails(root);
     initTabs(root);
     initAccordions(root);

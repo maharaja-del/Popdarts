@@ -8,8 +8,16 @@
 {% render 'popdarts-cm-assets' %}
 <section class="pdcm pdcm-final" id="cm-final" aria-labelledby="cm-final-title-{{ section.id }}" data-cm-dock-stop>
   <div class="pdcm-final__stage">
-    <div class="pdcm-final__bg" aria-hidden="true">
-      {%- if img_src != blank -%}
+    <div class="pdcm-final__bg{% if img_src == blank and st.image_asset == blank %} is-stage{% endif %}" aria-hidden="true">
+      {%- if img_src == blank and st.image_asset == blank and st.art != blank -%}
+        {%- assign art = st.art | split: ',' -%}
+        <div class="pdcm-final__art pdcm-final__art--{{ art.size | at_most: 3 }}">
+          {%- for a in art limit: 3 -%}
+            {%- assign an = a | strip -%}
+            <img src="{{ an | asset_url }}" alt="" width="900" height="900" loading="lazy" decoding="async">
+          {%- endfor -%}
+        </div>
+      {%- elsif img_src != blank -%}
         {{ img_src | image_url: width: 2400 | image_tag: widths: '750, 1100, 1500, 1920, 2400', sizes: '100vw', loading: 'lazy', alt: '' }}
       {%- elsif st.image_asset != blank -%}
         <img src="{{ st.image_asset | asset_url }}" alt="" width="1920" height="1080" loading="lazy" decoding="async">
@@ -102,7 +110,8 @@
     { "type": "product_list", "id": "products", "label": "Quick picks", "limit": 3, "info": "Each pick has its own colour dropdown and Add button." },
     { "type": "text", "id": "hide_variants", "label": "Hide colorways", "default": "Halloween", "info": "Comma-separated variant names left out of the quick-pick dropdowns." },
     { "type": "image_picker", "id": "image", "label": "Image" },
-    { "type": "text", "id": "image_asset", "label": "Image (theme asset)", "default": "pd-hero-trophy-lift.jpg", "info": "Used when no image is picked." },
+    { "type": "text", "id": "image_asset", "label": "Image (theme asset)", "info": "Optional photo. Empty = the cyber stage with the cutouts below." },
+    { "type": "text", "id": "art", "label": "Cutout art (theme assets)", "default": "pd-cm-cut-rookie-pack-blue-green.webp, pd-cm-cut-pro-pack-fire-ice.webp, pd-cm-cut-swaptop-kit-default-title.webp", "info": "Up to 3 comma-separated cutouts shown on the cyber stage." },
     { "type": "text", "id": "image_alt", "label": "Image description", "default": "Popdarts players lifting the championship trophy under arena lights" },
     { "type": "header", "content": "Promotion terms" },
     { "type": "text", "id": "terms_title", "label": "Title", "default": "Promotion terms" },

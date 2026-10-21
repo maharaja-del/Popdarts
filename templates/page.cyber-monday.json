@@ -22,7 +22,8 @@
         "only_discounted": true,
         "show_soldout": false,
         "sort": "listed",
-        "hero_bg_asset": "pd-hero-trophy-lift.jpg",
+        "hero_cyber": true,
+        "hero_bg_asset": "",
         "hero_bg_x": 62,
         "hero_bg_y": 30,
         "hero_bg_x_mobile": 8,
@@ -43,10 +44,10 @@
             "approval_ref": "",
             "note": "6 Popdarts + the PRO Target Marker™ for the 10-point shot.",
             "image_number": 0,
-            "image_style": "studio",
-            "zoom": 110,
+            "image_style": "cyber",
+            "zoom": 105,
             "focus_x": 50,
-            "focus_y": 60
+            "focus_y": 50
           }
         },
         "rookie": {
@@ -62,7 +63,7 @@
             "approval_ref": "",
             "note": "6 Popdarts + Target Marker. Made for ages 5 to 95.",
             "image_number": 0,
-            "image_style": "studio",
+            "image_style": "cyber",
             "zoom": 100,
             "focus_x": 50,
             "focus_y": 50
@@ -81,8 +82,8 @@
             "approval_ref": "",
             "note": "Frame, double-sided top, 6 darts and a carrying case.",
             "image_number": 0,
-            "image_style": "studio",
-            "zoom": 130,
+            "image_style": "cyber",
+            "zoom": 120,
             "focus_x": 100,
             "focus_y": 60
           }
@@ -335,66 +336,67 @@
       "type": "popdarts-cm-gift",
       "settings": {},
       "blocks": {
-        "family": {
+        "t25": {
           "type": "gift_tab",
           "settings": {
-            "label": "Family night",
+            "label": "",
             "layout": "card",
-            "blurb": "Rookie for beginners — the Rookie Pack is made for ages 5 to 95. The Swaptop™ Kit adds a frame and a double-sided top for more ways to play.",
+            "blurb": "The Rookie Pack — made for ages 5 to 95 — plus stocking-stuffer gear.",
             "products": [
               "rookie-pack",
-              "swaptop-kit",
-              "pro-pack"
-            ],
-            "media_kind": "video",
-            "image_asset": "",
-            "image_alt": "A family playing Popdarts in their living room",
-            "media_tone": "light",
-            "video_url": "https://cdn.shopify.com/videos/c/o/v/24a318479e564128bf3c146feb28bd7d.mp4",
-            "video_poster_asset": "pd-cm-poster-livingroom.jpg",
-            "focus_y": 45,
-            "video_start": 4,
-            "video_end": 30
-          }
-        },
-        "rivals": {
-          "type": "gift_tab",
-          "settings": {
-            "label": "Competitors",
-            "layout": "card",
-            "blurb": "Pro for competitors. The Pro Pack's PRO Target Marker™ adds the 10-point shot, and PowerSpots add a twist to any game.",
-            "products": [
-              "pro-pack",
-              "powerspots",
-              "acc-tm"
-            ],
-            "media_kind": "image",
-            "image_asset": "pd-bento-players-ready.jpg",
-            "image_alt": "A Popdarts league player lining up a throw",
-            "media_tone": "light",
-            "video_url": "",
-            "video_poster_asset": "",
-            "focus_y": 40
-          }
-        },
-        "small": {
-          "type": "gift_tab",
-          "settings": {
-            "label": "Small gifts",
-            "layout": "card",
-            "blurb": "For the fan who already has a set: caps, a beanie and a can cooler.",
-            "products": [
-              "popdarts-icon-trucker-cap",
-              "waffle-beanie",
+              "popdarts-five-panel-cap",
               "popdarts-can-cooler-1"
             ],
             "media_kind": "image",
-            "image_asset": "pd-marquee-family-group.jpg",
-            "image_alt": "Popdarts fans and families at a tournament",
+            "image_asset": "",
+            "image_alt": "",
             "media_tone": "light",
             "video_url": "",
             "video_poster_asset": "",
-            "focus_y": 40
+            "focus_y": 50,
+            "art": "pd-cm-cut-popdarts-five-panel-cap-black.webp, pd-cm-cut-rookie-pack-blue-green.webp, pd-cm-cut-popdarts-can-cooler-1-default-title.webp"
+          }
+        },
+        "t50": {
+          "type": "gift_tab",
+          "settings": {
+            "label": "",
+            "layout": "card",
+            "blurb": "The Pro Pack — the PRO Target Marker™ adds the 10-point shot — and gear for game day.",
+            "products": [
+              "pro-pack",
+              "waffle-beanie",
+              "powerspots"
+            ],
+            "media_kind": "image",
+            "image_asset": "",
+            "image_alt": "",
+            "media_tone": "light",
+            "video_url": "",
+            "video_poster_asset": "",
+            "focus_y": 50,
+            "art": "pd-cm-cut-waffle-beanie-birch.webp, pd-cm-cut-pro-pack-fire-ice.webp"
+          }
+        },
+        "big": {
+          "type": "gift_tab",
+          "settings": {
+            "label": "",
+            "layout": "card",
+            "blurb": "The Swaptop™ Kit: one frame, swappable tops, more ways to play.",
+            "products": [
+              "swaptop-kit",
+              "swaptop-og",
+              "swaptop-football"
+            ],
+            "media_kind": "image",
+            "image_asset": "",
+            "image_alt": "",
+            "media_tone": "light",
+            "video_url": "",
+            "video_poster_asset": "",
+            "focus_y": 50,
+            "art": "pd-cm-cut-swaptop-kit-default-title.webp"
           }
         },
         "card": {
@@ -417,9 +419,9 @@
         }
       },
       "block_order": [
-        "family",
-        "rivals",
-        "small",
+        "t25",
+        "t50",
+        "big",
         "card"
       ]
     },
@@ -526,8 +528,8 @@
     "final": {
       "type": "popdarts-cm-final",
       "settings": {
-        "image_asset": "pd-championship-arena.jpg",
-        "image_alt": "Popdarts fans celebrating at the championship",
+        "image_asset": "",
+        "art": "pd-cm-cut-rookie-pack-blue-green.webp, pd-cm-cut-pro-pack-fire-ice.webp, pd-cm-cut-swaptop-kit-default-title.webp",
         "show_dock": true,
         "products": [
           "swaptop-kit",

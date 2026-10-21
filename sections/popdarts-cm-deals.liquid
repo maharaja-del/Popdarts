@@ -268,6 +268,10 @@
   endcapture
   assign so = so_raw | strip | split: '|'
   assign hero_img = best.featured_image | default: hp.featured_image
+  assign hero_cyber = st.hero_cyber
+  if hero_cyber
+    assign hero_cut = best.title | handleize | prepend: '-' | prepend: hp.handle | prepend: 'pd-cm-cut-' | append: '.webp'
+  endif
   assign hero_zoom = st.hero_zoom | default: 100 | divided_by: 100.0
   assign msg_hero = 'cm-msg-' | append: section.id | append: '-hero'
   assign headline_pct_s = headline_pct | append: ''
@@ -287,6 +291,7 @@
 <div hidden data-cm-register>{{ register }}</div>
 
 <section class="pdcm pdcm-hero" id="cm-hero" aria-labelledby="cm-hero-title-{{ section.id }}">
+  {%- if st.hero_bg != blank or st.hero_bg_asset != blank -%}
   <div class="pdcm-hero__bg" style="--bx: {{ st.hero_bg_x | default: 62 }}%; --by: {{ st.hero_bg_y | default: 30 }}%; --bxm: {{ st.hero_bg_x_mobile | default: 8 }}%; --bym: {{ st.hero_bg_y_mobile | default: 12 }}%" aria-hidden="true">
     {%- if st.hero_bg != blank -%}
       {{ st.hero_bg | image_url: width: 2400 | image_tag: widths: '750, 1100, 1500, 1920, 2400', sizes: '100vw', loading: 'eager', fetchpriority: 'high', alt: '' }}
@@ -294,6 +299,7 @@
       <img src="{{ st.hero_bg_asset | asset_url }}" alt="" width="1920" height="1080" fetchpriority="high" decoding="async">
     {%- endif -%}
   </div>
+  {%- endif -%}
 
   <div class="pdcm-wrap pdcm-hero__grid">
     <div class="pdcm-hero__copy">
@@ -304,7 +310,7 @@
         <span class="pdcm-hero__line" data-cm-when="live before">{{ st.hero_line1 }}</span>
         <span class="pdcm-hero__line" data-cm-when="after">{{ st.hero_after_line1 }}</span>
         {%- if headline_pct > 0 -%}
-          <span class="pdcm-hero__offer" data-cm-when="live">{{ st.hero_offer | replace: '[pct]', headline_pct_s }}<span class="pdcm-hero__qual">{{ st.hero_qualifier }}</span></span>
+          <span class="pdcm-hero__offer" data-cm-when="live">{%- if st.hero_offer_pre != blank -%}<span class="pdcm-hero__pre">{{ st.hero_offer_pre }} </span>{%- endif -%}<span class="pdcm-hero__big">{{ st.hero_offer | replace: '[pct]', headline_pct_s }}</span><span class="pdcm-hero__qual">{{ st.hero_qualifier }}</span></span>
         {%- else -%}
           <span class="pdcm-hero__offer" data-cm-when="live">{{ st.hero_nodeal }}</span>
         {%- endif -%}
@@ -341,8 +347,10 @@
 
     {%- if hp != blank -%}
       <div class="pdcm-hero__panel pdcm-buy" data-cm-picker data-cm-dock-source data-product-title="{{ hp.title | escape }}" data-soldout-text="Sold out">
-        <div class="pdcm-buy__media pdcm-media pdcm-media--studio" style="--z: {{ hero_zoom }}; --fy: {{ st.hero_focus | default: 62 }}%" data-cm-pick-img>
-          {%- if hero_img -%}
+        <div class="pdcm-buy__media pdcm-media {% if hero_cyber %}pdcm-media--cyber{% else %}pdcm-media--studio{% endif %}" style="--z: {{ hero_zoom }}; --fy: {{ st.hero_focus | default: 62 }}%" data-cm-pick-img>
+          {%- if hero_cyber -%}
+            <img src="{{ hero_cut | asset_url }}" alt="{{ hp.title | escape }}, {{ best.title | escape }}" width="900" height="900" fetchpriority="high" decoding="async">
+          {%- elsif hero_img -%}
             {{ hero_img | image_url: width: 900 | image_tag: widths: '300, 450, 600, 800, 900', sizes: '(min-width: 990px) 400px, 112px', loading: 'eager', alt: hp.title }}
           {%- endif -%}
           <span class="pdcm-chip pdcm-chip--sale" data-cm-pick-off data-cm-when="live"{% unless so[1] == 'yes' %} hidden{% endunless %}>{% if so[1] == 'yes' %}{{ so[0] }}% off{% endif %}</span>
@@ -374,7 +382,7 @@
                   -%}
                   {%- if is_hidden or v.available == false -%}{%- continue -%}{%- endif -%}
                   {%- assign is_sel = false -%}{%- if v.id == best.id -%}{%- assign is_sel = true -%}{%- endif -%}
-                  {% render 'popdarts-cm-swatch', variant: v, product: hp, selected: is_sel, status: hb_offer, confirmed: hb_confirmed, approved: hb_approved, skus: hb_skus, protected: hb_protected %}
+                  {% render 'popdarts-cm-swatch', variant: v, product: hp, selected: is_sel, status: hb_offer, confirmed: hb_confirmed, approved: hb_approved, skus: hb_skus, protected: hb_protected, cyber: hero_cyber %}
                 {%- endfor -%}
               </div>
               {%- if soldout_names != blank -%}<p class="pdcm-buy__soldout">Sold out right now: {{ soldout_names }}</p>{%- endif -%}
@@ -497,11 +505,12 @@
     { "type": "header", "content": "Hero — during the sale" },
     { "type": "text", "id": "hero_eyebrow", "label": "Eyebrow", "default": "Monday, Nov 30" },
     { "type": "text", "id": "hero_line1", "label": "Headline line 1", "default": "Cyber Monday" },
-    { "type": "text", "id": "hero_offer", "label": "Headline offer line", "default": "Up to [pct]% off", "info": "[pct] = the biggest APPROVED saving shown on this page, never above 20." },
+    { "type": "text", "id": "hero_offer_pre", "label": "Small line above the offer", "default": "Up to" },
+    { "type": "text", "id": "hero_offer", "label": "Headline offer", "default": "[pct]% off", "info": "[pct] = the biggest APPROVED saving shown on this page, never above 20." },
     { "type": "text", "id": "hero_qualifier", "label": "Offer qualifier", "default": "eligible games & gear" },
     { "type": "text", "id": "hero_nodeal", "label": "Offer line when no saving is approved", "default": "Game on." },
     { "type": "text", "id": "hero_select", "label": "Extended offer line", "default": "Select items up to [xpct]% off", "info": "Shows only when a Daniel-approved, non-protected product above 20% is actually on the page." },
-    { "type": "text", "id": "hero_sub", "label": "Support text", "default": "As seen on ESPN. Popdarts stick to glass, windows, even the fridge — game night happens anywhere." },
+    { "type": "text", "id": "hero_sub", "label": "Support text", "default": "Cyber Monday prices on the games families and pros play." },
     { "type": "text", "id": "hero_cta", "label": "Button", "default": "Shop all games" },
     { "type": "url", "id": "hero_cta_link", "label": "Button link", "info": "A real page, e.g. your Cyber Monday collection. Empty = /collections/all" },
     { "type": "text", "id": "hero_link2_text", "label": "Rookie or Pro? button", "default": "Rookie or Pro?", "info": "Opens a short comparison right in the hero. Empty = hidden." },
@@ -511,9 +520,11 @@
     { "type": "text", "id": "trust_1", "label": "Trust bar item 1", "default": "As seen on ESPN" },
     { "type": "text", "id": "trust_2", "label": "Trust bar item 2", "default": "Orders processed in 1–2 business days" },
     { "type": "text", "id": "timer_label", "label": "Countdown label", "default": "Sale ends in", "info": "The countdown only appears when the deadline is confirmed in Cyber Monday: Settings." },
-    { "type": "header", "content": "Hero — background photo" },
+    { "type": "header", "content": "Hero — look" },
+    { "type": "checkbox", "id": "hero_cyber", "label": "Show the product as a cyber cutout", "default": true, "info": "Uses assets/pd-cm-cut-[handle]-[colour].webp for every colorway." },
+    { "type": "header", "content": "Hero — background photo (optional)" },
     { "type": "image_picker", "id": "hero_bg", "label": "Background photo" },
-    { "type": "text", "id": "hero_bg_asset", "label": "Theme asset photo", "default": "pd-hero-trophy-lift.jpg", "info": "Used when no photo is picked above." },
+    { "type": "text", "id": "hero_bg_asset", "label": "Theme asset photo", "info": "Optional photo behind the stage, e.g. pd-hero-trophy-lift.jpg. Empty = the clean cyber stage." },
     { "type": "range", "id": "hero_bg_x", "label": "Photo focus (horizontal)", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 62 },
     { "type": "range", "id": "hero_bg_y", "label": "Photo focus (vertical)", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 30 },
     { "type": "range", "id": "hero_bg_x_mobile", "label": "Phone photo focus (horizontal)", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 8 },
@@ -578,7 +589,7 @@
         { "type": "header", "content": "Card" },
         { "type": "text", "id": "note", "label": "Short note", "info": "e.g. Needs a Popdarts pack" },
         { "type": "range", "id": "image_number", "label": "Photo number", "min": 0, "max": 12, "step": 1, "default": 0, "info": "0 = the selected colorway's photo. 1–12 = that photo from the product's gallery." },
-        { "type": "select", "id": "image_style", "label": "Photo style", "options": [{ "value": "studio", "label": "Studio (white background photos)" }, { "value": "photo", "label": "Photo (fills the frame)" }], "default": "studio" },
+        { "type": "select", "id": "image_style", "label": "Photo style", "options": [{ "value": "cyber", "label": "Cyber stage (cutout on dark)" }, { "value": "studio", "label": "Studio (white background photos)" }, { "value": "photo", "label": "Photo (fills the frame)" }], "default": "studio", "info": "Cyber stage needs a cutout per colour: assets/pd-cm-cut-[handle]-[colour].webp" },
         { "type": "range", "id": "zoom", "label": "Photo zoom", "min": 100, "max": 200, "step": 5, "unit": "%", "default": 100 },
         { "type": "range", "id": "focus_x", "label": "Photo focus (horizontal)", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 50, "info": "With zoom, pushes a clipped edge out of frame." },
         { "type": "range", "id": "focus_y", "label": "Photo focus (vertical)", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 50 }

@@ -4,6 +4,7 @@
   colors can never surface an unapproved discount.
   Params: variant, product, selected (bool), status, confirmed, approved, skus, protected, as ('swatch' | 'option'),
           bare (true = option text is just the colour, for rows that already show the price)
+          cyber (true = the picker shows transparent cutouts: assets/pd-cm-cut-<product handle>-<variant title|handleize>.webp)
 {%- endcomment -%}
 {%- liquid
   capture offer
@@ -12,6 +13,9 @@
   assign o = offer | strip | split: '|'
   assign img = variant.featured_image | default: product.featured_image
   assign vtitle = variant.title | escape
+  if cyber
+    assign cut = variant.title | handleize | prepend: '-' | prepend: product.handle | prepend: 'pd-cm-cut-' | append: '.webp'
+  endif
 -%}
 {%- capture data -%}
   data-cm-swatch
@@ -25,7 +29,9 @@
   data-save="Save {{ variant.compare_at_price | minus: variant.price | money }}"
   data-off="{{ o[0] }}% off"
   {%- endif %}
-  {%- if img %}
+  {%- if cyber %}
+  data-image="{{ cut | asset_url }}"
+  {%- elsif img %}
   data-image="{{ img | image_url: width: 900 }}"
   data-srcset="{{ img | image_url: width: 450 }} 450w, {{ img | image_url: width: 700 }} 700w, {{ img | image_url: width: 900 }} 900w"
   {%- endif %}

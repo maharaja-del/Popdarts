@@ -1,6 +1,7 @@
 {%- comment -%}
-  Cyber Monday gift guide: every idea visible at once — persona cards (photo on top + up to 3 products) three across on
-  desktop and a swipe rail on phones; "strip" blocks (e.g. the gift card) run full width underneath.
+  Cyber Monday gift deals: one card per budget tier — three across on desktop, a swipe rail on phones. A tier with no
+  title is labelled from today's prices ("Gifts under $25"). Art = transparent product cutouts on the cyber stage.
+  "Save up to N%" is filled by popdarts-cm.js from the approval register only. "Strip" blocks (the gift card) run full width.
   Every row has its own colour dropdown and Add button (snippets/popdarts-cm-row) — nothing jumps to another section.
   Savings are never computed here — popdarts-cm.js mirrors approved savings from [data-cm-register] by variant id.
 {%- endcomment -%}
@@ -27,10 +28,40 @@
             elsif b.video_poster_asset != blank
               assign poster = b.video_poster_asset | asset_url
             endif
+            assign tier_label = b.label
+            if tier_label == blank
+              assign maxp = 0
+              for p in b.products limit: 3
+                if p.price_max > maxp
+                  assign maxp = p.price_max
+                endif
+              endfor
+              assign cap = 0
+              if maxp > 0 and maxp <= 2500
+                assign cap = 25
+              elsif maxp > 2500 and maxp <= 5000
+                assign cap = 50
+              elsif maxp > 5000 and maxp <= 10000
+                assign cap = 100
+              elsif maxp > 10000 and maxp <= 20000
+                assign cap = 200
+              endif
+              if cap > 0
+                assign tier_label = st.tier_label | replace: '[amount]', cap
+              else
+                assign tier_label = st.tier_big
+              endif
+            endif
+            assign art = b.art | split: ','
           -%}
-          <article class="pdcm-gcard pdcm-rail__slide{% if b.media_tone == 'night' %} is-night{% endif %}" role="listitem" aria-labelledby="cm-gcard-{{ block.id }}" {{ block.shopify_attributes }}>
-            <div class="pdcm-gcard__media pdcm-gcard__media--{{ b.media_kind }}" style="--fy: {{ b.focus_y | default: 50 }}%">
-              {%- if b.media_kind == 'video' and b.video_url != blank -%}
+          <article class="pdcm-gcard pdcm-rail__slide{% if b.media_tone == 'night' %} is-night{% endif %}" role="listitem" aria-labelledby="cm-gcard-{{ block.id }}" data-cm-tier {{ block.shopify_attributes }}>
+            <div class="pdcm-gcard__media pdcm-gcard__media--{{ b.media_kind }}{% if b.art != blank %} pdcm-gcard__art pdcm-gcard__art--{{ art.size | at_most: 3 }}{% endif %}" style="--fy: {{ b.focus_y | default: 50 }}%">
+              {%- if b.art != blank -%}
+                {%- for a in art limit: 3 -%}
+                  {%- assign an = a | strip -%}
+                  <img class="pdcm-gcard__cut" src="{{ an | asset_url }}" alt="" width="900" height="900" loading="lazy" decoding="async">
+                {%- endfor -%}
+              {%- elsif b.media_kind == 'video' and b.video_url != blank -%}
                 {% render 'popdarts-cm-video', id: media_id, src: b.video_url, poster: poster, start: b.video_start, end: b.video_end, focus: b.focus_y, autoplay: false, label: b.label %}
               {%- elsif b.image != blank -%}
                 {{ b.image | image_url: width: 1000 | image_tag: widths: '450, 600, 800, 1000', sizes: '(min-width: 990px) 410px, 86vw', loading: 'lazy', alt: b.image_alt }}
@@ -39,7 +70,8 @@
               {%- endif -%}
             </div>
             <div class="pdcm-gcard__body">
-              <h3 class="pdcm-gcard__title" id="cm-gcard-{{ block.id }}">{{ b.label }}</h3>
+              <p class="pdcm-gcard__save" data-cm-tier-save data-cm-when="live" hidden></p>
+              <h3 class="pdcm-gcard__title" id="cm-gcard-{{ block.id }}">{{ tier_label }}</h3>
               {%- if b.blurb != blank -%}<p class="pdcm-gcard__blurb">{{ b.blurb }}</p>{%- endif -%}
               <ul class="pdcm-rows">
                 {%- for p in b.products limit: 3 -%}
@@ -117,9 +149,11 @@
   "tag": "div",
   "class": "pdcm-gift-section",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Gifting" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Gifts that start a rivalry." },
-    { "type": "text", "id": "sub", "label": "Text", "default": "Pick by who's on your list." },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Cyber Monday gift deals" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Gift deals for every budget." },
+    { "type": "text", "id": "sub", "label": "Text", "default": "Cyber Monday prices on the gifts they'll actually play with." },
+    { "type": "text", "id": "tier_label", "label": "Automatic tier title", "default": "Gifts under $[amount]", "info": "Used when a tier has no title. [amount] = 25, 50, 100 or 200 from the products' current prices." },
+    { "type": "text", "id": "tier_big", "label": "Title above $200", "default": "The big gift" },
     { "type": "text", "id": "hide_variants", "label": "Hide colorways", "default": "Halloween", "info": "Comma-separated variant names left out of the dropdowns." }
   ],
   "blocks": [
@@ -127,7 +161,8 @@
       "type": "gift_tab",
       "name": "Gift idea",
       "settings": [
-        { "type": "text", "id": "label", "label": "Title", "default": "Family night" },
+        { "type": "text", "id": "label", "label": "Title", "info": "Empty = automatic budget title, e.g. Gifts under $25." },
+        { "type": "text", "id": "art", "label": "Cutout art (theme assets)", "info": "Up to 3 comma-separated cutouts, e.g. pd-cm-cut-rookie-pack-blue-green.webp. Replaces the photo." },
         { "type": "select", "id": "layout", "label": "Layout", "options": [{ "value": "card", "label": "Card (photo on top)" }, { "value": "strip", "label": "Full-width strip" }], "default": "card", "info": "Strips run under the cards — use for the gift card." },
         { "type": "textarea", "id": "blurb", "label": "Text" },
         { "type": "product_list", "id": "products", "label": "Products", "limit": 3, "info": "Sold-out, Elite and returned products are skipped." },

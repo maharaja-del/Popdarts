@@ -95,6 +95,11 @@
   if size == 'compact'
     assign img_sizes = '(min-width: 1200px) 280px, (min-width: 990px) 26vw, (min-width: 768px) 35vw, 66vw'
   endif
+  assign cyber = false
+  if s.image_style == 'cyber'
+    assign cyber = true
+    assign cut = best.title | handleize | prepend: '-' | prepend: p.handle | prepend: 'pd-cm-cut-' | append: '.webp'
+  endif
   assign load = 'lazy'
   if eager
     assign load = 'eager'
@@ -109,7 +114,10 @@
   {%- if when != blank %} data-cm-when="{{ when }}"{% endif %}{% if has_deal %} data-cm-deal{% endif %}>
   <a class="pdcm-card__media pdcm-media pdcm-media--{{ s.image_style | default: 'studio' }}" href="{{ best.url | default: p.url }}" tabindex="-1" aria-hidden="true"
     style="--z: {{ zoom }}; --fx: {{ s.focus_x | default: 50 }}%; --fy: {{ s.focus_y | default: 50 }}%" {% unless fixed_img %}data-cm-pick-img{% endunless %} data-cm-pick-link>
-    {%- if img -%}
+    {%- if cyber -%}
+      {%- comment -%} transparent cutout of the selected colorway on the cyber stage (assets/pd-cm-cut-*) {%- endcomment -%}
+      <img src="{{ cut | asset_url }}" alt="" width="900" height="900" loading="{{ load }}" decoding="async">
+    {%- elsif img -%}
       {{ img | image_url: width: 1200 | image_tag: widths: '300, 400, 600, 800, 1000, 1200', sizes: img_sizes, loading: load, alt: '' }}
     {%- endif -%}
     <span class="pdcm-chip pdcm-chip--sale" data-cm-pick-off data-cm-when="live"{% unless so[1] == 'yes' %} hidden{% endunless %}>{% if so[1] == 'yes' %}{{ so[0] }}% off{% endif %}</span>
@@ -138,7 +146,7 @@
             -%}
             {%- if is_hidden or v.available == false -%}{%- continue -%}{%- endif -%}
             {%- assign is_sel = false -%}{%- if v.id == best.id -%}{%- assign is_sel = true -%}{%- endif -%}
-            {% render 'popdarts-cm-swatch', variant: v, product: p, selected: is_sel, status: s.offer, confirmed: s.compare_confirmed, approved: s.extended_approved, skus: s.extended_skus, protected: s.protected %}
+            {% render 'popdarts-cm-swatch', variant: v, product: p, selected: is_sel, status: s.offer, confirmed: s.compare_confirmed, approved: s.extended_approved, skus: s.extended_skus, protected: s.protected, cyber: cyber %}
           {%- endfor -%}
         </div>
       </div>
@@ -161,7 +169,7 @@
               -%}
               {%- if is_hidden -%}{%- continue -%}{%- endif -%}
               {%- assign is_sel = false -%}{%- if v.id == best.id -%}{%- assign is_sel = true -%}{%- endif -%}
-              {% render 'popdarts-cm-swatch', variant: v, product: p, selected: is_sel, status: s.offer, confirmed: s.compare_confirmed, approved: s.extended_approved, skus: s.extended_skus, protected: s.protected, as: 'option' %}
+              {% render 'popdarts-cm-swatch', variant: v, product: p, selected: is_sel, status: s.offer, confirmed: s.compare_confirmed, approved: s.extended_approved, skus: s.extended_skus, protected: s.protected, as: 'option', cyber: cyber %}
             {%- endfor -%}
           </select>
         </span>
