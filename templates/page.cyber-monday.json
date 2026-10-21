@@ -331,9 +331,9 @@
             "media_tone": "light",
             "video_url": "https://cdn.shopify.com/videos/c/o/v/24a318479e564128bf3c146feb28bd7d.mp4",
             "video_poster_asset": "pd-cm-poster-livingroom.jpg",
+            "focus_y": 45,
             "video_start": 4,
-            "video_end": 30,
-            "focus_y": 45
+            "video_end": 30
           }
         },
         "rivals": {
@@ -352,8 +352,6 @@
             "media_tone": "light",
             "video_url": "",
             "video_poster_asset": "",
-            "video_start": null,
-            "video_end": null,
             "focus_y": 45
           }
         },
@@ -373,8 +371,6 @@
             "media_tone": "light",
             "video_url": "",
             "video_poster_asset": "",
-            "video_start": null,
-            "video_end": null,
             "focus_y": 40
           }
         },
@@ -392,8 +388,6 @@
             "media_tone": "night",
             "video_url": "",
             "video_poster_asset": "",
-            "video_start": null,
-            "video_end": null,
             "focus_y": 50
           }
         }
