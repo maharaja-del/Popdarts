@@ -9,6 +9,8 @@
 {% assign addon_football = section.settings.addon_product_1 | default: all_products['swaptop-football'] %}
 {% assign addon_og       = section.settings.addon_product_2 | default: all_products['swaptop-og'] %}
 {% assign addon_popgolf  = section.settings.addon_product_3 | default: all_products['swaptop-popgolf'] %}
+{% comment %} When the main product is sold out, the tops can still be added on their own; the kit card and main button say "Sold out". {% endcomment %}
+{% assign bnd_kit_available = main_product.available %}
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
@@ -496,6 +498,8 @@
   .bnd-btn-atc:hover { background: #16a34a; transform: translateY(-1px); }
   .bnd-btn-atc:active { transform: translateY(0); }
   .bnd-btn-atc.loading { opacity: 0.7; pointer-events: none; }
+  .bnd-btn-atc[disabled],
+  .bnd-btn-atc[disabled]:hover { background: #e5e7eb; color: #6b7280; transform: none; cursor: not-allowed; }
 
   .bnd-btn-buynow {
     width: 100%;
@@ -1078,6 +1082,13 @@
     stroke: #16a34a;
     flex-shrink: 0;
   }
+
+  /* main product sold out: neutral card and labels instead of the green "Included" */
+  .bnd-addon-card.selected.is-soldout { border-color: #e5e7eb; box-shadow: none; }
+  .bnd-addon-card.selected.is-soldout .bnd-addon-footer { background: #fff; }
+  .bnd-addon-card.is-soldout .bnd-included-badge { color: #374151; border-color: #d1d5db; }
+  .bnd-addon-card.is-soldout .bnd-kit-included-bar { background: #f3f4f6; border-top-color: #e5e7eb; color: #374151; }
+  .bnd-addon-card.is-soldout .bnd-addon-price.included { color: #6b7280; }
 
   /* ── QUICK VIEW BUTTON on each addon card ── */
   .bnd-qv-btn {
@@ -1717,10 +1728,14 @@
       <div class="bnd-addons" id="bnd-addons-track">
 
         <!-- Main — always selected, locked -->
-        <div class="bnd-addon-card selected locked" id="bnd-card-main">
+        <div class="bnd-addon-card selected locked{% unless bnd_kit_available %} is-soldout{% endunless %}" id="bnd-card-main">
           <div class="bnd-included-badge">
-            <svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg>
-            Included
+            {% if bnd_kit_available %}
+              <svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg>
+              Included
+            {% else %}
+              Sold out
+            {% endif %}
           </div>
           <div class="bnd-addon-img-zone" onclick="bndImgZoneClick(event,this)">
             <div class="bnd-addon-slider" data-idx="0">
@@ -1739,7 +1754,7 @@
           <div class="bnd-addon-footer" style="pointer-events:none">
             <div class="bnd-addon-text">
               <p class="bnd-addon-name">{{ main_product.title }}</p>
-              <p class="bnd-addon-price included">Included</p>
+              <p class="bnd-addon-price included">{% if bnd_kit_available %}Included{% else %}Sold out{% endif %}</p>
             </div>
             <div class="bnd-browse-btns">
               <button class="bnd-browse-btn" onclick="bndFooterNav(event,this,-1)" aria-label="Previous image">
@@ -1752,8 +1767,12 @@
             <div class="bnd-toggle"></div>
           </div>
           <div class="bnd-kit-included-bar">
-            <svg viewBox="0 0 16 16" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,8 6,12 14,4"/></svg>
-            Included
+            {% if bnd_kit_available %}
+              <svg viewBox="0 0 16 16" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,8 6,12 14,4"/></svg>
+              Included
+            {% else %}
+              Sold out
+            {% endif %}
           </div>
         </div>
 
@@ -1920,7 +1939,7 @@
       </div><!-- /bnd-addons-outer -->
 
       <!-- Total row with compare price -->
-      <div class="bnd-total-row">
+      <div class="bnd-total-row"{% unless bnd_kit_available %} style="display:none"{% endunless %}>
         <span class="bnd-total-label">Total:</span>
         <div class="bnd-total-prices">
           <span class="bnd-total-compare" id="bnd-total-compare"></span>
@@ -1930,7 +1949,11 @@
       </div>
 
       <!-- Buttons -->
-      <button class="bnd-btn-atc" id="bnd-atc-btn" onclick="bndAddToCart()">Add To Cart</button>
+      {% if bnd_kit_available %}
+        <button class="bnd-btn-atc" id="bnd-atc-btn" onclick="bndAddToCart()">Add To Cart</button>
+      {% else %}
+        <button class="bnd-btn-atc" id="bnd-atc-btn" disabled>Sold Out</button>
+      {% endif %}
 
       <!-- ── VIDEO SECTION ── -->
       <div class="bnd-video-section">
@@ -2214,9 +2237,11 @@ document.querySelectorAll('.bnd-accordion .bnd-acc-trigger').forEach(function (t
 (function () {
 
   /* ── PRICES (cents from Liquid) ── */
-  var BND_BASE_PRICE   = {{ main_product.price }};
-  var BND_BASE_COMPARE = {{ main_product.compare_at_price | default: main_product.price }};
-  var BND_MAIN_VARIANT = {{ main_product.first_available_variant.id }};
+  var BND_BASE_PRICE   = {{ main_product.price | default: 0 }};
+  var BND_BASE_COMPARE = {{ main_product.compare_at_price | default: main_product.price | default: 0 }};
+  /* null while the main product is sold out. Never print an empty value here: "var X = ;" is a syntax error
+     that stops this whole script, and every button on the page (Add Top, More Details, Add To Cart) goes dead. */
+  var BND_MAIN_VARIANT = {{ main_product.first_available_variant.id | default: 'null' }};
 
   /* ══════════════════════════════════════
      ✓ ADDED POPUP — shows on the card image
@@ -2328,13 +2353,14 @@ document.querySelectorAll('.bnd-accordion .bnd-acc-trigger').forEach(function (t
     var selecting    = !card.classList.contains('selected');
     var addonVariant = parseInt(card.dataset.variant, 10);
 
+    /* sold-out top: no variant to add, so never show it as "Added" */
+    if (!addonVariant) return;
+
     bndApplySelected(card, selecting);
     bndUpdateTotal();
 
     /* ✨ ADDED POPUP when toggling on ✨ */
     if (selecting) bndShowAddedPopup(card);
-
-    if (!addonVariant) return;
 
     if (selecting) {
       /* ── ADD ── */
@@ -2355,6 +2381,7 @@ document.querySelectorAll('.bnd-accordion .bnd-acc-trigger').forEach(function (t
         })
         .then(function(result){
           if (!result) return;
+          if (result.status) throw new Error(result.description || 'Cart error');
           bndEnforceKitQty();
           bndRefreshCart();
           bndOpenCartDrawer();
@@ -2401,6 +2428,7 @@ document.querySelectorAll('.bnd-accordion .bnd-acc-trigger').forEach(function (t
         })
         .then(function(ok){
           if (!ok) return null;
+          if (!BND_MAIN_VARIANT) return true; /* kit sold out: nothing to put back */
           return fetch('/cart/add.js', {
             method:'POST',
             headers:{'Content-Type':'application/json','X-Requested-With':'XMLHttpRequest'},
@@ -2425,8 +2453,8 @@ document.querySelectorAll('.bnd-accordion .bnd-acc-trigger').forEach(function (t
 
   /* ── UPDATE TOTAL ── */
   function bndUpdateTotal() {
-    var total   = BND_BASE_PRICE;
-    var compare = BND_BASE_COMPARE;
+    var total   = BND_MAIN_VARIANT ? BND_BASE_PRICE : 0;
+    var compare = BND_MAIN_VARIANT ? BND_BASE_COMPARE : 0;
 
     document.querySelectorAll('.bnd-addon-card:not(.locked).selected').forEach(function (card) {
       var p = parseInt(card.dataset.price,   10) || 0;
@@ -2462,7 +2490,7 @@ document.querySelectorAll('.bnd-accordion .bnd-acc-trigger').forEach(function (t
 
   /* ── COLLECT CART ITEMS ── */
   function bndGetItems() {
-    var items = [{ id: BND_MAIN_VARIANT, quantity: 1 }];
+    var items = BND_MAIN_VARIANT ? [{ id: BND_MAIN_VARIANT, quantity: 1 }] : [];
     document.querySelectorAll('.bnd-addon-card:not(.locked).selected').forEach(function (card) {
       if (card.dataset.variant) items.push({ id: parseInt(card.dataset.variant, 10), quantity: 1 });
     });
@@ -2472,7 +2500,7 @@ document.querySelectorAll('.bnd-accordion .bnd-acc-trigger').forEach(function (t
   /* ── ADD TO CART (main button) ── */
   window.bndAddToCart = function () {
     var btn = document.getElementById('bnd-atc-btn');
-    if (btn.classList.contains('loading')) return;
+    if (!BND_MAIN_VARIANT || btn.disabled || btn.classList.contains('loading')) return;
     btn.classList.add('loading');
     btn.textContent = 'Adding...';
 
@@ -2518,7 +2546,9 @@ document.querySelectorAll('.bnd-accordion .bnd-acc-trigger').forEach(function (t
 
   /* ── BUY NOW ── */
   window.bndBuyNow = function () {
-    var ids = bndGetItems().map(function (i) { return i.id + ':' + i.quantity; }).join(',');
+    var items = bndGetItems();
+    if (!items.length) return;
+    var ids = items.map(function (i) { return i.id + ':' + i.quantity; }).join(',');
     window.location.href = '/checkout?items=' + ids;
   };
 
